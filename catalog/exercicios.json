@@ -22,7 +22,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-inclinado-barra",
@@ -45,7 +45,7 @@
     "safety_tips": ["Mantenha as escápulas apoiadas no banco durante todo o movimento."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-declinado-barra",
@@ -70,7 +70,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-reto-halteres",
@@ -93,7 +93,7 @@
     "safety_tips": ["Ao terminar, traga os halteres ao peito e sente-se antes de soltá-los."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-inclinado-halteres",
@@ -115,7 +115,7 @@
     "safety_tips": ["Evite bater os halteres no alto; mantenha o controle do movimento."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-maquina",
@@ -137,7 +137,7 @@
     "safety_tips": ["Mantenha as costas apoiadas no encosto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-smith",
@@ -159,7 +159,7 @@
     "safety_tips": ["Ajuste as travas de segurança do Smith logo acima do peito."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "flexao-de-bracos",
@@ -184,7 +184,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "flexao-inclinada",
@@ -206,7 +206,7 @@
     "safety_tips": ["Use um banco que não deslize."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "flexao-pes-elevados",
@@ -228,7 +228,7 @@
     "safety_tips": ["Não deixe o quadril cair durante a descida."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crucifixo-reto-halteres",
@@ -250,7 +250,7 @@
     "safety_tips": ["Não desça além do alongamento confortável dos ombros."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crucifixo-inclinado-halteres",
@@ -272,7 +272,7 @@
     "safety_tips": ["Use cargas que permitam controlar o arco do início ao fim."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "voador",
@@ -294,7 +294,7 @@
     "safety_tips": ["Mantenha as costas apoiadas e os ombros afastados das orelhas."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crossover-polia-alta",
@@ -316,7 +316,7 @@
     "safety_tips": ["Mantenha um pé à frente do outro para ter equilíbrio."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crossover-polia-baixa",
@@ -338,7 +338,7 @@
     "safety_tips": ["Evite usar o impulso do tronco."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "paralelas-peitoral",
@@ -360,7 +360,7 @@
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "supino-fechado-barra",
@@ -382,7 +382,7 @@
     "safety_tips": ["Pegada muito fechada sobrecarrega os punhos; mantenha a largura dos ombros."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "desenvolvimento-halteres",
@@ -404,7 +404,7 @@
     "safety_tips": ["Não arqueie a lombar; mantenha as costas apoiadas."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "desenvolvimento-militar-barra",
@@ -428,7 +428,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "desenvolvimento-maquina",
@@ -450,7 +450,7 @@
     "safety_tips": ["Mantenha as costas apoiadas no encosto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "desenvolvimento-arnold",
@@ -472,7 +472,7 @@
     "safety_tips": ["Use cargas menores que no desenvolvimento comum."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-lateral-halteres",
@@ -494,7 +494,7 @@
     "safety_tips": ["Não use impulso do tronco; prefira cargas leves e controle."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-lateral-polia",
@@ -516,7 +516,7 @@
     "safety_tips": ["Mantenha o tronco imóvel."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-frontal-halteres",
@@ -538,7 +538,7 @@
     "safety_tips": ["Não balance o tronco para subir a carga."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crucifixo-inverso-maquina",
@@ -560,7 +560,7 @@
     "safety_tips": ["Mantenha o peito apoiado no encosto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "crucifixo-inverso-halteres",
@@ -582,7 +582,7 @@
     "safety_tips": ["Se sentir a lombar, faça sentado com o peito apoiado num banco inclinado."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "face-pull",
@@ -604,7 +604,7 @@
     "safety_tips": ["Use carga moderada; o foco é a parte posterior do ombro."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-alta-barra",
@@ -626,7 +626,7 @@
     "safety_tips": ["Não eleve os cotovelos acima dos ombros se houver desconforto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "puxada-frontal-aberta",
@@ -648,7 +648,7 @@
     "safety_tips": ["Não puxe a barra para trás da nuca."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "puxada-frontal-fechada",
@@ -670,7 +670,7 @@
     "safety_tips": ["Evite balançar o tronco para ganhar impulso."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "puxada-supinada",
@@ -692,7 +692,7 @@
     "safety_tips": ["Mantenha o peito aberto durante a puxada."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "barra-fixa-pronada",
@@ -714,7 +714,7 @@
     "safety_tips": ["Se não conseguir completar repetições, use a versão assistida com elástico."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "barra-fixa-supinada",
@@ -736,7 +736,7 @@
     "safety_tips": ["Evite chutar as pernas para subir."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "barra-fixa-assistida-elastico",
@@ -758,7 +758,7 @@
     "safety_tips": ["Verifique se o elástico está bem preso antes de começar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "pulldown-bracos-estendidos",
@@ -780,7 +780,7 @@
     "safety_tips": ["Mantenha o tronco firme, levemente inclinado à frente."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-baixa-polia",
@@ -802,7 +802,7 @@
     "safety_tips": ["Não use o balanço do tronco para puxar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-curvada-barra",
@@ -824,7 +824,7 @@
     "safety_tips": ["Mantenha a coluna neutra; se a lombar incomodar, prefira a remada apoiada."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-unilateral-halter",
@@ -846,7 +846,7 @@
     "safety_tips": ["Não gire o tronco para subir a carga."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-apoiada-halteres",
@@ -868,7 +868,7 @@
     "safety_tips": ["Boa opção para poupar a lombar, já que o peito fica apoiado."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-maquina",
@@ -890,7 +890,7 @@
     "safety_tips": ["Mantenha o peito em contato com o apoio."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-cavalinho",
@@ -912,7 +912,7 @@
     "safety_tips": ["Mantenha os joelhos levemente flexionados e a coluna neutra."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "remada-invertida",
@@ -934,7 +934,7 @@
     "safety_tips": ["Quanto mais vertical o corpo, mais fácil o exercício."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "encolhimento-halteres",
@@ -956,7 +956,7 @@
     "safety_tips": ["Não gire os ombros; o movimento é só para cima e para baixo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "extensao-lombar-banco",
@@ -978,7 +978,7 @@
     "safety_tips": ["Não estenda a coluna além da linha do corpo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "superman",
@@ -1000,7 +1000,7 @@
     "safety_tips": ["Movimento curto e controlado; não force a extensão."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-livre-barra",
@@ -1030,7 +1030,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-frontal-barra",
@@ -1057,7 +1057,7 @@
     "safety_tips": ["Exige mobilidade de punhos e tornozelos; comece com pouca carga."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-goblet",
@@ -1079,7 +1079,7 @@
     "safety_tips": ["Os joelhos devem acompanhar a direção das pontas dos pés."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-peso-corporal",
@@ -1101,7 +1101,7 @@
     "safety_tips": ["Mantenha os calcanhares no chão."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "leg-press-45",
@@ -1123,7 +1123,7 @@
     "safety_tips": ["Não desça a ponto de a lombar sair do encosto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-hack-maquina",
@@ -1145,7 +1145,7 @@
     "safety_tips": ["Ajuste a profundidade ao seu conforto nos joelhos."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-smith",
@@ -1167,7 +1167,7 @@
     "safety_tips": ["Ajuste as travas de segurança na altura mínima que você vai descer."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "afundo-halteres",
@@ -1189,7 +1189,7 @@
     "safety_tips": ["O joelho de trás deve chegar perto do chão sem bater."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "afundo-caminhando-barra",
@@ -1211,7 +1211,7 @@
     "safety_tips": ["Exige espaço livre e equilíbrio; comece com pouca carga."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "afundo-caminhando-peso-corporal",
@@ -1233,7 +1233,7 @@
     "safety_tips": ["Mantenha o tronco ereto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "afundo-estatico-halteres",
@@ -1255,7 +1255,7 @@
     "safety_tips": ["Mantenha o peso distribuído no pé da frente."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "subida-banco-halteres",
@@ -1277,7 +1277,7 @@
     "safety_tips": ["Use um banco estável e de altura que mantenha o joelho confortável."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "agachamento-sumo-halter",
@@ -1299,7 +1299,7 @@
     "safety_tips": ["Os joelhos devem seguir a direção das pontas dos pés."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "cadeira-extensora",
@@ -1321,7 +1321,7 @@
     "safety_tips": ["Evite cargas que façam o quadril sair do assento."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "mesa-flexora",
@@ -1343,7 +1343,7 @@
     "safety_tips": ["Mantenha o quadril apoiado no banco."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "cadeira-flexora",
@@ -1365,7 +1365,7 @@
     "safety_tips": ["Ajuste o encosto para o joelho alinhar com o eixo do aparelho."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "flexora-nordica",
@@ -1389,7 +1389,7 @@
     ],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "terra-romeno-barra",
@@ -1411,7 +1411,7 @@
     "safety_tips": ["Mantenha a barra próxima ao corpo e a coluna neutra."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "stiff-halteres",
@@ -1433,7 +1433,7 @@
     "safety_tips": ["Desça só até onde mantiver as costas retas."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "levantamento-terra",
@@ -1455,7 +1455,7 @@
     "safety_tips": ["Aprenda com pouca carga; a coluna deve permanecer neutra do início ao fim."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-pelvica-barra",
@@ -1477,7 +1477,7 @@
     "safety_tips": ["Use uma almofada sob a barra para proteger o quadril."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "ponte-gluteo-barra",
@@ -1499,7 +1499,7 @@
     "safety_tips": ["Use uma almofada sob a barra."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "ponte-gluteo-unilateral",
@@ -1521,7 +1521,7 @@
     "safety_tips": ["Mantenha o quadril nivelado durante a subida."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "coice-gluteo-solo",
@@ -1543,7 +1543,7 @@
     "safety_tips": ["Não arqueie a lombar ao subir a perna."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "coice-gluteo-polia",
@@ -1565,7 +1565,7 @@
     "safety_tips": ["Mantenha o tronco firme, sem balançar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "cadeira-abdutora",
@@ -1587,7 +1587,7 @@
     "safety_tips": ["Use amplitude confortável para o quadril."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "cadeira-adutora",
@@ -1609,7 +1609,7 @@
     "safety_tips": ["Ajuste a abertura inicial a uma amplitude confortável."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "abducao-elastico-caminhando",
@@ -1631,7 +1631,7 @@
     "safety_tips": ["Mantenha os joelhos apontados para a frente."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "aducao-elastico",
@@ -1653,7 +1653,7 @@
     "safety_tips": ["Apoie-se em algo firme para manter o equilíbrio."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "panturrilha-em-pe-maquina",
@@ -1675,7 +1675,7 @@
     "safety_tips": ["Faça o movimento completo, sem quicar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "panturrilha-sentado",
@@ -1697,7 +1697,7 @@
     "safety_tips": ["Controle a descida."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "panturrilha-leg-press",
@@ -1719,7 +1719,7 @@
     "safety_tips": ["Mantenha a trava de segurança ao alcance e os joelhos sem travar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "panturrilha-em-pe-halteres",
@@ -1741,7 +1741,7 @@
     "safety_tips": ["Apoie uma das mãos para ter equilíbrio, se necessário."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-direta-barra",
@@ -1763,7 +1763,7 @@
     "safety_tips": ["Mantenha os cotovelos junto ao corpo, sem balançar o tronco."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-direta-barra-w",
@@ -1785,7 +1785,7 @@
     "safety_tips": ["A barra W costuma ser mais confortável para os punhos."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-alternada-halteres",
@@ -1807,7 +1807,7 @@
     "safety_tips": ["Evite usar impulso do tronco."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-martelo",
@@ -1829,7 +1829,7 @@
     "safety_tips": ["Mantenha os cotovelos fixos ao lado do corpo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-inclinada-halteres",
@@ -1851,7 +1851,7 @@
     "safety_tips": ["Use cargas menores que na rosca em pé."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-concentrada",
@@ -1873,7 +1873,7 @@
     "safety_tips": ["Mantenha o braço parado; só o antebraço se move."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-scott-barra",
@@ -1895,7 +1895,7 @@
     "safety_tips": ["Não solte o peso no final da descida."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-polia",
@@ -1917,7 +1917,7 @@
     "safety_tips": ["Mantenha os cotovelos junto ao corpo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-maquina",
@@ -1939,7 +1939,7 @@
     "safety_tips": ["Não tire os braços do apoio."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-punho-halteres",
@@ -1961,7 +1961,7 @@
     "safety_tips": ["Use cargas leves; o movimento é curto."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rosca-punho-inversa-halteres",
@@ -1983,7 +1983,7 @@
     "safety_tips": ["Use cargas leves."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "caminhada-do-fazendeiro",
@@ -2005,7 +2005,7 @@
     "safety_tips": ["Escolha um percurso livre de obstáculos."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-polia-barra",
@@ -2027,7 +2027,7 @@
     "safety_tips": ["Os cotovelos devem ficar parados ao lado do corpo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-polia-corda",
@@ -2049,7 +2049,7 @@
     "safety_tips": ["Não incline o tronco para ajudar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-frances-polia",
@@ -2071,7 +2071,7 @@
     "safety_tips": ["Mantenha o abdômen firme para não arquear a lombar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-testa-barra-w",
@@ -2093,7 +2093,7 @@
     "safety_tips": ["Use carga moderada e desça devagar."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-frances-halter",
@@ -2115,7 +2115,7 @@
     "safety_tips": ["Pode ser feito sentado para mais estabilidade."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-coice-halter",
@@ -2137,7 +2137,7 @@
     "safety_tips": ["Só o antebraço se move."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "mergulho-banco",
@@ -2159,7 +2159,7 @@
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "paralelas-triceps",
@@ -2181,7 +2181,7 @@
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "triceps-maquina",
@@ -2203,7 +2203,7 @@
     "safety_tips": ["Não tire os braços do apoio."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "prancha",
@@ -2225,7 +2225,7 @@
     "safety_tips": ["Não deixe o quadril cair nem subir demais."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "prancha-lateral",
@@ -2247,7 +2247,7 @@
     "safety_tips": ["Se ficar difícil, apoie o joelho de baixo."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "dead-bug",
@@ -2269,7 +2269,7 @@
     "safety_tips": ["Movimento lento; a lombar deve permanecer apoiada."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "abdominal-supra",
@@ -2291,7 +2291,7 @@
     "safety_tips": ["Não puxe a cabeça com as mãos."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "abdominal-polia",
@@ -2313,7 +2313,7 @@
     "safety_tips": ["O movimento vem do abdômen, não do quadril."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "abdominal-infra",
@@ -2335,7 +2335,7 @@
     "safety_tips": ["Evite usar impulso das pernas."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-pernas-barra",
@@ -2357,7 +2357,7 @@
     "safety_tips": ["Comece com os joelhos flexionados se a versão estendida for difícil."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "elevacao-pernas-banco",
@@ -2379,7 +2379,7 @@
     "safety_tips": ["Mantenha a lombar apoiada no banco."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "abdominal-obliquo",
@@ -2401,7 +2401,7 @@
     "safety_tips": ["Não puxe o pescoço."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "rotacao-russa",
@@ -2423,7 +2423,7 @@
     "safety_tips": ["Evite se houver desconforto na coluna; prefira o Pallof press."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   },
   {
     "codigo": "pallof-press",
@@ -2445,6 +2445,6 @@
     "safety_tips": ["A resistência deve tentar girar o tronco; você não deixa."],
     "images": [],
     "image_status": "procedencia-nao-comprovada",
-    "text_review": "pendente-usuario"
+    "text_review": "revisado"
   }
 ]
