@@ -738,3 +738,183 @@ describe("correção de importado (API-020, ADR-091)", () => {
     expect(row?.name).toBe(target.name);
   });
 });
+
+describe("programas (API-016..019; CA-020, CA-025, CA-027, CA-028)", () => {
+  async function exerciseId(sourceRef: string): Promise<string> {
+    const [row] = await admin<{ id: string }[]>`
+      select id from public.exercises where source_ref = ${sourceRef}`;
+    if (!row) throw new Error(`exercício ${sourceRef} ausente`);
+    return row.id;
+  }
+
+  function documentWith(exercise: string, workoutNames: string[]) {
+    return {
+      name: "Programa fictício",
+      split_type: "ab",
+      workouts: workoutNames.map((name, index) => ({
+        id: randomUUID(),
+        position: index + 1,
+        name,
+        items:
+          name === "Vazio"
+            ? []
+            : [
+                {
+                  id: randomUUID(),
+                  position: 1,
+                  exercise_id: exercise,
+                  measure_type: "reps",
+                  sets: 3,
+                  reps_min: 8,
+                  reps_max: 12,
+                  duration_s: null,
+                  rest_s: 90,
+                  suggested_load_kg: 40,
+                  notes: null,
+                },
+              ],
+      })),
+    };
+  }
+
+  const op = (who: Identity, type: string, entity: string, base: number | null, payload: unknown) =>
+    send(who, [
+      { owner_user_id: who.userId, type, entity_id: entity, base_revision: base, payload },
+    ]);
+
+  it("cria, salva, recusa publicação com pendências, publica, copia e descarta", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const squat = await exerciseId("Barbell_Squat");
+    const v1 = randomUUID();
+
+    // API-016: rascunho vazio; um segundo rascunho é recusado (RN-003).
+    expect(
+      (await op(me, "draft.create", v1, null, { student_id: studentId, source: "empty" }))[0],
+    ).toMatchObject({ status: "accepted", revision: 1 });
+    expect(
+      (
+        await op(me, "draft.create", randomUUID(), null, { student_id: studentId, source: "empty" })
+      )[0],
+    ).toMatchObject({ status: "rejected", error: { code: "DRAFT_ALREADY_EXISTS" } });
+
+    // API-017: documento com um treino vazio; revisão desatualizada gera conflito.
+    const withEmpty = documentWith(squat, ["Treino A", "Vazio"]);
+    expect((await op(me, "draft.save", v1, 1, withEmpty))[0]).toMatchObject({
+      status: "accepted",
+      revision: 2,
+    });
+    expect((await op(me, "draft.save", v1, 1, withEmpty))[0]).toMatchObject({
+      status: "conflict",
+      error: { code: "REVISION_CONFLICT" },
+    });
+
+    // API-018: pendências listadas (RN-035).
+    const [invalid] = await op(me, "draft.publish", v1, 2, {});
+    expect(invalid).toMatchObject({
+      status: "rejected",
+      error: {
+        code: "DRAFT_INVALID",
+        details: { issues: [{ code: "empty_workout", workout_name: "Vazio" }] },
+      },
+    });
+
+    const valid = documentWith(squat, ["Treino A", "Treino B"]);
+    expect((await op(me, "draft.save", v1, 2, valid))[0]).toMatchObject({ revision: 3 });
+    expect((await op(me, "draft.publish", v1, 3, {}))[0]).toMatchObject({ status: "accepted" });
+
+    // RF-027: rascunho idêntico a partir da versão ativa, sem alterá-la.
+    const v2 = randomUUID();
+    expect(
+      (
+        await op(me, "draft.create", v2, null, {
+          student_id: studentId,
+          source: "from_version",
+          from_version_id: v1,
+        })
+      )[0],
+    ).toMatchObject({ status: "accepted" });
+    const copies = await admin<
+      {
+        id: string;
+        status: string;
+        created_from_version_id: string | null;
+        workouts: number;
+        items: number;
+      }[]
+    >`
+      select v.id, v.status, v.created_from_version_id,
+             (select count(*)::int from public.workouts w where w.program_version_id = v.id) as workouts,
+             (select count(*)::int from public.workout_items i
+                join public.workouts w on w.id = i.workout_id where w.program_version_id = v.id) as items
+      from public.program_versions v where v.student_id = ${studentId} order by v.created_at`;
+    expect(copies.map((r) => [r.status, r.workouts, r.items])).toEqual([
+      ["active", 2, 2],
+      ["draft", 2, 2],
+    ]);
+    expect(copies[1]?.created_from_version_id).toBe(v1);
+
+    // RF-028: descartar remove o rascunho e mantém a ativa.
+    expect((await op(me, "draft.discard", v2, 1, {}))[0]).toMatchObject({ status: "accepted" });
+    const remaining = await admin<{ status: string }[]>`
+      select status from public.program_versions where student_id = ${studentId}`;
+    expect(remaining.map((r) => r.status)).toEqual(["active"]);
+  });
+
+  it("publicar de novo arquiva a anterior; versão publicada não aceita edição (RN-004)", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const squat = await exerciseId("Barbell_Squat");
+    const doc = documentWith(squat, ["Treino A"]);
+    const v1 = randomUUID();
+    await op(me, "draft.create", v1, null, { student_id: studentId, source: "empty" });
+    await op(me, "draft.save", v1, 1, doc);
+    await op(me, "draft.publish", v1, 2, {});
+    const [onPublished] = await op(me, "draft.save", v1, 3, doc);
+    expect(onPublished).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
+
+    const v2 = randomUUID();
+    await op(me, "draft.create", v2, null, { student_id: studentId, source: "empty" });
+    await op(me, "draft.save", v2, 1, documentWith(squat, ["Novo A"]));
+    await op(me, "draft.publish", v2, 2, {});
+    const versions = await admin<{ status: string; version_number: number }[]>`
+      select status, version_number from public.program_versions
+      where student_id = ${studentId} order by version_number`;
+    expect(versions.map((r) => [r.status, r.version_number])).toEqual([
+      ["archived", 1],
+      ["active", 2],
+    ]);
+  });
+
+  it("exercício desativado, aluno de outro gestor e conteúdo inválido são recusados", async () => {
+    const me = await fictitiousUser();
+    const other = await fictitiousUser();
+    const studentId = await onboard(me);
+    const otherStudent = await onboard(other);
+    const squat = await exerciseId("Barbell_Squat");
+    const v1 = randomUUID();
+    await op(me, "draft.create", v1, null, { student_id: studentId, source: "empty" });
+
+    await admin`update public.exercises set active = false where source_ref = 'Plank'`;
+    try {
+      const plank = await exerciseId("Plank");
+      const [inactive] = await op(me, "draft.save", v1, 1, documentWith(plank, ["A"]));
+      expect(inactive).toMatchObject({ status: "rejected", error: { code: "EXERCISE_INACTIVE" } });
+    } finally {
+      await admin`update public.exercises set active = true where source_ref = 'Plank'`;
+    }
+
+    const [foreign] = await op(me, "draft.create", randomUUID(), null, {
+      student_id: otherStudent,
+      source: "empty",
+    });
+    expect(foreign).toMatchObject({ status: "rejected", error: { code: "FORBIDDEN_ROLE" } });
+
+    const bad = documentWith(squat, ["A"]);
+    const [invalid] = await op(me, "draft.save", v1, 1, {
+      ...bad,
+      workouts: [{ ...bad.workouts[0], items: [{ ...bad.workouts[0]?.items[0], reps_min: 15 }] }],
+    });
+    expect(invalid).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
+  });
+});

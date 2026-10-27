@@ -14,7 +14,9 @@ export default defineConfig({
   timeout: 60_000,
   expect: { timeout: 15_000 },
   forbidOnly: Boolean(process.env.CI),
-  retries: process.env.CI ? 1 : 0,
+  // Uma nova tentativa também localmente: sob carga, a função local pode ser interrompida pelo
+  // limite de CPU do edge runtime. Repetições aparecem como "flaky" no relatório.
+  retries: 1,
   reporter: [["list"]],
   use: {
     baseURL: `http://localhost:${String(PORT)}`,

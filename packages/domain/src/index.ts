@@ -4,6 +4,7 @@ export * from "./labels.ts";
 export * from "./messages.ts";
 export * from "./operations.ts";
 export * from "./parameters.ts";
+export * from "./programs.ts";
 export * from "./ranges.ts";
 export * from "./result.ts";
 export * from "./rules.ts";

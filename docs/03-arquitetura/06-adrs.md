@@ -633,6 +633,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
   3. Diferenças conhecidas do ambiente local (limites de taxa, e-mail, região, cotas do plano gratuito) não são consideradas verificadas localmente.
   4. A ordem do PLN-01 não muda; só o pré-requisito "TAR-003" passa a ser satisfeito provisoriamente pelo ambiente local.
   5. O CI remoto só executará os testes de banco quando houver repositório; até lá, rodam localmente.
+  6. (Acréscimo de 2026-10-27, TAR-015 — registro técnico, sem mudança de decisão) Medir no projeto real o tempo de inicialização da função de sincronização sob o limite de CPU do plano gratuito: no ambiente local, sob carga, o edge runtime interrompeu trabalhadores por limite de CPU.
 
 ## ADR-091 — Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado)
 

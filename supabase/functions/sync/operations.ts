@@ -13,6 +13,7 @@ import {
 import type { z } from "zod";
 import type { Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";
+import { draftCreate, draftDiscard, draftPublish, draftSave } from "./programs.ts";
 
 export interface OperationContext {
   readonly userId: string;
@@ -256,4 +257,8 @@ export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "rest.update": restUpdate,
   "exercise.create": exerciseCreate,
   "exercise.update": exerciseUpdate,
+  "draft.create": draftCreate,
+  "draft.save": draftSave,
+  "draft.publish": draftPublish,
+  "draft.discard": draftDiscard,
 };
