@@ -1,0 +1,212 @@
+/* Meu treino (TELA-010..013) e Descanso (TELA-006). */
+
+/* Hoje: espaçamento menor para caber sem rolar em 360 × 640 (CA-050). */
+.todayScreen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.date {
+  font: var(--type-label);
+  color: var(--color-text-muted);
+}
+
+/* Cartão principal: único destaque da tela (UX-02, primary-container). */
+.hero {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.eyebrow {
+  font: var(--type-label);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  font: var(--type-title-lg);
+}
+
+.heroText {
+  font: var(--type-body);
+}
+
+.heroActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+/* Ações secundárias lado a lado, para caber sem rolar em 360 × 640 (CA-050). */
+.heroLinks {
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.heroActions > :first-child:only-child,
+.heroPrimary {
+  width: 100%;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chip {
+  padding: var(--space-1) var(--space-3);
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font: var(--type-caption);
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  min-height: var(--control-lg);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--color-divider);
+}
+
+.summaryLabel {
+  font: var(--type-label);
+}
+
+.week {
+  display: flex;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+}
+
+.dot {
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--color-border);
+  border-radius: 50%;
+}
+
+.presence {
+  border-color: var(--color-success);
+  background: var(--color-success);
+}
+
+.pending {
+  border-color: var(--color-warning);
+  background: var(--color-warning);
+}
+
+.planned {
+  border-style: dashed;
+  border-color: var(--color-text-muted);
+}
+
+.today {
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-align: left;
+  text-decoration: none;
+}
+
+button.card {
+  width: 100%;
+  font: inherit;
+  cursor: pointer;
+}
+
+.cardTitle {
+  font: var(--type-title);
+}
+
+.warning {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  font: var(--type-caption);
+  color: var(--color-warning);
+}
+
+.badge {
+  align-self: flex-start;
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+  font: var(--type-caption);
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: var(--control-lg);
+  padding: var(--space-2) var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.itemText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+/* Botão fixo inferior (TELA-013), acima da barra de navegação. */
+.stickyAction {
+  position: sticky;
+  bottom: var(--space-3);
+  z-index: 1;
+}
+
+.groupRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  width: 100%;
+  min-height: var(--control-lg);
+  padding: 0 var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: var(--type-body);
+  text-align: left;
+  cursor: pointer;
+}

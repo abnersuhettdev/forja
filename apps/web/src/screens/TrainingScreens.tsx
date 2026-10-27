@@ -1,0 +1,524 @@
+import { useState } from "react";
+import { AlertTriangle, ChevronRight, ClipboardList, Play, SearchX } from "lucide-react";
+import {
+  MUSCLE_GROUP_LABELS,
+  toLocalDate,
+  type MuscleGroup,
+  type WorkoutStatus,
+} from "@forja/domain";
+import { Button } from "../components/Button.tsx";
+import { Dialog } from "../components/Dialog.tsx";
+import { ExerciseImage } from "../components/ExerciseImage.tsx";
+import { EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
+import { Sheet } from "../components/Sheet.tsx";
+import { itemSummary } from "../program/editor.ts";
+import { formatUpdatedAt } from "./CatalogScreen.tsx";
+import {
+  formatAgo,
+  formatDay,
+  formatDaysAgo,
+  formatKg,
+  formatRelease,
+  formatShortDate,
+} from "../training/format.ts";
+import { useTraining, type TrainingState } from "../training/useTraining.ts";
+import type { WeekDay, WorkoutSummary } from "../training/training.ts";
+import { Link, navigate } from "../app/router.tsx";
+import { TEXTS } from "../app/texts.ts";
+import { useOnline } from "../app/useOnline.ts";
+import shared from "./Screens.module.css";
+import styles from "./Training.module.css";
+
+const T = TEXTS.training;
+type Ready = Extract<TrainingState, { status: "ready" }>;
+
+/** Execução do treino (TELA-015) chega na TAR-019; a rota já existe. */
+const SESSION_PATH = "/sessao";
+const PROGRAM_PATH = "/gestao/programa";
+
+const groupLabel = (group: string) => MUSCLE_GROUP_LABELS[group as MuscleGroup];
+
+function GroupChips({ groups }: { groups: readonly string[] }) {
+  if (groups.length === 0) return null;
+  return (
+    <ul className={styles.chips} aria-label={TEXTS.catalog.primary}>
+      {groups.map((g) => (
+        <li key={g} className={styles.chip}>
+          {groupLabel(g)}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+const workoutFacts = (w: WorkoutSummary) =>
+  [TEXTS.program.exercisesCount(w.exerciseCount), T.minutes(w.minutes)].join(" · ");
+
+/** Estados comuns: carregando, sem programa (ou nunca baixado offline — UX-04 §4.1). */
+function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element } {
+  const training = useTraining();
+  const online = useOnline();
+  if (training.status === "loading") return { fallback: <Skeleton lines={6} /> };
+  if (training.status === "no_program") {
+    if (!online && training.updatedAt === undefined)
+      return { fallback: <ErrorState title={TEXTS.error.title} description={T.neverDownloaded} /> };
+    return {
+      fallback: (
+        <EmptyState
+          icon={<ClipboardList size={32} />}
+          title={T.none}
+          description={T.noneHint}
+          action={
+            <Button
+              variant="primary"
+              onClick={() => {
+                navigate(PROGRAM_PATH);
+              }}
+            >
+              {T.build}
+            </Button>
+          }
+        />
+      ),
+    };
+  }
+  return { training };
+}
+
+function OfflineStamp({ updatedAt }: { updatedAt: string | undefined }) {
+  const stamp = formatUpdatedAt(updatedAt);
+  return stamp ? <p className={shared.muted}>{stamp}</p> : null;
+}
+
+// ---------- TELA-010 Hoje ----------
+
+export function TodayScreen() {
+  const result = useReadyTraining();
+  const [choosing, setChoosing] = useState(false);
+  if ("fallback" in result) return result.fallback;
+  const { training } = result;
+  const today = toLocalDate(training.now, training.timeZone);
+
+  return (
+    <div className={styles.todayScreen}>
+      <p className={styles.date}>{formatDay(today)}</p>
+      <HeroCard
+        training={training}
+        onChoose={() => {
+          setChoosing(true);
+        }}
+      />
+      <section aria-label={T.week}>
+        <WeekRow training={training} />
+        <WeightRow training={training} today={today} />
+      </section>
+      <OfflineStamp updatedAt={training.updatedAt} />
+      <ChooseWorkoutSheet
+        open={choosing}
+        training={training}
+        onClose={() => {
+          setChoosing(false);
+        }}
+      />
+    </div>
+  );
+}
+
+function HeroCard({ training, onChoose }: { training: Ready; onChoose: () => void }) {
+  const { recommendation: rec, workouts } = training;
+  const byId = new Map(workouts.map((w) => [w.id, w]));
+  const next = rec.next ? byId.get(rec.next.workoutId) : undefined;
+  const state = rec.state;
+
+  if (state.kind === "continue") {
+    return (
+      <section className={styles.hero} aria-labelledby="hero-title">
+        <h2 id="hero-title" className={styles.heroTitle}>
+          {T.inProgressTitle(byId.get(state.workoutId)?.name ?? "")}
+        </h2>
+        <Button
+          variant="primary"
+          className={styles.heroPrimary}
+          onClick={() => {
+            navigate(SESSION_PATH);
+          }}
+        >
+          {T.continue}
+        </Button>
+      </section>
+    );
+  }
+
+  if (state.kind === "completed_today") {
+    return (
+      <section className={styles.hero} aria-labelledby="hero-title">
+        <h2 id="hero-title" className={styles.heroTitle}>
+          {T.completedToday(byId.get(state.workoutId)?.name ?? "")}
+        </h2>
+        {next ? <p className={styles.heroText}>{T.nextUp(next.name)}</p> : null}
+        <div className={styles.heroActions}>
+          <Button
+            variant="primary"
+            onClick={() => {
+              navigate(`/agenda/${toLocalDate(training.now, training.timeZone)}`);
+            }}
+          >
+            {T.viewSummary}
+          </Button>
+          <Button variant="ghost" onClick={onChoose}>
+            {T.chooseOther}
+          </Button>
+        </div>
+      </section>
+    );
+  }
+
+  if (state.kind === "rest_goal" || state.kind === "rest_recovery") {
+    const reason =
+      state.kind === "rest_goal"
+        ? T.goalReached(rec.week.count, rec.week.goal ?? rec.week.count)
+        : state.availableAt === null
+          ? T.noRelease
+          : T.availableAt(
+              formatRelease(new Date(state.availableAt), training.now, training.timeZone),
+            );
+    return (
+      <section className={styles.hero} aria-labelledby="hero-title">
+        <p className={styles.eyebrow}>{T.restSuggested}</p>
+        <h2 id="hero-title" className={styles.heroText}>
+          {reason}
+        </h2>
+        <div className={styles.heroActions}>
+          <Button onClick={onChoose}>{T.trainAnyway}</Button>
+        </div>
+      </section>
+    );
+  }
+
+  if (!next) return null;
+  const reason = [
+    T.reasonSequence,
+    rec.next?.lastTrained
+      ? T.reasonRested(
+          groupLabel(rec.next.lastTrained.group),
+          formatAgo(rec.next.lastTrained.hoursSince),
+        ).toLowerCase()
+      : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
+  return (
+    <section className={styles.hero} aria-labelledby="hero-title">
+      <p className={styles.eyebrow}>{T.recommended}</p>
+      <h2 id="hero-title" className={styles.heroTitle}>
+        {next.name}
+      </h2>
+      <p className={styles.heroText}>{reason}</p>
+      <p className={styles.heroText}>{workoutFacts(next)}</p>
+      <GroupChips groups={next.groups} />
+      {rec.notPlannedToday ? <p className={styles.heroText}>{T.notPlanned}</p> : null}
+      <Button
+        variant="primary"
+        icon={<Play size={20} />}
+        className={styles.heroPrimary}
+        onClick={() => {
+          navigate(SESSION_PATH);
+        }}
+      >
+        {T.start}
+      </Button>
+      <div className={[styles.heroActions, styles.heroLinks].join(" ")}>
+        <Button variant="ghost" size="sm" onClick={onChoose}>
+          {T.chooseOther}
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={() => {
+            navigate(`/treinos/${next.id}`);
+          }}
+        >
+          {T.viewWorkout}
+        </Button>
+      </div>
+    </section>
+  );
+}
+
+function WeekRow({ training }: { training: Ready }) {
+  const { week, recommendation } = training;
+  return (
+    <div className={styles.summaryRow}>
+      <span className={styles.itemText}>
+        <span className={styles.summaryLabel}>{T.week}</span>
+        <span className={shared.muted}>
+          {T.weekCount(recommendation.week.count, recommendation.week.goal)}
+        </span>
+      </span>
+      <ol className={styles.week}>
+        {week.map((day: WeekDay) => (
+          <li
+            key={day.date}
+            className={[styles.day, day.isToday ? styles.today : ""].join(" ")}
+            aria-label={`${formatDay(day.date)}: ${T.marks[day.mark]}`}
+          >
+            <span
+              className={[styles.dot, day.mark === "none" ? "" : styles[day.mark]].join(" ")}
+              aria-hidden="true"
+            />
+            <span aria-hidden="true">{T.weekdays[day.weekday - 1]?.charAt(0).toUpperCase()}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
+function WeightRow({ training, today }: { training: Ready; today: string }) {
+  const latest = training.weights[0];
+  return (
+    <div className={styles.summaryRow}>
+      <span className={styles.summaryLabel}>{T.weight}</span>
+      <span>
+        {latest
+          ? T.weightValue(formatKg(latest.weight_kg), formatDaysAgo(latest.measured_on, today))
+          : T.noWeight}
+      </span>
+    </div>
+  );
+}
+
+// ---------- TELA-011 Escolher treino ----------
+
+function restLine(status: WorkoutStatus): string | null {
+  const block = status.block;
+  if (!block) return null;
+  return T.restWarning(groupLabel(block.group), Math.floor(block.hoursSince), block.restHours);
+}
+
+export function ChooseWorkoutSheet({
+  open,
+  training,
+  onClose,
+}: {
+  open: boolean;
+  training: Ready;
+  onClose: () => void;
+}) {
+  const [confirming, setConfirming] = useState<string | null>(null);
+  const statuses = new Map(training.recommendation.workouts.map((s) => [s.workoutId, s]));
+  const close = () => {
+    setConfirming(null);
+    onClose();
+  };
+
+  return (
+    <Sheet open={open} title={T.chooseTitle} onClose={close}>
+      <ul className={shared.list}>
+        {training.workouts.map((workout) => {
+          const status = statuses.get(workout.id);
+          const warning = status ? restLine(status) : null;
+          return (
+            <li key={workout.id} className={shared.stack}>
+              <button
+                type="button"
+                className={styles.card}
+                aria-describedby={warning ? `aviso-${workout.id}` : undefined}
+                onClick={() => {
+                  if (status?.block) {
+                    setConfirming(workout.id);
+                    return;
+                  }
+                  close();
+                  navigate(SESSION_PATH);
+                }}
+              >
+                <span className={styles.cardTitle}>{workout.name}</span>
+                {status?.recommended ? <span className={styles.badge}>{T.recommended}</span> : null}
+                {status?.doneInCycleOn ? (
+                  <span className={shared.muted}>
+                    {T.doneInCycle(formatShortDate(status.doneInCycleOn))}
+                  </span>
+                ) : null}
+                {warning ? (
+                  <span id={`aviso-${workout.id}`} className={styles.warning}>
+                    <AlertTriangle size={16} aria-hidden="true" />
+                    {warning}
+                  </span>
+                ) : null}
+              </button>
+              {confirming === workout.id && status?.block ? (
+                <div className={shared.stack} role="group" aria-label={T.startAnyway}>
+                  <p>
+                    {T.restWarningLong(
+                      workout.name,
+                      groupLabel(status.block.group),
+                      Math.floor(status.block.hoursSince),
+                      status.block.restHours,
+                    )}
+                  </p>
+                  <p className={shared.strong}>{T.startAnyway}</p>
+                  <div className={shared.row}>
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        close();
+                        navigate(SESSION_PATH);
+                      }}
+                    >
+                      {T.confirmStart}
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      onClick={() => {
+                        setConfirming(null);
+                      }}
+                    >
+                      {TEXTS.common.cancel}
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
+            </li>
+          );
+        })}
+      </ul>
+    </Sheet>
+  );
+}
+
+// ---------- TELA-012 Treinos ----------
+
+export function WorkoutsScreen() {
+  const result = useReadyTraining();
+  if ("fallback" in result) return result.fallback;
+  const { program, workouts, updatedAt } = result.training;
+  const published = program.published_at
+    ? toLocalDate(new Date(program.published_at), result.training.timeZone)
+    : null;
+
+  return (
+    <div className={shared.stack}>
+      <div>
+        <h2 className={shared.exerciseName}>{program.document.name}</h2>
+        {published ? <p className={shared.muted}>{T.version(formatShortDate(published))}</p> : null}
+      </div>
+      <ul className={shared.list}>
+        {workouts.map((workout) => (
+          <li key={workout.id}>
+            <Link to={`/treinos/${workout.id}`} className={styles.card}>
+              <span className={styles.cardTitle}>{workout.name}</span>
+              <span className={shared.muted}>{workoutFacts(workout)}</span>
+              <GroupChips groups={workout.groups} />
+            </Link>
+          </li>
+        ))}
+      </ul>
+      {updatedAt ? <span className={styles.badge}>{T.offlineBadge}</span> : null}
+    </div>
+  );
+}
+
+// ---------- TELA-013 Detalhe do treino ----------
+
+export function WorkoutScreen({ params }: { params: Readonly<Record<string, string>> }) {
+  const result = useReadyTraining();
+  const [blocked, setBlocked] = useState(false);
+  if ("fallback" in result) return result.fallback;
+  const { training } = result;
+  const workout = training.program.document.workouts.find((w) => w.id === params.id);
+  const summary = training.workouts.find((w) => w.id === params.id);
+  if (!workout || !summary) {
+    return (
+      <EmptyState
+        icon={<SearchX size={32} />}
+        title={T.notFound}
+        description=""
+        action={
+          <Button
+            onClick={() => {
+              navigate("/treinos");
+            }}
+          >
+            {T.backToWorkouts}
+          </Button>
+        }
+      />
+    );
+  }
+  const state = training.recommendation.state;
+  const inProgressName =
+    state.kind === "continue"
+      ? (training.workouts.find((w) => w.id === state.workoutId)?.name ?? "")
+      : null;
+
+  return (
+    <div className={shared.stack}>
+      <div className={shared.stack}>
+        <h2 className={shared.exerciseName}>{workout.name}</h2>
+        <p className={shared.muted}>{workoutFacts(summary)}</p>
+        <GroupChips groups={summary.groups} />
+      </div>
+      <ol className={shared.list} aria-label={T.exercises}>
+        {workout.items.map((item) => {
+          const exercise = training.exercises.get(item.exercise_id);
+          return (
+            <li key={item.id}>
+              <Link to={`/exercicios/${item.exercise_id}`} className={styles.itemRow}>
+                <ExerciseImage images={exercise?.images ?? []} size="thumb" />
+                <span className={styles.itemText}>
+                  <span>{exercise?.name ?? "—"}</span>
+                  <span className={shared.muted}>
+                    {[
+                      itemSummary(item),
+                      item.suggested_load_kg === null
+                        ? null
+                        : T.suggestedLoad(formatKg(item.suggested_load_kg)),
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
+                </span>
+                <ChevronRight size={20} aria-hidden="true" />
+              </Link>
+            </li>
+          );
+        })}
+      </ol>
+      <div className={styles.stickyAction}>
+        <Button
+          variant="primary"
+          icon={<Play size={20} />}
+          className={styles.heroPrimary}
+          onClick={() => {
+            if (
+              inProgressName !== null &&
+              state.kind === "continue" &&
+              state.workoutId !== workout.id
+            ) {
+              setBlocked(true);
+              return;
+            }
+            navigate(SESSION_PATH);
+          }}
+        >
+          {T.start}
+        </Button>
+      </div>
+      <Dialog
+        open={blocked}
+        title={T.inProgressTitle(inProgressName ?? "")}
+        confirmLabel={T.goToInProgress}
+        onCancel={() => {
+          setBlocked(false);
+        }}
+        onConfirm={() => {
+          setBlocked(false);
+          navigate(SESSION_PATH);
+        }}
+      >
+        <p>{T.inProgressBlock(inProgressName ?? "")}</p>
+      </Dialog>
+    </div>
+  );
+}

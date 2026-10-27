@@ -93,9 +93,9 @@ test("barra inferior no celular e trilho lateral no desktop (UX-07 §2)", async 
   const box = await main.boundingBox();
   expect(box?.y ?? 0).toBeGreaterThan(600);
   await page.setViewportSize({ width: 1280, height: 900 });
-  await expect(main).toHaveCount(1);
+  // A troca barra → trilho acontece depois do redimensionamento: espera o trilho assentar.
+  await expect.poll(async () => (await main.boundingBox())?.x).toBe(0);
   const rail = await main.boundingBox();
-  expect(rail?.x).toBe(0);
   expect(rail?.width ?? 0).toBeLessThan(120);
 });
 

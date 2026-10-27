@@ -20,6 +20,8 @@ import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
+import { RestScreen } from "../screens/RestScreen.tsx";
+import { TodayScreen, WorkoutScreen, WorkoutsScreen } from "../screens/TrainingScreens.tsx";
 import { NotFoundScreen, PendingScreen } from "../screens/PlaceholderScreens.tsx";
 import styles from "./AppShell.module.css";
 import { TEXTS } from "./texts.ts";
@@ -35,6 +37,10 @@ interface ScreenProps {
 }
 
 const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
+  "TELA-006": RestScreen,
+  "TELA-010": TodayScreen,
+  "TELA-012": WorkoutsScreen,
+  "TELA-013": WorkoutScreen,
   "TELA-014": ExerciseScreen,
   "TELA-030": ProgramScreen,
   "TELA-031": DraftEditorScreen,

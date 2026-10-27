@@ -57,15 +57,33 @@ export async function recoverInterrupted(db: LocalDatabase): Promise<void> {
   await db.outbox.where("state").equals("sending").modify({ state: "pending" });
 }
 
+/**
+ * Entidades de valor único cuja cópia local acompanha a revisão confirmada: a próxima
+ * alteração feita no aparelho parte dela (ADR-053), e operações seguintes na fila são
+ * rebaseadas, pois foram feitas sobre a alteração recém-confirmada.
+ */
+const REVISION_STORES: Readonly<Record<string, string>> = { "rest.update": "rest" };
+
 /** Aplica o resultado classificado; só a confirmação do servidor remove da fila. */
 export async function applyChanges(
   db: LocalDatabase,
   changes: readonly OutboxChange[],
 ): Promise<void> {
-  await db.transaction("rw", db.outbox, async () => {
+  const stores = [...new Set(Object.values(REVISION_STORES))].map((name) => db.table(name));
+  await db.transaction("rw", [db.outbox, ...stores], async () => {
     for (const change of changes) {
       const query = db.outbox.where("op_id").equals(change.op_id);
       if (change.action === "remove") {
+        const op = await query.first();
+        const store = op ? REVISION_STORES[op.type] : undefined;
+        if (op && store && change.revision !== undefined) {
+          await db.table(store).update("current", { revision: change.revision });
+          await db.outbox
+            .where("entity_id")
+            .equals(op.entity_id)
+            .filter((other) => other.type === op.type && other.op_id !== op.op_id)
+            .modify({ base_revision: change.revision });
+        }
         await query.delete();
       } else {
         await query.modify({

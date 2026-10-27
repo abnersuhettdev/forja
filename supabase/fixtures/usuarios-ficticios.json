@@ -60,6 +60,18 @@
       "senha": "Ficticia-offline-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "treino.chromium@exemplo.test",
+      "senha": "Ficticia-treino-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "treino.webkit@exemplo.test",
+      "senha": "Ficticia-treino-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

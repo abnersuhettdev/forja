@@ -3,6 +3,7 @@
 // offline (UX-08 §6.2).
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
+import { hasUnsentRest } from "../training/rest.ts";
 
 export interface StudentSummary {
   readonly id: string;
@@ -93,9 +94,12 @@ export async function cacheContext(
   db: LocalDatabase,
   data: { context: UserContext; profile: unknown; rest: unknown },
 ): Promise<void> {
-  await db.transaction("rw", [db.sync_meta, db.table("profile"), db.table("rest")], async () => {
+  const stores = [db.sync_meta, db.table("profile"), db.table("rest"), db.outbox];
+  await db.transaction("rw", stores, async () => {
     await writeMeta(db, CONTEXT_KEY, data.context);
     if (data.profile) await db.table("profile").put({ key: "current", ...data.profile });
-    if (data.rest) await db.table("rest").put({ key: "current", ...data.rest });
+    // Alteração de descanso ainda na fila prevalece sobre a cópia do servidor (UX-08 §6.1).
+    if (data.rest && !(await hasUnsentRest(db)))
+      await db.table("rest").put({ key: "current", ...data.rest });
   });
 }

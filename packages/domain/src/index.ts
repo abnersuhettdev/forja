@@ -6,6 +6,7 @@ export * from "./operations.ts";
 export * from "./parameters.ts";
 export * from "./programs.ts";
 export * from "./ranges.ts";
+export * from "./recommendation.ts";
 export * from "./result.ts";
 export * from "./rules.ts";
 export * from "./schemas.ts";

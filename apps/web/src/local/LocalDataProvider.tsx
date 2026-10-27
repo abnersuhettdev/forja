@@ -115,6 +115,8 @@ interface DevWindow extends Window {
     }) => Promise<string>;
     outbox: () => Promise<unknown[]>;
     read: (table: string) => Promise<unknown[]>;
+    /** Grava linhas fictícias numa tabela local (ex.: sessões, antes da TAR-019). */
+    write: (table: string, rows: unknown[]) => Promise<void>;
     syncNow: () => Promise<void>;
   };
 }
@@ -141,6 +143,10 @@ function exposeTestHooks(
     },
     outbox: () => listOutbox(db),
     read: (table) => db.table(table).toArray(),
+    write: async (table, rows) => {
+      await db.table(table).bulkPut(rows);
+      refresh();
+    },
     syncNow: () => engine.syncNow(),
   };
 }
