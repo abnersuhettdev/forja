@@ -16,7 +16,7 @@
     "format:check": "prettier --check .",
     "licenses:check": "node scripts/check-licenses.ts",
     "catalog:check": "node scripts/catalog/validate.ts",
-    "db:start": "supabase start",
+    "db:start": "supabase start && node scripts/db/write-local-env.ts && node scripts/db/seed-fixtures.ts",
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db",

@@ -22,6 +22,12 @@ export const PROGRAM_STALE_WEEKS = 12;
 export const INACTIVITY_ALERT_DAYS = 7;
 /** RN-031 — o app impõe espera progressiva após este número de falhas seguidas de login. */
 export const LOGIN_FAILURES_BEFORE_BACKOFF = 5;
+/**
+ * RN-031 — espera progressiva (decisão de implementação da TAR-008): 30 s na quinta falha,
+ * dobrando a cada nova falha, até 15 min.
+ */
+export const LOGIN_BACKOFF_BASE_SECONDS = 30;
+export const LOGIN_BACKOFF_MAX_SECONDS = 900;
 /** RN-031 — tamanho mínimo de senha (também configurado no serviço de autenticação). */
 export const PASSWORD_MIN_LENGTH = 10;
 /** UX-08 §6.2 — janela de sessões mantidas no aparelho (também limita o ciclo — TRN-04 §4). */

@@ -1,0 +1,20 @@
+{
+  "aviso": "Usuários FICTÍCIOS só para o ambiente local e testes (RN-037). Nunca usar em produção.",
+  "usuarios": [
+    {
+      "email": "pessoa.ficticia@exemplo.test",
+      "senha": "Ficticia-local-forja-01",
+      "gestor": true
+    },
+    {
+      "email": "troca.chromium@exemplo.test",
+      "senha": "Ficticia-troca-forja-01",
+      "gestor": true
+    },
+    {
+      "email": "troca.webkit@exemplo.test",
+      "senha": "Ficticia-troca-forja-01",
+      "gestor": true
+    }
+  ]
+}

@@ -55,7 +55,7 @@ Nenhum arquivo `.env` com segredos é versionado (ARQ-03 §2).
 
 1. Criar o projeto de produção e aplicar as migrações e seeds pelo CI (IMP-02).
 2. No painel do provedor, criar o usuário com e-mail e senha forte (≥ 10 caracteres, não comum).
-3. Executar o procedimento operacional de inicialização (script local, com credencial administrativa usada só nesta máquina e nunca versionada) que cria o registro em `managers` para esse usuário.
+3. Executar o procedimento operacional de inicialização (script local, com credencial administrativa usada só nesta máquina e nunca versionada) que cria o registro em `managers` para esse usuário — `scripts/ops/init-manager.ts` (TAR-008), com `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` só no ambiente da execução; o e-mail é pedido no terminal.
 4. Entrar no app pelo celular, instalar (TELA-002) e concluir a configuração inicial (TELA-003) — que cria o aluno com `is_self = true`.
 5. Registrar a data da inicialização no histórico da documentação.
 
@@ -72,3 +72,4 @@ Nenhum arquivo `.env` com segredos é versionado (ARQ-03 §2).
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
+| 2026-10-27 | §4 passo 3: indicado o script `scripts/ops/init-manager.ts` (TAR-008); procedimento inalterado. |

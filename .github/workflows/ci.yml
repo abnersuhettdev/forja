@@ -48,6 +48,10 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+      - name: Supabase local, configuração do app e usuários fictícios (ADR-090)
+        run: |
+          pnpm exec supabase start -x studio,imgproxy,mailpit,realtime,storage-api,logflare,vector,edge-runtime
+          node scripts/db/write-local-env.ts
       - name: Navegadores do Playwright
         working-directory: apps/web
         run: pnpm exec playwright install --with-deps chromium webkit
