@@ -6,7 +6,7 @@ import { LocalDatabase } from "./db.ts";
 import { deviceIdentity, localDatabaseName } from "./device.ts";
 import { SyncEngine } from "./engine.ts";
 import { countUnsent, enqueue, listOutbox, recoverInterrupted } from "./outbox.ts";
-import { createHttpTransport } from "./transport.ts";
+import { createHttpTransport, type SyncTransport } from "./transport.ts";
 
 // Banco local e fila do usuário autenticado (ADR-028 L1): abre só o banco desse usuário e
 // fecha tudo ao trocar de usuário. Expiração da sessão não apaga nada (RN-052 d).
@@ -18,6 +18,9 @@ export interface LocalData {
   readonly unsent: number;
   /** Encerra o motor, fecha e apaga o banco deste usuário (saída sem pendências). */
   readonly destroy: () => Promise<void>;
+  /** Envio direto à função (ações que exigem conexão, como concluir a configuração inicial). */
+  readonly transport: SyncTransport;
+  readonly deviceId: string;
 }
 
 const LocalDataContext = createContext<LocalData | null>(null);
@@ -50,16 +53,17 @@ export function LocalDataProvider({ children }: { children: ReactNode }) {
             setState((prev) => (prev?.db === opened ? { ...prev, unsent } : prev));
         });
       };
+      const transport = createHttpTransport({
+        baseUrl: import.meta.env.VITE_SUPABASE_URL ?? "",
+        publicKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? "",
+        accessToken: async () =>
+          (await supabase.auth.getSession()).data.session?.access_token ?? null,
+      });
       const created = new SyncEngine({
         db: opened,
         sessionUserId: userId,
         deviceId: device.id,
-        transport: createHttpTransport({
-          baseUrl: import.meta.env.VITE_SUPABASE_URL ?? "",
-          publicKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? "",
-          accessToken: async () =>
-            (await supabase.auth.getSession()).data.session?.access_token ?? null,
-        }),
+        transport,
         onChange: refresh,
       });
       engine = created;
@@ -68,6 +72,8 @@ export function LocalDataProvider({ children }: { children: ReactNode }) {
         userId,
         db: opened,
         engine: created,
+        transport,
+        deviceId: device.id,
         unsent: await countUnsent(opened),
         destroy: async () => {
           created.stop();

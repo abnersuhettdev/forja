@@ -43,23 +43,23 @@ select throws_ok(
 -- TG-03 — revisão e updated_at mantidos pelo servidor.
 insert into public.training_profiles (student_id, goal, revision)
   values ('20000000-0000-4000-8000-00000000000a', 'strength', 99);
-select is((select revision from public.training_profiles), 1, 'revisão começa em 1, ignorando o cliente');
-update public.training_profiles set goal = 'hypertrophy', revision = 50;
-select is((select revision from public.training_profiles), 2, 'revisão incrementa a cada alteração');
+select is((select revision from public.training_profiles where student_id = '20000000-0000-4000-8000-00000000000a'), 1, 'revisão começa em 1, ignorando o cliente');
+update public.training_profiles set goal = 'hypertrophy', revision = 50 where student_id = '20000000-0000-4000-8000-00000000000a';
+select is((select revision from public.training_profiles where student_id = '20000000-0000-4000-8000-00000000000a'), 2, 'revisão incrementa a cada alteração');
 
 insert into public.rest_settings (student_id) values ('20000000-0000-4000-8000-00000000000a');
-select is((select default_hours from public.rest_settings), 48::smallint, 'descanso padrão de 48 h (ADR-021)');
+select is((select default_hours from public.rest_settings where student_id = '20000000-0000-4000-8000-00000000000a'), 48::smallint, 'descanso padrão de 48 h (ADR-021)');
 insert into public.rest_overrides (student_id, muscle_group_code, hours)
   values ('20000000-0000-4000-8000-00000000000a', 'quadriceps', 72);
-update public.rest_overrides set hours = 60;
-select is((select revision from public.rest_overrides), 2, 'ajuste de descanso também tem revisão');
+update public.rest_overrides set hours = 60 where student_id = '20000000-0000-4000-8000-00000000000a';
+select is((select revision from public.rest_overrides where student_id = '20000000-0000-4000-8000-00000000000a'), 2, 'ajuste de descanso também tem revisão');
 
 -- Restrições de domínio e códigos.
 select throws_ok(
-  $$ update public.training_profiles set equipment_codes = array['barbell', 'trampolim'] $$,
+  $$ update public.training_profiles set equipment_codes = array['barbell', 'trampolim'] where student_id = '20000000-0000-4000-8000-00000000000a' $$,
   'P0001', 'VALIDATION_FAILED', 'equipamento fora da taxonomia é recusado');
 select throws_ok(
-  $$ update public.training_profiles set restrictions_declared = 'none', restriction_codes = array['knee'] $$,
+  $$ update public.training_profiles set restrictions_declared = 'none', restriction_codes = array['knee'] where student_id = '20000000-0000-4000-8000-00000000000a' $$,
   '23514', null, '"nenhuma restrição" não convive com restrições listadas (RN-006)');
 select throws_ok(
   $$ insert into public.weight_entries (id, student_id, measured_on, weight_kg, source)
@@ -71,18 +71,18 @@ select throws_ok(
   '23514', null, 'peso nulo só em registro excluído (ADR-053)');
 
 -- TG-08 — sem programa ativo, nada é marcado.
-update public.training_profiles set days_per_week = 4;
-select is((select review_recommended_since from public.training_profiles), null,
+update public.training_profiles set days_per_week = 4 where student_id = '20000000-0000-4000-8000-00000000000a';
+select is((select review_recommended_since from public.training_profiles where student_id = '20000000-0000-4000-8000-00000000000a'), null,
   'sem versão ativa, revisão recomendada não é marcada');
 
 -- Com versão ativa (simulada até a TAR-015), mudança relevante marca a revisão.
 create or replace function app.has_active_program(p_student_id uuid)
 returns boolean language sql stable as $$ select true $$;
-update public.training_profiles set preferences_note = 'Prefere treinar cedo';
-select is((select review_recommended_since from public.training_profiles), null,
+update public.training_profiles set preferences_note = 'Prefere treinar cedo' where student_id = '20000000-0000-4000-8000-00000000000a';
+select is((select review_recommended_since from public.training_profiles where student_id = '20000000-0000-4000-8000-00000000000a'), null,
   'mudança fora de RN-025 não marca revisão');
-update public.training_profiles set equipment_codes = array['dumbbell'];
-select isnt((select review_recommended_since from public.training_profiles), null,
+update public.training_profiles set equipment_codes = array['dumbbell'] where student_id = '20000000-0000-4000-8000-00000000000a';
+select isnt((select review_recommended_since from public.training_profiles where student_id = '20000000-0000-4000-8000-00000000000a'), null,
   'mudança de equipamentos com versão ativa marca revisão recomendada (RN-025)');
 
 select * from finish();

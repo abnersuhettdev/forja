@@ -4,22 +4,38 @@
     {
       "email": "pessoa.ficticia@exemplo.test",
       "senha": "Ficticia-local-forja-01",
-      "gestor": true
+      "gestor": true,
+      "aluno": true
     },
     {
       "email": "troca.chromium@exemplo.test",
       "senha": "Ficticia-troca-forja-01",
-      "gestor": true
+      "gestor": true,
+      "aluno": true
     },
     {
       "email": "troca.webkit@exemplo.test",
       "senha": "Ficticia-troca-forja-01",
-      "gestor": true
+      "gestor": true,
+      "aluno": true
     },
     {
       "email": "segunda.pessoa@exemplo.test",
       "senha": "Ficticia-segunda-forja-01",
-      "gestor": true
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "primeiro.chromium@exemplo.test",
+      "senha": "Ficticia-primeiro-forja-01",
+      "gestor": true,
+      "aluno": false
+    },
+    {
+      "email": "primeiro.webkit@exemplo.test",
+      "senha": "Ficticia-primeiro-forja-01",
+      "gestor": true,
+      "aluno": false
     }
   ]
 }

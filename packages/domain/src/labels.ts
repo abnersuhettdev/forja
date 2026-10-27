@@ -34,6 +34,31 @@ export const ACTIVITY_LABELS: Readonly<Record<ActivityLevel, string>> = {
   high: "Muito ativo",
 };
 
+/** TRN-01 §3.1 — descrição exibida de cada objetivo. */
+export const GOAL_DESCRIPTIONS: Readonly<Record<Goal, string>> = {
+  hypertrophy: "Aumentar a massa muscular",
+  weight_loss: "Reduzir gordura corporal com treino de força",
+  strength: "Aumentar a carga máxima em exercícios principais",
+  conditioning: "Resistência muscular e disposição",
+  maintenance: "Manter o que já conquistou",
+  quality_of_life: "Saúde geral, mobilidade e bem-estar",
+};
+
+/** TRN-01 §3.2 — critério autodeclarado de experiência. */
+export const EXPERIENCE_DESCRIPTIONS: Readonly<Record<ExperienceLevel, string>> = {
+  beginner: "Treina há menos de 6 meses ou parou há mais de 1 ano",
+  intermediate: "Treina com regularidade há 6 meses a 2 anos",
+  advanced: "Treina com regularidade há mais de 2 anos e domina os exercícios básicos",
+};
+
+/** TRN-01 §3.3 — atividade fora da academia (informativa no MVP). */
+export const ACTIVITY_DESCRIPTIONS: Readonly<Record<ActivityLevel, string>> = {
+  sedentary: "Trabalho sentado, pouca caminhada",
+  light: "Caminha ou se movimenta um pouco no dia a dia",
+  moderate: "Movimenta-se bastante ao longo do dia",
+  high: "Trabalho físico ou esportes frequentes",
+};
+
 export const LOCATION_LABELS: Readonly<Record<TrainingLocation, string>> = {
   full_gym: "Academia completa",
   basic_gym: "Academia básica",

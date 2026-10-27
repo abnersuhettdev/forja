@@ -23,6 +23,9 @@ export const MAIN_USER = user("pessoa.ficticia@exemplo.test");
 export const SECOND_USER = user("segunda.pessoa@exemplo.test");
 export const passwordChangeUser = (browserName: string) =>
   user(`troca.${browserName}@exemplo.test`);
+/** Usuário sem configuração inicial (um por navegador, para rodar em paralelo). */
+export const firstAccessUser = (browserName: string) =>
+  user(`primeiro.${browserName}@exemplo.test`);
 export const SESSION_FILE = new URL("./.auth/sessao.json", import.meta.url).pathname.replace(
   /^\/([A-Za-z]:)/,
   "$1",

@@ -1,4 +1,5 @@
 import { useEffect, useState, type ComponentType } from "react";
+import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { ErrorBoundary } from "../components/ErrorBoundary.tsx";
 import { ErrorState, Skeleton } from "../components/Feedback.tsx";
@@ -11,15 +12,18 @@ import { ComponentsShowcase } from "../screens/ComponentsShowcase.tsx";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
+import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
 import { NotFoundScreen, PendingScreen } from "../screens/PlaceholderScreens.tsx";
 import styles from "./AppShell.module.css";
 import { TEXTS } from "./texts.ts";
 
 const SHOWCASE_PATH = "/_componentes";
 const LOGIN_PATH = "/entrar";
+const ONBOARDING_PATH = "/configuracao-inicial";
 
 /** Telas já entregues; as demais mostram em que tarefa chegam (PendingScreen). */
-const SCREENS: Readonly<Record<string, ComponentType>> = {
+const SCREENS: Readonly<Record<string, ComponentType<{ area: NavArea }>>> = {
+  "TELA-003": OnboardingScreen,
   "TELA-004": AccountScreen,
   "TELA-005": ChangePasswordScreen,
 };
@@ -32,6 +36,9 @@ export function AppShell() {
   const pathname = usePathname();
   const route = findRoute(pathname);
   const auth = useAuth();
+  const { state: userContext, refresh } = useUserContext();
+  const context = userContext.status === "ready" ? userContext.context : null;
+  const needsOnboarding = context !== null && context.student === null;
   // Conta pertence às duas áreas: mantém a navegação da última área visitada (UX-03 §3).
   const [lastArea, setLastArea] = useState<NavArea>("aluno");
   const routeArea = route?.area === "aluno" || route?.area === "gestao" ? route.area : null;
@@ -46,6 +53,16 @@ export function AppShell() {
       navigate(HOME_PATH, { replace: true });
     }
   }, [auth.status, pathname]);
+
+  // Primeiro acesso: sem aluno próprio, a configuração inicial vem antes de tudo (JOR-08).
+  useEffect(() => {
+    if (auth.status !== "signedIn" || context === null) return;
+    if (needsOnboarding && pathname !== ONBOARDING_PATH) {
+      navigate(ONBOARDING_PATH, { replace: true });
+    } else if (!needsOnboarding && pathname === ONBOARDING_PATH) {
+      navigate(HOME_PATH, { replace: true });
+    }
+  }, [auth.status, context, needsOnboarding, pathname]);
 
   const title = route?.title ?? TEXTS.notFound.title;
 
@@ -85,18 +102,45 @@ export function AppShell() {
     );
   }
 
+  if (userContext.status === "unavailable") {
+    return (
+      <main className={styles.main}>
+        <ErrorState
+          title={TEXTS.error.title}
+          description={TEXTS.onboarding.unavailable}
+          onRetry={() => {
+            void refresh();
+          }}
+        />
+      </main>
+    );
+  }
+  if (
+    userContext.status === "loading" ||
+    (needsOnboarding && pathname !== ONBOARDING_PATH) ||
+    (!needsOnboarding && pathname === ONBOARDING_PATH)
+  ) {
+    return (
+      <main className={styles.main}>
+        <Skeleton />
+      </main>
+    );
+  }
+
   const Screen = route ? SCREENS[route.screen] : undefined;
+  // Chave de área só com papel duplo (RF-005, ADR-003).
+  const dualRole = context !== null && context.isManager && context.student !== null;
   const withNavigation =
     route === null || route.area === "aluno" || route.area === "gestao" || route.area === "conta";
   const area = routeArea ?? lastArea;
 
   return (
     <div className={withNavigation ? styles.withNav : undefined}>
-      {withNavigation ? <AppHeader title={title} area={area} showAreaSwitch /> : null}
+      {withNavigation ? <AppHeader title={title} area={area} showAreaSwitch={dualRole} /> : null}
       <main className={styles.main}>
         <ErrorBoundary resetKey={pathname}>
           {Screen ? (
-            <Screen />
+            <Screen area={area} />
           ) : route ? (
             <PendingScreen route={route} showTitle={!withNavigation} />
           ) : (

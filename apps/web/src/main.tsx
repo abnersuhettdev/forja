@@ -10,6 +10,7 @@ import "./design/global.css";
 import { AppShell } from "./app/AppShell.tsx";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
 import { LocalDataProvider } from "./local/LocalDataProvider.tsx";
+import { UserContextProvider } from "./account/UserContextProvider.tsx";
 import { SnackbarProvider } from "./components/Snackbar.tsx";
 import { applyThemePreference, readThemePreference } from "./design/theme.ts";
 
@@ -22,9 +23,11 @@ createRoot(root).render(
   <StrictMode>
     <AuthProvider>
       <LocalDataProvider>
-        <SnackbarProvider>
-          <AppShell />
-        </SnackbarProvider>
+        <UserContextProvider>
+          <SnackbarProvider>
+            <AppShell />
+          </SnackbarProvider>
+        </UserContextProvider>
       </LocalDataProvider>
     </AuthProvider>
   </StrictMode>,

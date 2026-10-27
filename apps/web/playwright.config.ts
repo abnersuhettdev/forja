@@ -8,6 +8,11 @@ const PORT = 5199;
 export default defineConfig({
   testDir: "./tests",
   fullyParallel: true,
+  // O servidor de desenvolvimento entrega módulos sem empacotar; com vários WebKit em paralelo
+  // (Windows) uma tela leva alguns segundos para abrir. Esperas e paralelismo ajustados.
+  workers: 4,
+  timeout: 60_000,
+  expect: { timeout: 15_000 },
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 1 : 0,
   reporter: [["list"]],

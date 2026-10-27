@@ -7,3 +7,4 @@ pnpm-lock.yaml
 **/test-results/
 catalog/fontes/
 apps/web/src/auth/data/senhas-comuns.txt
+**/.auth/

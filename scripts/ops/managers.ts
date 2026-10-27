@@ -64,6 +64,18 @@ export async function createUser(
   return (await response.json()) as AdminUser;
 }
 
+/** Define a senha de um usuário existente (uso local: restaura usuários fictícios). */
+export async function setUserPassword(
+  creds: AdminCredentials,
+  userId: string,
+  password: string,
+): Promise<void> {
+  await request(creds, `/auth/v1/admin/users/${userId}`, {
+    method: "PUT",
+    body: JSON.stringify({ password }),
+  });
+}
+
 /** Garante o registro em `managers` para o usuário (idempotente). */
 export async function ensureManager(creds: AdminCredentials, userId: string): Promise<void> {
   await request(creds, "/rest/v1/managers?on_conflict=user_id", {
