@@ -50,7 +50,9 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - name: Supabase local, configuração do app e usuários fictícios (ADR-090)
         run: |
-          pnpm exec supabase start -x studio,imgproxy,mailpit,realtime,storage-api,logflare,vector,edge-runtime
+          node scripts/db/local-sync-role.ts --env
+          pnpm exec supabase start -x studio,imgproxy,mailpit,realtime,storage-api,logflare,vector
+          node scripts/db/local-sync-role.ts --apply
           node scripts/db/write-local-env.ts
       - name: Navegadores do Playwright
         working-directory: apps/web
@@ -71,9 +73,15 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
       - name: Supabase local (aplica as migrações em banco limpo)
-        run: pnpm exec supabase start -x studio,imgproxy,mailpit,realtime,storage-api,logflare,vector,edge-runtime
-      - name: Testes de banco (pgTAP)
-        run: pnpm exec supabase test db
+        run: |
+          node scripts/db/local-sync-role.ts --env
+          pnpm exec supabase start -x studio,imgproxy,mailpit,realtime,storage-api,logflare,vector
+          node scripts/db/local-sync-role.ts --apply
+          node scripts/db/write-local-env.ts
+      - name: Testes de banco (pgTAP) e da função de sincronização (cobertura ≥ 80%)
+        run: |
+          pnpm exec supabase test db
+          pnpm exec vitest run -c vitest.integration.config.ts --coverage
 
   segredos:
     name: Varredura de segredos

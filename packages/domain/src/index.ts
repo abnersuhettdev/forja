@@ -2,6 +2,7 @@ export * from "./credentials.ts";
 export * from "./enums.ts";
 export * from "./labels.ts";
 export * from "./messages.ts";
+export * from "./operations.ts";
 export * from "./parameters.ts";
 export * from "./ranges.ts";
 export * from "./result.ts";

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["scripts/**/*.ts", "*.ts"]
+  "include": ["scripts/**/*.ts", "supabase/functions/**/*.ts", "*.ts"]
 }

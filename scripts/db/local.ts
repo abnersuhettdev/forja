@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 export interface LocalStatus {
   API_URL: string;
+  DB_URL: string;
   ANON_KEY: string;
   SERVICE_ROLE_KEY: string;
 }
