@@ -112,6 +112,21 @@ export const importedCorrectionPayloadSchema = z.strictObject({
 });
 
 export type ImportedCorrectionPayload = z.infer<typeof importedCorrectionPayloadSchema>;
+
+/**
+ * API-004 `assessment.create` (entity_id = id da avaliação, gerado no aparelho; RF-016,
+ * RN-014). O registro de peso de origem "avaliação" usa `weight_entry_id`; a fotografia do
+ * perfil é tirada pelo servidor no momento do registro.
+ */
+export const assessmentCreatePayloadSchema = z.strictObject({
+  student_id: id,
+  assessed_on: z.iso.date(),
+  weight_kg: inRange("weightKg"),
+  notes: z.string().trim().max(500).nullable(),
+  weight_entry_id: id,
+});
+
+export type AssessmentCreatePayload = z.infer<typeof assessmentCreatePayloadSchema>;
 export type OnboardingPayload = z.infer<typeof onboardingPayloadSchema>;
 export type ProfileUpdatePayload = z.infer<typeof profileUpdatePayloadSchema>;
 export type RestUpdatePayload = z.infer<typeof restUpdatePayloadSchema>;

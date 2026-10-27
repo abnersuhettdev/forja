@@ -10,6 +10,10 @@ import { navigate, usePathname } from "./router.tsx";
 import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
 import { ComponentsShowcase } from "../screens/ComponentsShowcase.tsx";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
+import { AssessmentScreen } from "../screens/AssessmentScreen.tsx";
+import { DraftEditorScreen } from "../screens/DraftEditorScreen.tsx";
+import { ProfileScreen } from "../screens/ProfileScreen.tsx";
+import { ProgramScreen } from "../screens/ProgramScreen.tsx";
 import { CatalogScreen } from "../screens/CatalogScreen.tsx";
 import { ExerciseFormScreen } from "../screens/ExerciseFormScreen.tsx";
 import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
@@ -32,7 +36,11 @@ interface ScreenProps {
 
 const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-014": ExerciseScreen,
+  "TELA-030": ProgramScreen,
+  "TELA-031": DraftEditorScreen,
   "TELA-034": CatalogScreen,
+  "TELA-037": ProfileScreen,
+  "TELA-038": AssessmentScreen,
   "TELA-036": ExerciseFormScreen,
   "TELA-003": OnboardingScreen,
   "TELA-004": AccountScreen,

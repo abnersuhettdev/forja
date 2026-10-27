@@ -23,6 +23,8 @@ export const MAIN_USER = user("pessoa.ficticia@exemplo.test");
 export const SECOND_USER = user("segunda.pessoa@exemplo.test");
 export const passwordChangeUser = (browserName: string) =>
   user(`troca.${browserName}@exemplo.test`);
+/** Gestor com aluno próprio exclusivo do teste de programa (um por navegador). */
+export const managementUser = (browserName: string) => user(`gestao.${browserName}@exemplo.test`);
 /** Usuário sem configuração inicial (um por navegador, para rodar em paralelo). */
 export const firstAccessUser = (browserName: string) =>
   user(`primeiro.${browserName}@exemplo.test`);

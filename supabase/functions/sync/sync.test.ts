@@ -918,3 +918,71 @@ describe("programas (API-016..019; CA-020, CA-025, CA-027, CA-028)", () => {
     expect(invalid).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
   });
 });
+
+describe("avaliação (API-004, CA-016)", () => {
+  it("registra avaliação, peso de origem avaliação e fotografia do perfil", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const assessmentId = randomUUID();
+    const weightId = randomUUID();
+    const [result] = await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "assessment.create",
+        entity_id: assessmentId,
+        payload: {
+          student_id: studentId,
+          assessed_on: "2026-10-26",
+          weight_kg: 80.2,
+          notes: "Avaliação fictícia.",
+          weight_entry_id: weightId,
+        },
+      },
+    ]);
+    expect(result).toMatchObject({ status: "accepted" });
+    const [row] = await admin`
+      select a.kind, a.weight_kg::float8 as weight, a.profile_snapshot ->> 'goal' as goal,
+             w.source, w.assessment_id = a.id as linked
+      from public.assessments a join public.weight_entries w on w.id = ${weightId}
+      where a.id = ${assessmentId}`;
+    expect(row).toEqual({
+      kind: "periodic",
+      weight: 80.2,
+      goal: "hypertrophy",
+      source: "assessment",
+      linked: true,
+    });
+  });
+
+  it("data futura e aluno de outro usuário são recusados", async () => {
+    const me = await fictitiousUser();
+    const other = await fictitiousUser();
+    const studentId = await onboard(me);
+    const otherStudent = await onboard(other);
+    const payload = (student: string, date: string) => ({
+      student_id: student,
+      assessed_on: date,
+      weight_kg: 80,
+      notes: null,
+      weight_entry_id: randomUUID(),
+    });
+    const results = await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "assessment.create",
+        entity_id: randomUUID(),
+        payload: payload(studentId, "2026-10-30"),
+      },
+      {
+        owner_user_id: me.userId,
+        type: "assessment.create",
+        entity_id: randomUUID(),
+        payload: payload(otherStudent, "2026-10-26"),
+      },
+    ]);
+    expect(results.map((r) => (r.status === "rejected" ? r.error.code : r.status))).toEqual([
+      "VALIDATION_FAILED",
+      "NOT_FOUND",
+    ]);
+  });
+});

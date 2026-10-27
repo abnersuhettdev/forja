@@ -3,6 +3,7 @@
 // gatilhos e políticas do banco seguem como segunda barreira (DAD-03).
 import {
   CLIENT_CLOCK_TOLERANCE_MINUTES,
+  assessmentCreatePayloadSchema,
   customExercisePayloadSchema,
   importedCorrectionPayloadSchema,
   onboardingPayloadSchema,
@@ -11,7 +12,7 @@ import {
   toLocalDate,
 } from "../../../packages/domain/src/index.ts";
 import type { z } from "zod";
-import type { Tx } from "./db.ts";
+import { asJson, type Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";
 import { draftCreate, draftDiscard, draftPublish, draftSave } from "./programs.ts";
 
@@ -251,10 +252,34 @@ const exerciseUpdate: OperationHandler = async (tx, ctx) => {
   return {};
 };
 
+// ---------- API-004 assessment.create (RF-016, RN-014) ----------
+
+const assessmentCreate: OperationHandler = async (tx, ctx) => {
+  const payload = parse(assessmentCreatePayloadSchema, ctx.payload);
+  const [student] = await tx<{ timezone: string }[]>`
+    select timezone from public.students where id = ${payload.student_id}`;
+  if (!student) throw rejected("NOT_FOUND");
+  assertNotFuture(payload.assessed_on, student.timezone, ctx.now, "assessed_on");
+  // Fotografia do perfil na data (DAD-02 ENT-004), tirada do estado atual no servidor.
+  const [snapshot] = await tx<{ profile: Record<string, unknown> }[]>`
+    select to_jsonb(p) - 'student_id' - 'revision' - 'created_at' - 'updated_at' as profile
+    from public.training_profiles p where p.student_id = ${payload.student_id}`;
+  await tx`
+    insert into public.assessments (id, student_id, assessed_on, kind, weight_kg, profile_snapshot, notes)
+    values (${ctx.entityId}, ${payload.student_id}, ${payload.assessed_on}, 'periodic',
+            ${payload.weight_kg}, ${tx.json(asJson(snapshot?.profile ?? {}))}, ${payload.notes})`;
+  await tx`
+    insert into public.weight_entries (id, student_id, measured_on, weight_kg, source, assessment_id)
+    values (${payload.weight_entry_id}, ${payload.student_id}, ${payload.assessed_on},
+            ${payload.weight_kg}, 'assessment', ${ctx.entityId})`;
+  return {};
+};
+
 export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "onboarding.complete": onboarding,
   "profile.update": profileUpdate,
   "rest.update": restUpdate,
+  "assessment.create": assessmentCreate,
   "exercise.create": exerciseCreate,
   "exercise.update": exerciseUpdate,
   "draft.create": draftCreate,

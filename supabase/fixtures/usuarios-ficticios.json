@@ -36,6 +36,18 @@
       "senha": "Ficticia-primeiro-forja-01",
       "gestor": true,
       "aluno": false
+    },
+    {
+      "email": "gestao.chromium@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "gestao.webkit@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

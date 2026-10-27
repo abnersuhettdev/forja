@@ -201,3 +201,66 @@
   font: var(--type-caption);
   color: var(--color-danger);
 }
+
+.workoutCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+}
+
+.workoutHeader {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-1);
+}
+
+.workoutHeader > :nth-child(2) {
+  flex: 1;
+  min-width: 0;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: var(--space-2) 0;
+  border-top: 1px solid var(--color-divider);
+}
+
+.dragHandle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 32px;
+  min-height: 44px;
+  color: var(--color-text-muted);
+  cursor: grab;
+}
+
+.linkButton {
+  padding: var(--space-1) 0;
+  border: 0;
+  background: none;
+  color: var(--color-text);
+  text-align: left;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.inlineChoice {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 44px;
+}
+
+button.listLink {
+  width: 100%;
+  background: var(--color-surface);
+  text-align: left;
+  cursor: pointer;
+}
