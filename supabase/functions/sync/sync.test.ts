@@ -118,6 +118,7 @@ afterAll(async () => {
   await db.close();
   for (const id of users) {
     await admin`delete from public.students where user_id = ${id}`;
+    await admin`delete from public.exercises where manager_id in (select id from public.managers where user_id = ${id})`;
     await admin`delete from public.managers where user_id = ${id}`;
     await admin`delete from auth.users where id = ${id}`;
   }
@@ -514,5 +515,133 @@ describe("pela função HTTP (VH-12: conexão com o papel próprio)", () => {
       body: "{}",
     });
     expect(unauthorized.status).toBe(401);
+  });
+});
+
+describe("exercício personalizado (API-020, RF-032)", () => {
+  const exercisePayload = (overrides: Record<string, unknown> = {}) => ({
+    name: `Exercício fictício ${randomUUID().slice(0, 6)}`,
+    primary_muscles: ["quadriceps"],
+    secondary_muscles: ["glutes"],
+    equipment: ["dumbbell", "bench"],
+    difficulty: "beginner",
+    measure_type: "reps",
+    movement_pattern: "lunge",
+    instructions: ["Primeiro passo do exercício.", "Segundo passo do exercício."],
+    safety_tips: ["Uma dica de segurança."],
+    ...overrides,
+  });
+
+  it("cria personalizado do gestor com classificação, e edita substituindo tudo", async () => {
+    const me = await fictitiousUser();
+    const id = randomUUID();
+    const payload = exercisePayload();
+    const [created] = await send(me, [
+      { owner_user_id: me.userId, type: "exercise.create", entity_id: id, payload },
+    ]);
+    expect(created).toMatchObject({ status: "accepted", entity_id: id });
+    const [updated] = await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "exercise.update",
+        entity_id: id,
+        payload: exercisePayload({
+          name: payload.name,
+          primary_muscles: ["glutes"],
+          secondary_muscles: [],
+          equipment: ["bodyweight"],
+          instructions: ["Passo único revisado."],
+        }),
+      },
+    ]);
+    expect(updated).toMatchObject({ status: "accepted" });
+    const [row] = await admin`
+      select e.origin, e.is_bodyweight, e.instructions, m.user_id = ${me.userId} as mine,
+             (select array_agg(muscle_group_code || ':' || role order by muscle_group_code)
+                from public.exercise_muscles where exercise_id = e.id) as muscles,
+             (select array_agg(equipment_code) from public.exercise_equipment where exercise_id = e.id) as equipment
+      from public.exercises e join public.managers m on m.id = e.manager_id
+      where e.id = ${id}`;
+    expect(row).toEqual({
+      origin: "custom",
+      is_bodyweight: true,
+      instructions: ["Passo único revisado."],
+      mine: true,
+      muscles: ["glutes:primary"],
+      equipment: ["bodyweight"],
+    });
+  });
+
+  it("nome já usado por exercício visível (inclusive importado) é recusado com NAME_TAKEN", async () => {
+    const me = await fictitiousUser();
+    const results = await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "exercise.create",
+        entity_id: randomUUID(),
+        payload: exercisePayload({ name: "supino RETO com barra" }),
+      },
+    ]);
+    expect(results[0]).toMatchObject({ status: "rejected", error: { code: "NAME_TAKEN" } });
+  });
+
+  it("outro gestor não edita nem vê; importado não é editável por esta operação", async () => {
+    const owner = await fictitiousUser();
+    const intruder = await fictitiousUser();
+    const id = randomUUID();
+    await send(owner, [
+      {
+        owner_user_id: owner.userId,
+        type: "exercise.create",
+        entity_id: id,
+        payload: exercisePayload(),
+      },
+    ]);
+    const [foreign] = await send(intruder, [
+      {
+        owner_user_id: intruder.userId,
+        type: "exercise.update",
+        entity_id: id,
+        payload: exercisePayload({ name: "Tomado" }),
+      },
+    ]);
+    expect(foreign).toMatchObject({ status: "rejected", error: { code: "NOT_FOUND" } });
+    const [imported] = await admin<{ id: string }[]>`
+      select id from public.exercises where origin = 'imported' limit 1`;
+    const [onImported] = await send(owner, [
+      {
+        owner_user_id: owner.userId,
+        type: "exercise.update",
+        entity_id: imported?.id ?? "",
+        payload: exercisePayload(),
+      },
+    ]);
+    expect(onImported).toMatchObject({ status: "rejected", error: { code: "FORBIDDEN_ROLE" } });
+  });
+
+  it("conteúdo inválido aponta o campo; sem papel de gestão é recusado", async () => {
+    const me = await fictitiousUser();
+    const [invalid] = await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "exercise.create",
+        entity_id: randomUUID(),
+        payload: exercisePayload({ primary_muscles: [] }),
+      },
+    ]);
+    expect(invalid).toMatchObject({
+      status: "rejected",
+      error: { code: "VALIDATION_FAILED", details: { field: "primary_muscles" } },
+    });
+    const noManager = await fictitiousUser(false);
+    const [forbidden] = await send(noManager, [
+      {
+        owner_user_id: noManager.userId,
+        type: "exercise.create",
+        entity_id: randomUUID(),
+        payload: exercisePayload(),
+      },
+    ]);
+    expect(forbidden).toMatchObject({ status: "rejected", error: { code: "FORBIDDEN_ROLE" } });
   });
 });

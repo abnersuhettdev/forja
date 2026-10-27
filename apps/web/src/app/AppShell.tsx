@@ -11,6 +11,7 @@ import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
 import { ComponentsShowcase } from "../screens/ComponentsShowcase.tsx";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
 import { CatalogScreen } from "../screens/CatalogScreen.tsx";
+import { ExerciseFormScreen } from "../screens/ExerciseFormScreen.tsx";
 import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
@@ -32,6 +33,7 @@ interface ScreenProps {
 const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-014": ExerciseScreen,
   "TELA-034": CatalogScreen,
+  "TELA-036": ExerciseFormScreen,
   "TELA-003": OnboardingScreen,
   "TELA-004": AccountScreen,
   "TELA-005": ChangePasswordScreen,

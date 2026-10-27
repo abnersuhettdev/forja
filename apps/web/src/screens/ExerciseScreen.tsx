@@ -1,6 +1,9 @@
-import { SearchX } from "lucide-react";
+import { Pencil, SearchX } from "lucide-react";
 import { DIFFICULTY_LABELS, EQUIPMENT_LABELS, MUSCLE_GROUP_LABELS } from "@forja/domain";
 import { useCatalog } from "../catalog/useCatalog.ts";
+import { Button } from "../components/Button.tsx";
+import type { NavArea } from "../app/navigation.ts";
+import { navigate } from "../app/router.tsx";
 import { ExerciseImage } from "../components/ExerciseImage.tsx";
 import { EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -27,7 +30,13 @@ function Chips({ label, items }: { label: string; items: readonly string[] }) {
 // TELA-014 — Detalhe do exercício (RF-031, RF-034, RN-036): imagem ou placeholder, grupos,
 // equipamentos, dificuldade, instruções, dicas e créditos com fonte e licença. Prescrição e
 // "Última vez" chegam com os programas e a execução (TAR-017/TAR-019).
-export function ExerciseScreen({ params }: { params: Readonly<Record<string, string>> }) {
+export function ExerciseScreen({
+  area,
+  params,
+}: {
+  area: NavArea;
+  params: Readonly<Record<string, string>>;
+}) {
   const { state, reload } = useCatalog();
   if (state.status === "loading") return <Skeleton lines={8} />;
   if (state.status === "unavailable") {
@@ -52,6 +61,17 @@ export function ExerciseScreen({ params }: { params: Readonly<Record<string, str
     <article className={styles.stack}>
       <ExerciseImage images={exercise.images} />
       <h2 className={styles.exerciseName}>{exercise.name}</h2>
+      {/* Variante Gestão (TELA-014): editar o personalizado; a política do banco limita ao dono. */}
+      {area === "gestao" && exercise.origin === "custom" ? (
+        <Button
+          icon={<Pencil size={20} />}
+          onClick={() => {
+            navigate(`/gestao/catalogo/${exercise.id}/editar`);
+          }}
+        >
+          {TEXTS.exerciseForm.edit}
+        </Button>
+      ) : null}
       <Chips label={T.primary} items={exercise.primary.map((m) => MUSCLE_GROUP_LABELS[m])} />
       <Chips label={T.secondary} items={exercise.secondary.map((m) => MUSCLE_GROUP_LABELS[m])} />
       <Chips label={T.equipment} items={exercise.equipment.map((q) => EQUIPMENT_LABELS[q])} />

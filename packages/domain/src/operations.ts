@@ -1,7 +1,13 @@
 // Conteúdo das operações da fila (DAD-04 §5), validado igual no app e na função de
 // sincronização (ADR-034). Os campos reaproveitam os esquemas das entidades.
 import { z } from "zod";
-import { MUSCLE_GROUPS } from "./enums.ts";
+import {
+  DIFFICULTIES,
+  EQUIPMENT,
+  MEASURE_TYPES,
+  MOVEMENT_PATTERNS,
+  MUSCLE_GROUPS,
+} from "./enums.ts";
 import { inRange, studentSchema, trainingProfileSchema } from "./schemas.ts";
 
 const id = z.uuid();
@@ -65,6 +71,35 @@ export const restUpdatePayloadSchema = z.strictObject({
     }),
 });
 
+const step = z.string().trim().min(3).max(240);
+const uniqueList = <T extends z.ZodType>(item: T) =>
+  z.array(item).refine((list) => new Set(list).size === list.length, {
+    message: "Valor repetido.",
+  });
+
+/**
+ * API-020 `exercise.create` / `exercise.update` de exercício **personalizado** (RF-032,
+ * TELA-036). entity_id = id do exercício, gerado no aparelho. O padrão de movimento é
+ * obrigatório pelo modelo (TRN-03 §4).
+ */
+export const customExercisePayloadSchema = z
+  .strictObject({
+    name: z.string().trim().min(2).max(120),
+    primary_muscles: uniqueList(z.enum(MUSCLE_GROUPS)).min(1),
+    secondary_muscles: uniqueList(z.enum(MUSCLE_GROUPS)),
+    equipment: uniqueList(z.enum(EQUIPMENT)).min(1),
+    difficulty: z.enum(DIFFICULTIES),
+    measure_type: z.enum(MEASURE_TYPES),
+    movement_pattern: z.enum(MOVEMENT_PATTERNS),
+    instructions: z.array(step).min(1).max(15),
+    safety_tips: z.array(step).max(15),
+  })
+  .refine((p) => !p.primary_muscles.some((m) => p.secondary_muscles.includes(m)), {
+    message: "Grupo repetido como principal e auxiliar.",
+    path: ["secondary_muscles"],
+  });
+
+export type CustomExercisePayload = z.infer<typeof customExercisePayloadSchema>;
 export type OnboardingPayload = z.infer<typeof onboardingPayloadSchema>;
 export type ProfileUpdatePayload = z.infer<typeof profileUpdatePayloadSchema>;
 export type RestUpdatePayload = z.infer<typeof restUpdatePayloadSchema>;

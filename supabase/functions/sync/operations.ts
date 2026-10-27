@@ -1,8 +1,9 @@
-// Tipos de operação da base (DAD-04 §5): API-002, API-003 e API-007. Cada um valida com o
+// Tipos de operação (DAD-04 §5): API-002, API-003, API-007 e API-020 (personalizado). Cada um valida com o
 // esquema do domínio, confere a revisão (ADR-053) e grava como sync_writer; restrições,
 // gatilhos e políticas do banco seguem como segunda barreira (DAD-03).
 import {
   CLIENT_CLOCK_TOLERANCE_MINUTES,
+  customExercisePayloadSchema,
   onboardingPayloadSchema,
   profileUpdatePayloadSchema,
   restUpdatePayloadSchema,
@@ -147,8 +148,97 @@ const restUpdate: OperationHandler = async (tx, ctx) => {
   return updated ? { revision: updated.revision } : {};
 };
 
+// ---------- API-020 exercício personalizado (RF-032, RN-037) ----------
+
+type CustomExercise = z.infer<typeof customExercisePayloadSchema>;
+
+/** Nome único entre os exercícios ativos visíveis ao gestor (DAD-02 §4, `NAME_TAKEN`). */
+async function assertNameFree(tx: Tx, name: string, exerciseId: string): Promise<void> {
+  const [taken] = await tx<{ id: string }[]>`
+    select id from public.exercises
+    where active and lower(name) = lower(${name}) and id <> ${exerciseId}
+    limit 1`;
+  if (taken) throw rejected("NAME_TAKEN", { field: "name" });
+}
+
+async function writeClassification(tx: Tx, exerciseId: string, payload: CustomExercise) {
+  await tx`delete from public.exercise_muscles where exercise_id = ${exerciseId}`;
+  await tx`delete from public.exercise_equipment where exercise_id = ${exerciseId}`;
+  const muscles = [
+    ...payload.primary_muscles.map((code) => ({ code, role: "primary" })),
+    ...payload.secondary_muscles.map((code) => ({ code, role: "secondary" })),
+  ];
+  for (const { code, role } of muscles) {
+    await tx`
+      insert into public.exercise_muscles (exercise_id, muscle_group_code, role)
+      values (${exerciseId}, ${code}, ${role})`;
+  }
+  for (const code of payload.equipment) {
+    await tx`
+      insert into public.exercise_equipment (exercise_id, equipment_code)
+      values (${exerciseId}, ${code})`;
+  }
+}
+
+function exerciseFields(payload: CustomExercise) {
+  return {
+    name: payload.name,
+    instructions: payload.instructions,
+    safety_tips: payload.safety_tips,
+    difficulty: payload.difficulty,
+    measure_type: payload.measure_type,
+    movement_pattern: payload.movement_pattern,
+    is_bodyweight: payload.equipment.includes("bodyweight"),
+  };
+}
+
+const exerciseCreate: OperationHandler = async (tx, ctx) => {
+  const payload = parse(customExercisePayloadSchema, ctx.payload);
+  const [manager] = await tx<{ id: string }[]>`
+    select id from public.managers where user_id = ${ctx.userId}`;
+  if (!manager) throw rejected("FORBIDDEN_ROLE");
+  await assertNameFree(tx, payload.name, ctx.entityId);
+  const fields = exerciseFields(payload);
+  await tx`
+    insert into public.exercises
+      (id, origin, manager_id, name, instructions, safety_tips, difficulty, measure_type,
+       movement_pattern, is_bodyweight)
+    values
+      (${ctx.entityId}, 'custom', ${manager.id}, ${fields.name}, ${tx.json(fields.instructions)},
+       ${tx.json(fields.safety_tips)}, ${fields.difficulty}, ${fields.measure_type},
+       ${fields.movement_pattern}, ${fields.is_bodyweight})`;
+  await writeClassification(tx, ctx.entityId, payload);
+  return {};
+};
+
+/** Edição do personalizado: substituição integral (editor é online — DAD-04 §5). */
+const exerciseUpdate: OperationHandler = async (tx, ctx) => {
+  const payload = parse(customExercisePayloadSchema, ctx.payload);
+  const [current] = await tx<{ origin: string }[]>`
+    select origin from public.exercises where id = ${ctx.entityId}`;
+  if (!current) throw rejected("NOT_FOUND");
+  // Correção de importado aguarda decisão sobre a escrita de linhas globais (DAD-03 §7.2).
+  if (current.origin !== "custom") throw rejected("FORBIDDEN_ROLE");
+  await assertNameFree(tx, payload.name, ctx.entityId);
+  const fields = exerciseFields(payload);
+  const [updated] = await tx<{ id: string }[]>`
+    update public.exercises set
+      name = ${fields.name}, instructions = ${tx.json(fields.instructions)},
+      safety_tips = ${tx.json(fields.safety_tips)}, difficulty = ${fields.difficulty},
+      measure_type = ${fields.measure_type}, movement_pattern = ${fields.movement_pattern},
+      is_bodyweight = ${fields.is_bodyweight}
+    where id = ${ctx.entityId}
+    returning id`;
+  // Sem linha atualizada: a política por linha não reconhece o ator como dono.
+  if (!updated) throw rejected("NOT_FOUND");
+  await writeClassification(tx, ctx.entityId, payload);
+  return {};
+};
+
 export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "onboarding.complete": onboarding,
   "profile.update": profileUpdate,
   "rest.update": restUpdate,
+  "exercise.create": exerciseCreate,
+  "exercise.update": exerciseUpdate,
 };

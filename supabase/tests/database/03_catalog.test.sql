@@ -1,7 +1,7 @@
 -- Catálogo (TAR-013): seed, integridade e visibilidade (DAD-03 §3 e §7.2, RN-036, RN-037).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(12);
+select plan(14);
 
 select is(
   (select count(*)::int from public.exercises where origin = 'imported' and active),
@@ -14,7 +14,7 @@ select is(
   0, 'todo exercício tem ao menos um grupo primário'
 );
 select is(
-  (select count(*)::int from public.exercises where text_reviewed_at is null),
+  (select count(*)::int from public.exercises where origin = 'imported' and text_reviewed_at is null),
   0, 'textos revisados (CA-038)'
 );
 select is((select count(*)::int from public.exercise_images), 0,
@@ -48,6 +48,20 @@ select throws_ok(
   '23514', null, 'marcador fora de TRN-03 é recusado');
 
 grant sync_writer to current_user;
+-- Só para o teste (desfeito no rollback): o papel de sincronização usa as funções do pgTAP.
+grant usage on schema extensions to sync_writer;
+grant execute on all functions in schema extensions to sync_writer;
+grant all on all tables in schema pg_temp to sync_writer;
+grant all on all sequences in schema pg_temp to sync_writer;
+
+-- Regressão (TAR-014): o papel de sincronização, agindo por A, vê o catálogo e o próprio
+-- personalizado; sem ator, nada.
+set local role sync_writer;
+set local app.actor_id = '00000000-0000-4000-8000-00000000000a';
+select is((select count(*)::int from public.exercises), 111, 'sincronização por A vê importados e o próprio');
+set local app.actor_id = '';
+select is((select count(*)::int from public.exercises), 0, 'sincronização sem ator não vê o catálogo');
+reset role;
 
 set local role authenticated;
 set local request.jwt.claims = '{"sub": "00000000-0000-4000-8000-00000000000a"}';
