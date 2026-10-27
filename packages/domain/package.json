@@ -1,0 +1,13 @@
+{
+  "name": "@forja/domain",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Regras de domínio puras e compartilhadas entre o app e a função de sincronização (ARQ-04 §3).",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  }
+}

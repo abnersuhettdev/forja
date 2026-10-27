@@ -12,10 +12,10 @@
 | Item | Valor |
 |---|---|
 | Fase | **Fase 2 — Implementação** (Etapa 9) |
-| Etapa corrente | **Etapa 9 — Implementação incremental** · Incremento I-1 Fundação · **TAR-001** em andamento |
+| Etapa corrente | **Etapa 9 — Implementação incremental** · I-1 Fundação · TAR-002 concluída; próxima sem dependência externa: **TAR-005** (casca do app) |
 | Fase 2 (implementação) | **Autorizada** em 2026-10-26 (Marco) |
 | Modalidade TER (terceiros) | **Bloqueada** pelo GATE-TER (PRD-08) |
-| Bloqueio atual | TAR-001: criar o repositório privado no GitHub e autorizar o commit inicial e o envio |
+| Bloqueio atual | Nenhum para TAR-002; TAR-003 (ambientes) exige contas no Supabase, Cloudflare e GitHub |
 
 ## 2. Etapas (sequência oficial — ADR-001)
 
@@ -351,5 +351,7 @@ Ver §11 (tarefa corrente).
 
 | Tarefa | Situação | Observações |
 |---|---|---|
-| TAR-001 Repositório e ferramentas | Em andamento — parte local concluída | Monorepo, TS estrito, ESLint, Prettier, verificação de licenças e CI criados; `check` e auditoria locais verdes; lint bloqueia erro proposital; VH-10 registrada. **Falta:** repositório privado no GitHub (ação do usuário), commit inicial/push (com autorização) e CI verde em `main` |
-| TAR-002..035 | Não iniciadas | Ordem de PLN-01 |
+| TAR-001 Repositório e ferramentas | **Concluída localmente** (commit `45c2a40`) | Por decisão do usuário (2026-10-26), o projeto segue **sem repositório remoto** por enquanto. Pendências: criar o repositório privado, enviar `main` e confirmar o CI verde (condição de avanço original) |
+| TAR-002 Pacote de domínio e parâmetros | **Concluída** (local) | `@forja/domain`: parâmetros (PRD-07 §11), enumerações e rótulos (TRN-01/03), faixas (RN-018/035), esquemas Zod (DAD-02), datas no fuso (RN-028), idade (RN-010), janela de edição (RN-027), relógio (RN-048), mensagens e formatos pt-BR (SEG-05, RNF-004). 31 testes; cobertura 100% linhas / 94,9% ramos (meta 90%). CA-221 atendido localmente |
+| TAR-003 Ambientes | Bloqueada | Exige contas no Supabase, Cloudflare e GitHub (ação do usuário) |
+| TAR-004..035 | Não iniciadas | TAR-004, 006, 007 dependem de TAR-003; TAR-005 pode seguir |

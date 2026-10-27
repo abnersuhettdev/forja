@@ -1,0 +1,8 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    // Sem tipos do Node: o domínio não pode depender de APIs de ambiente (rede, arquivos, relógio).
+    "types": []
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"]
+}
