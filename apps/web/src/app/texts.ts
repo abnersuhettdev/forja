@@ -73,6 +73,10 @@ export const TEXTS = {
       signOutBody:
         "Os dados do app serão removidos deste aparelho. Seus dados sincronizados continuam na sua conta e voltam no próximo login.",
       pendingRest: "As demais opções da Conta chegam na TAR‑011.",
+      unsentTitle: "Há registros não enviados",
+      unsentBody: (count: number) =>
+        `${count === 1 ? "1 registro ainda não foi enviado" : `${String(count)} registros ainda não foram enviados`}. Para não perdê-los, conecte-se e envie antes de sair. Nada foi removido deste aparelho.`,
+      sendNow: "Enviar agora",
     },
   },
   common: {

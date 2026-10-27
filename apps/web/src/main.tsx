@@ -9,6 +9,7 @@ import "@fontsource/barlow-semi-condensed/700.css";
 import "./design/global.css";
 import { AppShell } from "./app/AppShell.tsx";
 import { AuthProvider } from "./auth/AuthProvider.tsx";
+import { LocalDataProvider } from "./local/LocalDataProvider.tsx";
 import { SnackbarProvider } from "./components/Snackbar.tsx";
 import { applyThemePreference, readThemePreference } from "./design/theme.ts";
 
@@ -20,9 +21,11 @@ if (!root) throw new Error("Elemento raiz ausente.");
 createRoot(root).render(
   <StrictMode>
     <AuthProvider>
-      <SnackbarProvider>
-        <AppShell />
-      </SnackbarProvider>
+      <LocalDataProvider>
+        <SnackbarProvider>
+          <AppShell />
+        </SnackbarProvider>
+      </LocalDataProvider>
     </AuthProvider>
   </StrictMode>,
 );

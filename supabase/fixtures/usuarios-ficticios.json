@@ -15,6 +15,11 @@
       "email": "troca.webkit@exemplo.test",
       "senha": "Ficticia-troca-forja-01",
       "gestor": true
+    },
+    {
+      "email": "segunda.pessoa@exemplo.test",
+      "senha": "Ficticia-segunda-forja-01",
+      "gestor": true
     }
   ]
 }

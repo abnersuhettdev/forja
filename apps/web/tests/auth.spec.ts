@@ -141,7 +141,10 @@ test("sair sem pendências encerra a sessão e remove os dados locais (CA-002, R
 
   await expect(page).toHaveURL(/\/entrar$/);
   const stored = await page.evaluate(() => Object.keys(localStorage).sort());
-  expect(stored).toEqual(["forja.tema"]); // preferência do aparelho permanece
+  // Ficam só dados do aparelho: identidade aleatória (nome dos bancos) e tema.
+  expect(stored).toEqual(["forja.aparelho", "forja.tema"]);
+  const dbs = await page.evaluate(async () => (await indexedDB.databases()).map((d) => d.name));
+  expect(dbs.filter((name) => name?.startsWith("forja-u-"))).toEqual([]);
   await page.goto("/hoje");
   await expect(page).toHaveURL(/\/entrar$/);
 });

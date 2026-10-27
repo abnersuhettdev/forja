@@ -39,3 +39,10 @@ export const PENDING_DANGER_HOURS = 72;
 export const ESTIMATE_SECONDS_PER_SET = 45;
 export const ESTIMATE_TRANSITION_SECONDS = 60;
 export const ESTIMATE_ROUNDING_MINUTES = 5;
+/** UX-08 §6.3 — envio da fila: intervalos crescentes após falha temporária (depois, 5 min). */
+export const SYNC_RETRY_DELAYS_SECONDS = [5, 15, 60, 300] as const;
+/** UX-08 §6.3 — com o app aberto e pendências, tenta enviar a cada 60 s. */
+export const SYNC_INTERVAL_SECONDS = 60;
+/** DAD-04 §4.1 — até 100 operações por requisição; contrato inicial 1. */
+export const SYNC_BATCH_LIMIT = 100;
+export const SYNC_CONTRACT_VERSION = 1;

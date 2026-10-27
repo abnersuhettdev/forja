@@ -20,6 +20,7 @@ function user(email: string): FixtureUser {
 }
 
 export const MAIN_USER = user("pessoa.ficticia@exemplo.test");
+export const SECOND_USER = user("segunda.pessoa@exemplo.test");
 export const passwordChangeUser = (browserName: string) =>
   user(`troca.${browserName}@exemplo.test`);
 export const SESSION_FILE = new URL("./.auth/sessao.json", import.meta.url).pathname.replace(
