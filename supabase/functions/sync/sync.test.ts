@@ -1354,4 +1354,42 @@ describe("execução (API-008..014; CA-060, CA-063, CA-065, CA-067)", () => {
     expect(deleteAgain).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
     expect(setDeleted).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
   });
+
+  it("manter ambas limpa a marca de duplicidade; conflito de série traz os valores do servidor", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const first = randomUUID();
+    const second = randomUUID();
+    const a = startOp(me, first, w, new Date(NOW.getTime() - 30 * 60_000).toISOString());
+    const b = startOp(me, second, w, new Date(NOW.getTime() - 20 * 60_000).toISOString());
+    const setId = randomUUID();
+    const results = await send(me, [
+      a.op,
+      plain(me, "session.complete", first, 1, completion(NOW.toISOString(), 30)),
+      b.op,
+      setOp(me, setId, b.exercises[0]?.id ?? "", 1, 42.5),
+      plain(me, "session.complete", second, 1, completion(NOW.toISOString(), 20)),
+    ]);
+    expect(results.map((r) => r.status)).toEqual(Array(5).fill("accepted"));
+
+    const [keep] = await send(me, [
+      plain(me, "session.update", second, 2, { possible_duplicate_of: null }),
+    ]);
+    // Atividade técnica: a revisão não muda (confirmado na TAR-019).
+    expect(keep).toMatchObject({ status: "accepted", revision: 2 });
+    const [row] = await admin`
+      select possible_duplicate_of, duration_min from public.sessions where id = ${second}`;
+    expect(row).toMatchObject({ possible_duplicate_of: null, duration_min: 20 });
+
+    const [stale] = await send(me, [setOp(me, setId, b.exercises[0]?.id ?? "", 1, 50, 7)]);
+    expect(stale).toMatchObject({
+      status: "conflict",
+      server_record: { load_kg: 42.5, reps: 10, set_number: 1, revision: 1 },
+    });
+    const [sessionConflict] = await send(me, [plain(me, "session.update", second, 1, { rpe: 3 })]);
+    expect(sessionConflict).toMatchObject({
+      status: "conflict",
+      server_record: { id: second, status: "completed", duration_min: 20, revision: 2 },
+    });
+  });
 });

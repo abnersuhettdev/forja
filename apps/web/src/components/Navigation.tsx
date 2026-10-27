@@ -1,6 +1,7 @@
 import { NAV_ITEMS, isActive, type NavArea } from "../app/navigation.ts";
 import { Link } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { SyncIndicator } from "./SyncIndicator.tsx";
 import styles from "./Navigation.module.css";
 
 // UX-06 §3: cabeçalho, barra inferior (< 1024 px), trilho lateral (≥ 1024 px) e chave de área.
@@ -19,7 +20,10 @@ export function AppHeader({
       <h1 className={styles.title} tabIndex={-1}>
         {title}
       </h1>
-      {showAreaSwitch ? <AreaSwitch area={area} /> : null}
+      <div className={styles.headerActions}>
+        {showAreaSwitch ? <AreaSwitch area={area} /> : null}
+        <SyncIndicator />
+      </div>
     </header>
   );
 }

@@ -116,6 +116,42 @@ export function selectBatch(
   return { batch, ownerMismatch };
 }
 
+export interface OutboxSummary {
+  readonly total: number;
+  /** Recusados e conflitos: exigem ação do usuário (RN-051). */
+  readonly attention: number;
+  readonly sending: number;
+  readonly retrying: number;
+  readonly awaitingLogin: number;
+  /** Criação (ISO) da operação mais antiga ainda não confirmada; null = fila vazia. */
+  readonly oldestCreatedAt: string | null;
+}
+
+/**
+ * Resumo da fila para o indicador e os avisos (RN-051, UX-08 §7). As contagens são de
+ * registros do usuário, não de operações: `recordOf` agrupa (ex.: a sessão e suas séries).
+ */
+export function summarizeOutbox<T extends OutboxOperation>(
+  operations: readonly T[],
+  recordOf: (op: T) => string = (op) => op.entity_id,
+): OutboxSummary {
+  let oldest: string | null = null;
+  const records = (states?: readonly OutboxState[]) =>
+    new Set(
+      operations.filter((op) => states === undefined || states.includes(op.state)).map(recordOf),
+    ).size;
+  for (const op of operations)
+    if (oldest === null || op.created_at < oldest) oldest = op.created_at;
+  return {
+    total: records(),
+    attention: records(ACTION_REQUIRED_STATES),
+    sending: records(["sending"]),
+    retrying: records(["retry"]),
+    awaitingLogin: records(["awaiting_login"]),
+    oldestCreatedAt: oldest,
+  };
+}
+
 /** Instante (ms) da próxima tentativa automática pendente, se houver. */
 export function nextRetryAt(operations: readonly OutboxOperation[]): number | null {
   let earliest: number | null = null;

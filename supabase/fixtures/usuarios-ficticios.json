@@ -84,6 +84,18 @@
       "senha": "Ficticia-execucao-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "sincronia.chromium@exemplo.test",
+      "senha": "Ficticia-sincronia-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "sincronia.webkit@exemplo.test",
+      "senha": "Ficticia-sincronia-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

@@ -6,6 +6,8 @@ import type { LocalDatabase } from "../local/db.ts";
 import { enqueue, REWRITABLE_STATES } from "../local/outbox.ts";
 
 export const REST_UPDATE = "rest.update";
+/** Grupo local das alterações de descanso na tela de Sincronização. */
+export const REST_GROUP = "descanso";
 
 export interface RestOverride {
   readonly muscle_group_code: string;
@@ -65,6 +67,7 @@ export async function saveRest(
       ownerUserId,
       type: REST_UPDATE,
       entityId: current.student_id,
+      groupId: REST_GROUP,
       baseRevision: current.revision,
       payload,
     });

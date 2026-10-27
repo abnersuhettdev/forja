@@ -239,6 +239,7 @@ describe("download e última execução (API-R06, API-R07)", () => {
     notes: null,
     revision: 2,
     deleted_at: null,
+    workout: { name: "Treino A" },
     session_exercises: [
       {
         id: `${id}-se`,

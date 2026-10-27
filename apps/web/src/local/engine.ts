@@ -22,6 +22,9 @@ export interface SyncEngineOptions {
   readonly onChange?: () => void;
 }
 
+/** Meta do último envio confirmado pelo servidor. */
+export const LAST_SENT_KEY = "ultimo_envio";
+
 /** Limite de lotes por rodada, para não prender o aparelho em filas muito grandes. */
 const MAX_BATCHES_PER_RUN = 20;
 
@@ -106,10 +109,18 @@ export class SyncEngine {
       this.options.onChange?.();
       const outcome = await transport(buildSyncRequest(batch, deviceId, this.now()));
       await applyChanges(db, classifyOutcome(batch, outcome, this.now()));
+      // "Último envio às" (TELA-007): resposta com ao menos uma operação confirmada.
+      if (
+        outcome.kind === "response" &&
+        outcome.response.results.some((r) => r.status === "accepted" || r.status === "duplicate")
+      )
+        await writeMeta(db, LAST_SENT_KEY, new Date(this.now()).toISOString());
       this.options.onChange?.();
       if (outcome.kind !== "response") break;
     }
     await this.schedule();
+    // Também quando nada pôde ser enviado: a fila pode ter mudado por ação local.
+    this.options.onChange?.();
   }
 
   /** ADR-028 L3: nada é enviado; registra erro técnico sem dados pessoais. */

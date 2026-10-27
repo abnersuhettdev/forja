@@ -2,8 +2,12 @@ import Dexie, { type Table } from "dexie";
 import type { OutboxOperation } from "@forja/domain";
 import { LOCAL_SCHEMA, type LocalSchemaVersion } from "./schema.ts";
 
-/** Operação guardada: `seq` é atribuído pelo banco na inserção. */
-export type StoredOperation = Omit<OutboxOperation, "seq"> & { seq?: number };
+/**
+ * Operação guardada: `seq` é atribuído pelo banco na inserção. `group_id` é só local (nunca
+ * enviado): agrupa as operações de um mesmo registro do usuário (ex.: a sessão e suas séries)
+ * para descrevê-las e decidir sobre elas juntas na tela de Sincronização (TELA-007).
+ */
+export type StoredOperation = Omit<OutboxOperation, "seq"> & { seq?: number; group_id?: string };
 
 export interface MetaRecord {
   key: string;

@@ -35,11 +35,19 @@ interface SessionRow {
   status: string;
   started_at: Date;
   ended_at: Date | null;
+  duration_min: number | null;
+  rpe: number | null;
+  notes: string | null;
+  possible_duplicate_of: string | null;
   revision: number;
   deleted_at: Date | null;
 }
 
-const SESSION_COLUMNS = "id, student_id, status, started_at, ended_at, revision, deleted_at";
+/** Colunas devolvidas também em conflitos, para a comparação no aparelho (ConflictCompare). */
+const SESSION_COLUMNS = `id, student_id, status, started_at, ended_at, duration_min, rpe, notes,
+  possible_duplicate_of, revision, deleted_at`;
+const SET_COLUMNS = `revision, deleted_at, session_exercise_id, set_number, load_kg::float8 as load_kg,
+  reps, duration_s, completed_at`;
 
 /** Registro devolvido em conflitos, com horários em ISO (DAD-04 §4.2). */
 function record(row: object): Record<string, unknown> {
@@ -71,6 +79,8 @@ async function overlapping(
   const [other] = await tx<{ id: string }[]>`
     select id from public.sessions
     where student_id = ${studentId} and id <> ${sessionId} and deleted_at is null
+      -- O par é marcado uma vez só: ignora a sessão que já aponta para esta.
+      and possible_duplicate_of is distinct from ${sessionId}
       and started_at <= ${end}
       and coalesce(ended_at, last_activity_at) >= ${start}
     order by started_at
@@ -143,7 +153,7 @@ export const setUpsert: OperationHandler = async (tx, ctx) => {
   const [existing] = await tx<
     { revision: number; deleted_at: Date | null; session_exercise_id: string }[]
   >`
-    select revision, deleted_at, session_exercise_id from public.set_logs
+    select ${tx.unsafe(SET_COLUMNS)} from public.set_logs
     where id = ${ctx.entityId} for update`;
   let revision: number;
   if (!existing) {
@@ -263,6 +273,7 @@ export const sessionUpdate: OperationHandler = async (tx, ctx) => {
   const session = await lockedSession(tx, ctx);
   if (session.status !== "completed" && session.status !== "manual")
     throw rejected("VALIDATION_FAILED", { field: "status" });
+  const timesChanged = payload.started_at !== undefined || payload.ended_at !== undefined;
   const startedAt = payload.started_at ?? session.started_at.toISOString();
   const endedAt = payload.ended_at ?? session.ended_at?.toISOString() ?? startedAt;
   if (new Date(endedAt) < new Date(startedAt))
@@ -270,9 +281,13 @@ export const sessionUpdate: OperationHandler = async (tx, ctx) => {
   const [updated] = await tx<{ revision: number }[]>`
     update public.sessions
     set started_at = ${startedAt}, ended_at = ${endedAt},
-        duration_min = ${sessionDurationMinutes(startedAt, endedAt)},
+        duration_min = ${timesChanged ? sessionDurationMinutes(startedAt, endedAt) : tx`duration_min`},
         rpe = ${payload.rpe === undefined ? tx`rpe` : payload.rpe},
-        notes = ${payload.notes === undefined ? tx`notes` : payload.notes}
+        notes = ${payload.notes === undefined ? tx`notes` : payload.notes},
+        -- RN-045: "Manter ambas" só limpa a marca de possível duplicidade.
+        possible_duplicate_of = ${
+          payload.possible_duplicate_of === undefined ? tx`possible_duplicate_of` : null
+        }
     where id = ${session.id}
     returning revision`;
   return updated ? { revision: updated.revision } : {};

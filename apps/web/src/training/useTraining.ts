@@ -33,6 +33,7 @@ export type TrainingState =
       readonly week: readonly WeekDay[];
       /** Progresso da sessão em andamento do aparelho, se houver. */
       readonly active: ActiveProgress | null;
+      readonly sessionNames: ReadonlyMap<string, string>;
       readonly weights: readonly WeightRecord[];
       readonly updatedAt: string | undefined;
       readonly timeZone: string;
@@ -121,6 +122,7 @@ export function useTraining(): TrainingState {
       recommendation,
       week: weekMarkers(now, timeZone, inputs.sessions, inputs.profile.preferredWeekdays),
       active: inputs.sessions.active,
+      sessionNames: inputs.sessions.names,
       weights: offline.weights,
       updatedAt: offline.updatedAt,
       timeZone,

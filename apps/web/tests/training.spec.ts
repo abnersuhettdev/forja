@@ -3,6 +3,7 @@
 // CA-055). A sessão fictícia é gravada no servidor e chega ao aparelho pelo download (API-R06).
 import { expect, test, type Page } from "@playwright/test";
 import postgres from "postgres";
+import { toLocalDate, weekBounds } from "../../../packages/domain/src/index.ts";
 import { localStatus } from "../../../scripts/db/local.ts";
 import { trainingUser } from "./fixtures.ts";
 
@@ -100,7 +101,10 @@ async function signIn(page: Page, email: string, senha: string) {
   await expect(page).toHaveURL(/\/hoje$/);
 }
 
-/** Sessão concluída fictícia do Treino A no servidor, terminada há 20 h, com uma série de supino. */
+/**
+ * Sessão concluída fictícia do Treino A no servidor, terminada há 26 h (sempre antes de hoje,
+ * em qualquer horário do teste), com uma série de supino.
+ */
 async function addFinishedSessionA(program: Program, versionId: string) {
   await withDb(async (sql) => {
     const sessionId = crypto.randomUUID();
@@ -111,14 +115,14 @@ async function addFinishedSessionA(program: Program, versionId: string) {
          duration_min, last_activity_at, device_id)
       values
         (${sessionId}, ${program.studentId}, ${versionId}, ${program.workoutA}, 'completed',
-         now() - interval '20 hours 50 minutes', now() - interval '20 hours', 50,
-         now() - interval '20 hours', ${crypto.randomUUID()})`;
+         now() - interval '26 hours 50 minutes', now() - interval '26 hours', 50,
+         now() - interval '26 hours', ${crypto.randomUUID()})`;
     await sql`
       insert into public.session_exercises (id, session_id, exercise_id, position, status)
       values (${sessionExerciseId}, ${sessionId}, ${program.bench}, 1, 'done')`;
     await sql`
       insert into public.set_logs (id, session_exercise_id, set_number, load_kg, reps, completed_at)
-      values (${crypto.randomUUID()}, ${sessionExerciseId}, 1, 40, 10, now() - interval '20 hours')`;
+      values (${crypto.randomUUID()}, ${sessionExerciseId}, 1, 40, 10, now() - interval '26 hours')`;
   });
 }
 
@@ -155,26 +159,31 @@ test("Hoje recomenda o treino, respeita o descanso e a configuração por grupo"
     .boundingBox();
   expect((weightBox?.y ?? 0) + (weightBox?.height ?? 0)).toBeLessThanOrEqual(navBox?.y ?? 0);
 
-  // A feito há 20 h: B divide o peitoral (48 h) → descanso sugerido com horário (CT-REC-03).
+  // A feito há 26 h: B divide o peitoral (48 h) → descanso sugerido com horário (CT-REC-03).
   await addFinishedSessionA(program, program.versionId);
   await page.reload();
   await expect(page.getByText("Descanso sugerido")).toBeVisible();
   await expect(
-    page.getByText(/Próximo treino fica disponível (hoje|amanhã) às \d{2}:\d{2}/),
+    page.getByText(
+      /Próximo treino fica disponível (hoje|amanhã|[a-zç]{3}\., \d{1,2} [a-z]{3}\.) às \d{2}:\d{2}/,
+    ),
   ).toBeVisible();
-  await expect(page.getByText("1 de 3 treinos nesta semana")).toBeVisible();
+  // A sessão de 26 h atrás conta na semana, exceto no começo da segunda-feira.
+  const sessionDay = toLocalDate(new Date(Date.now() - 26.8 * 3_600_000), "America/Sao_Paulo");
+  const inWeek = sessionDay >= weekBounds(toLocalDate(new Date(), "America/Sao_Paulo")).start;
+  await expect(page.getByText(`${inWeek ? "1" : "0"} de 3 treinos nesta semana`)).toBeVisible();
 
   // Treinar mesmo assim: aviso não bloqueante que cita grupo, horas e descanso (CA-051).
   await page.getByRole("button", { name: "Treinar mesmo assim" }).click();
   const sheet = page.getByRole("dialog", { name: "Escolher treino" });
   await expect(sheet.getByText(/Feito neste ciclo \(\d{2}\/\d{2}\)/)).toBeVisible();
   const optionB = sheet.getByRole("button", { name: /Treino B/ });
-  await expect(optionB).toContainText("Peitoral treinado há 20 h · descanso configurado 48 h");
+  await expect(optionB).toContainText("Peitoral treinado há 26 h · descanso configurado 48 h");
   await optionB.click();
   await expect(sheet.getByText("Iniciar mesmo assim?")).toBeVisible();
   await expect(
     sheet.getByText(
-      "O Treino B trabalha peitoral, que você treinou há 20 h. Seu descanso configurado é 48 h.",
+      "O Treino B trabalha peitoral, que você treinou há 26 h. Seu descanso configurado é 48 h.",
     ),
   ).toBeVisible();
   await sheet.getByRole("button", { name: "Cancelar" }).click();
@@ -195,7 +204,7 @@ test("Hoje recomenda o treino, respeita o descanso e a configuração por grupo"
   await page.getByRole("link", { name: "Hoje" }).first().click();
   const heroB = page.getByRole("region", { name: "Treino B" });
   await expect(heroB).toBeVisible();
-  await expect(heroB).toContainText(/peitoral descansado há 20 h/);
+  await expect(heroB).toContainText(/peitoral descansado há 1 dia/);
 
   // O ajuste chegou ao servidor pela fila (API-007).
   await expect

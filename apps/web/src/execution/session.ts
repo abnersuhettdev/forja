@@ -22,6 +22,8 @@ export interface LocalSession {
   readonly last_activity_at: string;
   readonly rpe: number | null;
   readonly notes: string | null;
+  /** RN-045 — outra sessão com horário sobreposto (marca vinda do servidor). */
+  readonly possible_duplicate_of?: string | null;
   /** Nome do treino no início (RN-044: publicações posteriores não mudam a sessão). */
   readonly workout_name?: string;
   /** Revisão confirmada pelo servidor; ausente enquanto o início não foi aceito. */
@@ -165,6 +167,7 @@ export async function startSession(
       ownerUserId,
       type: "session.start",
       entityId: sessionId,
+      groupId: sessionId,
       baseRevision: null,
       payload: {
         program_version_id: version.id,
@@ -240,6 +243,7 @@ export async function saveSet(
         ownerUserId,
         type: "set.upsert",
         entityId: set.id,
+        groupId: sessionId,
         // Criação, ou correção sobre a revisão confirmada (1 se a criação ainda está indo).
         baseRevision: existing ? (existing.revision ?? 1) : null,
         payload,
@@ -256,9 +260,10 @@ export async function deleteSet(
   setId: string,
 ): Promise<void> {
   const t = tables(db);
-  await db.transaction("rw", [t.sets, db.outbox], async () => {
+  await db.transaction("rw", [t.sets, t.exercises, db.outbox], async () => {
     const set = await t.sets.get(setId);
     if (!set) return;
+    const parent = await t.exercises.get(set.session_exercise_id);
     await t.sets.delete(setId);
     const ops = await db.outbox.where("entity_id").equals(setId).toArray();
     const removable = ops.filter((op) => REWRITABLE_STATES.has(op.state));
@@ -269,6 +274,7 @@ export async function deleteSet(
         ownerUserId,
         type: "set.delete",
         entityId: setId,
+        ...(parent ? { groupId: parent.session_id } : {}),
         baseRevision: set.revision ?? 1,
         payload: {},
       });
@@ -297,6 +303,7 @@ export async function updateSessionExercise(
       ownerUserId,
       type: "session_exercise.update",
       entityId: exerciseId,
+      groupId: current.session_id,
       baseRevision: current.revision ?? 1,
       payload: change,
     });
@@ -338,6 +345,7 @@ export async function completeSession(
       ownerUserId,
       type: "session.complete",
       entityId: sessionId,
+      groupId: sessionId,
       baseRevision: session.revision ?? 1,
       payload: {
         ended_at: endedAt,
@@ -380,6 +388,7 @@ export async function discardSession(
         ownerUserId,
         type: "session.delete",
         entityId: sessionId,
+        groupId: sessionId,
         baseRevision: bundle.session.revision ?? 1,
         payload: {},
       });

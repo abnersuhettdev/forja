@@ -47,6 +47,7 @@ export function summarizeWorkout(
 interface StoredSession {
   id: string;
   workout_id: string;
+  workout_name?: string;
   status: SessionStatus;
   started_at: string;
   ended_at: string | null;
@@ -71,6 +72,8 @@ export interface LocalSessions {
   readonly pendingIds: ReadonlySet<string>;
   /** Progresso da sessão em andamento do aparelho ("9 de 18 séries"). */
   readonly active: ActiveProgress | null;
+  /** Nome do treino guardado em cada sessão (vale mesmo se o programa mudou — RN-044). */
+  readonly names: ReadonlyMap<string, string>;
 }
 
 export interface ActiveProgress {
@@ -119,6 +122,7 @@ export async function readLocalSessions(
         ),
       })),
     pendingIds: new Set(outbox.map((op) => op.entity_id)),
+    names: new Map(sessions.flatMap((s) => (s.workout_name ? [[s.id, s.workout_name]] : []))),
     active: active
       ? {
           sessionId: active.id,

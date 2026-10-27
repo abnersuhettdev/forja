@@ -38,3 +38,5 @@ export const SESSION_FILE = new URL("./.auth/sessao.json", import.meta.url).path
 export const trainingUser = (browserName: string) => user(`treino.${browserName}@exemplo.test`);
 /** Aluno com programa para os testes de execução (um por navegador). */
 export const executionUser = (browserName: string) => user(`execucao.${browserName}@exemplo.test`);
+/** Aluno dos testes de sincronização, com dois aparelhos simulados (um por navegador). */
+export const syncUser = (browserName: string) => user(`sincronia.${browserName}@exemplo.test`);

@@ -9,6 +9,7 @@ import { FormField, TextInput } from "../components/FormField.tsx";
 import { Sheet } from "../components/Sheet.tsx";
 import { useSnackbar } from "../components/Snackbar.tsx";
 import { Stepper } from "../components/Stepper.tsx";
+import { SyncIndicator } from "../components/SyncIndicator.tsx";
 import { restFinishedAlert, useNow, useWakeLock } from "../execution/device.ts";
 import { completeSession, type LocalSet } from "../execution/session.ts";
 import {
@@ -261,6 +262,7 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
             {T.progress(currentIndex + 1, exercises.length)}
           </span>
         </div>
+        <SyncIndicator compact />
         <IconButton
           label={T.menu}
           icon={<MoreVertical size={24} />}

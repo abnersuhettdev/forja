@@ -7,8 +7,11 @@ import {
   type WorkoutStatus,
 } from "@forja/domain";
 import { Button } from "../components/Button.tsx";
+import { SYNC_PATH } from "../components/SyncIndicator.tsx";
+import { useLocalData } from "../local/LocalDataProvider.tsx";
+import { pendingAge } from "../sync/status.ts";
 import { ExerciseImage } from "../components/ExerciseImage.tsx";
-import { EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
+import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { Sheet } from "../components/Sheet.tsx";
 import { itemSummary } from "../program/editor.ts";
 import { formatUpdatedAt } from "./CatalogScreen.tsx";
@@ -83,6 +86,31 @@ function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element
   return { training };
 }
 
+/** UX-08 §7 — pendências com mais de 24 h (aviso) ou 72 h (perigo); toque abre a Sincronização. */
+function OldPendingBanner({ now, timeZone }: { now: Date; timeZone: string }) {
+  const local = useLocalData();
+  const oldest = local?.outbox.oldestCreatedAt ?? null;
+  const age = pendingAge(oldest, now);
+  if (age === "none" || oldest === null) return null;
+  return (
+    <Banner
+      tone={age === "danger" ? "danger" : "warning"}
+      action={
+        <Button
+          variant="ghost"
+          onClick={() => {
+            navigate(SYNC_PATH);
+          }}
+        >
+          {TEXTS.account.sync}
+        </Button>
+      }
+    >
+      {TEXTS.sync.oldPending(formatShortDate(toLocalDate(new Date(oldest), timeZone)))}
+    </Banner>
+  );
+}
+
 function OfflineStamp({ updatedAt }: { updatedAt: string | undefined }) {
   const stamp = formatUpdatedAt(updatedAt);
   return stamp ? <p className={shared.muted}>{stamp}</p> : null;
@@ -101,6 +129,7 @@ export function TodayScreen() {
   return (
     <div className={styles.todayScreen}>
       <p className={styles.date}>{formatDay(today)}</p>
+      <OldPendingBanner now={training.now} timeZone={training.timeZone} />
       <HeroCard
         training={training}
         onStart={(workoutId) => void start(workoutId)}
@@ -139,12 +168,15 @@ function HeroCard({
   const byId = new Map(workouts.map((w) => [w.id, w]));
   const next = rec.next ? byId.get(rec.next.workoutId) : undefined;
   const state = rec.state;
+  /** Nome do treino da sessão: do programa atual ou o guardado na própria sessão. */
+  const sessionName = (s: { workoutId: string; sessionId: string }) =>
+    byId.get(s.workoutId)?.name ?? training.sessionNames.get(s.sessionId) ?? "";
 
   if (state.kind === "continue") {
     return (
       <section className={styles.hero} aria-labelledby="hero-title">
         <h2 id="hero-title" className={styles.heroTitle}>
-          {T.inProgressTitle(byId.get(state.workoutId)?.name ?? "")}
+          {T.inProgressTitle(sessionName(state))}
         </h2>
         {training.active ? (
           <p className={styles.heroText}>
@@ -177,7 +209,7 @@ function HeroCard({
     return (
       <section className={styles.hero} aria-labelledby="hero-title">
         <h2 id="hero-title" className={styles.heroTitle}>
-          {T.completedToday(byId.get(state.workoutId)?.name ?? "")}
+          {T.completedToday(sessionName(state))}
         </h2>
         {next ? <p className={styles.heroText}>{T.nextUp(next.name)}</p> : null}
         <div className={styles.heroActions}>

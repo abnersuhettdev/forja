@@ -64,13 +64,15 @@ export const sessionCompletePayloadSchema = z.strictObject({
   notes,
 });
 
-/** API-013 `session.update` (horários, PSE e observação de sessão concluída — RF-069). */
+/** API-013 `session.update` (horários, PSE e observação de sessão concluída — RF-069; RN-045). */
 export const sessionUpdatePayloadSchema = z
   .strictObject({
     started_at: instant.optional(),
     ended_at: instant.optional(),
     rpe: inRange("rpe").nullable().optional(),
     notes: notes.optional(),
+    /** RN-045 — "Manter ambas": apenas limpa a marca de possível duplicidade. */
+    possible_duplicate_of: z.null().optional(),
   })
   .refine((p) => Object.keys(p).length > 0, { message: "Nada a alterar." });
 

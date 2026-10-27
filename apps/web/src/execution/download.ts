@@ -22,6 +22,7 @@ interface ExerciseRow extends Omit<LocalSessionExercise, "planned_sets"> {
 
 interface SessionRow extends LocalSession {
   session_exercises: ExerciseRow[];
+  workout: { name: string } | null;
 }
 
 export interface SessionData {
@@ -30,7 +31,7 @@ export interface SessionData {
 }
 
 const SESSION_SELECT = `id, program_version_id, workout_id, status, started_at, ended_at, duration_min,
-  last_activity_at, rpe, notes, revision, deleted_at,
+  last_activity_at, rpe, notes, possible_duplicate_of, revision, deleted_at, workout:workouts(name),
   session_exercises(id, session_id, workout_item_id, exercise_id, position, status, revision,
     deleted_at, set_logs(id, session_exercise_id, set_number, load_kg, reps, duration_s,
     completed_at, revision, deleted_at))`;
@@ -103,8 +104,8 @@ export async function mergeSessionData(db: LocalDatabase, data: SessionData): Pr
 
     for (const row of data.sessions) {
       if (keep.has(row.id) || row.deleted_at) continue;
-      const { session_exercises: rowExercises, ...session } = row;
-      await sessions.put(session);
+      const { session_exercises: rowExercises, workout, ...session } = row;
+      await sessions.put({ ...session, workout_name: workout?.name ?? "" });
       for (const { set_logs: rowSets, deleted_at, ...exercise } of rowExercises) {
         if (deleted_at) continue;
         const live = rowSets.filter((s) => !s.deleted_at);

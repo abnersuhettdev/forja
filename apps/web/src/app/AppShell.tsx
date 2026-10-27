@@ -21,6 +21,7 @@ import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
 import { RestScreen } from "../screens/RestScreen.tsx";
+import { SyncScreen } from "../screens/SyncScreen.tsx";
 import { CompleteScreen } from "../screens/CompleteScreen.tsx";
 import { ExecutionScreen } from "../screens/ExecutionScreen.tsx";
 import { TodayScreen, WorkoutScreen, WorkoutsScreen } from "../screens/TrainingScreens.tsx";
@@ -40,6 +41,7 @@ interface ScreenProps {
 
 const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-006": RestScreen,
+  "TELA-007": SyncScreen,
   "TELA-010": TodayScreen,
   "TELA-012": WorkoutsScreen,
   "TELA-013": WorkoutScreen,

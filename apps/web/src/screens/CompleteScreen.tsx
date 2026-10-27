@@ -14,6 +14,7 @@ import {
 } from "../execution/session.ts";
 import { readMeta, writeMeta } from "../local/db.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
+import { requestPersistentStorage } from "../local/persistent-storage.ts";
 import { formatKg } from "../training/format.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -143,6 +144,8 @@ export function CompleteScreen() {
       });
       await writeMeta(db, SUMMARY_KEY, done.id);
       void local.engine.syncNow();
+      // UX-08 §7: proteção contra limpeza automática após a sessão concluída (onde houver).
+      void requestPersistentStorage(db).catch(() => undefined);
       const updated = await readSession(db, done.id);
       if (updated)
         setView({ kind: "summary", bundle: updated, pending: await hasPendingOps(db, updated) });

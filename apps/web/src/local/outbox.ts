@@ -8,6 +8,8 @@ export interface NewOperation {
   readonly entityId: string;
   readonly baseRevision: number | null;
   readonly payload: Readonly<Record<string, unknown>>;
+  /** Agrupamento local para a tela de Sincronização (ver StoredOperation). */
+  readonly groupId?: string;
 }
 
 /** Acrescenta uma operação à fila. Chame dentro da mesma transação da gravação local. */
@@ -28,14 +30,17 @@ export async function enqueue(
     state: "pending",
     next_attempt_at: null,
     last_error: null,
+    ...(operation.groupId === undefined ? {} : { group_id: operation.groupId }),
   };
   const seq = await db.outbox.add(stored);
   return { ...stored, seq };
 }
 
-export async function listOutbox(db: LocalDatabase): Promise<OutboxOperation[]> {
+export type QueuedOperation = OutboxOperation & { readonly group_id?: string };
+
+export async function listOutbox(db: LocalDatabase): Promise<QueuedOperation[]> {
   const rows = await db.outbox.orderBy("seq").toArray();
-  return rows.filter((row): row is OutboxOperation => row.seq !== undefined);
+  return rows.filter((row): row is QueuedOperation => row.seq !== undefined);
 }
 
 export async function markState(
