@@ -61,8 +61,8 @@ export function ExerciseScreen({
     <article className={styles.stack}>
       <ExerciseImage images={exercise.images} />
       <h2 className={styles.exerciseName}>{exercise.name}</h2>
-      {/* Variante Gestão (TELA-014): editar o personalizado; a política do banco limita ao dono. */}
-      {area === "gestao" && exercise.origin === "custom" ? (
+      {/* Variante Gestão (TELA-014): editar personalizado ou corrigir importado (ADR-091). */}
+      {area === "gestao" ? (
         <Button
           icon={<Pencil size={20} />}
           onClick={() => {

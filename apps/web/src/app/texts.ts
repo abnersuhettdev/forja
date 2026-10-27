@@ -193,8 +193,8 @@ export const TEXTS = {
     pickOne: "Escolha ao menos uma opção.",
     stepLength: "Cada passo precisa ter de 3 a 240 caracteres.",
     overlap: "Um grupo não pode ser principal e auxiliar ao mesmo tempo.",
-    importedPending:
-      "A correção de exercícios importados aguarda uma decisão sobre quem pode alterar o catálogo comum.",
+    importedNotice: (source: string) =>
+      `Importado de ${source}. Suas correções ficam registradas e a fonte original é preservada. Só nome, instruções e dicas podem ser corrigidos.`,
   },
   common: {
     cancel: "Cancelar",

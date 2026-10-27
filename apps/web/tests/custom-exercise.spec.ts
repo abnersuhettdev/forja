@@ -97,3 +97,54 @@ test("gestão cria e edita exercício personalizado; nome repetido é recusado (
     page.getByRole("list", { name: "Catálogo" }).getByRole("link", { name: new RegExp(name) }),
   ).toBeVisible();
 });
+
+test("gestão corrige texto de importado e a fonte original é preservada (CA-032, ADR-091)", async ({
+  page,
+  browserName,
+}) => {
+  test.setTimeout(90_000);
+  // Um exercício por navegador (rodam em paralelo); restaurado antes e depois.
+  const sourceRef = browserName === "chromium" ? "Concentration_Curls" : "Hammer_Curls";
+  const sql = postgres(localStatus().DB_URL, { onnotice: () => undefined });
+  const restore = () => sql`
+    update public.exercises set
+      name = coalesce(original_text ->> 'name', name),
+      instructions = coalesce(original_text -> 'instructions', instructions),
+      safety_tips = coalesce(original_text -> 'safety_tips', safety_tips),
+      original_text = null, edited_by_manager_at = null
+    where origin = 'imported' and source_ref = ${sourceRef}`;
+  try {
+    await restore();
+    const [row] = await sql<{ name: string }[]>`
+      select name from public.exercises where source_ref = ${sourceRef}`;
+    const original = row?.name ?? "";
+
+    await login(page);
+    await page.goto("/gestao/catalogo");
+    await page.getByLabel("Buscar por nome").fill(original);
+    await page
+      .getByRole("list", { name: "Catálogo" })
+      .getByRole("link", { name: new RegExp(original) })
+      .click();
+    await page.getByRole("button", { name: "Editar" }).click();
+    await expect(page.getByText(/Importado de free-exercise-db/)).toBeVisible();
+    await expect(page.getByRole("group", { name: /Grupos principais/ })).toHaveCount(0);
+
+    await page.getByLabel("Nome", { exact: true }).fill(`${original} (corrigido)`);
+    await page.getByLabel("Passo 1", { exact: true }).fill("Passo corrigido pelo gestor no teste.");
+    await page.getByRole("button", { name: "Salvar exercício" }).click();
+    await expect(
+      page.getByRole("heading", { level: 2, name: `${original} (corrigido)` }),
+    ).toBeVisible();
+    await expect(
+      page.getByText("Texto editado na gestão; o original da fonte foi preservado."),
+    ).toBeVisible();
+
+    const [saved] = await sql<{ original: string }[]>`
+      select original_text ->> 'name' as original from public.exercises where source_ref = ${sourceRef}`;
+    expect(saved?.original).toBe(original);
+  } finally {
+    await restore();
+    await sql.end();
+  }
+});

@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-27 (ADR-090) |
+| Última atualização | 2026-10-27 (ADR-091) |
 
 ## 1. Objetivo
 
@@ -81,8 +81,9 @@ Registrar decisões relevantes com contexto, alternativas, justificativa e conse
 | ADR-075 | Pipeline de CI/CD e ordem de publicação | Processo | 6 | **Aprovada** | Não |
 | ADR-080 | Ordem de implementação e incrementos do Lançamento 1 | Processo | 7 | **Aprovada** | Não |
 | ADR-090 | Adiantar TAR-004 e seguintes no ambiente local enquanto as contas não existem | Processo | 9 | **Aprovada** | Não |
+| ADR-091 | Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado) | Produto/Segurança | 9 | **Aprovada** | Não |
 
-Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usada: 090).
+Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usadas: 090, 091).
 
 ---
 
@@ -633,6 +634,15 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
   4. A ordem do PLN-01 não muda; só o pré-requisito "TAR-003" passa a ser satisfeito provisoriamente pelo ambiente local.
   5. O CI remoto só executará os testes de banco quando houver repositório; até lá, rodam localmente.
 
+## ADR-091 — Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado)
+
+- **Tipo:** Produto/Segurança · **Status:** Aprovada (2026-10-27 — "Aprovo a opção A: a correção de importados altera o exercício comum, permitida enquanto ter_enabled for falso, com original preservado; registre como ADR e reveja no GATE-TER.") · **Data:** 2026-10-27
+- **Contexto:** RF-032 e API-020 permitem ao gestor corrigir nome, instruções e dicas de exercício importado, preservando o texto original (DAD-02 já prevê `original_text` e `edited_by_manager_at` em `exercises`). DAD-03 §7.2 dizia que importados são escritos somente por migrações, porque são linhas globais, comuns a todos os gestores. Divergência encontrada na TAR-014.
+- **Alternativas:** (a) a correção altera o exercício comum, permitida só enquanto `ter_enabled` for falso (um único gestor), com o texto original preservado; (b) correção por gestor em tabela própria, sem tocar no exercício comum; (c) correções só por nova versão do seed.
+- **Decisão:** (a). O papel de sincronização pode atualizar **apenas** nome, instruções e dicas de um importado, quando o ator é gestor e `ter_enabled` é falso; na primeira correção, o texto da fonte fica em `original_text` e nunca é sobrescrito; `edited_by_manager_at` marca a correção ("editado" no detalhe). Um gatilho recusa qualquer outra alteração em importados pela sincronização.
+- **Justificativa:** segue o modelo já aprovado (DAD-02), é a opção mais simples e, na modalidade PES, não há outro gestor afetado.
+- **Consequências:** DAD-03 §7.2 ajustada; **revisão obrigatória no GATE-TER** (com mais de um gestor, a correção afetaria todos — reavaliar (b)); um seed futuro do catálogo não deve sobrescrever importados com `edited_by_manager_at` preenchido sem decisão explícita.
+
 ## Histórico
 
 | Data | Alteração |
@@ -658,3 +668,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-26 | ADR-080 aprovada pelo usuário. |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): parâmetro da ADR-028 L6 atualizado com o valor aprovado na ADR-070 (sem mudança de decisão). |
 | 2026-10-27 | ADR-090 criada e aprovada pelo usuário (Supabase local para adiantar TAR-004 e seguintes). |
+| 2026-10-27 | ADR-091 criada e aprovada pelo usuário (correção de importados no exercício comum, só com GATE-TER fechado). |

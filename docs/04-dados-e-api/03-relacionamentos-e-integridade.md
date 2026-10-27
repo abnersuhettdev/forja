@@ -87,7 +87,7 @@ Implementadas como `check` em todas as colunas listadas em DAD-02 (ex.: `weight_
 |---|---|---|
 | `students`, `training_profiles`, `assessments`, `weight_entries`, `body_measurements`, `reassessment_postponements`, `rest_settings`, `rest_overrides`, `sessions`, `session_exercises`, `set_logs` | `is_own_student` **ou** `manages_student`; registros com `deleted_at` só pelo próprio aluno (para reconciliação) | **Somente** papel de sincronização (ADR-050), com a mesma condição aplicada a `current_actor()`; gestão de programas só por `manages_student` |
 | `programs`, `program_versions`, `workouts`, `workout_items` | Aluno: apenas versões `active`/`archived` (RN-005, rascunho invisível); gestor: todas | Somente papel de sincronização; apenas o gestor do aluno |
-| `exercises` e tabelas do catálogo | Importados: todos os autenticados; personalizados: o gestor dono e seus alunos | Importados: somente migrações; personalizados: papel de sincronização, gestor dono |
+| `exercises` e tabelas do catálogo | Importados: todos os autenticados; personalizados: o gestor dono e seus alunos | Importados: migrações; **correção** de nome, instruções e dicas pelo papel de sincronização, por gestor, só com `ter_enabled` falso e original preservado (ADR-091); personalizados: papel de sincronização, gestor dono |
 | `content_sources`, `muscle_groups`, `equipment` | Todos os autenticados | Somente migrações |
 | `sync_operations`, `audit_events`, `client_error_reports`, `system_settings` | Nenhuma leitura pelo app (exceto `system_settings.ter_enabled`) | Somente papel de sincronização / migrações |
 
@@ -120,3 +120,4 @@ Implementadas como `check` em todas as colunas listadas em DAD-02 (ex.: `weight_
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 4). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 4). |
+| 2026-10-27 | §7.2: correção de importados pela sincronização (ADR-091, aprovada pelo usuário). |

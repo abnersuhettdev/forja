@@ -585,7 +585,7 @@ describe("exercício personalizado (API-020, RF-032)", () => {
     expect(results[0]).toMatchObject({ status: "rejected", error: { code: "NAME_TAKEN" } });
   });
 
-  it("outro gestor não edita nem vê; importado não é editável por esta operação", async () => {
+  it("outro gestor não edita nem vê; importado não aceita campos de personalizado", async () => {
     const owner = await fictitiousUser();
     const intruder = await fictitiousUser();
     const id = randomUUID();
@@ -616,7 +616,8 @@ describe("exercício personalizado (API-020, RF-032)", () => {
         payload: exercisePayload(),
       },
     ]);
-    expect(onImported).toMatchObject({ status: "rejected", error: { code: "FORBIDDEN_ROLE" } });
+    // Em importado só nome, instruções e dicas (ADR-091): o restante é recusado na validação.
+    expect(onImported).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
   });
 
   it("conteúdo inválido aponta o campo; sem papel de gestão é recusado", async () => {
@@ -643,5 +644,97 @@ describe("exercício personalizado (API-020, RF-032)", () => {
       },
     ]);
     expect(forbidden).toMatchObject({ status: "rejected", error: { code: "FORBIDDEN_ROLE" } });
+  });
+});
+
+describe("correção de importado (API-020, ADR-091)", () => {
+  /** Exercício importado usado só por este bloco; restaurado ao fim. */
+  async function pickImported(): Promise<{ id: string; name: string; instructions: string[] }> {
+    const [row] = await admin<{ id: string; name: string; instructions: string[] }[]>`
+      select id, name, instructions from public.exercises
+      where origin = 'imported' and source_ref = 'Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench'
+      limit 1`;
+    if (!row) throw new Error("exercício importado de teste ausente");
+    return row;
+  }
+
+  async function restore(id: string) {
+    await admin`
+      update public.exercises set
+        name = coalesce(original_text ->> 'name', name),
+        instructions = coalesce(original_text -> 'instructions', instructions),
+        safety_tips = coalesce(original_text -> 'safety_tips', safety_tips),
+        original_text = null, edited_by_manager_at = null
+      where id = ${id}`;
+  }
+
+  const correction = (name: string) => ({
+    name,
+    instructions: ["Passo corrigido pelo gestor."],
+    safety_tips: ["Dica corrigida."],
+  });
+
+  it("corrige nome, instruções e dicas e preserva o texto original da fonte", async () => {
+    const me = await fictitiousUser();
+    const target = await pickImported();
+    try {
+      const fix = (name: string) =>
+        send(me, [
+          {
+            owner_user_id: me.userId,
+            type: "exercise.update",
+            entity_id: target.id,
+            payload: correction(name),
+          },
+        ]);
+      expect((await fix("Rosca de punho inversa (corrigida)"))[0]).toMatchObject({
+        status: "accepted",
+      });
+      expect((await fix("Rosca de punho inversa (2ª correção)"))[0]).toMatchObject({
+        status: "accepted",
+      });
+      const [row] = await admin`
+        select name, instructions, original_text, edited_by_manager_at is not null as edited,
+               difficulty, origin
+        from public.exercises where id = ${target.id}`;
+      expect(row).toMatchObject({
+        name: "Rosca de punho inversa (2ª correção)",
+        instructions: ["Passo corrigido pelo gestor."],
+        edited: true,
+        origin: "imported",
+        // O original é o da fonte, não o da primeira correção.
+        original_text: { name: target.name, instructions: target.instructions },
+      });
+    } finally {
+      await restore(target.id);
+    }
+  });
+
+  it("com GATE-TER aberto, ou sem papel de gestão, a correção é recusada", async () => {
+    const target = await pickImported();
+    const manager = await fictitiousUser();
+    const noManager = await fictitiousUser(false);
+    const op = (who: Identity) => ({
+      owner_user_id: who.userId,
+      type: "exercise.update",
+      entity_id: target.id,
+      payload: correction("Não deveria mudar"),
+    });
+    try {
+      expect((await send(noManager, [op(noManager)]))[0]).toMatchObject({
+        status: "rejected",
+        error: { code: "FORBIDDEN_ROLE" },
+      });
+      await admin`update public.system_settings set value = 'true'::jsonb where key = 'ter_enabled'`;
+      expect((await send(manager, [op(manager)]))[0]).toMatchObject({
+        status: "rejected",
+        error: { code: "FORBIDDEN_ROLE" },
+      });
+    } finally {
+      await admin`update public.system_settings set value = 'false'::jsonb where key = 'ter_enabled'`;
+      await restore(target.id);
+    }
+    const [row] = await admin`select name from public.exercises where id = ${target.id}`;
+    expect(row?.name).toBe(target.name);
   });
 });

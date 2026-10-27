@@ -1,7 +1,7 @@
 -- Catálogo (TAR-013): seed, integridade e visibilidade (DAD-03 §3 e §7.2, RN-036, RN-037).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(14);
+select plan(17);
 
 select is(
   (select count(*)::int from public.exercises where origin = 'imported' and active),
@@ -59,6 +59,20 @@ grant all on all sequences in schema pg_temp to sync_writer;
 set local role sync_writer;
 set local app.actor_id = '00000000-0000-4000-8000-00000000000a';
 select is((select count(*)::int from public.exercises), 111, 'sincronização por A vê importados e o próprio');
+-- ADR-091: correção de importado só em nome, instruções e dicas; original preservado.
+select throws_ok(
+  $$ update public.exercises set difficulty = 'advanced'
+     where origin = 'imported' and source_ref = 'Barbell_Squat' $$,
+  'P0001', 'FORBIDDEN_ROLE', 'sincronização não altera outros campos de importado');
+update public.exercises set name = 'Agachamento corrigido'
+  where origin = 'imported' and source_ref = 'Barbell_Squat';
+reset role;
+select results_eq(
+  $$ select name, original_text ->> 'name', edited_by_manager_at is not null
+     from public.exercises where source_ref = 'Barbell_Squat' $$,
+  $$ values ('Agachamento corrigido', 'Agachamento livre com barra', true) $$,
+  'correção guarda o original da fonte e marca a edição');
+set local role sync_writer;
 set local app.actor_id = '';
 select is((select count(*)::int from public.exercises), 0, 'sincronização sem ator não vê o catálogo');
 reset role;
@@ -77,6 +91,9 @@ select throws_ok(
   $$ insert into public.exercises (id, origin, manager_id, name, instructions, difficulty, measure_type, movement_pattern)
      values (gen_random_uuid(), 'custom', '10000000-0000-4000-8000-00000000000b', 'Direto', '["x"]', 'beginner', 'reps', 'squat') $$,
   '42501', null, 'escrita direta no catálogo pela API de dados é recusada');
+select throws_ok(
+  $$ update public.exercises set name = 'Direto' where origin = 'imported' $$,
+  '42501', null, 'correção direta de importado pela API de dados é recusada');
 reset role;
 
 select * from finish();

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import {
   customExercisePayloadSchema,
+  importedCorrectionPayloadSchema,
   DIFFICULTIES,
   DIFFICULTY_LABELS,
   EQUIPMENT,
@@ -14,6 +15,7 @@ import {
   MUSCLE_GROUPS,
   SYNC_CONTRACT_VERSION,
   type CustomExercisePayload,
+  type ImportedCorrectionPayload,
   type Difficulty,
   type Equipment,
   type MeasureType,
@@ -64,18 +66,27 @@ function fromExercise(exercise: CatalogExercise | undefined): FormState {
 type Errors = Partial<Record<keyof CustomExercisePayload | "form", string>>;
 
 /** Validação no app com o mesmo esquema da função (ADR-034), com mensagens por campo. */
-function validate(form: FormState): { payload: CustomExercisePayload | null; errors: Errors } {
-  const result = customExercisePayloadSchema.safeParse({
+function validate(
+  form: FormState,
+  imported: boolean,
+): { payload: CustomExercisePayload | ImportedCorrectionPayload | null; errors: Errors } {
+  const texts = {
     name: form.name,
-    primary_muscles: form.primary,
-    secondary_muscles: form.secondary,
-    equipment: form.equipment,
-    difficulty: form.difficulty,
-    measure_type: form.measure,
-    movement_pattern: form.pattern === "" ? undefined : form.pattern,
     instructions: form.instructions.map((s) => s.trim()).filter((s) => s !== ""),
     safety_tips: form.tips.map((s) => s.trim()).filter((s) => s !== ""),
-  });
+  };
+  // Importado: só nome, instruções e dicas (ADR-091).
+  const result = imported
+    ? importedCorrectionPayloadSchema.safeParse(texts)
+    : customExercisePayloadSchema.safeParse({
+        ...texts,
+        primary_muscles: form.primary,
+        secondary_muscles: form.secondary,
+        equipment: form.equipment,
+        difficulty: form.difficulty,
+        measure_type: form.measure,
+        movement_pattern: form.pattern === "" ? undefined : form.pattern,
+      });
   if (result.success) return { payload: result.data, errors: {} };
   const errors: Errors = {};
   for (const issue of result.error.issues) {
@@ -154,8 +165,8 @@ function StepList({
 }
 
 // TELA-036 — Criar/editar exercício personalizado (RF-032, RN-036, RN-037). A edição exige
-// conexão (RF-093) e envia API-020 direto à função. Correção de importados: ver
-// T.importedPending (decisão pendente sobre DAD-03 §7.2).
+// conexão (RF-093) e envia API-020 direto à função. Em importados, só nome, instruções e
+// dicas, com o texto da fonte preservado pelo banco (ADR-091).
 export function ExerciseFormScreen({ params }: { params: Readonly<Record<string, string>> }) {
   const editingId = params.id;
   const { state, reload } = useCatalog();
@@ -167,7 +178,6 @@ export function ExerciseFormScreen({ params }: { params: Readonly<Record<string,
   const exercise = state.exercises.find((e) => e.id === editingId);
   if (!exercise)
     return <ErrorState title={TEXTS.catalog.notFound} description={TEXTS.catalog.notFoundHint} />;
-  if (exercise.origin !== "custom") return <Banner tone="info">{T.importedPending}</Banner>;
   return <ExerciseForm key={exercise.id} exercise={exercise} onSaved={reload} />;
 }
 
@@ -181,6 +191,7 @@ function ExerciseForm({
   const local = useLocalData();
   const online = useOnline();
   const show = useSnackbar();
+  const imported = exercise?.origin === "imported";
   const [form, setForm] = useState<FormState>(() => fromExercise(exercise));
   const [entityId] = useState(() => exercise?.id ?? crypto.randomUUID());
   // Mesmo op_id até uma recusa: reenviar depois de uma resposta perdida não duplica.
@@ -192,7 +203,7 @@ function ExerciseForm({
   };
 
   async function submit() {
-    const { payload, errors: found } = validate(form);
+    const { payload, errors: found } = validate(form, imported);
     setErrors(found);
     if (payload === null || local === null) return;
     if (!online) {
@@ -272,79 +283,85 @@ function ExerciseForm({
           />
         )}
       </FormField>
-      <ChoiceGroup<MuscleGroup>
-        legend={T.primary}
-        multiple
-        layout="row"
-        options={muscleOptions}
-        value={form.primary}
-        onChange={(primary) => {
-          set({ primary });
-        }}
-      />
-      {errors.primary_muscles ? (
-        <p className={styles.fieldError}>{errors.primary_muscles}</p>
-      ) : null}
-      <ChoiceGroup<MuscleGroup>
-        legend={T.secondary}
-        multiple
-        layout="row"
-        options={muscleOptions}
-        value={form.secondary}
-        onChange={(secondary) => {
-          set({ secondary });
-        }}
-      />
-      {errors.secondary_muscles ? (
-        <p className={styles.fieldError}>{errors.secondary_muscles}</p>
-      ) : null}
-      <ChoiceGroup<Equipment>
-        legend={T.equipment}
-        multiple
-        layout="row"
-        options={EQUIPMENT.map((value) => ({ value, label: EQUIPMENT_LABELS[value] }))}
-        value={form.equipment}
-        onChange={(equipment) => {
-          set({ equipment });
-        }}
-      />
-      {errors.equipment ? <p className={styles.fieldError}>{errors.equipment}</p> : null}
-      <ChoiceGroup<Difficulty>
-        legend={T.difficulty}
-        layout="row"
-        options={DIFFICULTIES.map((value) => ({ value, label: DIFFICULTY_LABELS[value] }))}
-        value={form.difficulty}
-        onChange={(difficulty) => {
-          set({ difficulty });
-        }}
-      />
-      <ChoiceGroup<MeasureType>
-        legend={T.measure}
-        layout="row"
-        options={MEASURE_TYPES.map((value) => ({ value, label: T.measures[value] }))}
-        value={form.measure}
-        onChange={(measure) => {
-          set({ measure });
-        }}
-      />
-      <FormField label={T.pattern} help={T.patternHelp} error={errors.movement_pattern}>
-        {(control) => (
-          <SelectInput
-            {...control}
-            value={form.pattern}
-            onChange={(e) => {
-              set({ pattern: e.target.value as MovementPattern | "" });
+      {imported ? (
+        <Banner tone="info">{T.importedNotice(exercise.source?.name ?? "")}</Banner>
+      ) : (
+        <>
+          <ChoiceGroup<MuscleGroup>
+            legend={T.primary}
+            multiple
+            layout="row"
+            options={muscleOptions}
+            value={form.primary}
+            onChange={(primary) => {
+              set({ primary });
             }}
-          >
-            <option value="">{T.choose}</option>
-            {MOVEMENT_PATTERNS.map((value) => (
-              <option key={value} value={value}>
-                {MOVEMENT_PATTERN_LABELS[value]}
-              </option>
-            ))}
-          </SelectInput>
-        )}
-      </FormField>
+          />
+          {errors.primary_muscles ? (
+            <p className={styles.fieldError}>{errors.primary_muscles}</p>
+          ) : null}
+          <ChoiceGroup<MuscleGroup>
+            legend={T.secondary}
+            multiple
+            layout="row"
+            options={muscleOptions}
+            value={form.secondary}
+            onChange={(secondary) => {
+              set({ secondary });
+            }}
+          />
+          {errors.secondary_muscles ? (
+            <p className={styles.fieldError}>{errors.secondary_muscles}</p>
+          ) : null}
+          <ChoiceGroup<Equipment>
+            legend={T.equipment}
+            multiple
+            layout="row"
+            options={EQUIPMENT.map((value) => ({ value, label: EQUIPMENT_LABELS[value] }))}
+            value={form.equipment}
+            onChange={(equipment) => {
+              set({ equipment });
+            }}
+          />
+          {errors.equipment ? <p className={styles.fieldError}>{errors.equipment}</p> : null}
+          <ChoiceGroup<Difficulty>
+            legend={T.difficulty}
+            layout="row"
+            options={DIFFICULTIES.map((value) => ({ value, label: DIFFICULTY_LABELS[value] }))}
+            value={form.difficulty}
+            onChange={(difficulty) => {
+              set({ difficulty });
+            }}
+          />
+          <ChoiceGroup<MeasureType>
+            legend={T.measure}
+            layout="row"
+            options={MEASURE_TYPES.map((value) => ({ value, label: T.measures[value] }))}
+            value={form.measure}
+            onChange={(measure) => {
+              set({ measure });
+            }}
+          />
+          <FormField label={T.pattern} help={T.patternHelp} error={errors.movement_pattern}>
+            {(control) => (
+              <SelectInput
+                {...control}
+                value={form.pattern}
+                onChange={(e) => {
+                  set({ pattern: e.target.value as MovementPattern | "" });
+                }}
+              >
+                <option value="">{T.choose}</option>
+                {MOVEMENT_PATTERNS.map((value) => (
+                  <option key={value} value={value}>
+                    {MOVEMENT_PATTERN_LABELS[value]}
+                  </option>
+                ))}
+              </SelectInput>
+            )}
+          </FormField>
+        </>
+      )}
       <StepList
         legend={T.instructions}
         label={T.step}

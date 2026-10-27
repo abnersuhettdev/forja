@@ -4,6 +4,7 @@
 import {
   CLIENT_CLOCK_TOLERANCE_MINUTES,
   customExercisePayloadSchema,
+  importedCorrectionPayloadSchema,
   onboardingPayloadSchema,
   profileUpdatePayloadSchema,
   restUpdatePayloadSchema,
@@ -211,14 +212,28 @@ const exerciseCreate: OperationHandler = async (tx, ctx) => {
   return {};
 };
 
-/** Edição do personalizado: substituição integral (editor é online — DAD-04 §5). */
+/** Correção de importado (ADR-091): nome, instruções e dicas; o banco guarda o original. */
+async function correctImported(tx: Tx, ctx: OperationContext): Promise<OperationOutcome> {
+  const payload = parse(importedCorrectionPayloadSchema, ctx.payload);
+  await assertNameFree(tx, payload.name, ctx.entityId);
+  const [updated] = await tx<{ id: string }[]>`
+    update public.exercises set
+      name = ${payload.name}, instructions = ${tx.json(payload.instructions)},
+      safety_tips = ${tx.json(payload.safety_tips)}
+    where id = ${ctx.entityId} and origin = 'imported'
+    returning id`;
+  // Sem linha: o ator não é gestor ou o GATE-TER está aberto (política por linha).
+  if (!updated) throw rejected("FORBIDDEN_ROLE");
+  return {};
+}
+
+/** Edição: personalizado por substituição integral (editor é online — DAD-04 §5). */
 const exerciseUpdate: OperationHandler = async (tx, ctx) => {
-  const payload = parse(customExercisePayloadSchema, ctx.payload);
   const [current] = await tx<{ origin: string }[]>`
     select origin from public.exercises where id = ${ctx.entityId}`;
   if (!current) throw rejected("NOT_FOUND");
-  // Correção de importado aguarda decisão sobre a escrita de linhas globais (DAD-03 §7.2).
-  if (current.origin !== "custom") throw rejected("FORBIDDEN_ROLE");
+  if (current.origin === "imported") return correctImported(tx, ctx);
+  const payload = parse(customExercisePayloadSchema, ctx.payload);
   await assertNameFree(tx, payload.name, ctx.entityId);
   const fields = exerciseFields(payload);
   const [updated] = await tx<{ id: string }[]>`

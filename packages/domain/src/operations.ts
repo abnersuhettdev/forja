@@ -100,6 +100,18 @@ export const customExercisePayloadSchema = z
   });
 
 export type CustomExercisePayload = z.infer<typeof customExercisePayloadSchema>;
+
+/**
+ * API-020 `exercise.update` de exercício **importado** (RF-032, ADR-091): só nome,
+ * instruções e dicas; o texto da fonte é preservado pelo banco.
+ */
+export const importedCorrectionPayloadSchema = z.strictObject({
+  name: z.string().trim().min(2).max(120),
+  instructions: z.array(step).min(1).max(15),
+  safety_tips: z.array(step).max(15),
+});
+
+export type ImportedCorrectionPayload = z.infer<typeof importedCorrectionPayloadSchema>;
 export type OnboardingPayload = z.infer<typeof onboardingPayloadSchema>;
 export type ProfileUpdatePayload = z.infer<typeof profileUpdatePayloadSchema>;
 export type RestUpdatePayload = z.infer<typeof restUpdatePayloadSchema>;
