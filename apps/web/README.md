@@ -1,6 +1,13 @@
-# apps/web
+# @forja/web
 
-PWA (React + Vite).
+PWA Forja (React + Vite). Especificação: `docs/02-experiencia/` (UX-01..08).
 
-- Preenchido em: TAR-005 (casca e componentes), TAR-006 (PWA e publicação) (docs/08-planejamento/01-dependencias-e-ordem-de-implementacao.md)
-- Referências: UX-01..08, ARQ-03 §2
+| Pasta             | Conteúdo                                                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `src/app/`        | Casca do app: rotas lógicas (UX-03 §5), roteador mínimo sobre a History API, navegação por área, textos centralizados |
+| `src/components/` | Componentes base de UX-06                                                                                             |
+| `src/design/`     | Tokens de UX-02 (temas claro e escuro — ADR-024)                                                                      |
+| `src/screens/`    | Telas; as ainda não implementadas indicam a tarefa que as entregará                                                   |
+| `tests/`          | Ponta a ponta com Playwright + axe (Chromium e WebKit)                                                                |
+
+Comandos (na raiz): `pnpm dev` (servidor local) e `pnpm test:e2e`. Em desenvolvimento, `/_componentes` mostra a vitrine dos componentes (excluída do build de produção).

@@ -1,0 +1,26 @@
+.main {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--page-gutter);
+}
+
+/* Espaço para a barra inferior (64 px + área segura) */
+.withNav .main {
+  padding-bottom: calc(64px + var(--space-5) + env(safe-area-inset-bottom));
+}
+
+@media (min-width: 1024px) {
+  .withNav {
+    padding-left: 88px;
+  }
+
+  .withNav .main {
+    max-width: 1200px;
+    padding-bottom: var(--space-6);
+  }
+}
+
+.bare {
+  padding: var(--space-4) var(--page-gutter);
+}

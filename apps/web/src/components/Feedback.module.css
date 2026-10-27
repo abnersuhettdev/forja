@@ -1,0 +1,138 @@
+.muted {
+  color: var(--color-text-muted);
+}
+
+/* Estados vazio e de erro */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 28rem;
+  margin: var(--space-7) auto;
+  padding: 0 var(--page-gutter);
+  text-align: center;
+}
+
+.emptyIcon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-text-muted);
+}
+
+/* Banner */
+.banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  border-left: 4px solid currentcolor;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+}
+
+.banner.info {
+  color: var(--color-info);
+}
+
+.banner.warning {
+  color: var(--color-warning);
+}
+
+.banner.danger {
+  color: var(--color-danger);
+}
+
+.bannerIcon {
+  display: flex;
+}
+
+.bannerText {
+  flex: 1;
+  color: var(--color-text);
+}
+
+/* Snackbar */
+.snackbarRegion {
+  position: fixed;
+  right: var(--page-gutter);
+  bottom: calc(80px + env(safe-area-inset-bottom));
+  left: var(--page-gutter);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.snackbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 36rem;
+  min-height: var(--control-md);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-md);
+  background: var(--color-text);
+  color: var(--color-bg);
+  box-shadow: var(--shadow-raised);
+  pointer-events: auto;
+}
+
+.snackbarAction {
+  min-height: var(--control-sm);
+  padding: 0 var(--space-3);
+  border: none;
+  background: transparent;
+  color: inherit;
+  font: var(--type-label);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Diálogo */
+.dialog {
+  width: min(28rem, calc(100vw - 2 * var(--page-gutter)));
+  padding: var(--space-5);
+  border: none;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow: var(--shadow-sheet);
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+.dialogBody {
+  margin: var(--space-3) 0 var(--space-5);
+  color: var(--color-text-muted);
+}
+
+.dialogActions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+}
+
+/* Esqueleto */
+.skeleton {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.skeletonLine {
+  height: 16px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface-alt);
+}
+
+.skeletonLine:last-child {
+  width: 60%;
+}

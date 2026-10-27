@@ -1,0 +1,20 @@
+.screenTitle {
+  margin-bottom: var(--space-4);
+  font: var(--type-title);
+}
+
+.screenTitle:focus {
+  outline: none;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+}

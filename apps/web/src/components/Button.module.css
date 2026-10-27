@@ -1,0 +1,96 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  padding: 0 var(--space-5);
+  border: 2px solid transparent;
+  border-radius: var(--radius-md);
+  font: var(--type-label);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: filter var(--duration-micro) ease-out;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button:not(:disabled):active {
+  filter: brightness(0.92);
+}
+
+.lg {
+  min-height: var(--control-lg);
+  font-size: 1.125rem;
+}
+
+.md {
+  min-height: var(--control-md);
+}
+
+.sm {
+  min-height: var(--control-sm);
+  padding: 0 var(--space-4);
+}
+
+.primary {
+  background: var(--color-primary);
+  color: var(--color-on-primary);
+}
+
+.secondary {
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.ghost {
+  background: transparent;
+  color: var(--color-primary);
+}
+
+.danger {
+  background: var(--color-danger);
+  color: var(--color-on-danger);
+}
+
+.spinner {
+  width: 1em;
+  height: 1em;
+  border: 2px solid currentcolor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 800ms linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 2s;
+  }
+}
+
+.iconButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-md);
+  height: var(--control-md);
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-full);
+  background: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.iconButton:not(:disabled):active {
+  background: var(--color-surface-alt);
+}

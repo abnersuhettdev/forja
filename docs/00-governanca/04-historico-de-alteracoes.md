@@ -52,3 +52,4 @@ Registra mudanças relevantes (criação de documentos, mudanças de requisito, 
 | 2026-10-26 | 9 | ARQ-02, GOV-02 | TAR-001 (parte local): monorepo criado; VH-10 confirmada; TypeScript 6.0.3 por compatibilidade com typescript-eslint; política de versões com ≥ 7 dias de publicação aplicada via `minimumReleaseAge`. | Execução da Fase 2. |
 | 2026-10-26 | 9 | GOV-02 | TAR-001 concluída localmente (commit 45c2a40); repositório remoto adiado por decisão do usuário — CI remoto pendente. TAR-002 iniciada. | "vamos continuar assim sem criar repo" |
 | 2026-10-26 | 9 | GOV-02 | TAR-002 concluída (pacote de domínio, 31 testes, cobertura acima da meta). | — |
+| 2026-10-26 | 9 | GOV-02, ARQ-02 | TAR-005 concluída (casca do app, componentes base, testes ponta a ponta com axe); CI passa a rodar testes unitários e ponta a ponta. | — |

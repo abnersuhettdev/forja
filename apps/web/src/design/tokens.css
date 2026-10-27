@@ -1,0 +1,126 @@
+/* Tokens de UX-02 §4–§6. Componentes usam somente estas variáveis, nunca valores literais. */
+
+:root {
+  /* Tema claro (UX-02 §4.1) */
+  --color-bg: #f6f7f9;
+  --color-surface: #ffffff;
+  --color-surface-alt: #edf0f3;
+  --color-border: #8a94a0;
+  --color-divider: #d3d8de;
+  --color-text: #12161b;
+  --color-text-muted: #4a5562;
+  --color-primary: #3f6212;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #ecfccb;
+  --color-on-primary-container: #1a2e05;
+  --color-success: #15803d;
+  --color-warning: #b45309;
+  --color-danger: #b91c1c;
+  --color-on-danger: #ffffff;
+  --color-info: #1d4ed8;
+  --color-focus: #2563eb;
+  --shadow-sheet: 0 -4px 24px rgb(18 22 27 / 16%);
+  --shadow-raised: 0 4px 12px rgb(18 22 27 / 16%);
+  color-scheme: light;
+
+  /* Tipografia (UX-02 §5) */
+  --font-ui: "Barlow", system-ui, sans-serif;
+  --font-metric: "Barlow Semi Condensed", "Barlow", system-ui, sans-serif;
+  --type-display: 700 3rem/3.25rem var(--font-metric);
+  --type-metric: 600 2rem/2.25rem var(--font-metric);
+  --type-title-lg: 700 1.5rem/1.875rem var(--font-ui);
+  --type-title: 600 1.25rem/1.625rem var(--font-ui);
+  --type-body-lg: 400 1.125rem/1.625rem var(--font-ui);
+  --type-body: 400 1rem/1.5rem var(--font-ui);
+  --type-label: 600 0.875rem/1.25rem var(--font-ui);
+  --type-caption: 400 0.875rem/1.25rem var(--font-ui);
+
+  /* Espaçamento, forma e controles (UX-02 §6) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --page-gutter: 16px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-full: 999px;
+  --control-lg: 56px;
+  --control-md: 48px;
+  --control-sm: 44px;
+  --duration-micro: 150ms;
+  --duration-sheet: 250ms;
+}
+
+/* Tema escuro (UX-02 §4.2): escolhido em Conta ou seguindo o sistema (ADR-024).
+   Os dois blocos abaixo têm os mesmos valores; manter sincronizados. */
+:root[data-theme="dark"] {
+  --color-bg: #0e1114;
+  --color-surface: #161a1f;
+  --color-surface-alt: #1f252c;
+  --color-border: #6b7684;
+  --color-divider: #2e3640;
+  --color-text: #f2f4f7;
+  --color-text-muted: #a9b3bf;
+  --color-primary: #a3e635;
+  --color-on-primary: #10160a;
+  --color-primary-container: #2a3a12;
+  --color-on-primary-container: #d9f99d;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-on-danger: #0e1114;
+  --color-info: #60a5fa;
+  --color-focus: #93c5fd;
+  --shadow-sheet: none;
+  --shadow-raised: none;
+  color-scheme: dark;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-bg: #0e1114;
+    --color-surface: #161a1f;
+    --color-surface-alt: #1f252c;
+    --color-border: #6b7684;
+    --color-divider: #2e3640;
+    --color-text: #f2f4f7;
+    --color-text-muted: #a9b3bf;
+    --color-primary: #a3e635;
+    --color-on-primary: #10160a;
+    --color-primary-container: #2a3a12;
+    --color-on-primary-container: #d9f99d;
+    --color-success: #4ade80;
+    --color-warning: #fbbf24;
+    --color-danger: #f87171;
+    --color-on-danger: #0e1114;
+    --color-info: #60a5fa;
+    --color-focus: #93c5fd;
+    --shadow-sheet: none;
+    --shadow-raised: none;
+    color-scheme: dark;
+  }
+}
+
+@media (min-width: 600px) {
+  :root {
+    --page-gutter: 24px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-gutter: 32px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-micro: 0ms;
+    --duration-sheet: 0ms;
+  }
+}

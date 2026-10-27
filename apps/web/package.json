@@ -1,0 +1,28 @@
+{
+  "name": "@forja/web",
+  "version": "0.0.0",
+  "private": true,
+  "description": "PWA Forja (UX-01..08).",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview --port 4173 --strictPort"
+  },
+  "dependencies": {
+    "@fontsource/barlow": "5.3.0",
+    "@fontsource/barlow-semi-condensed": "5.3.0",
+    "@forja/domain": "workspace:*",
+    "lucide-react": "1.59.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.14.0",
+    "@playwright/test": "1.64.1",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.1.2",
+    "vite": "8.3.4"
+  }
+}

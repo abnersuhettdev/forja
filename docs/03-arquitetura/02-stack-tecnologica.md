@@ -201,3 +201,4 @@ De terceiros (usadas apenas na primeira triagem, substituídas pelas oficiais ac
 | 2026-10-26 | Aprovado pelo usuário (Etapa 3). |
 | 2026-10-26 | Etapa 4: VH-04 e VH-05 confirmadas na documentação oficial; VH-11 e VH-12 acrescentadas. |
 | 2026-10-26 | VH-10 registrada na TAR-001. |
+| 2026-10-26 | TAR-005: versões fixadas do app (React 19.3.1, Vite 8.3.4, Lucide 1.59.0, Playwright 1.64.1, axe 4.14.0). `eslint-plugin-jsx-a11y` 6.10.2 declara suporte até o ESLint 9, mas funciona com o ESLint 10 (verificado); acompanhar nova versão. Roteamento feito com roteador próprio mínimo (sem dependência adicional). |

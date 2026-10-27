@@ -9,19 +9,23 @@
     "node": ">=24"
   },
   "scripts": {
-    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit",
     "lint": "eslint . --max-warnings=0",
     "test": "vitest run --coverage",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "licenses:check": "node scripts/check-licenses.ts",
-    "check": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && vitest run --coverage && node scripts/check-licenses.ts"
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && vitest run --coverage && node scripts/check-licenses.ts",
+    "test:e2e": "playwright test -c apps/web/playwright.config.ts",
+    "dev": "vite apps/web"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
     "@types/node": "24.19.2",
     "@vitest/coverage-v8": "5.0.5",
     "eslint": "10.13.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-react-hooks": "7.1.1",
     "globals": "17.13.0",
     "prettier": "3.9.10",
     "typescript": "6.0.3",
