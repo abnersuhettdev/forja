@@ -10,5 +10,6 @@ export * from "./recommendation.ts";
 export * from "./result.ts";
 export * from "./rules.ts";
 export * from "./schemas.ts";
+export * from "./sessions.ts";
 export * from "./sync.ts";
 export * from "./time.ts";

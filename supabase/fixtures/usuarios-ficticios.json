@@ -72,6 +72,18 @@
       "senha": "Ficticia-treino-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "execucao.chromium@exemplo.test",
+      "senha": "Ficticia-execucao-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "execucao.webkit@exemplo.test",
+      "senha": "Ficticia-execucao-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

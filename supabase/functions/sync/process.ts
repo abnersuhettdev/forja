@@ -2,6 +2,7 @@
 // HTTP: o mesmo código roda na função (Deno) e nos testes de integração (Node).
 import {
   messageFor,
+  relatedEntityIds,
   SYNC_BATCH_LIMIT,
   SYNC_CONTRACT_VERSION,
 } from "../../../packages/domain/src/index.ts";
@@ -90,6 +91,7 @@ async function applyOperation(
   identity: Identity,
   op: Operation,
   now: Date,
+  deviceId: string,
 ): Promise<OperationResult> {
   const handler = HANDLERS[op.type];
   try {
@@ -104,6 +106,7 @@ async function applyOperation(
         baseRevision: op.base_revision,
         payload: op.payload,
         now,
+        deviceId,
       });
       const result: OperationResult = {
         op_id: op.op_id,
@@ -167,12 +170,15 @@ export async function processRequest(
       blocked.add(op.entity_id);
       continue;
     }
-    if (blocked.has(op.entity_id)) {
+    const related = relatedEntityIds(op);
+    if (related.some((relatedId) => blocked.has(relatedId))) {
+      for (const relatedId of related) blocked.add(relatedId);
       results.push(failureResult(op, new OperationFailure("deferred", "DEPENDENCY_PENDING")));
       continue;
     }
-    const result = await applyOperation(deps, identity, op, now);
-    if (result.status !== "accepted" && result.status !== "duplicate") blocked.add(op.entity_id);
+    const result = await applyOperation(deps, identity, op, now, parsed.data.device_id);
+    if (result.status !== "accepted" && result.status !== "duplicate")
+      for (const relatedId of related) blocked.add(relatedId);
     results.push(result);
   }
   return { status: 200, body: { server_time: now.toISOString(), results } };

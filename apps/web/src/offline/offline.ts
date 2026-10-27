@@ -1,9 +1,10 @@
 // Dados para uso offline (UX-08 §6.1–6.2; RF-091, RF-092; API-R02, R08): programa ativo
 // completo, exercícios do catálogo e pesos dos últimos 12 meses, guardados no banco local do
-// usuário. Sessões e última execução (API-R06/R07) entram com a execução (TAR-019).
+// usuário; sessões dos últimos 90 dias e última execução (API-R06/R07 — TAR-019).
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { addDays, toLocalDate } from "@forja/domain";
 import { cacheCatalog, fetchCatalog, type CatalogExercise } from "../catalog/catalog.ts";
+import { fetchSessionData, mergeSessionData } from "../execution/download.ts";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
 import {
   toVersionView,
@@ -42,7 +43,7 @@ export async function refreshOfflineData(
   now: Date = new Date(),
 ): Promise<OfflineSnapshot> {
   const since = addDays(toLocalDate(now, timeZone), -WEIGHT_WINDOW_DAYS);
-  const [version, weights, catalog] = await Promise.all([
+  const [version, weights, catalog, sessionData] = await Promise.all([
     supabase
       .from("program_versions")
       .select(VERSION_SELECT)
@@ -58,6 +59,7 @@ export async function refreshOfflineData(
       .order("measured_on", { ascending: false })
       .overrideTypes<WeightRecord[], { merge: false }>(),
     fetchCatalog(supabase),
+    fetchSessionData(supabase, studentId, now),
   ]);
   if (version.error) throw version.error;
   if (weights.error) throw weights.error;
@@ -74,6 +76,7 @@ export async function refreshOfflineData(
     await weightTable.bulkPut([...weights.data]);
     await writeMeta(db, UPDATED_KEY, updatedAt);
   });
+  await mergeSessionData(db, sessionData);
   return { program, weights: weights.data, updatedAt };
 }
 

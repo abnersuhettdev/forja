@@ -1,0 +1,176 @@
+/* Modo foco (TELA-015, ADR-026): sem navegação; ações na zona do polegar (UX-07). */
+
+.focus {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  /* Espaço para a zona do polegar fixa. */
+  padding-bottom: calc(var(--control-lg) + var(--space-8) + 120px);
+}
+
+.topBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.topText {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.workoutName {
+  overflow: hidden;
+  font: var(--type-title);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.workoutName:focus {
+  outline: none;
+}
+
+.topMeta {
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+}
+
+.exercise {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+/* Imagem com altura reduzida no modo foco. */
+.image {
+  max-height: 160px;
+  overflow: hidden;
+  border-radius: var(--radius-md);
+}
+
+.image > * {
+  max-height: 160px;
+  object-fit: contain;
+}
+
+.exerciseName {
+  font: var(--type-title);
+}
+
+.lastTime {
+  font: var(--type-body);
+}
+
+.sets {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.setNumber {
+  flex: none;
+  width: 24px;
+  font: var(--type-label);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.doneRow,
+.futureRow {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  min-height: 44px;
+  padding: 0 var(--space-2);
+}
+
+.doneRow > :nth-child(2) {
+  flex: 1;
+}
+
+.check {
+  color: var(--color-success);
+}
+
+.futureRow {
+  color: var(--color-text-muted);
+}
+
+.currentRow {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-2);
+  border-radius: var(--radius-md);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.steppers {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+/* Zona do polegar: fixa no rodapé, acima do conteúdo. */
+.thumbZone {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4) calc(var(--space-3) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.wide {
+  width: 100%;
+  min-height: var(--control-lg);
+}
+
+.rest {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.countdown {
+  font: var(--type-display);
+  font-variant-numeric: tabular-nums;
+}
+
+.restActions {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.restActions > * {
+  flex: 1;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: var(--space-2) var(--space-4);
+  margin: 0;
+}
+
+.summary > dd {
+  margin: 0;
+  font: var(--type-label);
+  text-align: right;
+}

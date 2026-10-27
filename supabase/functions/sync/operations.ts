@@ -1,4 +1,4 @@
-// Tipos de operação (DAD-04 §5): API-002, API-003, API-007 e API-020 (personalizado). Cada um valida com o
+// Tipos de operação (DAD-04 §5): API-002, API-003, API-007, API-008..014 e API-020 (personalizado). Cada um valida com o
 // esquema do domínio, confere a revisão (ADR-053) e grava como sync_writer; restrições,
 // gatilhos e políticas do banco seguem como segunda barreira (DAD-03).
 import {
@@ -15,6 +15,15 @@ import type { z } from "zod";
 import { asJson, type Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";
 import { draftCreate, draftDiscard, draftPublish, draftSave } from "./programs.ts";
+import {
+  sessionComplete,
+  sessionDelete,
+  sessionExerciseUpdate,
+  sessionStart,
+  sessionUpdate,
+  setDelete,
+  setUpsert,
+} from "./sessions.ts";
 
 export interface OperationContext {
   readonly userId: string;
@@ -23,6 +32,8 @@ export interface OperationContext {
   readonly baseRevision: number | null;
   readonly payload: unknown;
   readonly now: Date;
+  /** Identificador aleatório do aparelho que enviou (DAD-02 `device_id`). */
+  readonly deviceId: string;
 }
 
 export interface OperationOutcome {
@@ -286,4 +297,11 @@ export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "draft.save": draftSave,
   "draft.publish": draftPublish,
   "draft.discard": draftDiscard,
+  "session.start": sessionStart,
+  "set.upsert": setUpsert,
+  "set.delete": setDelete,
+  "session_exercise.update": sessionExerciseUpdate,
+  "session.complete": sessionComplete,
+  "session.update": sessionUpdate,
+  "session.delete": sessionDelete,
 };

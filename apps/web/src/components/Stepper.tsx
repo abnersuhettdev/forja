@@ -8,13 +8,16 @@ import styles from "./Stepper.module.css";
 // UX-06 §4: botões de 48 px, valor tocável para digitar, segurar = repetição acelerada.
 interface StepperProps {
   label: string;
-  value: number;
+  /** null = ainda não informado (campo vazio, ex.: carga sem histórico — RF-061). */
+  value: number | null;
   onChange: (value: number) => void;
   step: number;
   range: Range;
   unit?: string;
   /** "metric" usa números grandes (execução — UX-02 type.metric). */
   size?: "metric" | "default";
+  /** Mensagem de validação junto ao controle (UX-06 §4). */
+  error?: string | undefined;
 }
 
 const HOLD_DELAY_MS = 400;
@@ -29,8 +32,10 @@ export function Stepper({
   range,
   unit,
   size = "default",
+  error,
 }: StepperProps) {
   const labelId = useId();
+  const errorId = useId();
   const [draft, setDraft] = useState<string | null>(null);
   const latest = useRef(value);
 
@@ -40,7 +45,7 @@ export function Stepper({
 
   // Chamado apenas em eventos (clique, tecla, repetição), nunca durante a renderização.
   function apply(direction: 1 | -1) {
-    const next = stepValue(latest.current, step, direction, range);
+    const next = stepValue(latest.current ?? range.min, step, direction, range);
     latest.current = next;
     onChange(next);
   }
@@ -73,7 +78,7 @@ export function Stepper({
       <div className={styles.controls}>
         <StepButton
           label={`${TEXTS.common.decrease} ${label.toLowerCase()}`}
-          disabled={value <= range.min}
+          disabled={value === null || value <= range.min}
           onStep={() => {
             apply(-1);
           }}
@@ -84,7 +89,9 @@ export function Stepper({
           className={[styles.value, "tabular"].join(" ")}
           inputMode="decimal"
           aria-labelledby={labelId}
-          value={draft ?? format.format(value)}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? errorId : undefined}
+          value={draft ?? (value === null ? "" : format.format(value))}
           onFocus={(event) => {
             event.currentTarget.select();
           }}
@@ -97,7 +104,7 @@ export function Stepper({
         {unit ? <span className={styles.unit}>{unit}</span> : null}
         <StepButton
           label={`${TEXTS.common.increase} ${label.toLowerCase()}`}
-          disabled={value >= range.max}
+          disabled={value !== null && value >= range.max}
           onStep={() => {
             apply(1);
           }}
@@ -105,6 +112,11 @@ export function Stepper({
           <Plus aria-hidden="true" />
         </StepButton>
       </div>
+      {error ? (
+        <span id={errorId} className={styles.error}>
+          {error}
+        </span>
+      ) : null}
     </div>
   );
 }

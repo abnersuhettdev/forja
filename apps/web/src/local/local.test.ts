@@ -6,7 +6,7 @@ import type { SyncOutcome, SyncRequest } from "@forja/domain";
 import { LocalDatabase, readMeta } from "./db.ts";
 import { deviceIdentity, localDatabaseName } from "./device.ts";
 import { SyncEngine } from "./engine.ts";
-import { countUnsent, enqueue, listOutbox, recoverInterrupted } from "./outbox.ts";
+import { countUnsent, enqueue, listOutbox, recoverInterrupted, releaseRetries } from "./outbox.ts";
 import { requestPersistentStorage } from "./persistent-storage.ts";
 import { LOCAL_SCHEMA } from "./schema.ts";
 import { createHttpTransport, type SyncTransport } from "./transport.ts";
@@ -376,5 +376,24 @@ describe("transporte HTTP (DAD-04 §4.2)", () => {
     const noSession = transportWith(() => Promise.resolve(Response.json({})), null);
     expect(await noSession.transport(request)).toEqual({ kind: "unauthorized" });
     expect(noSession.calls).toHaveLength(0);
+  });
+});
+
+describe("conexão de volta", () => {
+  it("operações aguardando nova tentativa ficam prontas na hora", async () => {
+    const db = database();
+    const op = await enqueue(db, {
+      ownerUserId: A,
+      type: "weight.create",
+      entityId: B,
+      baseRevision: null,
+      payload: {},
+    });
+    await db.outbox
+      .where("op_id")
+      .equals(op.op_id)
+      .modify({ state: "retry", next_attempt_at: NOW });
+    await releaseRetries(db);
+    expect((await listOutbox(db))[0]).toMatchObject({ state: "retry", next_attempt_at: null });
   });
 });

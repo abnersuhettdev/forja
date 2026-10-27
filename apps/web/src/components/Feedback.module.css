@@ -60,7 +60,8 @@
 .snackbarRegion {
   position: fixed;
   right: var(--page-gutter);
-  bottom: calc(80px + env(safe-area-inset-bottom));
+  /* Acima da barra inferior; o modo foco define a altura da zona do polegar. */
+  bottom: calc(var(--snackbar-bottom, 80px) + env(safe-area-inset-bottom));
   left: var(--page-gutter);
   z-index: 30;
   display: flex;

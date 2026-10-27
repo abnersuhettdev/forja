@@ -986,3 +986,372 @@ describe("avaliação (API-004, CA-016)", () => {
     ]);
   });
 });
+
+describe("execução (API-008..014; CA-060, CA-063, CA-065, CA-067)", () => {
+  /** Programa publicado direto no banco: treino com supino e agachamento. */
+  async function publishedWorkout(studentId: string) {
+    const [bench] = await admin<{ id: string }[]>`
+      select id from public.exercises where source_ref = 'Barbell_Bench_Press_-_Medium_Grip'`;
+    const [squat] = await admin<{ id: string }[]>`
+      select id from public.exercises where source_ref = 'Barbell_Squat'`;
+    if (!bench || !squat) throw new Error("exercícios ausentes");
+    const programId = randomUUID();
+    const versionId = randomUUID();
+    const workoutId = randomUUID();
+    const items = [randomUUID(), randomUUID()];
+    await admin`insert into public.programs (id, student_id) values (${programId}, ${studentId})`;
+    await admin`
+      insert into public.program_versions (id, program_id, student_id, name)
+      values (${versionId}, ${programId}, ${studentId}, 'Programa fictício')`;
+    await admin`
+      insert into public.workouts (id, program_version_id, position, name)
+      values (${workoutId}, ${versionId}, 1, 'Treino A')`;
+    await admin`
+      insert into public.workout_items
+        (id, workout_id, position, exercise_id, measure_type, sets, reps_min, reps_max, rest_s)
+      values (${items[0] ?? ""}, ${workoutId}, 1, ${bench.id}, 'reps', 3, 8, 12, 90),
+             (${items[1] ?? ""}, ${workoutId}, 2, ${squat.id}, 'reps', 3, 8, 12, 90)`;
+    await admin`update public.program_versions set status = 'active' where id = ${versionId}`;
+    return { versionId, workoutId, items, exercises: [bench.id, squat.id] };
+  }
+
+  type Workout = Awaited<ReturnType<typeof publishedWorkout>>;
+
+  function startOp(who: Identity, sessionId: string, w: Workout, startedAt: string) {
+    const exercises = w.items.map((item, index) => ({
+      id: randomUUID(),
+      workout_item_id: item,
+      exercise_id: w.exercises[index] ?? "",
+      position: index + 1,
+    }));
+    const op: Op = {
+      owner_user_id: who.userId,
+      type: "session.start",
+      entity_id: sessionId,
+      payload: {
+        program_version_id: w.versionId,
+        workout_id: w.workoutId,
+        started_at: startedAt,
+        exercises,
+      },
+    };
+    return { exercises, op };
+  }
+
+  function setOp(
+    who: Identity,
+    setId: string,
+    seId: string,
+    n: number,
+    load: number,
+    base: number | null = null,
+  ): Op {
+    return {
+      owner_user_id: who.userId,
+      type: "set.upsert",
+      entity_id: setId,
+      base_revision: base,
+      payload: {
+        session_exercise_id: seId,
+        set_number: n,
+        load_kg: load,
+        reps: 10,
+        duration_s: null,
+        completed_at: new Date(NOW.getTime() - (10 - n) * 60_000).toISOString(),
+      },
+    };
+  }
+
+  function plain(
+    who: Identity,
+    type: string,
+    entity: string,
+    base: number | null,
+    payload: unknown = {},
+  ): Op {
+    return { owner_user_id: who.userId, type, entity_id: entity, base_revision: base, payload };
+  }
+
+  const completion = (endedAt: string, minutes: number, rpe: number | null = null) => ({
+    ended_at: endedAt,
+    duration_min: minutes,
+    rpe,
+    notes: null,
+  });
+
+  it("inicia, registra, corrige, pula, conclui; última execução e exclusão com limpeza", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const w = await publishedWorkout(studentId);
+    const sessionId = randomUUID();
+    const started = new Date(NOW.getTime() - 60 * 60_000).toISOString();
+    const { op, exercises } = startOp(me, sessionId, w, started);
+    const benchSe = exercises[0]?.id ?? "";
+    const squatSe = exercises[1]?.id ?? "";
+    const set1 = randomUUID();
+    const set2 = randomUUID();
+
+    const results = await send(me, [
+      op,
+      setOp(me, set1, benchSe, 1, 40),
+      setOp(me, set2, benchSe, 2, 42.5),
+      setOp(me, set2, benchSe, 2, 45, 1),
+      plain(me, "session_exercise.update", squatSe, 1, { status: "skipped" }),
+      plain(me, "session.complete", sessionId, 1, {
+        ...completion(NOW.toISOString(), 60, 7),
+        notes: "Treino fictício",
+      }),
+    ]);
+    expect(results.map((r) => r.status)).toEqual(Array(6).fill("accepted"));
+    // Séries não mudam a revisão da sessão: a conclusão usa a base 1.
+    expect(results[3]).toMatchObject({ revision: 2 });
+    expect(results[5]).toMatchObject({ revision: 2 });
+
+    const [session] = await admin`
+      select status, rpe, duration_min, clock_suspect, possible_duplicate_of
+      from public.sessions where id = ${sessionId}`;
+    expect(session).toMatchObject({
+      status: "completed",
+      rpe: 7,
+      duration_min: 60,
+      clock_suspect: false,
+      possible_duplicate_of: null,
+    });
+    const [skipped] =
+      await admin`select status from public.session_exercises where id = ${squatSe}`;
+    expect(skipped?.status).toBe("skipped");
+
+    // API-R07 pela visão, com as políticas do próprio aluno.
+    const last = await admin.begin(async (tx) => {
+      await tx`set local role authenticated`;
+      await tx`select set_config('request.jwt.claims', ${JSON.stringify({ sub: me.userId })}, true)`;
+      return tx`select exercise_id, sets from public.last_executions where student_id = ${studentId}`;
+    });
+    expect(last).toHaveLength(1);
+    expect(last[0]?.sets).toEqual([
+      { set_number: 1, load_kg: 40, reps: 10, duration_s: null },
+      { set_number: 2, load_kg: 45, reps: 10, duration_s: null },
+    ]);
+
+    // Depois de concluída: série vira marca de exclusão sem valores (TG-07); PSE editável.
+    const after = await send(me, [
+      plain(me, "set.delete", set1, 1),
+      plain(me, "session.update", sessionId, 2, { rpe: 8 }),
+    ]);
+    expect(after.map((r) => r.status)).toEqual(["accepted", "accepted"]);
+    const [deletedSet] = await admin`
+      select deleted_at, load_kg, reps from public.set_logs where id = ${set1}`;
+    expect(deletedSet?.deleted_at).not.toBeNull();
+    expect(deletedSet).toMatchObject({ load_kg: null, reps: null });
+
+    // Revisão desatualizada → conflito com o registro do servidor.
+    const [stale] = await send(me, [plain(me, "session.update", sessionId, 2, { rpe: 5 })]);
+    expect(stale).toMatchObject({ status: "conflict", error: { code: "REVISION_CONFLICT" } });
+
+    const [removed] = await send(me, [plain(me, "session.delete", sessionId, 3)]);
+    expect(removed).toMatchObject({ status: "accepted", revision: 4 });
+    const [gone] = await admin`select notes, rpe from public.sessions where id = ${sessionId}`;
+    expect(gone).toMatchObject({ notes: null, rpe: null });
+    const [{ count } = { count: -1 }] = await admin<{ count: number }[]>`
+      select count(*)::int as count from public.set_logs l
+      join public.session_exercises se on se.id = l.session_exercise_id
+      where se.session_id = ${sessionId} and l.deleted_at is null`;
+    expect(count).toBe(0);
+  });
+
+  it("descartar em andamento remove sessão e séries; desfazer série remove de fato", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const sessionId = randomUUID();
+    const started = new Date(NOW.getTime() - 600_000).toISOString();
+    const { op, exercises } = startOp(me, sessionId, w, started);
+    const setId = randomUUID();
+    const seId = exercises[0]?.id ?? "";
+    const results = await send(me, [
+      op,
+      setOp(me, setId, seId, 1, 40),
+      plain(me, "set.delete", setId, 1),
+      setOp(me, randomUUID(), seId, 1, 42.5),
+      plain(me, "session.delete", sessionId, 1),
+    ]);
+    expect(results.map((r) => r.status)).toEqual(Array(5).fill("accepted"));
+    expect(await admin`select id from public.sessions where id = ${sessionId}`).toHaveLength(0);
+    expect(await admin`select id from public.set_logs where id = ${setId}`).toHaveLength(0);
+  });
+
+  it("versão de outro aluno é recusada e as séries seguintes aguardam", async () => {
+    const me = await fictitiousUser();
+    await onboard(me);
+    const other = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(other));
+    const { op, exercises } = startOp(me, randomUUID(), w, NOW.toISOString());
+    const [start, set] = await send(me, [
+      op,
+      setOp(me, randomUUID(), exercises[0]?.id ?? "", 1, 40),
+    ]);
+    expect(start).toMatchObject({ status: "rejected", error: { code: "VERSION_NOT_AVAILABLE" } });
+    expect(set).toMatchObject({ status: "deferred", error: { code: "DEPENDENCY_PENDING" } });
+  });
+
+  it("sobreposição marca possível duplicidade; horário futuro marca suspeita (RN-045, RN-048)", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const first = randomUUID();
+    const second = randomUUID();
+    const future = randomUUID();
+    const a = startOp(me, first, w, new Date(NOW.getTime() - 30 * 60_000).toISOString());
+    const b = startOp(me, second, w, new Date(NOW.getTime() - 20 * 60_000).toISOString());
+    const c = startOp(me, future, w, new Date(NOW.getTime() + 3_600_000).toISOString());
+    const results = await send(me, [
+      a.op,
+      plain(me, "session.complete", first, 1, completion(NOW.toISOString(), 30)),
+      b.op,
+      c.op,
+    ]);
+    expect(results.map((r) => r.status)).toEqual(Array(4).fill("accepted"));
+    const [dup] =
+      await admin`select possible_duplicate_of from public.sessions where id = ${second}`;
+    expect(dup?.possible_duplicate_of).toBe(first);
+    const [suspect] = await admin`select clock_suspect from public.sessions where id = ${future}`;
+    expect(suspect?.clock_suspect).toBe(true);
+  });
+
+  it("janela de 60 dias: sessão antiga criada offline é aceita; editar depois é recusado", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const sessionId = randomUUID();
+    const old = new Date(Date.now() - 70 * 86_400_000);
+    const { op, exercises } = startOp(me, sessionId, w, old.toISOString());
+    const results = await send(me, [
+      op,
+      setOp(me, randomUUID(), exercises[0]?.id ?? "", 1, 40),
+      plain(
+        me,
+        "session.complete",
+        sessionId,
+        1,
+        completion(new Date(old.getTime() + 3_600_000).toISOString(), 60),
+      ),
+    ]);
+    expect(results.map((r) => r.status)).toEqual(Array(3).fill("accepted"));
+    const [edit] = await send(me, [plain(me, "session.update", sessionId, 2, { rpe: 6 })]);
+    expect(edit).toMatchObject({ status: "rejected", error: { code: "EDIT_WINDOW_EXPIRED" } });
+  });
+
+  it("conteúdo inválido, base ausente, término antes do início e registro inexistente", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const sessionId = randomUUID();
+    const { op, exercises } = startOp(me, sessionId, w, NOW.toISOString());
+    const seId = exercises[0]?.id ?? "";
+    const before = new Date(NOW.getTime() - 3_600_000).toISOString();
+    const [, bad, noBase] = await send(me, [
+      op,
+      setOp(me, randomUUID(), seId, 1, 40.3),
+      plain(me, "session.complete", sessionId, null, completion(NOW.toISOString(), 1)),
+    ]);
+    expect(bad).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
+    expect(noBase).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
+    const [early] = await send(me, [
+      plain(me, "session.complete", sessionId, 1, completion(before, 1)),
+    ]);
+    expect(early).toMatchObject({
+      status: "rejected",
+      error: { code: "VALIDATION_FAILED", details: { field: "ended_at" } },
+    });
+    const [missing] = await send(me, [
+      plain(me, "session_exercise.update", randomUUID(), 1, { status: "done" }),
+    ]);
+    expect(missing).toMatchObject({ status: "rejected", error: { code: "NOT_FOUND" } });
+    const [missingSet] = await send(me, [setOp(me, randomUUID(), randomUUID(), 1, 40)]);
+    expect(missingSet).toMatchObject({ status: "rejected", error: { code: "NOT_FOUND" } });
+  });
+
+  it("conflitos e estados inválidos de sessão, exercício e série", async () => {
+    const me = await fictitiousUser();
+    const w = await publishedWorkout(await onboard(me));
+    const sessionId = randomUUID();
+    const { op, exercises } = startOp(me, sessionId, w, NOW.toISOString());
+    const seId = exercises[0]?.id ?? "";
+    const setId = randomUUID();
+
+    // Item que não pertence ao treino.
+    const foreign = startOp(me, randomUUID(), w, NOW.toISOString());
+    const [badItem] = await send(me, [
+      {
+        ...foreign.op,
+        payload: {
+          ...(foreign.op.payload as Record<string, unknown>),
+          exercises: [{ ...foreign.exercises[0], workout_item_id: randomUUID() }],
+        },
+      },
+    ]);
+    expect(badItem).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
+
+    expect((await send(me, [op, setOp(me, setId, seId, 1, 40)])).map((r) => r.status)).toEqual([
+      "accepted",
+      "accepted",
+    ]);
+    // Cada uma em sua requisição: uma falha adia as seguintes que tocam o mesmo registro.
+    const outcomes = [];
+    for (const failing of [
+      setOp(me, setId, seId, 1, 45, 7),
+      setOp(me, randomUUID(), seId, 2, 45, 3),
+      plain(me, "session_exercise.update", seId, 9, { position: 2 }),
+      plain(me, "session.update", sessionId, 1, { rpe: 5 }),
+      plain(me, "set.delete", setId, 4),
+    ]) {
+      const [result] = await send(me, [failing]);
+      outcomes.push([result?.status, result && "error" in result ? result.error.code : null]);
+    }
+    expect(outcomes).toEqual([
+      ["conflict", "REVISION_CONFLICT"],
+      ["conflict", "ENTITY_DELETED"],
+      ["conflict", "REVISION_CONFLICT"],
+      ["rejected", "VALIDATION_FAILED"],
+      ["conflict", "REVISION_CONFLICT"],
+    ]);
+
+    const done = await send(me, [
+      plain(me, "session_exercise.update", seId, 1, { position: 2, status: "done" }),
+      plain(me, "session.complete", sessionId, 1, completion(NOW.toISOString(), 5)),
+    ]);
+    expect(done.map((r) => r.status)).toEqual(["accepted", "accepted"]);
+    const later = [];
+    for (const next of [
+      plain(me, "session.complete", sessionId, 2, completion(NOW.toISOString(), 5)),
+      plain(me, "session.update", sessionId, 2, {
+        started_at: NOW.toISOString(),
+        ended_at: new Date(NOW.getTime() - 60_000).toISOString(),
+      }),
+      plain(me, "session.update", sessionId, 2, {
+        ended_at: new Date(NOW.getTime() + 1_800_000).toISOString(),
+        notes: "Ajuste fictício",
+      }),
+    ]) {
+      const [result] = await send(me, [next]);
+      if (result) later.push(result);
+    }
+    expect(later.map((r) => [r.status, "error" in r ? r.error.code : null])).toEqual([
+      ["rejected", "VALIDATION_FAILED"],
+      ["rejected", "VALIDATION_FAILED"],
+      ["accepted", null],
+    ]);
+    const [edited] =
+      await admin`select duration_min, notes from public.sessions where id = ${sessionId}`;
+    expect(edited).toMatchObject({ duration_min: 30, notes: "Ajuste fictício" });
+
+    // Sessão excluída: série e exclusão de série viram conflito de registro excluído.
+    expect((await send(me, [plain(me, "session.delete", sessionId, 3)]))[0]?.status).toBe(
+      "accepted",
+    );
+    const [onDeleted, deleteAgain, setDeleted] = await send(me, [
+      setOp(me, randomUUID(), seId, 3, 40),
+      plain(me, "session.delete", sessionId, 4),
+      plain(me, "set.delete", setId, 2),
+    ]);
+    expect(onDeleted).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
+    expect(deleteAgain).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
+    expect(setDeleted).toMatchObject({ status: "conflict", error: { code: "ENTITY_DELETED" } });
+  });
+});

@@ -58,6 +58,7 @@ interface StoredSessionExercise {
   id: string;
   session_id: string;
   exercise_id: string;
+  planned_sets?: number;
 }
 
 interface StoredSetLog {
@@ -68,6 +69,15 @@ export interface LocalSessions {
   readonly sessions: readonly RecommendationSession[];
   /** Sessões com operação ainda na fila de saída (RN-049). */
   readonly pendingIds: ReadonlySet<string>;
+  /** Progresso da sessão em andamento do aparelho ("9 de 18 séries"). */
+  readonly active: ActiveProgress | null;
+}
+
+export interface ActiveProgress {
+  readonly sessionId: string;
+  readonly startedAt: string;
+  readonly sets: number;
+  readonly planned: number;
 }
 
 export async function readLocalSessions(
@@ -82,6 +92,9 @@ export async function readLocalSessions(
     db.outbox.toArray(),
   ]);
   const withSets = new Set(setLogs.map((s) => s.session_exercise_id));
+  const active = sessions.find((s) => s.status === "in_progress" && !s.deleted_at);
+  const activeExercises = sessionExercises.filter((se) => se.session_id === active?.id);
+  const activeIds = new Set(activeExercises.map((se) => se.id));
   const bySession = new Map<string, string[][]>();
   for (const se of sessionExercises) {
     if (!withSets.has(se.id)) continue;
@@ -106,6 +119,14 @@ export async function readLocalSessions(
         ),
       })),
     pendingIds: new Set(outbox.map((op) => op.entity_id)),
+    active: active
+      ? {
+          sessionId: active.id,
+          startedAt: active.started_at,
+          sets: setLogs.filter((l) => activeIds.has(l.session_exercise_id)).length,
+          planned: activeExercises.reduce((total, se) => total + (se.planned_sets ?? 0), 0),
+        }
+      : null,
   };
 }
 

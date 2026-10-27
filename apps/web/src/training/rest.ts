@@ -3,7 +3,7 @@
 // local na hora (UX-08 §6.1).
 import { DEFAULT_REST_HOURS, type RestConfig } from "@forja/domain";
 import type { LocalDatabase } from "../local/db.ts";
-import { enqueue } from "../local/outbox.ts";
+import { enqueue, REWRITABLE_STATES } from "../local/outbox.ts";
 
 export const REST_UPDATE = "rest.update";
 
@@ -35,9 +35,6 @@ export function toRestConfig(stored: StoredRest | undefined): RestConfig {
   };
 }
 
-/** Operações de descanso que ainda podem ser reescritas (não estão sendo enviadas). */
-const REWRITABLE = new Set(["pending", "retry", "awaiting_login"]);
-
 /**
  * Grava o descanso no aparelho e na fila numa só transação. Uma alteração ainda não enviada é
  * reescrita (uma configuração só tem um valor atual); a revisão-base é a última confirmada.
@@ -58,7 +55,7 @@ export async function saveRest(
     const queued = await db.outbox
       .where("entity_id")
       .equals(current.student_id)
-      .filter((op) => op.type === REST_UPDATE && REWRITABLE.has(op.state))
+      .filter((op) => op.type === REST_UPDATE && REWRITABLE_STATES.has(op.state))
       .first();
     if (queued?.seq !== undefined) {
       await db.outbox.update(queued.seq, { payload });

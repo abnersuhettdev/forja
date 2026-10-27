@@ -4,6 +4,7 @@ import {
   classifyOutcome,
   nextRetryAt,
   retryDelaySeconds,
+  relatedEntityIds,
   selectBatch,
   syncResponseSchema,
   type OutboxOperation,
@@ -38,6 +39,25 @@ describe("intervalos de nova tentativa (UX-08 §6.3)", () => {
 });
 
 describe("selectBatch", () => {
+  it("série espera a sessão que a cria (exercício da sessão no conteúdo)", () => {
+    const ops = [
+      op(1, {
+        type: "session.start",
+        entity_id: "sessao",
+        payload: { exercises: [{ id: "se-1" }, { id: "se-2" }, "inválido"] },
+        state: "retry",
+        next_attempt_at: NOW + 60_000,
+      }),
+      op(2, { type: "set.upsert", entity_id: "serie", payload: { session_exercise_id: "se-1" } }),
+      op(3, { type: "set.upsert", entity_id: "outra", payload: { session_exercise_id: "se-9" } }),
+      op(4, { entity_id: "serie", payload: {} }),
+    ];
+    expect(selectBatch(ops, A, NOW).batch.map((o) => o.seq)).toEqual([3]);
+    expect(relatedEntityIds({ entity_id: "x", payload: { session_exercise_id: 5 } })).toEqual([
+      "x",
+    ]);
+  });
+
   it("envia na ordem de criação, só do usuário da sessão (ADR-028 L3)", () => {
     const { batch, ownerMismatch } = selectBatch(
       [op(3), op(1), op(2, { owner_user_id: B })],

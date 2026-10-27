@@ -55,3 +55,8 @@
   width: 4.5ch;
   font: var(--type-metric);
 }
+
+.error {
+  font: var(--type-caption);
+  color: var(--color-danger);
+}

@@ -140,7 +140,12 @@ export function defaultItem(id: string, exercise: CatalogExercise): EditorItem {
 }
 
 /** "3 × 8–12 · descanso 90 s" ou "3 × 30 s · descanso 60 s" (UX-02 §8.4). */
-export function itemSummary(item: EditorItem): string {
+export function itemSummary(
+  item: Pick<
+    EditorItem,
+    "measure_type" | "sets" | "reps_min" | "reps_max" | "duration_s" | "rest_s"
+  >,
+): string {
   const volume =
     item.measure_type === "duration"
       ? `${String(item.duration_s ?? 0)} s`

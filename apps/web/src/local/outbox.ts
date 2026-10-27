@@ -58,30 +58,48 @@ export async function recoverInterrupted(db: LocalDatabase): Promise<void> {
 }
 
 /**
- * Entidades de valor único cuja cópia local acompanha a revisão confirmada: a próxima
- * alteração feita no aparelho parte dela (ADR-053), e operações seguintes na fila são
- * rebaseadas, pois foram feitas sobre a alteração recém-confirmada.
+ * Registros cuja cópia local acompanha a revisão confirmada (ADR-053): a próxima alteração
+ * feita no aparelho parte dela, e operações seguintes do mesmo registro na fila são
+ * rebaseadas, pois foram feitas sobre a alteração recém-confirmada. "current" = registro
+ * único do depósito (descanso); "entity" = registro com a chave entity_id.
  */
-const REVISION_STORES: Readonly<Record<string, string>> = { "rest.update": "rest" };
+const REVISION_STORES: Readonly<Record<string, { table: string; key: "current" | "entity" }>> = {
+  "rest.update": { table: "rest", key: "current" },
+  "session.start": { table: "sessions", key: "entity" },
+  "session.complete": { table: "sessions", key: "entity" },
+  "session.update": { table: "sessions", key: "entity" },
+  "set.upsert": { table: "set_logs", key: "entity" },
+  "session_exercise.update": { table: "session_exercises", key: "entity" },
+};
+
+/** Operações aguardando nova tentativa ficam prontas já (ex.: a conexão voltou). */
+export async function releaseRetries(db: LocalDatabase): Promise<void> {
+  await db.outbox.where("state").equals("retry").modify({ next_attempt_at: null });
+}
 
 /** Aplica o resultado classificado; só a confirmação do servidor remove da fila. */
 export async function applyChanges(
   db: LocalDatabase,
   changes: readonly OutboxChange[],
 ): Promise<void> {
-  const stores = [...new Set(Object.values(REVISION_STORES))].map((name) => db.table(name));
+  const stores = [...new Set(Object.values(REVISION_STORES).map((s) => s.table))].map((name) =>
+    db.table(name),
+  );
   await db.transaction("rw", [db.outbox, ...stores], async () => {
     for (const change of changes) {
       const query = db.outbox.where("op_id").equals(change.op_id);
       if (change.action === "remove") {
         const op = await query.first();
         const store = op ? REVISION_STORES[op.type] : undefined;
-        if (op && store && change.revision !== undefined) {
-          await db.table(store).update("current", { revision: change.revision });
+        if (op?.seq !== undefined && store && change.revision !== undefined) {
+          const seq = op.seq;
+          await db.table(store.table).update(store.key === "current" ? "current" : op.entity_id, {
+            revision: change.revision,
+          });
           await db.outbox
             .where("entity_id")
             .equals(op.entity_id)
-            .filter((other) => other.type === op.type && other.op_id !== op.op_id)
+            .filter((other) => (other.seq ?? 0) > seq && other.base_revision !== null)
             .modify({ base_revision: change.revision });
         }
         await query.delete();
@@ -97,6 +115,13 @@ export async function applyChanges(
     }
   });
 }
+
+/** Estados em que a operação ainda pode ser reescrita ou retirada (não está sendo enviada). */
+export const REWRITABLE_STATES: ReadonlySet<string> = new Set([
+  "pending",
+  "retry",
+  "awaiting_login",
+]);
 
 /** Operações que ainda não chegaram ao servidor (para RN-052 e avisos). */
 export async function countUnsent(db: LocalDatabase): Promise<number> {

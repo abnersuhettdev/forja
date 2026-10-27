@@ -12,6 +12,7 @@ import {
   readPlanProfile,
   summarizeWorkout,
   weekMarkers,
+  type ActiveProgress,
   type LocalSessions,
   type PlanProfile,
   type WeekDay,
@@ -30,6 +31,8 @@ export type TrainingState =
       readonly exercises: ReadonlyMap<string, CatalogExercise>;
       readonly recommendation: Recommendation;
       readonly week: readonly WeekDay[];
+      /** Progresso da sessão em andamento do aparelho, se houver. */
+      readonly active: ActiveProgress | null;
       readonly weights: readonly WeightRecord[];
       readonly updatedAt: string | undefined;
       readonly timeZone: string;
@@ -117,6 +120,7 @@ export function useTraining(): TrainingState {
       exercises: inputs.exercises,
       recommendation,
       week: weekMarkers(now, timeZone, inputs.sessions, inputs.profile.preferredWeekdays),
+      active: inputs.sessions.active,
       weights: offline.weights,
       updatedAt: offline.updatedAt,
       timeZone,

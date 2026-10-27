@@ -9,7 +9,7 @@ import {
   SYNC_INTERVAL_SECONDS,
 } from "@forja/domain";
 import { writeMeta, type LocalDatabase } from "./db.ts";
-import { applyChanges, listOutbox, markState } from "./outbox.ts";
+import { applyChanges, listOutbox, markState, releaseRetries } from "./outbox.ts";
 import type { SyncTransport } from "./transport.ts";
 
 export interface SyncEngineOptions {
@@ -53,11 +53,15 @@ export class SyncEngine {
     const onVisible = () => {
       if (document.visibilityState === "visible") trigger();
     };
-    window.addEventListener("online", trigger);
+    // Conexão de volta: a espera acumulada sem rede não vale mais; tenta tudo já.
+    const onOnline = () => {
+      void releaseRetries(this.options.db).then(trigger);
+    };
+    window.addEventListener("online", onOnline);
     document.addEventListener("visibilitychange", onVisible);
     this.detach.push(
       () => {
-        window.removeEventListener("online", trigger);
+        window.removeEventListener("online", onOnline);
       },
       () => {
         document.removeEventListener("visibilitychange", onVisible);

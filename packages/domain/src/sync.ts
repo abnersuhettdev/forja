@@ -61,9 +61,30 @@ export interface BatchSelection {
 }
 
 /**
+ * Registros que a operação cria ou de que depende, além do próprio: uma série depende do
+ * exercício da sessão, criado junto com a sessão. Usado no aparelho (ordem de envio) e no
+ * servidor (adiamento), para que nada chegue antes do registro de que precisa.
+ */
+export function relatedEntityIds(op: { entity_id: string; payload: unknown }): string[] {
+  const ids = [op.entity_id];
+  const payload = op.payload;
+  if (typeof payload !== "object" || payload === null) return ids;
+  if ("session_exercise_id" in payload && typeof payload.session_exercise_id === "string")
+    ids.push(payload.session_exercise_id);
+  if ("exercises" in payload && Array.isArray(payload.exercises)) {
+    for (const exercise of payload.exercises as unknown[]) {
+      if (typeof exercise === "object" && exercise !== null && "id" in exercise)
+        ids.push(String(exercise.id));
+    }
+  }
+  return ids;
+}
+
+/**
  * Escolhe o próximo lote: só operações do usuário da sessão, prontas para envio, em ordem de
- * criação. Uma operação espera enquanto houver outra anterior do mesmo registro que não possa
- * seguir (em conflito, recusada, enviando ou aguardando nova tentativa) — UX-08 §6.3 item 2.
+ * criação. Uma operação espera enquanto houver outra anterior do mesmo registro (ou de registro
+ * de que dependa — relatedEntityIds) que não possa seguir (em conflito, recusada, enviando ou
+ * aguardando nova tentativa) — UX-08 §6.3 item 2.
  */
 export function selectBatch(
   operations: readonly OutboxOperation[],
@@ -85,8 +106,9 @@ export function selectBatch(
       op.state === "pending" ||
       op.state === "awaiting_login" ||
       (op.state === "retry" && (op.next_attempt_at ?? 0) <= now);
-    if (!ready || blockedEntities.has(op.entity_id) || batch.length >= limit) {
-      blockedEntities.add(op.entity_id);
+    const related = relatedEntityIds(op);
+    if (!ready || related.some((id) => blockedEntities.has(id)) || batch.length >= limit) {
+      for (const id of related) blockedEntities.add(id);
       continue;
     }
     batch.push(op);

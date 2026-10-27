@@ -1,6 +1,6 @@
 // Meu treino (TAR-018): Hoje com recomendação determinística, escolha de treino com aviso de
 // descanso não bloqueante, Treinos, detalhe do treino e Descanso entre treinos (CA-050..053,
-// CA-055). As sessões chegam com a execução (TAR-019); aqui entram fictícias no banco local.
+// CA-055). A sessão fictícia é gravada no servidor e chega ao aparelho pelo download (API-R06).
 import { expect, test, type Page } from "@playwright/test";
 import postgres from "postgres";
 import { localStatus } from "../../../scripts/db/local.ts";
@@ -13,13 +13,13 @@ test.describe.configure({ mode: "serial" });
 type HookWindow = Window & {
   __forjaLocal?: {
     read: (table: string) => Promise<unknown[]>;
-    write: (table: string, rows: unknown[]) => Promise<void>;
     outbox: () => Promise<{ type: string }[]>;
   };
 };
 
 interface Program {
   studentId: string;
+  versionId: string;
   workoutA: string;
   workoutB: string;
   bench: string;
@@ -41,6 +41,7 @@ async function resetStudent(email: string): Promise<string> {
       select s.id from public.students s join auth.users u on u.id = s.user_id
       where u.email = ${email}`;
     if (!student) throw new Error("aluno fictício ausente");
+    await sql`delete from public.sessions where student_id = ${student.id}`;
     await sql`delete from public.programs where student_id = ${student.id}`;
     await sql`delete from public.rest_overrides where student_id = ${student.id}`;
     await sql`update public.rest_settings set default_hours = 48 where student_id = ${student.id}`;
@@ -87,7 +88,7 @@ async function publishProgram(studentId: string): Promise<Program> {
         update public.program_versions set published_at = now() - interval '3 days'
         where id = ${versionId}`;
     });
-    return { studentId, workoutA, workoutB, bench: bench.id };
+    return { studentId, versionId, workoutA, workoutB, bench: bench.id };
   });
 }
 
@@ -99,35 +100,26 @@ async function signIn(page: Page, email: string, senha: string) {
   await expect(page).toHaveURL(/\/hoje$/);
 }
 
-/** Sessão concluída fictícia do Treino A, terminada há 20 h, com uma série de supino. */
-async function addFinishedSessionA(page: Page, program: Program) {
-  const ended = Date.now() - 20 * 3_600_000;
-  const started = ended - 50 * 60_000;
-  const sessionId = crypto.randomUUID();
-  const sessionExerciseId = crypto.randomUUID();
-  await page.evaluate(
-    async ({ program, sessionId, sessionExerciseId, started, ended }) => {
-      const hooks = (window as HookWindow).__forjaLocal;
-      if (!hooks) throw new Error("ganchos de teste ausentes");
-      await hooks.write("sessions", [
-        {
-          id: sessionId,
-          workout_id: program.workoutA,
-          status: "completed",
-          started_at: new Date(started).toISOString(),
-          ended_at: new Date(ended).toISOString(),
-          last_activity_at: new Date(ended).toISOString(),
-        },
-      ]);
-      await hooks.write("session_exercises", [
-        { id: sessionExerciseId, session_id: sessionId, exercise_id: program.bench },
-      ]);
-      await hooks.write("set_logs", [
-        { id: crypto.randomUUID(), session_exercise_id: sessionExerciseId },
-      ]);
-    },
-    { program, sessionId, sessionExerciseId, started, ended },
-  );
+/** Sessão concluída fictícia do Treino A no servidor, terminada há 20 h, com uma série de supino. */
+async function addFinishedSessionA(program: Program, versionId: string) {
+  await withDb(async (sql) => {
+    const sessionId = crypto.randomUUID();
+    const sessionExerciseId = crypto.randomUUID();
+    await sql`
+      insert into public.sessions
+        (id, student_id, program_version_id, workout_id, status, started_at, ended_at,
+         duration_min, last_activity_at, device_id)
+      values
+        (${sessionId}, ${program.studentId}, ${versionId}, ${program.workoutA}, 'completed',
+         now() - interval '20 hours 50 minutes', now() - interval '20 hours', 50,
+         now() - interval '20 hours', ${crypto.randomUUID()})`;
+    await sql`
+      insert into public.session_exercises (id, session_id, exercise_id, position, status)
+      values (${sessionExerciseId}, ${sessionId}, ${program.bench}, 1, 'done')`;
+    await sql`
+      insert into public.set_logs (id, session_exercise_id, set_number, load_kg, reps, completed_at)
+      values (${crypto.randomUUID()}, ${sessionExerciseId}, 1, 40, 10, now() - interval '20 hours')`;
+  });
 }
 
 test("Hoje recomenda o treino, respeita o descanso e a configuração por grupo", async ({
@@ -164,7 +156,7 @@ test("Hoje recomenda o treino, respeita o descanso e a configuração por grupo"
   expect((weightBox?.y ?? 0) + (weightBox?.height ?? 0)).toBeLessThanOrEqual(navBox?.y ?? 0);
 
   // A feito há 20 h: B divide o peitoral (48 h) → descanso sugerido com horário (CT-REC-03).
-  await addFinishedSessionA(page, program);
+  await addFinishedSessionA(program, program.versionId);
   await page.reload();
   await expect(page.getByText("Descanso sugerido")).toBeVisible();
   await expect(

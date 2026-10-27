@@ -26,6 +26,8 @@ export const RANGES = {
   workoutsPerProgram: { min: 1, max: 7, step: 1 },
   sessionDurationMinutes: { min: 1, max: 300, step: 1 },
   setNumber: { min: 1, max: 20, step: 1 },
+  // DAD-02 ENT-024 — duração registrada numa série
+  durationSecondsLogged: { min: 0, max: 3600, step: 1 },
 } as const satisfies Record<string, Range>;
 
 export type RangeName = keyof typeof RANGES;

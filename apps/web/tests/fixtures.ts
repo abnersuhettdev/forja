@@ -36,3 +36,5 @@ export const SESSION_FILE = new URL("./.auth/sessao.json", import.meta.url).path
 );
 /** Aluno com programa e sessões fictícias para os testes de Meu treino (um por navegador). */
 export const trainingUser = (browserName: string) => user(`treino.${browserName}@exemplo.test`);
+/** Aluno com programa para os testes de execução (um por navegador). */
+export const executionUser = (browserName: string) => user(`execucao.${browserName}@exemplo.test`);

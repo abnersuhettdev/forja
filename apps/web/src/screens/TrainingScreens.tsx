@@ -7,7 +7,6 @@ import {
   type WorkoutStatus,
 } from "@forja/domain";
 import { Button } from "../components/Button.tsx";
-import { Dialog } from "../components/Dialog.tsx";
 import { ExerciseImage } from "../components/ExerciseImage.tsx";
 import { EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { Sheet } from "../components/Sheet.tsx";
@@ -22,6 +21,7 @@ import {
   formatShortDate,
 } from "../training/format.ts";
 import { useTraining, type TrainingState } from "../training/useTraining.ts";
+import { SESSION_PATH, useStartWorkout } from "../execution/useStartWorkout.tsx";
 import type { WeekDay, WorkoutSummary } from "../training/training.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -32,8 +32,6 @@ import styles from "./Training.module.css";
 const T = TEXTS.training;
 type Ready = Extract<TrainingState, { status: "ready" }>;
 
-/** Execução do treino (TELA-015) chega na TAR-019; a rota já existe. */
-const SESSION_PATH = "/sessao";
 const PROGRAM_PATH = "/gestao/programa";
 
 const groupLabel = (group: string) => MUSCLE_GROUP_LABELS[group as MuscleGroup];
@@ -95,6 +93,7 @@ function OfflineStamp({ updatedAt }: { updatedAt: string | undefined }) {
 export function TodayScreen() {
   const result = useReadyTraining();
   const [choosing, setChoosing] = useState(false);
+  const { start, dialog } = useStartWorkout();
   if ("fallback" in result) return result.fallback;
   const { training } = result;
   const today = toLocalDate(training.now, training.timeZone);
@@ -104,6 +103,7 @@ export function TodayScreen() {
       <p className={styles.date}>{formatDay(today)}</p>
       <HeroCard
         training={training}
+        onStart={(workoutId) => void start(workoutId)}
         onChoose={() => {
           setChoosing(true);
         }}
@@ -116,15 +116,25 @@ export function TodayScreen() {
       <ChooseWorkoutSheet
         open={choosing}
         training={training}
+        onStart={(workoutId) => void start(workoutId)}
         onClose={() => {
           setChoosing(false);
         }}
       />
+      {dialog}
     </div>
   );
 }
 
-function HeroCard({ training, onChoose }: { training: Ready; onChoose: () => void }) {
+function HeroCard({
+  training,
+  onStart,
+  onChoose,
+}: {
+  training: Ready;
+  onStart: (workoutId: string) => void;
+  onChoose: () => void;
+}) {
   const { recommendation: rec, workouts } = training;
   const byId = new Map(workouts.map((w) => [w.id, w]));
   const next = rec.next ? byId.get(rec.next.workoutId) : undefined;
@@ -136,6 +146,20 @@ function HeroCard({ training, onChoose }: { training: Ready; onChoose: () => voi
         <h2 id="hero-title" className={styles.heroTitle}>
           {T.inProgressTitle(byId.get(state.workoutId)?.name ?? "")}
         </h2>
+        {training.active ? (
+          <p className={styles.heroText}>
+            {T.inProgressFacts(
+              Math.max(
+                0,
+                Math.floor(
+                  (training.now.getTime() - new Date(training.active.startedAt).getTime()) / 60_000,
+                ),
+              ),
+              training.active.sets,
+              training.active.planned,
+            )}
+          </p>
+        ) : null}
         <Button
           variant="primary"
           className={styles.heroPrimary}
@@ -222,7 +246,7 @@ function HeroCard({ training, onChoose }: { training: Ready; onChoose: () => voi
         icon={<Play size={20} />}
         className={styles.heroPrimary}
         onClick={() => {
-          navigate(SESSION_PATH);
+          onStart(next.id);
         }}
       >
         {T.start}
@@ -299,10 +323,12 @@ function restLine(status: WorkoutStatus): string | null {
 export function ChooseWorkoutSheet({
   open,
   training,
+  onStart,
   onClose,
 }: {
   open: boolean;
   training: Ready;
+  onStart: (workoutId: string) => void;
   onClose: () => void;
 }) {
   const [confirming, setConfirming] = useState<string | null>(null);
@@ -330,7 +356,7 @@ export function ChooseWorkoutSheet({
                     return;
                   }
                   close();
-                  navigate(SESSION_PATH);
+                  onStart(workout.id);
                 }}
               >
                 <span className={styles.cardTitle}>{workout.name}</span>
@@ -363,7 +389,7 @@ export function ChooseWorkoutSheet({
                       variant="primary"
                       onClick={() => {
                         close();
-                        navigate(SESSION_PATH);
+                        onStart(workout.id);
                       }}
                     >
                       {T.confirmStart}
@@ -423,7 +449,7 @@ export function WorkoutsScreen() {
 
 export function WorkoutScreen({ params }: { params: Readonly<Record<string, string>> }) {
   const result = useReadyTraining();
-  const [blocked, setBlocked] = useState(false);
+  const { start, dialog } = useStartWorkout();
   if ("fallback" in result) return result.fallback;
   const { training } = result;
   const workout = training.program.document.workouts.find((w) => w.id === params.id);
@@ -446,12 +472,6 @@ export function WorkoutScreen({ params }: { params: Readonly<Record<string, stri
       />
     );
   }
-  const state = training.recommendation.state;
-  const inProgressName =
-    state.kind === "continue"
-      ? (training.workouts.find((w) => w.id === state.workoutId)?.name ?? "")
-      : null;
-
   return (
     <div className={shared.stack}>
       <div className={shared.stack}>
@@ -490,35 +510,12 @@ export function WorkoutScreen({ params }: { params: Readonly<Record<string, stri
           variant="primary"
           icon={<Play size={20} />}
           className={styles.heroPrimary}
-          onClick={() => {
-            if (
-              inProgressName !== null &&
-              state.kind === "continue" &&
-              state.workoutId !== workout.id
-            ) {
-              setBlocked(true);
-              return;
-            }
-            navigate(SESSION_PATH);
-          }}
+          onClick={() => void start(workout.id)}
         >
           {T.start}
         </Button>
       </div>
-      <Dialog
-        open={blocked}
-        title={T.inProgressTitle(inProgressName ?? "")}
-        confirmLabel={T.goToInProgress}
-        onCancel={() => {
-          setBlocked(false);
-        }}
-        onConfirm={() => {
-          setBlocked(false);
-          navigate(SESSION_PATH);
-        }}
-      >
-        <p>{T.inProgressBlock(inProgressName ?? "")}</p>
-      </Dialog>
+      {dialog}
     </div>
   );
 }
