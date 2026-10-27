@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   verificacoes:
-    name: Tipos, lint, formatação, licenças e dependências
+    name: Tipos, lint, formatação, licenças, catálogo e dependências
     runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
@@ -32,6 +32,8 @@ jobs:
       - name: Testes de unidade com metas de cobertura (RNF-021)
         run: pnpm test
       - run: pnpm licenses:check
+      - name: Catálogo curado (DAD-06 §4)
+        run: pnpm catalog:check
       - name: Auditoria de dependências (falha em vulnerabilidade alta ou crítica)
         run: pnpm audit --audit-level high
 

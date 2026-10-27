@@ -5,17 +5,17 @@
 | Identificador | GOV-02 |
 | Status | Vivo (atualizado a cada rodada de trabalho) |
 | Dono do assunto | Fonte oficial do andamento: etapas, documentos, decisões abertas, perguntas, bloqueios, aprovações |
-| Última atualização | 2026-10-26 (Fase 2 — TAR-001 em andamento) |
+| Última atualização | 2026-10-26 (Fase 2 — TAR-012 entregue para revisão) |
 
 ## 1. Situação atual
 
 | Item | Valor |
 |---|---|
 | Fase | **Fase 2 — Implementação** (Etapa 9) |
-| Etapa corrente | **Etapa 9 — Implementação incremental** · I-1 Fundação · TAR-001 (local), TAR-002 e TAR-005 concluídas; demais tarefas de I-1 aguardam TAR-003 |
+| Etapa corrente | **Etapa 9 — Implementação incremental** · I-1 Fundação · TAR-001 (local), TAR-002 e TAR-005 concluídas; TAR-012 entregue, aguardando revisão do usuário; demais tarefas de I-1 aguardam TAR-003 |
 | Fase 2 (implementação) | **Autorizada** em 2026-10-26 (Marco) |
 | Modalidade TER (terceiros) | **Bloqueada** pelo GATE-TER (PRD-08) |
-| Bloqueio atual | TAR-003 (ambientes) exige contas no Supabase, Cloudflare e GitHub; sem ela, I-1 não avança além de TAR-005. Pode seguir em paralelo: TAR-012 (curadoria do catálogo) |
+| Bloqueio atual | TAR-003 (ambientes) exige contas no Supabase, Cloudflare e GitHub; sem ela, I-1 não avança além de TAR-005. TAR-012 aguarda a revisão do usuário (`catalog/REVISAO.md`) |
 
 ## 2. Etapas (sequência oficial — ADR-001)
 
@@ -356,4 +356,5 @@ Ver §11 (tarefa corrente).
 | TAR-003 Ambientes | Bloqueada | Exige contas no Supabase, Cloudflare e GitHub (ação do usuário) |
 | TAR-005 Casca do app e componentes base | **Concluída** (local) | Rotas de UX-03 §5 com telas provisórias que indicam a tarefa de entrega; navegação por área (barra inferior/trilho lateral, chave de área); foco no título ao trocar de tela; tokens de UX-02 em dois temas; componentes `Button`, `IconButton`, `FormField`, `Stepper`, `Snackbar`, `Dialog`, `Banner`, `EmptyState`, `ErrorState`, `Skeleton`, barreira de erro; lint com React Hooks e jsx-a11y. Testes: 3 unitários do `Stepper`; 126 ponta a ponta (todas as rotas em 360 px nos dois temas, 768/1280 px, navegação, foco, alvos de toque, componentes), axe sem violações sérias. Build de produção: 103,5 KB de JS comprimido. Decisão de implementação: roteador próprio mínimo, sem dependência nova (ARQ-04 §8). CA-201..205 atendidos localmente |
 | TAR-004, 006, 007 | Bloqueadas | Dependem de TAR-003 (contas do usuário) |
-| TAR-008..035 | Não iniciadas | TAR-008 depende de TAR-004; TAR-012 (curadoria) pode seguir em paralelo |
+| TAR-012 Curadoria do catálogo | **Entregue — aguarda revisão do usuário** | `catalog/exercicios.json` com 110 exercícios do free-exercise-db (Unlicense, commit `f00c92c`), textos reescritos em pt-BR, classificados pela taxonomia de TRN-03 (padrão, músculos, equipamentos, marcadores, nível). Metas de DAD-06 §4 atendidas: grupos grandes ≥ 6, pequenos ≥ 2; peso livre 48, máquina 20, polia 16, peso corporal 25; três níveis; toda máquina com alternativa sem máquina. Nenhuma imagem (procedência não comprovada — ADR-052); placeholder. Snapshot, `FONTE.md`, `LICENCAS.md`, `REVISAO.md`; validador `scripts/catalog/validate.ts` no CI com 6 testes. Pendentes: revisão dos textos pelo usuário (CA-038, `--release`) e contato com os mantenedores sobre as imagens (ação externa — requer autorização) |
+| TAR-008..011, 013..035 | Não iniciadas | TAR-008 depende de TAR-004; TAR-013 depende de TAR-004, TAR-005 e TAR-012 |

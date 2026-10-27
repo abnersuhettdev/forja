@@ -53,3 +53,4 @@ Registra mudanças relevantes (criação de documentos, mudanças de requisito, 
 | 2026-10-26 | 9 | GOV-02 | TAR-001 concluída localmente (commit 45c2a40); repositório remoto adiado por decisão do usuário — CI remoto pendente. TAR-002 iniciada. | "vamos continuar assim sem criar repo" |
 | 2026-10-26 | 9 | GOV-02 | TAR-002 concluída (pacote de domínio, 31 testes, cobertura acima da meta). | — |
 | 2026-10-26 | 9 | GOV-02, ARQ-02 | TAR-005 concluída (casca do app, componentes base, testes ponta a ponta com axe); CI passa a rodar testes unitários e ponta a ponta. | — |
+| 2026-10-26 | 9 | GOV-02 | TAR-012 entregue para revisão: 110 exercícios curados em `catalog/`, sem imagens (ADR-052), validador automático no CI. Aguarda revisão do usuário. | "Pode iniciar a TAR-012 (curadoria do catálogo) em paralelo, enquanto eu não crio as contas." |
