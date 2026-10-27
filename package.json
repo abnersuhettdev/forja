@@ -1,0 +1,28 @@
+{
+  "name": "forja",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Forja — PWA de planejamento, execução e registro de treinos (ver docs/).",
+  "type": "module",
+  "packageManager": "pnpm@12.14.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . --max-warnings=0",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "licenses:check": "node scripts/check-licenses.ts",
+    "check": "tsc -p tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && node scripts/check-licenses.ts"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "eslint": "10.13.0",
+    "globals": "17.13.0",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.72.0"
+  }
+}

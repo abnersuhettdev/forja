@@ -1,0 +1,7 @@
+# A documentação é editada manualmente e tem tabelas longas; não reformatar.
+docs/
+pnpm-lock.yaml
+**/dist/
+**/coverage/
+**/playwright-report/
+**/test-results/

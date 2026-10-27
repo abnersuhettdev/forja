@@ -1,0 +1,7 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Versões publicadas há menos de 7 dias não são instaladas (proteção contra pacotes
+# comprometidos recém-publicados — critério de seleção registrado em ARQ-02 §9, VH-10).
+minimumReleaseAge: 10080

@@ -1,0 +1,21 @@
+# Dependências e builds
+node_modules/
+dist/
+coverage/
+playwright-report/
+test-results/
+*.tsbuildinfo
+
+# Ambiente e segredos — nunca versionar (ARQ-03 §2, SEG-01 §7)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+age-*.txt
+
+# Ferramentas locais
+supabase/.temp/
+.DS_Store
+Thumbs.db
+*.log
