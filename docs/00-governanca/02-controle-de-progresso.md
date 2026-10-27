@@ -5,17 +5,17 @@
 | Identificador | GOV-02 |
 | Status | Vivo (atualizado a cada rodada de trabalho) |
 | Dono do assunto | Fonte oficial do andamento: etapas, documentos, decisões abertas, perguntas, bloqueios, aprovações |
-| Última atualização | 2026-10-26 (Fase 2 — TAR-012 entregue para revisão) |
+| Última atualização | 2026-10-27 (Fase 2 — TAR-004 concluída localmente) |
 
 ## 1. Situação atual
 
 | Item | Valor |
 |---|---|
 | Fase | **Fase 2 — Implementação** (Etapa 9) |
-| Etapa corrente | **Etapa 9 — Implementação incremental** · I-1 Fundação · TAR-001 (local), TAR-002 e TAR-005 concluídas; TAR-012 entregue, aguardando revisão do usuário; demais tarefas de I-1 aguardam TAR-003 |
+| Etapa corrente | **Etapa 9 — Implementação incremental** · I-1 Fundação · TAR-001 (local), TAR-002 e TAR-005 concluídas; TAR-012 entregue, aguardando revisão do usuário; TAR-004 concluída localmente (ADR-090); próxima: TAR-008 |
 | Fase 2 (implementação) | **Autorizada** em 2026-10-26 (Marco) |
 | Modalidade TER (terceiros) | **Bloqueada** pelo GATE-TER (PRD-08) |
-| Bloqueio atual | TAR-003 (ambientes) exige contas no Supabase, Cloudflare e GitHub; sem ela, I-1 não avança além de TAR-005. TAR-012 aguarda a revisão do usuário (`catalog/REVISAO.md`) |
+| Bloqueio atual | TAR-003 (ambientes) exige contas no Supabase, Cloudflare e GitHub; TAR-004 e seguintes avançam no ambiente local (ADR-090), com verificação no projeto real depois; TAR-006/007 seguem bloqueadas. TAR-012 aguarda a revisão do usuário (`catalog/REVISAO.md`) |
 
 ## 2. Etapas (sequência oficial — ADR-001)
 
@@ -142,6 +142,7 @@ Nenhuma.
 | 2026-10-26 | Q-006 | "por enquanto podemos usar um endereço provisório gratuito durante o desenvolvimento" | Critérios HD-01..07 (ARQ-02 §8) |
 | 2026-10-26 | Detalhamentos de saída da conta e isolamento; ADR-028 | "Confirmo os detalhamentos pendentes (RF-101 revisado, RF-103 como ESS, RN-052, RN-053, ADR-028 e os fluxos de UX-04 §6 e UX-08 §8)" | — |
 | 2026-10-26 | Início da Etapa 4 | "Pode iniciar a Etapa 4." | — |
+| 2026-10-27 | ADR-090 — Supabase local para adiantar TAR-004 e seguintes | "Aprovo usar o Supabase local (CLI + Docker) para adiantar a TAR-004 e seguintes; registre a decisão como ADR e repita as verificações no projeto real depois." | Verificações repetidas no projeto real após TAR-003 |
 | 2026-10-26 | **Marco de aprovação formal** — Etapa 8 aprovada; TRN-04 §4 confirmado; Fase 2 autorizada | "Confirmo o esclarecimento de TRN-04 §4, aprovo a Etapa 8 (PLN-05) e autorizo explicitamente o início da Fase 2, começando por TAR-001." | — |
 | 2026-10-26 | **Etapa 7** — PLN-01..04; ADR-080; início da Etapa 8 | "Aprovo a Etapa 7 (PLN-01 a PLN-04) e a ADR-080. Pode iniciar a Etapa 8 (auditoria final)." | Fase 2 continua bloqueada até o Marco |
 | 2026-10-26 | Início da Etapa 7 | "Pode iniciar a Etapa 7." | — |
@@ -355,6 +356,7 @@ Ver §11 (tarefa corrente).
 | TAR-002 Pacote de domínio e parâmetros | **Concluída** (local) | `@forja/domain`: parâmetros (PRD-07 §11), enumerações e rótulos (TRN-01/03), faixas (RN-018/035), esquemas Zod (DAD-02), datas no fuso (RN-028), idade (RN-010), janela de edição (RN-027), relógio (RN-048), mensagens e formatos pt-BR (SEG-05, RNF-004). 31 testes; cobertura 100% linhas / 94,9% ramos (meta 90%). CA-221 atendido localmente |
 | TAR-003 Ambientes | Bloqueada | Exige contas no Supabase, Cloudflare e GitHub (ação do usuário) |
 | TAR-005 Casca do app e componentes base | **Concluída** (local) | Rotas de UX-03 §5 com telas provisórias que indicam a tarefa de entrega; navegação por área (barra inferior/trilho lateral, chave de área); foco no título ao trocar de tela; tokens de UX-02 em dois temas; componentes `Button`, `IconButton`, `FormField`, `Stepper`, `Snackbar`, `Dialog`, `Banner`, `EmptyState`, `ErrorState`, `Skeleton`, barreira de erro; lint com React Hooks e jsx-a11y. Testes: 3 unitários do `Stepper`; 126 ponta a ponta (todas as rotas em 360 px nos dois temas, 768/1280 px, navegação, foco, alvos de toque, componentes), axe sem violações sérias. Build de produção: 103,5 KB de JS comprimido. Decisão de implementação: roteador próprio mínimo, sem dependência nova (ARQ-04 §8). CA-201..205 atendidos localmente |
-| TAR-004, 006, 007 | Bloqueadas | Dependem de TAR-003 (contas do usuário) |
+| TAR-004 Banco base | **Concluída localmente — verificar no projeto real** (ADR-090) | Cinco migrações aplicadas do zero: papel `sync_writer` (sem login, sem `BYPASSRLS`), `app.current_actor()`, taxonomias de TRN-01/03 geradas do pacote de domínio (teste contra divergência), `system_settings` (`ter_enabled = false`), `managers`, `students`, `training_profiles`, `rest_settings`, `rest_overrides`, `assessments`, `weight_entries`; políticas habilitadas e forçadas; tabelas novas sem permissão automática para `anon`/`authenticated`; gatilhos TG-03, TG-04, TG-05, TG-08 (este aguarda `program_versions` da TAR-015), validação de códigos e dono imutável do aluno. 46 testes pgTAP (estrutura com reprovação de tabela sem política, acesso cruzado entre dois usuários fictícios, escrita direta recusada, gatilhos e faixas) e verificação HTTP com `anon`. VH-12 confirmada localmente. Pendências: repetir no projeto real após TAR-003; CI do banco só roda quando houver repositório remoto. CA-214, CA-222, CA-224 atendidos localmente |
+| TAR-006, 007 | Bloqueadas | Dependem de TAR-003 (contas do usuário) |
 | TAR-012 Curadoria do catálogo | **Entregue — aguarda revisão do usuário** | `catalog/exercicios.json` com 110 exercícios do free-exercise-db (Unlicense, commit `f00c92c`), textos reescritos em pt-BR, classificados pela taxonomia de TRN-03 (padrão, músculos, equipamentos, marcadores, nível). Metas de DAD-06 §4 atendidas: grupos grandes ≥ 6, pequenos ≥ 2; peso livre 48, máquina 20, polia 16, peso corporal 25; três níveis; toda máquina com alternativa sem máquina. Nenhuma imagem (procedência não comprovada — ADR-052); placeholder. Snapshot, `FONTE.md`, `LICENCAS.md`, `REVISAO.md`; validador `scripts/catalog/validate.ts` no CI com 6 testes. Pendentes: revisão dos textos pelo usuário (CA-038, `--release`) e contato com os mantenedores sobre as imagens (ação externa — requer autorização) |
 | TAR-008..011, 013..035 | Não iniciadas | TAR-008 depende de TAR-004; TAR-013 depende de TAR-004, TAR-005 e TAR-012 |

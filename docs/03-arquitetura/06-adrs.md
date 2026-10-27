@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-26 (Etapa 7 aprovada) |
+| Última atualização | 2026-10-27 (ADR-090) |
 
 ## 1. Objetivo
 
@@ -80,8 +80,9 @@ Registrar decisões relevantes com contexto, alternativas, justificativa e conse
 | ADR-074 | Ambientes: local, desenvolvimento e produção em dois projetos gratuitos | Infraestrutura | 6 | **Aprovada** | Não |
 | ADR-075 | Pipeline de CI/CD e ordem de publicação | Processo | 6 | **Aprovada** | Não |
 | ADR-080 | Ordem de implementação e incrementos do Lançamento 1 | Processo | 7 | **Aprovada** | Não |
+| ADR-090 | Adiantar TAR-004 e seguintes no ambiente local enquanto as contas não existem | Processo | 9 | **Aprovada** | Não |
 
-Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes.
+Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usada: 090).
 
 ---
 
@@ -618,6 +619,20 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Justificativa:** cada incremento entrega algo demonstrável; os riscos maiores (fila offline, isolamento, VH-12) aparecem cedo; (b) só mostra valor no fim; (c) contraria ADR-019 (gerador é `DES`).
 - **Consequências:** critérios de saída por incremento; ações do usuário marcadas nas tarefas.
 
+## ADR-090 — Adiantar TAR-004 e seguintes no ambiente local enquanto as contas não existem
+
+- **Tipo:** Processo · **Status:** Aprovada (2026-10-27 — "Aprovo usar o Supabase local (CLI + Docker) para adiantar a TAR-004 e seguintes; registre a decisão como ADR e repita as verificações no projeto real depois.") · **Data:** 2026-10-27
+- **Contexto:** pelo [PLN-01](../08-planejamento/01-dependencias-e-ordem-de-implementacao.md), TAR-004 depende de TAR-003 (projetos no provedor), que exige contas criadas pelo usuário. Sem elas, toda a implementação depois de TAR-005 ficaria parada. O ambiente **Local** já está previsto em [IMP-01 §1](../07-implantacao/01-ambientes-e-configuracao.md#1-ambientes-adr-074) (banco do provedor via CLI, dados fictícios).
+- **Alternativas:** (a) aguardar as contas; (b) desenvolver TAR-004 e seguintes contra o ambiente local (CLI do Supabase com containers Docker), repetindo as verificações no projeto real quando TAR-003 for concluída; (c) simular o banco com outra tecnologia (diverge da produção).
+- **Decisão:** (b). Migrações, papéis, políticas por linha, gatilhos, funções e testes são desenvolvidos e verificados contra o Supabase local. A CLI entra como dependência de desenvolvimento com versão exata (política de ARQ-02 §9).
+- **Justificativa:** usa o ambiente já previsto, mantém paridade com a produção (mesmo Postgres e serviços do provedor) e destrava o caminho crítico.
+- **Consequências:**
+  1. As tarefas adiantadas ficam com status **"Concluída localmente — verificar no projeto real"** em GOV-02 §11 até a TAR-003.
+  2. Ao concluir TAR-003, repetir no projeto de desenvolvimento e depois no de produção: aplicação das migrações, testes de políticas e de acesso cruzado, **VH-12** (função conectando com papel próprio) e as verificações de configuração de IMP-01 (cadastro público desabilitado, senha mínima, limites). Divergência relevante → parar e propor ajuste (PLN-01 §1, regra 4).
+  3. Diferenças conhecidas do ambiente local (limites de taxa, e-mail, região, cotas do plano gratuito) não são consideradas verificadas localmente.
+  4. A ordem do PLN-01 não muda; só o pré-requisito "TAR-003" passa a ser satisfeito provisoriamente pelo ambiente local.
+  5. O CI remoto só executará os testes de banco quando houver repositório; até lá, rodam localmente.
+
 ## Histórico
 
 | Data | Alteração |
@@ -642,3 +657,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-26 | Etapa 7: ADR-080 criada (Proposta). |
 | 2026-10-26 | ADR-080 aprovada pelo usuário. |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): parâmetro da ADR-028 L6 atualizado com o valor aprovado na ADR-070 (sem mudança de decisão). |
+| 2026-10-27 | ADR-090 criada e aprovada pelo usuário (Supabase local para adiantar TAR-004 e seguintes). |

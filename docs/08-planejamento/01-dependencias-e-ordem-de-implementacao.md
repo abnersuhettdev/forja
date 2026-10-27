@@ -64,6 +64,8 @@ flowchart LR
 
 A curadoria (TAR-012) é trabalho de conteúdo e pode correr em paralelo desde o Marco.
 
+> **ADR-090 (2026-10-27):** enquanto TAR-003 não é concluída, TAR-004 e seguintes são desenvolvidas contra o ambiente Local de IMP-01 §1; as verificações são repetidas no projeto real após TAR-003.
+
 ## 3. Tarefas
 ### TAR-001 — Repositório e ferramentas
 
