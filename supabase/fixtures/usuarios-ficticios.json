@@ -48,6 +48,18 @@
       "senha": "Ficticia-gestao-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "offline.chromium@exemplo.test",
+      "senha": "Ficticia-offline-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "offline.webkit@exemplo.test",
+      "senha": "Ficticia-offline-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

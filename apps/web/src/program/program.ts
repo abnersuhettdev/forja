@@ -33,7 +33,7 @@ interface ItemRow {
   notes: string | null;
 }
 
-interface VersionRow {
+export interface VersionRow {
   id: string;
   status: "draft" | "active" | "archived";
   revision: number;
@@ -45,7 +45,7 @@ interface VersionRow {
   workouts: { id: string; position: number; name: string; workout_items: ItemRow[] }[];
 }
 
-const SELECT = `id, status, revision, version_number, published_at, updated_at, name, split_type,
+export const VERSION_SELECT = `id, status, revision, version_number, published_at, updated_at, name, split_type,
   workouts(id, position, name, workout_items(id, position, exercise_id, measure_type, sets,
     reps_min, reps_max, duration_s, rest_s, suggested_load_kg, notes))`;
 
@@ -90,7 +90,7 @@ export async function fetchProgram(
 ): Promise<ProgramView> {
   const { data, error } = await supabase
     .from("program_versions")
-    .select(SELECT)
+    .select(VERSION_SELECT)
     .eq("student_id", studentId)
     .in("status", ["draft", "active"])
     .overrideTypes<VersionRow[], { merge: false }>();

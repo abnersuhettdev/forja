@@ -114,6 +114,7 @@ interface DevWindow extends Window {
       payload?: Record<string, unknown>;
     }) => Promise<string>;
     outbox: () => Promise<unknown[]>;
+    read: (table: string) => Promise<unknown[]>;
     syncNow: () => Promise<void>;
   };
 }
@@ -139,6 +140,7 @@ function exposeTestHooks(
       return op.op_id;
     },
     outbox: () => listOutbox(db),
+    read: (table) => db.table(table).toArray(),
     syncNow: () => engine.syncNow(),
   };
 }

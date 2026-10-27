@@ -93,7 +93,11 @@ export function ProfileScreen() {
   if (state.status === "loading") return <Skeleton lines={8} />;
   if (state.status === "unavailable") {
     return (
-      <ErrorState title={TEXTS.error.title} description={TEXTS.program.offline} onRetry={reload} />
+      <ErrorState
+        title={TEXTS.error.title}
+        description={TEXTS.program.managementOffline}
+        onRetry={reload}
+      />
     );
   }
   const { student, profile, lastAssessment } = state.data;

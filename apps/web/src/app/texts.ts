@@ -213,6 +213,8 @@ export const TEXTS = {
     exercisesCount: (n: number) => (n === 1 ? "1 exercício" : `${String(n)} exercícios`),
     offline:
       "Para alterar o programa é preciso estar conectado. Seus treinos continuam disponíveis offline.",
+    managementOffline:
+      "A área de gestão precisa de conexão. Seus treinos continuam disponíveis offline.",
     noStudent: "Conclua a configuração inicial para montar seu programa.",
   },
   editor: {

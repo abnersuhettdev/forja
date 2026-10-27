@@ -13,6 +13,8 @@ import {
   type ThemePreference,
 } from "../design/theme.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
+import { useOfflineData } from "../offline/OfflineDataProvider.tsx";
+import { formatUpdatedAt } from "./CatalogScreen.tsx";
 import type { NavArea } from "../app/navigation.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -57,6 +59,8 @@ export function AccountScreen({ area }: { area: NavArea }) {
   const context = state.status === "ready" ? state.context : null;
   const dualRole = context !== null && context.isManager && context.student !== null;
   const pending = local?.unsent ?? 0;
+  const { state: offline } = useOfflineData();
+  const offlineStamp = offline.status === "ready" ? formatUpdatedAt(offline.updatedAt) : null;
 
   return (
     <div className={styles.stack}>
@@ -101,7 +105,9 @@ export function AccountScreen({ area }: { area: NavArea }) {
           to="/conta/sincronizacao"
           icon={<RefreshCw size={20} aria-hidden="true" />}
           label={T.sync}
-          detail={pending > 0 ? T.syncPending(pending) : T.syncDone}
+          detail={[pending > 0 ? T.syncPending(pending) : T.syncDone, offlineStamp]
+            .filter(Boolean)
+            .join(" · ")}
         />
         <ListLink
           to="/conta/instalar"

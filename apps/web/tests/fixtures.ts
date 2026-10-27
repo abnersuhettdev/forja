@@ -25,6 +25,8 @@ export const passwordChangeUser = (browserName: string) =>
   user(`troca.${browserName}@exemplo.test`);
 /** Gestor com aluno próprio exclusivo do teste de programa (um por navegador). */
 export const managementUser = (browserName: string) => user(`gestao.${browserName}@exemplo.test`);
+/** Aluno com programa publicado para os testes offline (um por navegador). */
+export const offlineUser = (browserName: string) => user(`offline.${browserName}@exemplo.test`);
 /** Usuário sem configuração inicial (um por navegador, para rodar em paralelo). */
 export const firstAccessUser = (browserName: string) =>
   user(`primeiro.${browserName}@exemplo.test`);
