@@ -10,6 +10,8 @@ import { navigate, usePathname } from "./router.tsx";
 import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
 import { ComponentsShowcase } from "../screens/ComponentsShowcase.tsx";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
+import { CatalogScreen } from "../screens/CatalogScreen.tsx";
+import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
@@ -22,7 +24,14 @@ const LOGIN_PATH = "/entrar";
 const ONBOARDING_PATH = "/configuracao-inicial";
 
 /** Telas já entregues; as demais mostram em que tarefa chegam (PendingScreen). */
-const SCREENS: Readonly<Record<string, ComponentType<{ area: NavArea }>>> = {
+interface ScreenProps {
+  readonly area: NavArea;
+  readonly params: Readonly<Record<string, string>>;
+}
+
+const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
+  "TELA-014": ExerciseScreen,
+  "TELA-034": CatalogScreen,
   "TELA-003": OnboardingScreen,
   "TELA-004": AccountScreen,
   "TELA-005": ChangePasswordScreen,
@@ -39,7 +48,7 @@ export function AppShell() {
   const { state: userContext, refresh } = useUserContext();
   const context = userContext.status === "ready" ? userContext.context : null;
   const needsOnboarding = context !== null && context.student === null;
-  // Conta pertence às duas áreas: mantém a navegação da última área visitada (UX-03 §3).
+  // Conta e telas comuns (ex.: detalhe do exercício) mantêm a navegação da última área (UX-03 §3).
   const [lastArea, setLastArea] = useState<NavArea>("aluno");
   const routeArea = route?.area === "aluno" || route?.area === "gestao" ? route.area : null;
   if (routeArea !== null && routeArea !== lastArea) setLastArea(routeArea);
@@ -131,7 +140,11 @@ export function AppShell() {
   // Chave de área só com papel duplo (RF-005, ADR-003).
   const dualRole = context !== null && context.isManager && context.student !== null;
   const withNavigation =
-    route === null || route.area === "aluno" || route.area === "gestao" || route.area === "conta";
+    route === null ||
+    route.area === "aluno" ||
+    route.area === "gestao" ||
+    route.area === "conta" ||
+    route.area === "comum";
   const area = routeArea ?? lastArea;
 
   return (
@@ -140,7 +153,7 @@ export function AppShell() {
       <main className={styles.main}>
         <ErrorBoundary resetKey={pathname}>
           {Screen ? (
-            <Screen area={area} />
+            <Screen area={area} params={matchRoute(route?.pattern ?? "", pathname) ?? {}} />
           ) : route ? (
             <PendingScreen route={route} showTitle={!withNavigation} />
           ) : (

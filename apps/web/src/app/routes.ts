@@ -1,6 +1,7 @@
 // Inventário de telas e rotas (UX-03 §4.1, §5). `task` indica a tarefa de PLN-01 que entrega a tela.
 
-export type Area = "aluno" | "gestao" | "conta" | "execucao" | "acesso";
+/** "comum": tela das duas áreas (mantém a navegação da última área visitada). */
+export type Area = "aluno" | "gestao" | "conta" | "comum" | "execucao" | "acesso";
 
 export interface RouteDefinition {
   readonly pattern: string;
@@ -26,7 +27,7 @@ export const ROUTES: readonly RouteDefinition[] = [
     pattern: "/exercicios/:id",
     screen: "TELA-014",
     title: "Exercício",
-    area: "aluno",
+    area: "comum",
     task: "TAR-013",
   },
   { pattern: "/sessao", screen: "TELA-015", title: "Execução", area: "execucao", task: "TAR-019" },

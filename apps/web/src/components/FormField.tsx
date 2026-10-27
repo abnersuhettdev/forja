@@ -1,4 +1,4 @@
-import { useId, type InputHTMLAttributes, type ReactNode } from "react";
+import { useId, type InputHTMLAttributes, type ReactNode, type SelectHTMLAttributes } from "react";
 import { CircleAlert } from "lucide-react";
 import styles from "./FormField.module.css";
 
@@ -47,4 +47,8 @@ export function FormField({ label, help, error, children }: FormFieldProps) {
 
 export function TextInput(props: InputHTMLAttributes<HTMLInputElement>) {
   return <input className={styles.input} {...props} />;
+}
+
+export function SelectInput(props: SelectHTMLAttributes<HTMLSelectElement>) {
+  return <select className={styles.input} {...props} />;
 }
