@@ -4,7 +4,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   test: {
-    include: ["supabase/functions/**/*.test.ts"],
+    include: ["supabase/functions/**/*.test.ts", "supabase/tests/integration/**/*.test.ts"],
     testTimeout: 20_000,
     fileParallelism: false,
     coverage: {

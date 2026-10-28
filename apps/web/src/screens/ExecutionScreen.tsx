@@ -179,15 +179,25 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
     const loadKg = values.load_kg;
     const restSeconds = current.entry.prescription?.rest_s ?? 0;
     const label = nextLabel(nextNumber);
+    // RN-043: a confirmação aparece logo após a série gravada no aparelho; estado do exercício
+    // e descanso vêm em seguida (CA-207, ≤ 100 ms).
     await run(
-      async () => {
-        const set = await actions.saveSet(db, owner, bundle.session.id, {
+      () =>
+        actions.saveSet(db, owner, bundle.session.id, {
           session_exercise_id: current.entry.id,
           set_number: nextNumber,
           load_kg: loadKg,
           reps: byDuration ? null : values.reps,
           duration_s: byDuration ? values.duration_s : null,
+        }),
+      (set) => {
+        setDraft(null);
+        show({
+          text: T.setSaved,
+          action: { label: TEXTS.common.undo, onAction: () => void undo(set) },
         });
+      },
+      async () => {
         if (nextNumber >= planned)
           await actions.updateSessionExercise(db, owner, current.entry.id, { status: "done" });
         const restState =
@@ -195,14 +205,6 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
             ? { endsAt: Date.now() + restSeconds * 1000, next: label }
             : null;
         await saveUi({ rest: restState });
-        return set;
-      },
-      (set) => {
-        setDraft(null);
-        show({
-          text: T.setSaved,
-          action: { label: TEXTS.common.undo, onAction: () => void undo(set) },
-        });
       },
     );
   }

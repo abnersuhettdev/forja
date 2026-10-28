@@ -20,12 +20,13 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:test": "supabase test db && vitest run -c vitest.integration.config.ts --coverage",
-    "check": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && vitest run --coverage && node scripts/check-licenses.ts && node scripts/catalog/validate.ts",
+    "check": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit && tsc -p supabase/tests/tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && vitest run --coverage && node scripts/check-licenses.ts && node scripts/catalog/validate.ts",
     "test:e2e": "playwright test -c apps/web/playwright.config.ts",
     "dev": "vite apps/web"
   },
   "devDependencies": {
     "@eslint/js": "10.0.1",
+    "@supabase/supabase-js": "2.118.0",
     "@types/node": "24.19.2",
     "@vitest/coverage-v8": "5.0.5",
     "eslint": "10.13.0",

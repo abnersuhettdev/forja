@@ -33,10 +33,12 @@ export function ErrorState({
   title,
   description,
   onRetry,
+  retryLabel = TEXTS.error.retry,
 }: {
   title: string;
   description: string;
   onRetry?: () => void;
+  retryLabel?: string;
 }) {
   return (
     <section className={styles.empty} role="alert">
@@ -45,7 +47,7 @@ export function ErrorState({
       </div>
       <h2>{title}</h2>
       <p className={styles.muted}>{description}</p>
-      {onRetry ? <Button onClick={onRetry}>{TEXTS.error.retry}</Button> : null}
+      {onRetry ? <Button onClick={onRetry}>{retryLabel}</Button> : null}
     </section>
   );
 }

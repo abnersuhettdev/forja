@@ -1,5 +1,6 @@
 export * from "./calendar.ts";
 export * from "./credentials.ts";
+export * from "./diagnostics.ts";
 export * from "./enums.ts";
 export * from "./evolution.ts";
 export * from "./labels.ts";

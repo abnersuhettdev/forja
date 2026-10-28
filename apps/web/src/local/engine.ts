@@ -9,6 +9,7 @@ import {
   SYNC_INTERVAL_SECONDS,
 } from "@forja/domain";
 import { writeMeta, type LocalDatabase } from "./db.ts";
+import { reportDiagnostic } from "./diagnostics.ts";
 import { applyChanges, listOutbox, markState, releaseRetries } from "./outbox.ts";
 import type { SyncTransport } from "./transport.ts";
 
@@ -125,6 +126,7 @@ export class SyncEngine {
 
   /** ADR-028 L3: nada é enviado; registra erro técnico sem dados pessoais. */
   private async recordOwnerMismatch(count: number): Promise<void> {
+    void reportDiagnostic("OWNER_MISMATCH", "fila");
     await writeMeta(this.options.db, "diagnostico.dono_divergente", {
       code: "OWNER_MISMATCH",
       count,

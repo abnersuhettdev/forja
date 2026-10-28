@@ -7,20 +7,14 @@ import { ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { AppHeader, MainNav } from "../components/Navigation.tsx";
 import type { NavArea } from "./navigation.ts";
 import { matchRoute } from "./route-match.ts";
+import { onlineScreen, type ScreenProps } from "./onlineScreen.tsx";
 import { navigate, usePathname } from "./router.tsx";
 import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
-import { ComponentsShowcase } from "../screens/ComponentsShowcase.tsx";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
-import { AssessmentScreen } from "../screens/AssessmentScreen.tsx";
-import { DraftEditorScreen } from "../screens/DraftEditorScreen.tsx";
-import { ProfileScreen } from "../screens/ProfileScreen.tsx";
-import { ProgramScreen } from "../screens/ProgramScreen.tsx";
 import { CatalogScreen } from "../screens/CatalogScreen.tsx";
-import { ExerciseFormScreen } from "../screens/ExerciseFormScreen.tsx";
 import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
-import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
 import { RestScreen } from "../screens/RestScreen.tsx";
 import { SyncScreen } from "../screens/SyncScreen.tsx";
 import { EvolutionScreen } from "../screens/EvolutionScreen.tsx";
@@ -36,12 +30,33 @@ const SHOWCASE_PATH = "/_componentes";
 const LOGIN_PATH = "/entrar";
 const ONBOARDING_PATH = "/configuracao-inicial";
 
-/** Telas já entregues; as demais mostram em que tarefa chegam (PendingScreen). */
-interface ScreenProps {
-  readonly area: NavArea;
-  readonly params: Readonly<Record<string, string>>;
-}
+// Gestão, configuração inicial e vitrine só funcionam online (RF-093) e saem do pacote inicial;
+// as telas usadas offline — inclusive o catálogo, consultável sem conexão (UX-08 §6.2) — ficam
+// no pacote principal.
+const ProgramScreen = onlineScreen(() => import("../screens/ProgramScreen.tsx"), "ProgramScreen");
+const DraftEditorScreen = onlineScreen(
+  () => import("../screens/DraftEditorScreen.tsx"),
+  "DraftEditorScreen",
+);
+const ExerciseFormScreen = onlineScreen(
+  () => import("../screens/ExerciseFormScreen.tsx"),
+  "ExerciseFormScreen",
+);
+const ProfileScreen = onlineScreen(() => import("../screens/ProfileScreen.tsx"), "ProfileScreen");
+const AssessmentScreen = onlineScreen(
+  () => import("../screens/AssessmentScreen.tsx"),
+  "AssessmentScreen",
+);
+const OnboardingScreen = onlineScreen(
+  () => import("../screens/OnboardingScreen.tsx"),
+  "OnboardingScreen",
+);
+const ComponentsShowcase = onlineScreen(
+  () => import("../screens/ComponentsShowcase.tsx"),
+  "ComponentsShowcase",
+);
 
+/** Telas já entregues; as demais mostram em que tarefa chegam (PendingScreen). */
 const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-006": RestScreen,
   "TELA-007": SyncScreen,
@@ -113,7 +128,7 @@ export function AppShell() {
   if (import.meta.env.DEV && pathname === SHOWCASE_PATH) {
     return (
       <main className={styles.bare}>
-        <ComponentsShowcase />
+        <ComponentsShowcase area="aluno" params={{}} />
       </main>
     );
   }
@@ -182,7 +197,11 @@ export function AppShell() {
       <main className={styles.main}>
         {/* Pendências cifradas de uma saída anterior, ainda não liberadas (ADR-028 L6). */}
         {withNavigation ? <LockedKept /> : null}
-        <ErrorBoundary resetKey={pathname}>
+        <ErrorBoundary
+          resetKey={pathname}
+          context={route?.pattern ?? "desconhecida"}
+          reloadPage={route?.area === "execucao"}
+        >
           {Screen ? (
             <Screen area={area} params={matchRoute(route?.pattern ?? "", pathname) ?? {}} />
           ) : route ? (

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { prefillSet, type SetValues } from "@forja/domain";
 import { readCachedCatalog, type CatalogExercise } from "../catalog/catalog.ts";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
+import { reportDiagnostic } from "../local/diagnostics.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import {
   deleteSet,
@@ -157,16 +158,23 @@ export function useExecution() {
    * gravação, antes de reler a tela, para a confirmação aparecer sem espera (CA-061).
    */
   const run = useCallback(
-    async <T>(action: () => Promise<T>, onSaved?: (result: T) => void): Promise<T | undefined> => {
+    async <T>(
+      action: () => Promise<T>,
+      onSaved?: (result: T) => void,
+      /** Gravações complementares, depois da confirmação na tela (CA-207). */
+      after?: (result: T) => Promise<void>,
+    ): Promise<T | undefined> => {
       try {
         const result = await action();
         setFailed(false);
         onSaved?.(result);
+        await after?.(result);
         await reload();
         void local?.engine.syncNow();
         return result;
       } catch {
         setFailed(true);
+        void reportDiagnostic("LOCAL_WRITE_FAILED", "/sessao");
         return undefined;
       }
     },

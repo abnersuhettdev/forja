@@ -13,7 +13,7 @@ import {
 } from "../design/theme.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { useOfflineData } from "../offline/OfflineDataProvider.tsx";
-import { formatUpdatedAt } from "./CatalogScreen.tsx";
+import { formatUpdatedAt } from "../training/format.ts";
 import type { NavArea } from "../app/navigation.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";

@@ -15,7 +15,7 @@ import { ExerciseImage } from "../components/ExerciseImage.tsx";
 import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { Sheet } from "../components/Sheet.tsx";
 import { itemSummary } from "../program/editor.ts";
-import { formatUpdatedAt } from "./CatalogScreen.tsx";
+import { formatUpdatedAt } from "../training/format.ts";
 import {
   formatAgo,
   formatDay,

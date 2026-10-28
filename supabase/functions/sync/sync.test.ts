@@ -8,6 +8,8 @@ import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { localStatus } from "../../../scripts/db/local.ts";
 import { createUser } from "../../../scripts/ops/managers.ts";
 import { createSyncDb, type SyncDb } from "./db.ts";
+import { processDiagnostics } from "./diagnostics.ts";
+import { HANDLERS } from "./operations.ts";
 import { processRequest, type Identity, type OperationResult } from "./process.ts";
 
 const status = localStatus();
@@ -509,6 +511,22 @@ describe("pela função HTTP (VH-12: conexão com o papel próprio)", () => {
     expect(response.headers.get("cache-control")).toBe("no-store");
     const body = (await response.json()) as { results: OperationResult[] };
     expect(body.results[0]).toMatchObject({ status: "accepted", entity_id: studentId });
+    // API-030 pela mesma função.
+    const diagnostics = await fetch(`${url}/functions/v1/sync/diagnostics`, {
+      method: "POST",
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        app_version: "0.1.0",
+        error_code: "UNEXPECTED",
+        context: "/hoje",
+        platform: "desktop",
+      }),
+    });
+    expect(diagnostics.status).toBe(202);
     const unauthorized = await fetch(`${url}/functions/v1/sync`, {
       method: "POST",
       headers: { apikey: key, "Content-Type": "application/json" },
@@ -1467,5 +1485,250 @@ describe("peso (API-005, API-006; CA-080, UXP-01)", () => {
         })
       )[0],
     ).toMatchObject({ status: "rejected", error: { code: "NOT_FOUND" } });
+  });
+});
+
+describe("relatos técnicos (API-030; ADR-038, SEG-04 §3)", () => {
+  it("grava só campos técnicos com o resumo do autor e limita a 20 por hora", async () => {
+    const me = await fictitiousUser();
+    const report = {
+      app_version: "0.1.0",
+      error_code: "UNEXPECTED",
+      context: "/agenda/:data",
+      platform: "desktop",
+    };
+    const deps = { db, hash, now: () => NOW };
+    expect(await processDiagnostics({ ...report, context: "Pessoa Fictícia" }, me, deps)).toEqual({
+      status: 400,
+      body: { code: "VALIDATION_FAILED" },
+    });
+    for (let i = 0; i < 20; i++) {
+      expect((await processDiagnostics(report, me, deps)).status).toBe(202);
+    }
+    expect(await processDiagnostics(report, me, deps)).toEqual({
+      status: 429,
+      body: { code: "RATE_LIMITED" },
+    });
+    const rows = await admin`
+      select * from public.diagnostic_reports where subject_hash = ${await hash(me.userId)}`;
+    expect(rows).toHaveLength(20);
+    // Nenhuma coluna com e-mail ou identificador do usuário.
+    expect(Object.keys(rows[0] ?? {}).sort()).toEqual([
+      "app_version",
+      "context",
+      "error_code",
+      "id",
+      "occurred_at",
+      "platform",
+      "subject_hash",
+    ]);
+    expect(JSON.stringify(rows)).not.toContain(me.userId);
+    expect(JSON.stringify(rows)).not.toContain(me.email ?? "@");
+    await admin`delete from public.diagnostic_reports where subject_hash = ${await hash(me.userId)}`;
+  });
+});
+
+describe("acesso cruzado em 100% das operações (CA-214, RNF-014; RN-001)", () => {
+  it("nenhuma operação de outro usuário sobre registros alheios é aceita", async () => {
+    const owner = await fictitiousUser();
+    const studentId = await onboard(owner);
+    const as = (
+      who: Identity,
+      type: string,
+      entity: string,
+      base: number | null,
+      payload: unknown,
+    ) =>
+      send(who, [
+        { owner_user_id: who.userId, type, entity_id: entity, base_revision: base, payload },
+      ]);
+
+    // Registros do dono: exercício personalizado, rascunho, programa publicado, sessão e peso.
+    const exerciseId = randomUUID();
+    await as(owner, "exercise.create", exerciseId, null, {
+      name: `Exercício cruzado ${randomUUID().slice(0, 6)}`,
+      primary_muscles: ["quadriceps"],
+      secondary_muscles: [],
+      equipment: ["dumbbell"],
+      difficulty: "beginner",
+      measure_type: "reps",
+      movement_pattern: "lunge",
+      instructions: ["Primeiro passo do exercício.", "Segundo passo do exercício."],
+      safety_tips: [],
+    });
+    const draftId = randomUUID();
+    await as(owner, "draft.create", draftId, null, { student_id: studentId, source: "empty" });
+    const [bench] = await admin<{ id: string }[]>`
+      select id from public.exercises where source_ref = 'Barbell_Squat'`;
+    const [programId, versionId, workoutId, itemId] = [
+      randomUUID(),
+      randomUUID(),
+      randomUUID(),
+      randomUUID(),
+    ];
+    await admin`delete from public.program_versions where id = ${draftId}`;
+    await admin`delete from public.programs where student_id = ${studentId}`;
+    await admin`insert into public.programs (id, student_id) values (${programId}, ${studentId})`;
+    await admin`
+      insert into public.program_versions (id, program_id, student_id, name)
+      values (${versionId}, ${programId}, ${studentId}, 'Programa do dono')`;
+    await admin`
+      insert into public.workouts (id, program_version_id, position, name)
+      values (${workoutId}, ${versionId}, 1, 'Treino A')`;
+    await admin`
+      insert into public.workout_items (id, workout_id, position, exercise_id, measure_type, sets, reps_min, reps_max, rest_s)
+      values (${itemId}, ${workoutId}, 1, ${bench?.id ?? ""}, 'reps', 3, 8, 12, 90)`;
+    await admin`update public.program_versions set status = 'active' where id = ${versionId}`;
+    const draftOfOwner = randomUUID();
+    await as(owner, "draft.create", draftOfOwner, null, {
+      student_id: studentId,
+      source: "from_version",
+      from_version_id: versionId,
+    });
+    const sessionId = randomUUID();
+    const seId = randomUUID();
+    const setId = randomUUID();
+    const weightId = randomUUID();
+    const prepared = await send(owner, [
+      {
+        owner_user_id: owner.userId,
+        type: "session.start",
+        entity_id: sessionId,
+        payload: {
+          program_version_id: versionId,
+          workout_id: workoutId,
+          started_at: NOW.toISOString(),
+          exercises: [
+            { id: seId, workout_item_id: itemId, exercise_id: bench?.id ?? "", position: 1 },
+          ],
+        },
+      },
+      {
+        owner_user_id: owner.userId,
+        type: "set.upsert",
+        entity_id: setId,
+        payload: {
+          session_exercise_id: seId,
+          set_number: 1,
+          load_kg: 40,
+          reps: 10,
+          duration_s: null,
+          completed_at: NOW.toISOString(),
+        },
+      },
+      {
+        owner_user_id: owner.userId,
+        type: "weight.create",
+        entity_id: weightId,
+        payload: { measured_on: "2026-10-26", weight_kg: 80 },
+      },
+    ]);
+    expect(prepared.map((r) => r.status)).toEqual(["accepted", "accepted", "accepted"]);
+
+    // Outro usuário (com o próprio aluno) tenta cada operação sobre os registros do dono.
+    const intruder = await fictitiousUser();
+    await onboard(intruder);
+    const attempts: [string, string, number | null, unknown][] = [
+      ["profile.update", studentId, 1, { profile: { days_per_week: 2 } }],
+      ["rest.update", studentId, 1, { default_hours: 24, overrides: [] }],
+      [
+        "assessment.create",
+        randomUUID(),
+        null,
+        {
+          student_id: studentId,
+          assessed_on: "2026-10-26",
+          weight_kg: 70,
+          notes: null,
+          weight_entry_id: randomUUID(),
+        },
+      ],
+      ["weight.delete", weightId, 1, {}],
+      [
+        "exercise.update",
+        exerciseId,
+        1,
+        {
+          name: "Tentativa alheia",
+          primary_muscles: ["quadriceps"],
+          secondary_muscles: [],
+          equipment: ["dumbbell"],
+          difficulty: "beginner",
+          measure_type: "reps",
+          movement_pattern: "lunge",
+          instructions: ["Primeiro passo do exercício.", "Segundo passo do exercício."],
+          safety_tips: [],
+        },
+      ],
+      ["draft.create", randomUUID(), null, { student_id: studentId, source: "empty" }],
+      ["draft.save", draftOfOwner, 1, { name: "Alheio", split_type: null, workouts: [] }],
+      ["draft.publish", draftOfOwner, 1, {}],
+      ["draft.discard", draftOfOwner, 1, {}],
+      [
+        "session.start",
+        randomUUID(),
+        null,
+        {
+          program_version_id: versionId,
+          workout_id: workoutId,
+          started_at: NOW.toISOString(),
+          exercises: [
+            {
+              id: randomUUID(),
+              workout_item_id: itemId,
+              exercise_id: bench?.id ?? "",
+              position: 1,
+            },
+          ],
+        },
+      ],
+      [
+        "set.upsert",
+        randomUUID(),
+        null,
+        {
+          session_exercise_id: seId,
+          set_number: 2,
+          load_kg: 40,
+          reps: 10,
+          duration_s: null,
+          completed_at: NOW.toISOString(),
+        },
+      ],
+      ["set.delete", setId, 1, {}],
+      ["session_exercise.update", seId, 1, { status: "skipped" }],
+      [
+        "session.complete",
+        sessionId,
+        1,
+        { ended_at: NOW.toISOString(), duration_min: 1, rpe: null, notes: null },
+      ],
+      ["session.update", sessionId, 1, { rpe: 5 }],
+      ["session.delete", sessionId, 1, {}],
+    ];
+    // Operações que só criam o próprio registro (sem alvo alheio) ficam fora da lista.
+    const creationOnly = ["onboarding.complete", "exercise.create", "weight.create"];
+    expect(new Set([...attempts.map((a) => a[0]), ...creationOnly])).toEqual(
+      new Set(Object.keys(HANDLERS)),
+    );
+
+    for (const [type, entity, base, payload] of attempts) {
+      const [result] = await as(intruder, type, entity, base, payload);
+      expect([type, result?.status]).not.toEqual([type, "accepted"]);
+    }
+
+    // Nada do dono mudou.
+    const [session] =
+      await admin`select status, deleted_at from public.sessions where id = ${sessionId}`;
+    expect(session).toMatchObject({ status: "in_progress", deleted_at: null });
+    const [weight] =
+      await admin`select deleted_at from public.weight_entries where id = ${weightId}`;
+    expect(weight?.deleted_at).toBeNull();
+    const [exercise] = await admin`select name from public.exercises where id = ${exerciseId}`;
+    expect(exercise?.name).not.toBe("Tentativa alheia");
+    const [draft] =
+      await admin`select status from public.program_versions where id = ${draftOfOwner}`;
+    expect(draft?.status).toBe("draft");
+    await admin`delete from public.exercises where id = ${exerciseId}`;
   });
 });

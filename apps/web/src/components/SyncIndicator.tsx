@@ -61,7 +61,6 @@ export function SyncIndicator({ compact = false }: { compact?: boolean }) {
     <Link
       to={SYNC_PATH}
       className={[styles.indicator, styles[state.kind], compact ? styles.compact : ""].join(" ")}
-      aria-label={`${text}. ${T.open}`}
     >
       <span aria-hidden="true" className={styles.icon}>
         {ICONS[state.kind]}
@@ -74,6 +73,8 @@ export function SyncIndicator({ compact = false }: { compact?: boolean }) {
       <span className={compact ? styles.hiddenText : styles.text} aria-live="polite">
         {text}
       </span>
+      {/* O nome acessível começa pelo texto visível (WCAG 2.5.3) e diz para onde leva. */}
+      <span className={styles.hiddenText}>. {T.open}</span>
     </Link>
   );
 }

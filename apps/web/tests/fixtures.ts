@@ -47,3 +47,5 @@ export const otherDeviceUser = (browserName: string) => user(`outra.${browserNam
 export const agendaUser = (browserName: string) => user(`agenda.${browserName}@exemplo.test`);
 /** Aluno dos testes de peso e evolução (um por navegador). */
 export const evolutionUser = (browserName: string) => user(`evolucao.${browserName}@exemplo.test`);
+/** Aluno com dados em todas as telas, para as verificações de qualidade (um por navegador). */
+export const qualityUser = (browserName: string) => user(`qualidade.${browserName}@exemplo.test`);

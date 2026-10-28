@@ -31,6 +31,9 @@ export const TEXTS = {
   error: {
     title: "Algo deu errado nesta tela",
     retry: "Tentar de novo",
+    reload: "Recarregar a tela",
+    needsConnection:
+      "Esta tela precisa de conexão para abrir. Seus treinos continuam disponíveis offline.",
   },
   auth: {
     unconfigured:

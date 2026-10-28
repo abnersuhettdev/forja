@@ -1,6 +1,8 @@
-// Função de sincronização (API-001; DAD-04 §4, ADR-034, ADR-050). Único caminho de escrita.
+// Função de sincronização (API-001 e API-030; DAD-04 §4, ADR-034, ADR-038, ADR-050). Único
+// caminho de escrita.
 // Identidade sempre do token verificado no serviço de autenticação; escrita como sync_writer.
 import { createSyncDb } from "./db.ts";
+import { processDiagnostics } from "./diagnostics.ts";
 import { processRequest, type Identity } from "./process.ts";
 
 const env = (name: string): string => {
@@ -73,6 +75,11 @@ Deno.serve(async (request) => {
       body = await request.json();
     } catch {
       return json(request, 400, { code: "VALIDATION_FAILED" });
+    }
+    // API-030 — relatos técnicos chegam pela mesma função (ARQ-05 §3).
+    if (new URL(request.url).pathname.endsWith("/diagnostics")) {
+      const report = await processDiagnostics(body, identity, { db, hash: sha256Hex });
+      return json(request, report.status, report.body);
     }
     const result = await processRequest(body, identity, { db, hash: sha256Hex });
     return json(request, result.status, result.body);

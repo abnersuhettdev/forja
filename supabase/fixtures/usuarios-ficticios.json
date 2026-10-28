@@ -144,6 +144,18 @@
       "senha": "Ficticia-evolucao-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "qualidade.chromium@exemplo.test",
+      "senha": "Ficticia-qualidade-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "qualidade.webkit@exemplo.test",
+      "senha": "Ficticia-qualidade-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

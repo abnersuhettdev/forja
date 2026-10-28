@@ -1,5 +1,6 @@
 // Formatos do "Meu treino" (UX-02 §8.4): "seg., 26 out.", horas "14:32", "há 3 dias".
 import { daysBetween, toLocalDate } from "@forja/domain";
+import { TEXTS } from "../app/texts.ts";
 
 export function formatDay(localDate: string): string {
   // Meio-dia UTC evita mudança de dia ao formatar a data de calendário.
@@ -64,4 +65,15 @@ export function toLocalInput(iso: string): string {
 export function fromLocalInput(value: string): string | null {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}
+
+/** "Disponível offline · atualizado às 14:30" (RF-092); null sem download ainda. */
+export function formatUpdatedAt(iso: string | undefined): string | null {
+  if (!iso) return null;
+  const time = new Intl.DateTimeFormat("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "America/Sao_Paulo",
+  }).format(new Date(iso));
+  return TEXTS.catalog.updatedAt(time);
 }

@@ -16,19 +16,10 @@ import { EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { FormField, SelectInput, TextInput } from "../components/FormField.tsx";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { formatUpdatedAt } from "../training/format.ts";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.catalog;
-
-export function formatUpdatedAt(iso: string | undefined): string | null {
-  if (!iso) return null;
-  const time = new Intl.DateTimeFormat("pt-BR", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "America/Sao_Paulo",
-  }).format(new Date(iso));
-  return T.updatedAt(time);
-}
 
 // TELA-034 — Catálogo (RF-030, RF-038, RN-036, RN-037): busca por nome e filtros por grupo,
 // equipamento, dificuldade e origem; tocar abre o detalhe (TELA-014).
