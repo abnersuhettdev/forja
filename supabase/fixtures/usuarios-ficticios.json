@@ -156,6 +156,12 @@
       "senha": "Ficticia-qualidade-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "pwa.chromium@exemplo.test",
+      "senha": "Ficticia-pwa-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

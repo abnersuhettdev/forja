@@ -7,6 +7,8 @@ const PORT = 5199;
 
 export default defineConfig({
   testDir: "./tests",
+  // App instalável no build de produção: playwright.pwa.config.ts.
+  testIgnore: "**/pwa/**",
   fullyParallel: true,
   // O servidor de desenvolvimento entrega módulos sem empacotar; com vários WebKit em paralelo
   // (Windows) uma tela leva alguns segundos para abrir. Esperas e paralelismo ajustados.

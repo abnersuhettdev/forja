@@ -1,3 +1,4 @@
+import { InstallBanner } from "../components/InstallBanner.tsx";
 import { useState } from "react";
 import { AlertTriangle, ChevronRight, ClipboardList, Play, Plus, SearchX } from "lucide-react";
 import {
@@ -133,6 +134,7 @@ export function TodayScreen() {
     <div className={styles.todayScreen}>
       <p className={styles.date}>{formatDay(today)}</p>
       <OldPendingBanner now={training.now} timeZone={training.timeZone} />
+      <InstallBanner />
       <HeroCard
         training={training}
         onStart={(workoutId) => void start(workoutId)}

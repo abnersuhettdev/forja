@@ -14,8 +14,10 @@ import { UserContextProvider } from "./account/UserContextProvider.tsx";
 import { OfflineDataProvider } from "./offline/OfflineDataProvider.tsx";
 import { SnackbarProvider } from "./components/Snackbar.tsx";
 import { applyThemePreference, readThemePreference } from "./design/theme.ts";
+import { startPwa } from "./pwa/pwa.ts";
 
 applyThemePreference(readThemePreference());
+startPwa();
 
 const root = document.getElementById("root");
 if (!root) throw new Error("Elemento raiz ausente.");

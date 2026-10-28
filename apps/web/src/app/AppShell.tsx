@@ -3,6 +3,7 @@ import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { ErrorBoundary } from "../components/ErrorBoundary.tsx";
 import { LockedKept } from "../components/LockedKept.tsx";
+import { UpdateBanner } from "../components/UpdateBanner.tsx";
 import { ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { AppHeader, MainNav } from "../components/Navigation.tsx";
 import type { NavArea } from "./navigation.ts";
@@ -13,6 +14,7 @@ import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
 import { CatalogScreen } from "../screens/CatalogScreen.tsx";
 import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
+import { InstallScreen } from "../screens/InstallScreen.tsx";
 import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { RestScreen } from "../screens/RestScreen.tsx";
@@ -79,6 +81,7 @@ const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-003": OnboardingScreen,
   "TELA-004": AccountScreen,
   "TELA-005": ChangePasswordScreen,
+  "TELA-002": InstallScreen,
 };
 
 function findRoute(pathname: string): RouteDefinition | null {
@@ -197,6 +200,7 @@ export function AppShell() {
       <main className={styles.main}>
         {/* Pendências cifradas de uma saída anterior, ainda não liberadas (ADR-028 L6). */}
         {withNavigation ? <LockedKept /> : null}
+        {withNavigation ? <UpdateBanner /> : null}
         <ErrorBoundary
           resetKey={pathname}
           context={route?.pattern ?? "desconhecida"}

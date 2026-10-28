@@ -11,6 +11,7 @@ export default defineConfig(
     ignores: [
       "**/node_modules/**",
       "**/dist/**",
+      "**/dist-pwa/**",
       "**/coverage/**",
       "**/playwright-report/**",
       "**/test-results/**",

@@ -6,6 +6,24 @@
       "runtimeExecutable": "corepack",
       "runtimeArgs": ["pnpm", "run", "dev", "--port", "3000", "--strictPort"],
       "port": 3000
+    },
+    {
+      "name": "pwa-preview",
+      "runtimeExecutable": "corepack",
+      "runtimeArgs": [
+        "pnpm",
+        "--filter",
+        "@forja/web",
+        "exec",
+        "vite",
+        "preview",
+        "--outDir",
+        "dist-pwa",
+        "--port",
+        "4174",
+        "--strictPort"
+      ],
+      "port": 4174
     }
   ]
 }

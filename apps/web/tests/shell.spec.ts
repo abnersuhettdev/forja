@@ -135,7 +135,10 @@ test("alvos de toque da navegação têm ao menos 44 px (CA-202)", async ({ page
   }
 });
 
-test("tela em construção informa a tarefa que a entregará", async ({ page }) => {
+// Todas as telas ESS foram entregues; a TELA-002 (última pendente) mostra o texto do computador.
+test("Instalar o app no computador indica o ícone da barra de endereço (TELA-002)", async ({
+  page,
+}) => {
   await page.goto("/conta/instalar");
-  await expect(page.getByText("será entregue na TAR‑006")).toBeVisible();
+  await expect(page.getByText(/ícone de instalação na barra de endereço/)).toBeVisible();
 });

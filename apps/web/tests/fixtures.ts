@@ -49,3 +49,5 @@ export const agendaUser = (browserName: string) => user(`agenda.${browserName}@e
 export const evolutionUser = (browserName: string) => user(`evolucao.${browserName}@exemplo.test`);
 /** Aluno com dados em todas as telas, para as verificações de qualidade (um por navegador). */
 export const qualityUser = (browserName: string) => user(`qualidade.${browserName}@exemplo.test`);
+/** Aluno das verificações do app instalável no build de produção (TAR-006; só Chromium). */
+export const pwaUser = () => user("pwa.chromium@exemplo.test");

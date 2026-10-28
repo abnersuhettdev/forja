@@ -265,3 +265,46 @@ button.listLink {
   text-align: left;
   cursor: pointer;
 }
+
+/* TELA-002 — passos de instalação com ícone (UX-08 §4). */
+.installSteps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: 0;
+  list-style: none;
+  counter-reset: install;
+  font: var(--type-body);
+}
+
+.installSteps > li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  counter-increment: install;
+}
+
+.installSteps > li::before {
+  content: counter(install) ".";
+  min-width: 1.5em;
+  font-weight: 600;
+}
+
+.installIcon {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.installDone {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font: var(--type-body);
+}

@@ -2,6 +2,7 @@
 docs/
 pnpm-lock.yaml
 **/dist/
+**/dist-pwa/
 **/coverage/
 **/playwright-report/
 **/test-results/

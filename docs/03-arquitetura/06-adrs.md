@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-28 (ADR-092) |
+| Última atualização | 2026-10-28 (ADR-092; extensão da ADR-090) |
 
 ## 1. Objetivo
 
@@ -636,6 +636,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
   4. A ordem do PLN-01 não muda; só o pré-requisito "TAR-003" passa a ser satisfeito provisoriamente pelo ambiente local.
   5. O CI remoto só executará os testes de banco quando houver repositório; até lá, rodam localmente.
   6. (Acréscimo de 2026-10-27, TAR-015 — registro técnico, sem mudança de decisão) Medir no projeto real o tempo de inicialização da função de sincronização sob o limite de CPU do plano gratuito: no ambiente local, sob carga, o edge runtime interrompeu trabalhadores por limite de CPU.
+- **Extensão (2026-10-28 — aprovada: "Aprovo estender a ADR-090 às partes locais da TAR-006 e da TAR-007; registre a decisão e comece pela TAR-006."):** as partes locais da TAR-006 (manifest e ícones, service worker com pacote em cache, fluxo de atualização, `_headers`, TELA-002, verificação no build de produção servido em localhost) e da TAR-007 (script de backup com `db dump` + `age` + soma de verificação e retenção de 35 dias contra o banco local, com par de chaves **descartável de teste** — nunca a chave do usuário; tarefa diária de limpeza; 1º teste de restauração em banco local limpo) avançam antes das contas. Ficam para depois da TAR-003: publicação de pré-visualização e produção pelo CI, teste de fumaça no endereço publicado, HSTS, execução real do workflow no GitHub Actions, restauração no projeto de desenvolvimento e a chave pública `age` do usuário. Status em GOV-02 §11: "Parte local concluída — publicação/CI pendentes".
 
 ## ADR-091 — Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado)
 
@@ -682,3 +683,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-27 | ADR-090 criada e aprovada pelo usuário (Supabase local para adiantar TAR-004 e seguintes). |
 | 2026-10-27 | ADR-091 criada e aprovada pelo usuário (correção de importados no exercício comum, só com GATE-TER fechado). |
 | 2026-10-28 | ADR-092 criada e aprovada pelo usuário (gráfico próprio em SVG; ADR-039 alterada só para gráficos). |
+| 2026-10-28 | ADR-090 estendida pelo usuário às partes locais da TAR-006 e da TAR-007. |

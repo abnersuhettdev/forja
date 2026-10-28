@@ -743,6 +743,31 @@ export const TEXTS = {
     savedOffline: "Salvo neste aparelho. Será enviado quando houver conexão.",
     unavailable: "Conclua a configuração inicial para ajustar o descanso.",
   },
+  pwa: {
+    updateReady: "Nova versão disponível.",
+    update: "Atualizar",
+    installBanner: "Instale o Forja na tela inicial para abrir mais rápido e usar sem internet.",
+    installAction: "Instalar",
+    howTo: "Como instalar",
+    intro: "Com o app instalado, ele abre pelo ícone, em tela cheia, e funciona sem internet.",
+    install: "Instalar",
+    installed: "O app já está instalado neste aparelho.",
+    accepted: "App instalado.",
+    inApp: "Abra este endereço no Safari ou no Chrome para instalar.",
+    iosSteps: [
+      "Toque em Compartilhar, na barra do Safari.",
+      "Escolha “Adicionar à Tela de Início”.",
+      "Abra o Forja pelo ícone na tela inicial.",
+    ],
+    iosNote: "No iPhone, usar o app pelo ícone mantém seus dados offline mais protegidos.",
+    manualSteps: [
+      "Abra o menu do navegador (⋮).",
+      "Escolha “Instalar app” ou “Adicionar à tela inicial”.",
+      "Abra o Forja pelo ícone na tela inicial.",
+    ],
+    desktop:
+      "No computador, use o ícone de instalação na barra de endereço do navegador, quando disponível.",
+  },
   common: {
     cancel: "Cancelar",
     delete: "Excluir",
