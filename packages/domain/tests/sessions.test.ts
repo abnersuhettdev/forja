@@ -7,6 +7,7 @@ import {
   sessionDurationMinutes,
   sessionExerciseUpdatePayloadSchema,
   sessionStartPayloadSchema,
+  sessionTimesIssue,
   sessionUpdatePayloadSchema,
   sessionVolumeKg,
   setUpsertPayloadSchema,
@@ -122,5 +123,18 @@ describe("operações de sessão (API-008..013)", () => {
     expect(sessionUpdatePayloadSchema.safeParse({ rpe: 11 }).success).toBe(false);
     expect(sessionUpdatePayloadSchema.safeParse({}).success).toBe(false);
     expect(sessionUpdatePayloadSchema.safeParse({ notes: "ok" }).success).toBe(true);
+  });
+});
+
+describe("horários editados (TELA-020; RN-027, RN-048)", () => {
+  const now = new Date("2026-10-27T15:00:00Z");
+  it("término depois do início, até 300 min e não no futuro", () => {
+    expect(sessionTimesIssue("2026-10-27T10:00:00Z", "2026-10-27T11:00:00Z", now)).toBeNull();
+    expect(sessionTimesIssue("2026-10-27T10:00:00Z", "2026-10-27T09:59:00Z", now)).toBe(
+      "end_before_start",
+    );
+    expect(sessionTimesIssue("2026-10-27T05:00:00Z", "2026-10-27T10:01:00Z", now)).toBe("too_long");
+    expect(sessionTimesIssue("2026-10-27T14:30:00Z", "2026-10-27T15:10:00Z", now)).toBe("future");
+    expect(sessionTimesIssue("2026-10-27T14:30:00Z", "2026-10-27T15:04:00Z", now)).toBeNull();
   });
 });

@@ -26,6 +26,8 @@ export interface LocalSession {
   readonly possible_duplicate_of?: string | null;
   /** Nome do treino no início (RN-044: publicações posteriores não mudam a sessão). */
   readonly workout_name?: string;
+  /** Número da versão do programa em que a sessão foi iniciada (RF-072). */
+  readonly version_number?: number | null;
   /** Revisão confirmada pelo servidor; ausente enquanto o início não foi aceito. */
   readonly revision?: number;
   readonly deleted_at?: string | null;
@@ -161,6 +163,7 @@ export async function startSession(
       rpe: null,
       notes: null,
       workout_name: workout.name,
+      version_number: version.version_number,
     });
     await t.exercises.bulkAdd(exercises);
     await enqueue(db, {

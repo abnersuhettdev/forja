@@ -21,7 +21,7 @@ import {
   type ExerciseView,
 } from "../execution/useExecution.ts";
 import { itemSummary } from "../program/editor.ts";
-import { formatKg } from "../training/format.ts";
+import { formatKg, toLocalInput } from "../training/format.ts";
 import { writeMeta } from "../local/db.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -592,13 +592,6 @@ function RestTimer({
       {rest.next ? <p className={shared.muted}>{T.upNext(rest.next)}</p> : null}
     </div>
   );
-}
-
-/** "AAAA-MM-DDTHH:mm" no horário local do aparelho (campo datetime-local). */
-function toLocalInput(iso: string): string {
-  const date = new Date(iso);
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return `${String(date.getFullYear())}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
 }
 
 // RN-012 — sessão abandonada: concluir informando o término, ou descartar.

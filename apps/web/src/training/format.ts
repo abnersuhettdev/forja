@@ -52,3 +52,16 @@ export function formatDaysAgo(localDate: string, today: string): string {
 export function formatKg(kg: number): string {
   return new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 1 }).format(kg);
 }
+
+/** "AAAA-MM-DDTHH:mm" no horário local do aparelho (campo datetime-local). */
+export function toLocalInput(iso: string): string {
+  const date = new Date(iso);
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${String(date.getFullYear())}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
+/** Valor do campo datetime-local (horário do aparelho) como instante ISO; null se inválido. */
+export function fromLocalInput(value: string): string | null {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? null : date.toISOString();
+}

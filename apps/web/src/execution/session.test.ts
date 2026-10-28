@@ -6,7 +6,7 @@ import { afterEach, describe, expect, it } from "vitest";
 import { LocalDatabase } from "../local/db.ts";
 import { applyChanges, listOutbox, markState } from "../local/outbox.ts";
 import type { VersionView } from "../program/program.ts";
-import { mergeSessionData } from "./download.ts";
+import { mergeSessionData, normalize } from "./download.ts";
 import {
   completeSession,
   deleteSet,
@@ -240,6 +240,7 @@ describe("download e última execução (API-R06, API-R07)", () => {
     revision: 2,
     deleted_at: null,
     workout: { name: "Treino A" },
+    version: { version_number: 1 },
     session_exercises: [
       {
         id: `${id}-se`,
@@ -322,5 +323,53 @@ describe("download e última execução (API-R06, API-R07)", () => {
     });
     expect((await readSession(db, active.session.id))?.session.status).toBe("completed");
     expect((await readSession(db, active.session.id))?.sets).toHaveLength(0);
+  });
+});
+
+describe("horários do servidor", () => {
+  it("são normalizados para ISO com Z, aceito pelas operações (DAD-04)", () => {
+    const row = normalize({
+      id: "s",
+      program_version_id: "v",
+      workout_id: "w",
+      status: "completed",
+      started_at: "2026-10-25T13:00:00+00:00",
+      ended_at: "2026-10-25T13:50:00.5+00:00",
+      duration_min: 50,
+      last_activity_at: "2026-10-25T10:50:00-03:00",
+      rpe: null,
+      notes: null,
+      workout: null,
+      version: null,
+      session_exercises: [
+        {
+          id: "se",
+          session_id: "s",
+          workout_item_id: null,
+          exercise_id: "e",
+          position: 1,
+          status: "done",
+          deleted_at: null,
+          set_logs: [
+            {
+              id: "l",
+              session_exercise_id: "se",
+              set_number: 1,
+              load_kg: 40,
+              reps: 10,
+              duration_s: null,
+              completed_at: "2026-10-25T13:40:00+00:00",
+              deleted_at: null,
+            },
+          ],
+        },
+      ],
+    });
+    expect([row.started_at, row.ended_at, row.last_activity_at]).toEqual([
+      "2026-10-25T13:00:00.000Z",
+      "2026-10-25T13:50:00.500Z",
+      "2026-10-25T13:50:00.000Z",
+    ]);
+    expect(row.session_exercises[0]?.set_logs[0]?.completed_at).toBe("2026-10-25T13:40:00.000Z");
   });
 });

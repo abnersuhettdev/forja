@@ -1,0 +1,152 @@
+/* Agenda (TELA-018), Dia (TELA-019) e Editar sessão (TELA-020). */
+
+.monthBar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.monthTitle {
+  flex: 1;
+  font: var(--type-title);
+  text-align: center;
+}
+
+.calendar {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 2px;
+}
+
+.calendar th {
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+.calendar td {
+  padding: 0;
+}
+
+/* Cada dia: número e um marcador principal (ícone + cor; nunca só cor — UX-07). */
+.day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 48px;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font: var(--type-label);
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+}
+
+.icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  min-height: 16px;
+}
+
+.today {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.completed {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
+}
+
+.manual {
+  border: 1px solid var(--color-primary);
+}
+
+.in_progress {
+  color: var(--color-info);
+}
+
+.abandoned {
+  color: var(--color-warning);
+}
+
+.planned {
+  border: 1px dashed var(--color-text-muted);
+  color: var(--color-text-muted);
+}
+
+.pending {
+  color: var(--color-text-muted);
+}
+
+.legend {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-2) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.legend li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.legendIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+}
+
+.session {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.sessionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.stateBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  padding: 2px var(--space-2);
+  border-radius: var(--radius-sm);
+  font: var(--type-caption);
+}
+
+.exerciseList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.setRow {
+  display: flex;
+  align-items: flex-end;
+  gap: var(--space-2);
+}
+
+.setRow > :not(:last-child) {
+  flex: 1;
+  min-width: 0;
+}

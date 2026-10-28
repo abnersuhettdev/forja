@@ -120,6 +120,18 @@
       "senha": "Ficticia-outra-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "agenda.chromium@exemplo.test",
+      "senha": "Ficticia-agenda-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "agenda.webkit@exemplo.test",
+      "senha": "Ficticia-agenda-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

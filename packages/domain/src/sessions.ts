@@ -3,7 +3,7 @@
 import { z } from "zod";
 import type { MeasureType } from "./enums.ts";
 import { SESSION_EXERCISE_STATUSES } from "./enums.ts";
-import { SESSION_ABANDON_HOURS } from "./parameters.ts";
+import { CLIENT_CLOCK_TOLERANCE_MINUTES, SESSION_ABANDON_HOURS } from "./parameters.ts";
 import { inRange } from "./schemas.ts";
 import { hoursBetween } from "./time.ts";
 
@@ -156,4 +156,25 @@ export function isAbandoned(lastActivityAt: string, now: Date): boolean {
 /** Fim do descanso pelo horário de término, imune a segundo plano (CA-062). */
 export function restRemainingSeconds(endsAt: number, now: number): number {
   return Math.max(0, Math.ceil((endsAt - now) / 1000));
+}
+
+// ---------- Edição de sessão (TELA-020; RF-069, RN-018, RN-027, RN-048) ----------
+
+export type SessionTimesIssue = "end_before_start" | "too_long" | "future";
+
+/**
+ * Horários editados: término não anterior ao início, duração de até 300 min (RN-027) e nada no
+ * futuro além da tolerância do relógio (RN-048).
+ */
+export function sessionTimesIssue(
+  startedAt: string,
+  endedAt: string,
+  now: Date,
+): SessionTimesIssue | null {
+  const start = new Date(startedAt).getTime();
+  const end = new Date(endedAt).getTime();
+  if (end < start) return "end_before_start";
+  if ((end - start) / 60_000 > 300) return "too_long";
+  if (end - now.getTime() > CLIENT_CLOCK_TOLERANCE_MINUTES * 60_000) return "future";
+  return null;
 }

@@ -43,3 +43,5 @@ export const syncUser = (browserName: string) => user(`sincronia.${browserName}@
 /** Aluno dos testes de saída da conta e a outra pessoa do mesmo aparelho (um por navegador). */
 export const signOutUser = (browserName: string) => user(`saida.${browserName}@exemplo.test`);
 export const otherDeviceUser = (browserName: string) => user(`outra.${browserName}@exemplo.test`);
+/** Aluno dos testes de agenda e histórico (um por navegador). */
+export const agendaUser = (browserName: string) => user(`agenda.${browserName}@exemplo.test`);
