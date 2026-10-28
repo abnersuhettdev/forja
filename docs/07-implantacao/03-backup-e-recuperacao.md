@@ -15,9 +15,9 @@
 
 | Item | Definição |
 |---|---|
-| O que | Cópia lógica completa do banco de produção (esquema + dados), incluindo usuários do serviço de autenticação |
+| O que | Cópia lógica do banco de produção em cinco arquivos (`scripts/ops/backup.ts`): papéis, esquema, esquema do histórico de migrações, dados de `auth` e `public` (todos os dados do app, incluindo os usuários do serviço de autenticação) e dados do histórico de migrações. Tabelas internas do Storage e das Functions ficam de fora: já existem em qualquer projeto novo |
 | Frequência | Diária (madrugada, horário de Brasília) + imediatamente antes de cada migração em produção (IMP-02 P1) |
-| Ferramenta | Comando de exportação do provedor (`db dump`), como recomenda a documentação oficial para projetos gratuitos |
+| Ferramenta | Comando de exportação do provedor (`db dump`), como recomenda a documentação oficial para projetos gratuitos; cifra pela biblioteca oficial do formato `age` (`age-encryption`) dentro do script |
 | Criptografia | Antes de sair do executor do CI, com **chave pública** (ferramenta `age`); somente a chave privada, guardada pelo usuário, decifra |
 | Guarda primária | Artefatos do GitHub Actions do repositório privado, retenção de **35 dias** (≥ 30 — RNF-011) |
 | Guarda secundária | Uma cópia por mês baixada pelo usuário para armazenamento pessoal fora do GitHub (manter as 3 últimas) |
@@ -42,9 +42,11 @@ O backup diário acessa o banco por necessidade legítima de proteção dos dado
 ## 3. Restauração
 
 1. Criar (ou limpar) o projeto de destino — em teste, o projeto de desenvolvimento.
-2. Baixar o artefato e decifrá-lo com a chave privada do usuário, na máquina do usuário.
-3. Conferir a soma de verificação.
-4. Importar no banco de destino; reaplicar papéis e segredos (IMP-01).
+2. Baixar o artefato e, na máquina do usuário, conferir as somas e decifrar com a chave privada: `node scripts/ops/restore.ts --in <pasta do artefato> --identity <arquivo da chave privada> --out <pasta>` (arquivo alterado é recusado antes de decifrar).
+3. Importar no banco de destino, nesta ordem, numa única transação:
+   `psql --single-transaction --variable ON_ERROR_STOP=1 --file roles.sql --file schema.sql --file history_schema.sql --command "SET session_replication_role = replica" --file data.sql --file history_data.sql --dbname "<endereço do banco de destino>"`
+   (no 1º teste local, a linha `GRANT SET ON PARAMETER` de `roles.sql` exigiu superusuário — confirmar no projeto de desenvolvimento).
+4. Reaplicar senhas de papéis e segredos (IMP-01): o arquivo de papéis não contém senhas.
 5. Verificar: contagem de registros por tabela, login do usuário, abertura do app, sincronização de uma sessão de teste.
 6. Em produção: apontar o app para o projeto restaurado (se novo) e registrar o incidente (SEG-01 §8).
 
@@ -82,3 +84,4 @@ A chave privada fica **somente** com você (gerenciador de senhas + uma cópia o
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
 | 2026-10-28 | §4.1: registro do 1º teste de restauração (local, TAR-007). |
+| 2026-10-28 | §1 e §3: backup em cinco arquivos e comando de importação correspondente (TAR-007, confirmado pelo usuário: "Confirm all"). |
