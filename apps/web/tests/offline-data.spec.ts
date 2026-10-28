@@ -22,12 +22,25 @@ test("programa, pesos e catálogo ficam disponíveis sem rede após o primeiro c
 }) => {
   const user = offlineUser(browserName);
   await publishProgram(user.email);
+  // PR-DES-01 P-1: no primeiro acesso do aparelho, Hoje nunca mostra "sem programa" enquanto
+  // o programa ainda está chegando (observa o documento inteiro, inclusive aparições breves).
+  await page.addInitScript(() => {
+    (window as Window & { __semPrograma?: boolean }).__semPrograma = false;
+    new MutationObserver(() => {
+      if (document.body.innerText.includes("Montar programa"))
+        (window as Window & { __semPrograma?: boolean }).__semPrograma = true;
+    }).observe(document, { childList: true, subtree: true, characterData: true });
+  });
 
   await page.goto("/entrar");
   await page.getByLabel("E-mail").fill(user.email);
   await page.getByLabel("Senha", { exact: true }).fill(user.senha);
   await page.getByRole("button", { name: "Entrar" }).click();
   await expect(page).toHaveURL(/\/hoje$/);
+  await expect(page.getByText("Treino A").first()).toBeVisible();
+  expect(
+    await page.evaluate(() => (window as Window & { __semPrograma?: boolean }).__semPrograma),
+  ).toBe(false);
 
   // Carimbo do último download (RF-092) na Conta.
   await page.getByRole("link", { name: "Conta" }).first().click();

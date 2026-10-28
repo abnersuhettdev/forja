@@ -37,6 +37,7 @@ export function OfflineDataProvider({ children }: { children: ReactNode }) {
   const db = local?.db ?? null;
   const student = userState.status === "ready" ? userState.context.student : null;
   const studentId = student?.id ?? null;
+  const userReady = userState.status === "ready";
   const timeZone = student?.timezone ?? "America/Sao_Paulo";
   const [stored, setStored] = useState<{ db: typeof db; value: OfflineState }>({
     db: null,
@@ -75,7 +76,14 @@ export function OfflineDataProvider({ children }: { children: ReactNode }) {
     readOfflineData(db)
       .then((cached) => {
         if (!active) return;
-        setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
+        // Aparelho que nunca baixou os dados (PR-DES-01 P-1): segue "carregando" até o primeiro
+        // download, em vez de exibir a cópia vazia como se o aluno não tivesse programa.
+        const firstDownload =
+          cached.updatedAt === undefined &&
+          (!userReady || (studentId !== null && getSupabase() !== null));
+        if (!firstDownload) {
+          setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
+        }
         void refresh();
       })
       .catch(() => {
@@ -94,7 +102,7 @@ export function OfflineDataProvider({ children }: { children: ReactNode }) {
       window.removeEventListener("online", onOnline);
       document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [db, refresh]);
+  }, [db, refresh, studentId, userReady]);
 
   const reloadLocal = useCallback(async () => {
     if (db === null) return;
