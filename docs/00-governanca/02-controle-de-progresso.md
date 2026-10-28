@@ -73,7 +73,9 @@ Fonte das decisões: [ARQ-06](../03-arquitetura/06-adrs.md). Três categorias, s
 
 ### 4.3 Propostas (não aprovadas)
 
-Nenhuma.
+| ID | Proposta | Situação |
+|---|---|---|
+| PR-DES-01 | **Carregamento inicial (CA-206).** Medições locais (build de produção com brotli; perfil móvel: 150 ms, 1,6 Mbps, CPU 4×): reabertura de Hoje (app instalado) ~0,6 s ✓; `/entrar` 1,8 s com limitação aplicada, mas 2,9–3,8 s no Lighthouse simulado ✗; **primeira abertura conectada em aparelho novo: Hoje mostra por ~1 s o estado "sem programa" (Montar programa) e só exibe o programa em ~3,6 s**, porque o download espera o catálogo (maior resposta) e a cópia local vazia é tratada como pronta. **P-1 (recomendada agora):** (a) enquanto o aparelho nunca baixou os dados, Hoje mostra o esqueleto de carregamento, não o estado "sem programa"; (b) download em duas etapas — programa, sessões, pesos e avaliação primeiro (Hoje aparece), catálogo logo em seguida, em segundo plano; estimativa ~2,6–2,9 s até o programa. **P-2 (condicional):** separar a tela de login do restante do app (banco local, domínio e telas fora do pacote do login) só se o Lighthouse no endereço publicado (TAR-006) continuar acima de 2,5 s. **P-3 (não recomendada agora):** trocar o cliente completo do provedor por só autenticação + consultas (~80 KiB sem compressão a menos em todas as telas), por mudar a composição de biblioteca da ADR-039 com ganho menor | Aguardando decisão do usuário |
 
 ### 4.4 Condições e verificações abertas
 
