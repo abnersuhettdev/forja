@@ -22,12 +22,12 @@ export async function processDiagnostics(
   const subject = await deps.hash(identity.userId);
   return deps.db.inActorTransaction(identity.userId, async (tx) => {
     const [recent] = await tx<{ count: number }[]>`
-      select count(*)::int as count from public.diagnostic_reports
+      select count(*)::int as count from public.client_error_reports
       where subject_hash = ${subject} and occurred_at > now() - interval '1 hour'`;
     if ((recent?.count ?? 0) >= DIAGNOSTICS_PER_HOUR)
       return { status: 429, body: { code: "RATE_LIMITED" } } as const;
     await tx`
-      insert into public.diagnostic_reports (subject_hash, app_version, error_code, context, platform)
+      insert into public.client_error_reports (subject_hash, app_version, error_code, context, platform)
       values (${subject}, ${report.app_version}, ${report.error_code}, ${report.context},
               ${report.platform})`;
     return { status: 202, body: { accepted: true } } as const;

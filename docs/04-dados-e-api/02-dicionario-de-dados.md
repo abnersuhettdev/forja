@@ -8,7 +8,7 @@
 | Dono do assunto | Campos, tipos, obrigatoriedade, faixas, valores padrão e classificação de privacidade |
 | Dependências | DAD-01, PRD-07 (RN-018), PRD-08 §6, TRN-01/TRN-03 (enumerações finais) |
 | Referenciado por | DAD-03, DAD-04, DAD-07, SEG-02 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-10-28 |
 
 ## 1. Convenções
 
@@ -245,7 +245,7 @@ A fonte única das enumerações é [TRN-01 §3](../05-regras-de-treinamento/01-
 |---|---|---|---|
 | `sync_operations` | `op_id` uuid PK · `user_id` uuid · `op_type` text · `entity_id` uuid · `result` text · `response` jsonb · `received_at` timestamptz | 90 dias | T (a resposta não contém dados pessoais além de identificadores e revisões) |
 | `audit_events` | `id` · `event_type` · `subject_hash` (hash, nunca e-mail) · `occurred_at` · `details` jsonb sem dados pessoais | 2 anos | T |
-| `client_error_reports` | `id` · `app_version` · `error_code` · `context` (rota lógica, sem identificadores) · `platform` · `occurred_at` | 30 dias | T |
+| `client_error_reports` | `id` · `subject_hash` (resumo SHA-256 do identificador do usuário, nunca e-mail — só para o limite de 20 por hora da API-030) · `app_version` · `error_code` · `context` (rota lógica, sem identificadores) · `platform` (`android`, `ios`, `desktop`, `other`) · `occurred_at` | 30 dias | T |
 | `system_settings` | `key` text PK · `value` jsonb | — | T |
 
 ## Critérios de conclusão
@@ -264,3 +264,4 @@ A fonte única das enumerações é [TRN-01 §3](../05-regras-de-treinamento/01-
 | 2026-10-26 | Aprovado pelo usuário (Etapa 4). |
 | 2026-10-26 | §7 aponta para as enumerações finais de TRN-01/TRN-03 (Etapa 5, aguardando aprovação); novos campos `movement_pattern` e `load_markers` em `exercises`. |
 | 2026-10-26 | Enumerações finais aprovadas com a Etapa 5. |
+| 2026-10-28 | TAR-024 (confirmado pelo usuário): `client_error_reports` recebe `subject_hash` para o limite por usuário da API-030; valores de `platform` explicitados. |

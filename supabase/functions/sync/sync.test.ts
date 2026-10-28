@@ -1510,7 +1510,7 @@ describe("relatos técnicos (API-030; ADR-038, SEG-04 §3)", () => {
       body: { code: "RATE_LIMITED" },
     });
     const rows = await admin`
-      select * from public.diagnostic_reports where subject_hash = ${await hash(me.userId)}`;
+      select * from public.client_error_reports where subject_hash = ${await hash(me.userId)}`;
     expect(rows).toHaveLength(20);
     // Nenhuma coluna com e-mail ou identificador do usuário.
     expect(Object.keys(rows[0] ?? {}).sort()).toEqual([
@@ -1524,7 +1524,7 @@ describe("relatos técnicos (API-030; ADR-038, SEG-04 §3)", () => {
     ]);
     expect(JSON.stringify(rows)).not.toContain(me.userId);
     expect(JSON.stringify(rows)).not.toContain(me.email ?? "@");
-    await admin`delete from public.diagnostic_reports where subject_hash = ${await hash(me.userId)}`;
+    await admin`delete from public.client_error_reports where subject_hash = ${await hash(me.userId)}`;
   });
 });
 

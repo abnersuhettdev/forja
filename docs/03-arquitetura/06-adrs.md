@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-27 (ADR-091) |
+| Última atualização | 2026-10-28 (ADR-092) |
 
 ## 1. Objetivo
 
@@ -82,8 +82,9 @@ Registrar decisões relevantes com contexto, alternativas, justificativa e conse
 | ADR-080 | Ordem de implementação e incrementos do Lançamento 1 | Processo | 7 | **Aprovada** | Não |
 | ADR-090 | Adiantar TAR-004 e seguintes no ambiente local enquanto as contas não existem | Processo | 9 | **Aprovada** | Não |
 | ADR-091 | Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado) | Produto/Segurança | 9 | **Aprovada** | Não |
+| ADR-092 | Gráfico de linha próprio em SVG no lugar do uPlot (substitui parcialmente a ADR-039) | Tecnologia | 9 | **Aprovada** | Não |
 
-Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usadas: 090, 091).
+Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usadas: 090, 091, 092).
 
 ---
 
@@ -480,6 +481,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Decisão recomendada:** conforme [ARQ-02 §3.4](02-stack-tecnologica.md#34-bibliotecas-de-apoio--adr-039), com versões exatas e licenças verificadas na fundação (VH-10).
 - **Justificativa:** bibliotecas pequenas, maduras, com licenças permissivas; criptografia pela Web Crypto nativa.
 - **Consequências:** novas bibliotecas exigem justificativa no PR (ARQ-04 §8).
+- **Alteração (2026-10-28):** para gráficos, substituída pela [ADR-092](#adr-092--gráfico-de-linha-próprio-em-svg-no-lugar-do-uplot-substitui-parcialmente-a-adr-039) (SVG próprio, sem uPlot). As demais bibliotecas seguem como decididas.
 
 ## ADR-050 — Escrita da sincronização com papel de banco de privilégio mínimo vinculado ao usuário verificado
 
@@ -644,6 +646,15 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Justificativa:** segue o modelo já aprovado (DAD-02), é a opção mais simples e, na modalidade PES, não há outro gestor afetado.
 - **Consequências:** DAD-03 §7.2 ajustada; **revisão obrigatória no GATE-TER** (com mais de um gestor, a correção afetaria todos — reavaliar (b)); um seed futuro do catálogo não deve sobrescrever importados com `edited_by_manager_at` preenchido sem decisão explícita.
 
+## ADR-092 — Gráfico de linha próprio em SVG no lugar do uPlot (substitui parcialmente a ADR-039)
+
+- **Tipo:** Tecnologia · **Status:** Aprovada (2026-10-28 — "Confirm, keep SVG") · **Data:** 2026-10-28
+- **Contexto:** a ADR-039 previa uPlot para gráficos. Na TAR-023, o único gráfico do MVP (peso na TELA-021: uma linha, linha tracejada do peso inicial, linha da meta, toque/hover com valor e "Ver como lista") foi implementado como componente próprio em SVG (`LineChart`), sem dependência. Divergência registrada na TAR-024.
+- **Alternativas:** (a) manter o SVG próprio; (b) trocar por uPlot, conforme a ADR-039.
+- **Decisão:** (a). Gráficos do app são componentes próprios em SVG enquanto atenderem às necessidades (uma série por gráfico, poucas centenas de pontos).
+- **Justificativa:** sem dependência a mais no pacote inicial (SEG-04 §2), cores pelos tokens do tema claro/escuro, e a acessibilidade (rótulos, tabela alternativa, alvos de toque) já verificada pelo axe e pelos testes E2E.
+- **Consequências:** ARQ-02 §3.4 e §4 atualizados; a ADR-039 continua valendo para as demais bibliotecas. Reavaliar uPlot se surgir gráfico com várias séries, zoom ou milhares de pontos.
+
 ## Histórico
 
 | Data | Alteração |
@@ -670,3 +681,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-26 | Correção da auditoria final (Etapa 8): parâmetro da ADR-028 L6 atualizado com o valor aprovado na ADR-070 (sem mudança de decisão). |
 | 2026-10-27 | ADR-090 criada e aprovada pelo usuário (Supabase local para adiantar TAR-004 e seguintes). |
 | 2026-10-27 | ADR-091 criada e aprovada pelo usuário (correção de importados no exercício comum, só com GATE-TER fechado). |
+| 2026-10-28 | ADR-092 criada e aprovada pelo usuário (gráfico próprio em SVG; ADR-039 alterada só para gráficos). |

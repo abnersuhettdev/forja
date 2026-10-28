@@ -68,7 +68,7 @@ Escolher tecnologias **proporcionais** a um projeto pessoal com potencial de cre
 | Service worker / cache | Workbox (via plugin PWA do Vite) | Service worker escrito à mão | Estratégias de cache testadas, atualização controlada |
 | Banco local | Dexie (sobre IndexedDB) | `idb` (mais enxuto) | Migrações de esquema versionadas (UX-08 §9), consultas indexadas |
 | Validação de dados | Zod (esquemas compartilhados) | Valibot | Mesmo esquema no app e na função de sincronização |
-| Gráficos | uPlot | Chart.js | Leve, rápido; tabela alternativa feita pelo app (UX-06) |
+| Gráficos | Componente próprio em SVG ([ADR-092](06-adrs.md#adr-092--gráfico-de-linha-próprio-em-svg-no-lugar-do-uplot-substitui-parcialmente-a-adr-039); antes uPlot) | uPlot | Sem dependência; tabela alternativa feita pelo app (UX-06) |
 | Ícones / fontes | Lucide; Barlow (arquivos próprios) | — | ADR-023 |
 | Testes | Vitest (unidade), Playwright (E2E, inclusive modo offline) | — | SEG-03 |
 | Criptografia local (L6) | Web Crypto API nativa | — | Sem biblioteca extra |
@@ -80,7 +80,7 @@ Versões: fixadas de forma exata na tarefa de fundação (PLN-01), sempre com li
 | Camada | Escolha |
 |---|---|
 | Linguagem | TypeScript (modo estrito) no app, no pacote de domínio e na função de sincronização |
-| App | React + Vite, SPA, PWA com Workbox; Dexie; Zod; uPlot |
+| App | React + Vite, SPA, PWA com Workbox; Dexie; Zod; gráficos em SVG próprio (ADR-092) |
 | Backend | Supabase: PostgreSQL com políticas por linha, Auth (e-mail e senha), API de dados, Edge Function de sincronização; região específica **São Paulo (`sa-east-1`)** (VH-03: existe e sem restrição de plano declarada; confirmar na criação do projeto) |
 | Hospedagem do app | Cloudflare Pages, endereço provisório gratuito `*.pages.dev` |
 | Repositório e CI | Git + GitHub (repositório privado) + GitHub Actions |
@@ -206,3 +206,4 @@ De terceiros (usadas apenas na primeira triagem, substituídas pelas oficiais ac
 | 2026-10-27 | TAR-008: `@supabase/supabase-js` 2.118.0 (MIT). Lista de senhas comuns do SecLists (MIT, commit `758fecf`, arquivo NCSC 100k filtrado para 10+ caracteres) embutida no app e carregada sob demanda; licença publicada em `/licencas/SecLists-LICENSE.txt` (a exibir em "Créditos e fonte", TELA-014). |
 | 2026-10-27 | TAR-009: Dexie 4.4.7 (Apache-2.0) para o banco local; `fake-indexeddb` 6.2.6 (Apache-2.0) só em testes. JS inicial após TAR-009: 144 KB comprimido (orçamento SEG-04: 200 KB); lista de senhas comuns em pacote separado sob demanda (43 KB). |
 | 2026-10-27 | TAR-010: `postgres` 3.4.9 (Unlicense) — driver da função (Deno, via `npm:`) e dos testes de integração. No ambiente local, a função alcança o banco pelo alias `db.supabase.internal` (o resolvedor do Deno recusa o nome do container com sublinhado). |
+| 2026-10-28 | ADR-092: gráficos em componente próprio em SVG no lugar do uPlot (§3.4, §4). TAR-024: `@supabase/supabase-js` 2.118.0 também na raiz, só para o teste de leituras com 2 anos de dados. |
