@@ -60,6 +60,9 @@ jobs:
       - name: Testes de ponta a ponta
         working-directory: apps/web
         run: pnpm exec playwright test
+      - name: App instalável no build de produção (TAR-006)
+        working-directory: apps/web
+        run: pnpm exec playwright test -c playwright.pwa.config.ts
 
   banco:
     name: Banco — migrações do zero e testes de políticas (DAD-07 §2)

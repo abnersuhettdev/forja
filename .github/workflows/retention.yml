@@ -1,0 +1,28 @@
+# Limpeza diária de retenção (SEG-02 §3, ADR-072): marcas de exclusão e operações de
+# sincronização (90 dias), relatos de erro (30 dias) e auditoria (2 anos). Registra só contagens.
+name: Retenção
+
+on:
+  schedule:
+    - cron: "0 7 * * *" # 04:00 em Brasília, depois do backup
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  limpeza:
+    name: Limpeza de retenção
+    runs-on: ubuntu-24.04
+    environment: producao
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: node scripts/ops/retention.ts

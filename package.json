@@ -30,6 +30,7 @@
     "@supabase/supabase-js": "2.118.0",
     "@types/node": "24.19.2",
     "@vitest/coverage-v8": "5.0.5",
+    "age-encryption": "0.3.1",
     "eslint": "10.13.0",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-react-hooks": "7.1.1",

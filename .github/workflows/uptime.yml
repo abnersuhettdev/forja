@@ -1,0 +1,31 @@
+# Verificação de disponibilidade a cada hora (SEG-04 §4, CA-209). NÃO consulta o banco: só a
+# página inicial do app e o endpoint público de saúde do serviço de autenticação. Falha →
+# notificação do GitHub. Variáveis do ambiente "producao" entram na TAR-003.
+name: Disponibilidade
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verificar:
+    name: App e serviço de autenticação no ar
+    runs-on: ubuntu-24.04
+    environment: producao
+    timeout-minutes: 5
+    steps:
+      - name: Página inicial do app
+        env:
+          APP_URL: ${{ vars.APP_URL }}
+        run: curl --fail --silent --show-error --max-time 30 --retry 2 --output /dev/null "$APP_URL/"
+      - name: Saúde do serviço de autenticação (sem consulta ao banco)
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+        run: >-
+          curl --fail --silent --show-error --max-time 30 --retry 2 --output /dev/null
+          --header "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/auth/v1/health"

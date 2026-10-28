@@ -9,7 +9,7 @@
 | Dependências | RNF-011, ADR-036, ARQ-02 §7 (VH-02), SEG-01 §7, SEG-02 §3 |
 | Referenciado por | IMP-02, IMP-04, PLN-05 |
 | Decisões | ADR-073 (implementação do backup) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-10-28 |
 
 ## 1. Política (ADR-073)
 
@@ -58,6 +58,12 @@ O backup diário acessa o banco por necessidade legítima de proteção dos dado
 
 Os dados de produção restaurados no ambiente de desenvolvimento são apagados ao final do teste.
 
+### 4.1 Registro
+
+| Data | Destino | Duração | Resultado |
+|---|---|---|---|
+| 2026-10-28 | **Local** (ADR-090 estendida): banco Postgres limpo, mesma imagem do ambiente local, simulando projeto novo (esquemas gerenciados `auth`/`storage` e papel do realtime presentes); backup do banco local com dados fictícios, cifrado com chave `age` **descartável de teste** | Backup 128 s; decifrar + importar 73 s | **Sucesso**: somas conferidas; arquivo alterado e chave errada recusados; contagens iguais em 34 itens (32 tabelas de `public`, 27 usuários, 15 migrações registradas); 74 políticas, 48 funções `app` e 31 gatilhos iguais; RLS forçada em todas as tabelas. Banco de teste e arquivos decifrados apagados ao final. **Não coberto localmente:** login, abertura do app e sincronização de uma sessão (passo 5) — sem serviço de autenticação nesse banco; repetir no projeto de desenvolvimento após a TAR-003 |
+
 ## 5. Responsabilidade da chave privada
 
 A chave privada fica **somente** com você (gerenciador de senhas + uma cópia offline). Perder a chave torna todos os backups ilegíveis; vazá-la permite ler os backups. Sem ela, nem o CI nem o GitHub conseguem ler o conteúdo.
@@ -75,3 +81,4 @@ A chave privada fica **somente** com você (gerenciador de senhas + uma cópia o
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
+| 2026-10-28 | §4.1: registro do 1º teste de restauração (local, TAR-007). |
