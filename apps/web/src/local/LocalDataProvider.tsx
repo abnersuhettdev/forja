@@ -6,7 +6,10 @@ import { summarizeOutbox, type OutboxSummary } from "@forja/domain";
 import { LocalDatabase, readMeta } from "./db.ts";
 import { deviceIdentity, localDatabaseName } from "./device.ts";
 import { LAST_SENT_KEY, SyncEngine } from "./engine.ts";
+import { takeUnlockPassword } from "../auth/unlock.ts";
+import { restorePending } from "./kept.ts";
 import { enqueue, listOutbox, recoverInterrupted } from "./outbox.ts";
+import { open as openSealed, readSealed, removeSealed } from "./vault.ts";
 import { createHttpTransport, type SyncTransport } from "./transport.ts";
 
 // Banco local e fila do usuário autenticado (ADR-028 L1): abre só o banco desse usuário e
@@ -28,6 +31,32 @@ export interface LocalData {
   readonly deviceId: string;
   /** Relê o resumo da fila (após mudanças feitas fora do motor de envio). */
   readonly refreshQueue: () => void;
+  /** Identificador opaco do dono (nome do banco local), usado no cofre (ADR-028 L1/L6). */
+  readonly ownerKey: string;
+  /** Saídas anteriores com pendências ainda cifradas (senha trocada desde então). */
+  readonly lockedKept: number;
+  /** Tenta liberar as pendências cifradas com a senha informada (atual ou anterior). */
+  readonly unlockKept: (password: string) => Promise<boolean>;
+  /** Descarta, por decisão explícita, as pendências cifradas que não puderam ser liberadas. */
+  readonly discardKept: () => Promise<void>;
+}
+
+/**
+ * Libera para o banco do usuário as pendências guardadas por "Sair e manter" (ADR-028 L6).
+ * Devolve quantos registros do cofre continuam cifrados (senha não confere).
+ */
+async function releaseKept(db: LocalDatabase, owner: string, password: string): Promise<number> {
+  const records = await readSealed(owner);
+  let locked = 0;
+  for (const record of records) {
+    const content = await openSealed(record, password);
+    if (content !== null && (await restorePending(db, content))) {
+      if (record.id !== undefined) await removeSealed([record.id]);
+    } else {
+      locked++;
+    }
+  }
+  return locked;
 }
 
 async function readQueueState(db: LocalDatabase) {
@@ -64,6 +93,15 @@ export function LocalDataProvider({ children }: { children: ReactNode }) {
       db = opened;
       await opened.open();
       await recoverInterrupted(opened);
+      // Pendências de uma saída anterior: a senha deste login as libera (ADR-028 L6).
+      const kept = await readSealed(name);
+      const password = takeUnlockPassword();
+      let lockedKept =
+        kept.length === 0
+          ? 0
+          : password === null
+            ? kept.length
+            : await releaseKept(opened, name, password);
       const refresh = () => {
         void readQueueState(opened)
           .then((queue) => {
@@ -97,6 +135,23 @@ export function LocalDataProvider({ children }: { children: ReactNode }) {
         deviceId: device.id,
         ...(await readQueueState(opened)),
         refreshQueue: refresh,
+        ownerKey: name,
+        lockedKept,
+        unlockKept: async (attempt) => {
+          lockedKept = await releaseKept(opened, name, attempt);
+          if (!run.cancelled)
+            setState((prev) => (prev?.db === opened ? { ...prev, lockedKept } : prev));
+          refresh();
+          void created.syncNow();
+          return lockedKept === 0;
+        },
+        discardKept: async () => {
+          const records = await readSealed(name);
+          await removeSealed(records.flatMap((r) => (r.id === undefined ? [] : [r.id])));
+          lockedKept = 0;
+          if (!run.cancelled)
+            setState((prev) => (prev?.db === opened ? { ...prev, lockedKept } : prev));
+        },
         destroy: async () => {
           created.stop();
           opened.close();

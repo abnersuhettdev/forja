@@ -2,10 +2,9 @@ import { useState, type ReactNode } from "react";
 import { ChevronRight, Download, Hourglass, KeyRound, LogOut, RefreshCw } from "lucide-react";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
-import { useSignOut } from "../auth/useSignOut.ts";
+import { useSignOutFlow } from "./SignOutFlow.tsx";
 import { Button } from "../components/Button.tsx";
 import { ChoiceGroup } from "../components/ChoiceGroup.tsx";
-import { Dialog } from "../components/Dialog.tsx";
 import {
   readThemePreference,
   saveThemePreference,
@@ -52,10 +51,8 @@ export function AccountScreen({ area }: { area: NavArea }) {
   const auth = useAuth();
   const { state } = useUserContext();
   const local = useLocalData();
-  const signOut = useSignOut();
+  const signOut = useSignOutFlow();
   const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
-  const [confirming, setConfirming] = useState(false);
-  const [unsent, setUnsent] = useState<number | null>(null);
   const context = state.status === "ready" ? state.context : null;
   const dualRole = context !== null && context.isManager && context.student !== null;
   const pending = local?.unsent ?? 0;
@@ -127,46 +124,10 @@ export function AccountScreen({ area }: { area: NavArea }) {
         <p>{TEXTS.onboarding.healthNotice}</p>
       </details>
 
-      <Button
-        variant="danger"
-        icon={<LogOut size={20} />}
-        onClick={() => {
-          setConfirming(true);
-        }}
-      >
+      <Button variant="danger" icon={<LogOut size={20} />} onClick={signOut.start}>
         {A.signOut}
       </Button>
-      <Dialog
-        open={confirming}
-        title={A.signOutTitle}
-        confirmLabel={A.signOut}
-        destructive
-        onCancel={() => {
-          setConfirming(false);
-        }}
-        onConfirm={() => {
-          setConfirming(false);
-          void signOut().then((result) => {
-            if (result.status === "has_unsent") setUnsent(result.count);
-          });
-        }}
-      >
-        <p>{A.signOutBody}</p>
-      </Dialog>
-      <Dialog
-        open={unsent !== null}
-        title={A.unsentTitle}
-        confirmLabel={A.sendNow}
-        onCancel={() => {
-          setUnsent(null);
-        }}
-        onConfirm={() => {
-          setUnsent(null);
-          void local?.engine.syncNow();
-        }}
-      >
-        <p>{A.unsentBody(unsent ?? 0)}</p>
-      </Dialog>
+      {signOut.dialogs}
     </div>
   );
 }

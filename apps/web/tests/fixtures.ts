@@ -40,3 +40,6 @@ export const trainingUser = (browserName: string) => user(`treino.${browserName}
 export const executionUser = (browserName: string) => user(`execucao.${browserName}@exemplo.test`);
 /** Aluno dos testes de sincronização, com dois aparelhos simulados (um por navegador). */
 export const syncUser = (browserName: string) => user(`sincronia.${browserName}@exemplo.test`);
+/** Aluno dos testes de saída da conta e a outra pessoa do mesmo aparelho (um por navegador). */
+export const signOutUser = (browserName: string) => user(`saida.${browserName}@exemplo.test`);
+export const otherDeviceUser = (browserName: string) => user(`outra.${browserName}@exemplo.test`);

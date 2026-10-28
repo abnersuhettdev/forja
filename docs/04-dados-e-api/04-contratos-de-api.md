@@ -8,7 +8,7 @@
 | Dono do assunto | Contratos de leitura e de escrita (API-###), formato da sincronização, idempotência, conflitos e códigos de erro |
 | Dependências | DAD-01..03, DAD-05, UX-05, UX-08 §6, ADR-022, ADR-034, ADR-050 |
 | Referenciado por | SEG-05, SEG-03, PLN-01, PLN-03 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-10-27 |
 
 ## 1. Objetivo e escopo
 
@@ -138,7 +138,7 @@ Falhas de transporte (sem resposta, tempo esgotado, 5xx) não geram resultado po
 | API-010 | `set.delete` | — | Janela RN-027 (exceto sessão em andamento) | `EDIT_WINDOW_EXPIRED` | RF-061, RF-069 |
 | API-011 | `session_exercise.update` | `status` (`done`/`skipped`), `position`, novo exercício (D5) | Substituição só por alternativa cadastrada (D5) | `NOT_AN_ALTERNATIVE` | RF-063, RF-064 |
 | API-012 | `session.complete` | `ended_at`, `duration_min`, `rpe`, `notes` | `ended_at ≥ started_at`; 1–300 min | — | RF-065 |
-| API-013 | `session.update` | Horários, PSE, observação; concluir abandonada | RN-027 (janela), RN-012 | `EDIT_WINDOW_EXPIRED` | RF-069 |
+| API-013 | `session.update` | Horários, PSE, observação; concluir abandonada; `possible_duplicate_of: null` ("Manter ambas" — só limpa a marca, sem mudar a revisão; TAR-020) | RN-027 (janela), RN-012, RN-045 | `EDIT_WINDOW_EXPIRED` | RF-069, RF-100 |
 | API-014 | `session.delete` | — | Concluída/manual: marca de exclusão (janela RN-027); em andamento: descarte físico | `EDIT_WINDOW_EXPIRED` | RF-067, RF-069 |
 | API-015 | `session.manual_create` | Treino, versão, data/hora, duração, séries opcionais | Data entre hoje e 60 dias atrás (RN-027) | `DATE_OUT_OF_WINDOW` | RF-068 (D5) |
 | API-016 | `draft.create` | `source`: `empty` \| `from_version` (`version_id`) \| `generated` (rascunho completo + `generator_report`) | RN-003 (um rascunho); papel de gestão do aluno | `DRAFT_ALREADY_EXISTS`, `FORBIDDEN_ROLE` | RF-020, RF-021, RF-022, RF-023, RF-027 |
@@ -212,3 +212,4 @@ A taxonomia completa e o tratamento de cada código no app são de SEG-05.
 | 2026-10-26 | Conteúdo completo (Etapa 4). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 4). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): API-024 (medidas, RF-088) e leituras API-R11/R12 (D3) acrescentadas; RF de API-016/020/A01..A04 e telas de API-R08/R09 completados. |
+| 2026-10-27 | API-013: "Manter ambas" (`possible_duplicate_of: null`) — interpretação da TAR-020 confirmada pelo usuário. |

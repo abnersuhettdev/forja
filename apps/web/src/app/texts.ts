@@ -561,6 +561,61 @@ export const TEXTS = {
     differs: "diferente",
     empty: "—",
   },
+  signOut: {
+    pendingTitle: "Há registros não enviados",
+    pendingIntro: (n: number) =>
+      n === 1
+        ? "1 registro ainda não foi enviado à sua conta:"
+        : `${String(n)} registros ainda não foram enviados à sua conta:`,
+    activeSession: (workout: string) => `Sessão em andamento — ${workout}`,
+    send: "Enviar e sair",
+    sendHint:
+      "Vamos enviar seus registros e depois sair. Se algo não puder ser enviado, você decide o que fazer.",
+    sendOffline: "Sem conexão — conecte-se para enviar antes de sair",
+    keep: "Sair e manter neste aparelho",
+    keepShort:
+      "Guarda os registros criptografados neste aparelho; serão enviados quando você entrar de novo nele. Pede sua senha.",
+    keepHint: (n: number) =>
+      `Para proteger seus registros, confirme sua senha. Seus ${String(n)} registros não enviados ficam guardados e criptografados neste aparelho e serão enviados quando você entrar de novo nele. Outras pessoas que usarem o app neste aparelho não poderão vê-los, mas eles continuam armazenados aqui. Se você não voltar a entrar neste aparelho, eles não chegarão à sua conta.`,
+    discard: "Descartar e sair",
+    discardShort: "Apaga os registros para sempre deste aparelho. Pede confirmação digitada.",
+    discardHint: (n: number) =>
+      `Esta ação é irreversível. Os ${String(n)} registros listados serão apagados para sempre deste aparelho e não chegarão à sua conta.`,
+    discardType: "Digite DESCARTAR para confirmar",
+    discardWord: "DESCARTAR",
+    discardConfirm: "Apagar e sair",
+    remaining: (n: number) =>
+      n === 1
+        ? "1 registro não pôde ser enviado agora."
+        : `${String(n)} registros não puderam ser enviados agora.`,
+    attentionTitle: "Itens precisam da sua atenção",
+    attentionBody: (n: number) =>
+      n === 1
+        ? "1 item precisa da sua atenção antes de sair."
+        : `${String(n)} itens precisam da sua atenção antes de sair.`,
+    resolve: "Resolver agora",
+    otherOptions: "Outras opções",
+    password: "Sua senha",
+    passwordAgain: "Repita a senha",
+    passwordOfflineHint:
+      "Sem conexão, a senha não pode ser conferida agora: digite-a duas vezes. Ela será pedida para liberar os registros no próximo login.",
+    passwordMismatch: "As senhas não conferem.",
+    wrongPassword: "Senha incorreta.",
+    keepConfirm: "Guardar e sair",
+    failed: "Não foi possível concluir agora. Nada foi removido deste aparelho.",
+    back: "Voltar",
+    lockedTitle: "Registros guardados de uma saída anterior",
+    lockedBody: (n: number) =>
+      `${n === 1 ? "Há 1 conjunto de registros" : `Há ${String(n)} conjuntos de registros`} guardados e criptografados neste aparelho de uma saída anterior. Se você trocou a senha depois disso, digite a senha anterior para liberá-los.`,
+    unlock: "Liberar registros",
+    unlockPassword: "Senha (atual ou anterior)",
+    unlocked: "Registros liberados; serão enviados.",
+    unlockFailed: "Essa senha não libera os registros. Tente a senha anterior.",
+    discardLocked: "Descartar registros guardados",
+    discardLockedHint:
+      "Esta ação é irreversível: os registros guardados serão apagados deste aparelho e não chegarão à sua conta.",
+    discardedLocked: "Registros guardados descartados.",
+  },
   rest: {
     notice:
       "Estes valores são preferências pessoais, não recomendação médica ou esportiva. 48 h é apenas um ponto de partida.",

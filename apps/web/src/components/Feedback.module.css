@@ -137,3 +137,10 @@
 .skeletonLine:last-child {
   width: 60%;
 }
+
+/* Formulário simples em coluna (folhas e diálogos). */
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}

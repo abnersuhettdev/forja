@@ -2,6 +2,7 @@ import { useEffect, useState, type ComponentType } from "react";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { ErrorBoundary } from "../components/ErrorBoundary.tsx";
+import { LockedKept } from "../components/LockedKept.tsx";
 import { ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { AppHeader, MainNav } from "../components/Navigation.tsx";
 import type { NavArea } from "./navigation.ts";
@@ -173,6 +174,8 @@ export function AppShell() {
     <div className={withNavigation ? styles.withNav : undefined}>
       {withNavigation ? <AppHeader title={title} area={area} showAreaSwitch={dualRole} /> : null}
       <main className={styles.main}>
+        {/* Pendências cifradas de uma saída anterior, ainda não liberadas (ADR-028 L6). */}
+        {withNavigation ? <LockedKept /> : null}
         <ErrorBoundary resetKey={pathname}>
           {Screen ? (
             <Screen area={area} params={matchRoute(route?.pattern ?? "", pathname) ?? {}} />

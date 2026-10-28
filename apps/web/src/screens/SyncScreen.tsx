@@ -11,8 +11,9 @@ import { useSnackbar } from "../components/Snackbar.tsx";
 import { formatSet } from "./ExecutionScreen.tsx";
 import type { SessionBundle } from "../execution/session.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
-import type { QueuedOperation } from "../local/outbox.ts";
+import { releaseRetries, type QueuedOperation } from "../local/outbox.ts";
 import { useOfflineData } from "../offline/OfflineDataProvider.tsx";
+import { describeGroup as describe, sessionLabel } from "../sync/describe.ts";
 import {
   deleteSession,
   discardGroup,
@@ -34,28 +35,6 @@ import styles from "./Sync.module.css";
 
 const T = TEXTS.sync;
 const TIME_ZONE = "America/Sao_Paulo";
-
-function sessionLabel(bundle: SessionBundle): string {
-  const date = formatShortDate(toLocalDate(new Date(bundle.session.started_at), TIME_ZONE));
-  return T.sessionLabel(date, bundle.session.workout_name ?? "");
-}
-
-/** Título e detalhe de um registro da fila, em linguagem simples. */
-function describe(group: QueueGroup): { title: string; detail: string } {
-  if (group.kind === "session") {
-    return group.session
-      ? { title: sessionLabel(group.session), detail: T.sessionDetail(group.session.sets.length) }
-      : { title: T.sessionDiscarded, detail: "" };
-  }
-  if (group.kind === "rest") {
-    // O conteúdo é o da alteração na fila (o que seria enviado ou perdido), não a cópia atual.
-    const payload = group.ops.at(-1)?.payload ?? {};
-    const hours = typeof payload.default_hours === "number" ? payload.default_hours : null;
-    const overrides = Array.isArray(payload.overrides) ? payload.overrides.length : 0;
-    return { title: T.restLabel, detail: hours === null ? "" : T.restDetail(hours, overrides) };
-  }
-  return { title: T.otherLabel, detail: "" };
-}
 
 /** Conteúdo que será perdido, mostrado na confirmação (RN-051). */
 function LostContent({ group }: { group: QueueGroup }) {
@@ -300,7 +279,8 @@ export function SyncScreen() {
             variant="primary"
             disabled={!online}
             onClick={() => {
-              void local.engine.syncNow();
+              // Pedido explícito: a espera de nova tentativa não vale (UX-08 §6.3).
+              void releaseRetries(local.db).then(() => local.engine.syncNow());
             }}
           >
             {T.sendNow}

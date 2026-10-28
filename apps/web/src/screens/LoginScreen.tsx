@@ -5,6 +5,7 @@ import {
   remainingWaitSeconds,
   type LoginAttemptState,
 } from "@forja/domain";
+import { forgetUnlockPassword, rememberUnlockPassword } from "../auth/unlock.ts";
 import { getSupabase } from "../auth/client.ts";
 import { readLoginAttempts, writeLoginAttempts } from "../auth/login-attempts.ts";
 import { Button } from "../components/Button.tsx";
@@ -56,11 +57,14 @@ export function LoginScreen() {
     if (supabase === null) return;
 
     setSubmitting(true);
+    // Antes do login: o banco local do usuário pode abrir antes desta promessa terminar.
+    rememberUnlockPassword(password);
     const { error: authError } = await supabase.auth.signInWithPassword({
       email: email.trim(),
       password,
     });
     setSubmitting(false);
+    if (authError !== null) forgetUnlockPassword();
     if (authError === null) {
       writeLoginAttempts(INITIAL_LOGIN_ATTEMPTS);
       return; // A troca de sessão leva à área inicial (AppShell).

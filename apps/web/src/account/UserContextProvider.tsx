@@ -52,12 +52,16 @@ export function UserContextProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (db === null || userId === null) return;
     let active = true;
-    void readCachedContext(db).then((cached) => {
-      if (!active) return;
-      if (cached?.userId === userId)
-        setStored({ userId, value: { status: "ready", context: cached } });
-      void refresh();
-    });
+    readCachedContext(db)
+      .then((cached) => {
+        if (!active) return;
+        if (cached?.userId === userId)
+          setStored({ userId, value: { status: "ready", context: cached } });
+        void refresh();
+      })
+      .catch(() => {
+        // Banco fechado (saída ou troca de usuário) durante a leitura.
+      });
     const onOnline = () => {
       void refresh();
     };

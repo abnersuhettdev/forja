@@ -96,6 +96,30 @@
       "senha": "Ficticia-sincronia-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "saida.chromium@exemplo.test",
+      "senha": "Ficticia-saida-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "outra.chromium@exemplo.test",
+      "senha": "Ficticia-outra-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "saida.webkit@exemplo.test",
+      "senha": "Ficticia-saida-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "outra.webkit@exemplo.test",
+      "senha": "Ficticia-outra-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

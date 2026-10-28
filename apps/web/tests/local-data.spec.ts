@@ -112,13 +112,9 @@ test("troca de usuário: o novo não vê nem envia nada do anterior; o dono envi
   await page.evaluate(() => (window as HookWindow).__forjaLocal?.syncNow());
   await expect.poll(async () => (await outbox(page))[0]?.state).toBe("retry");
 
-  // Com pendências, Sair não remove nada (CP-02 da ADR-027; fluxo completo na TAR-021).
+  // Com pendências, Sair mostra as opções (UX-04 §6.1); Cancelar não remove nada.
   await page.goto("/conta");
   await page.getByRole("button", { name: "Sair" }).click();
-  await page
-    .getByRole("dialog", { name: "Sair da conta?" })
-    .getByRole("button", { name: "Sair" })
-    .click();
   const warning = page.getByRole("dialog", { name: "Há registros não enviados" });
   await expect(warning).toContainText("1 registro ainda não foi enviado");
   await warning.getByRole("button", { name: "Cancelar" }).click();

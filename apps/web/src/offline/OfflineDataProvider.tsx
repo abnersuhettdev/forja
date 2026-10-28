@@ -57,19 +57,27 @@ export function OfflineDataProvider({ children }: { children: ReactNode }) {
       await prefetchImages(programImagePaths(snapshot.program, exercises));
     } catch {
       // Sem conexão ou servidor indisponível: segue com a cópia do aparelho.
-      const cached = await readOfflineData(db);
-      setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
+      try {
+        const cached = await readOfflineData(db);
+        setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
+      } catch {
+        // Banco fechado (saída ou troca de usuário) durante a leitura.
+      }
     }
   }, [db, studentId, timeZone]);
 
   useEffect(() => {
     if (db === null) return;
     let active = true;
-    void readOfflineData(db).then((cached) => {
-      if (!active) return;
-      setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
-      void refresh();
-    });
+    readOfflineData(db)
+      .then((cached) => {
+        if (!active) return;
+        setStored({ db, value: { status: "ready", refreshing: false, ...cached } });
+        void refresh();
+      })
+      .catch(() => {
+        // Banco fechado (saída ou troca de usuário) durante a leitura.
+      });
     const onVisible = () => {
       if (document.visibilityState === "visible") void refresh();
     };

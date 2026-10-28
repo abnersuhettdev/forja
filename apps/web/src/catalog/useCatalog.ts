@@ -35,13 +35,17 @@ export function useCatalog(): { state: CatalogState; reload: () => Promise<void>
   useEffect(() => {
     if (db === null) return;
     let active = true;
-    void readCachedCatalog(db).then((cached) => {
-      if (!active) return;
-      if (cached.exercises.length > 0) {
-        setState({ status: "ready", exercises: cached.exercises, updatedAt: cached.updatedAt });
-      }
-      void reload();
-    });
+    readCachedCatalog(db)
+      .then((cached) => {
+        if (!active) return;
+        if (cached.exercises.length > 0) {
+          setState({ status: "ready", exercises: cached.exercises, updatedAt: cached.updatedAt });
+        }
+        void reload();
+      })
+      .catch(() => {
+        // Banco fechado (saída ou troca de usuário) durante a leitura.
+      });
     return () => {
       active = false;
     };

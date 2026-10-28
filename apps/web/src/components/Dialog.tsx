@@ -10,6 +10,8 @@ interface DialogProps {
   title: string;
   children: ReactNode;
   confirmLabel: string;
+  /** Rótulo do botão secundário (padrão "Cancelar"). */
+  cancelLabel?: string;
   destructive?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
@@ -20,6 +22,7 @@ export function Dialog({
   title,
   children,
   confirmLabel,
+  cancelLabel = TEXTS.common.cancel,
   destructive = false,
   onConfirm,
   onCancel,
@@ -53,7 +56,7 @@ export function Dialog({
       <div className={styles.dialogBody}>{children}</div>
       <div className={styles.dialogActions}>
         <Button ref={cancelRef} onClick={onCancel}>
-          {TEXTS.common.cancel}
+          {cancelLabel}
         </Button>
         <Button variant={destructive ? "danger" : "primary"} onClick={onConfirm}>
           {confirmLabel}
