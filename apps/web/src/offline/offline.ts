@@ -1,7 +1,7 @@
 // Dados para uso offline (UX-08 §6.1–6.2; RF-091, RF-092; API-R02, R08): programa ativo
 // completo, exercícios do catálogo e pesos dos últimos 12 meses, guardados no banco local do
 // usuário; sessões dos últimos 90 dias e última execução (API-R06/R07 — TAR-019).
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import { addDays, toLocalDate } from "@forja/domain";
 import { cacheCatalog, fetchCatalog, type CatalogExercise } from "../catalog/catalog.ts";
 import { fetchSessionData, mergeSessionData } from "../execution/download.ts";
@@ -47,7 +47,7 @@ export const WEIGHT_WINDOW_DAYS = 365;
 
 /** Baixa tudo o que o aluno precisa offline e grava no aparelho numa transação. */
 export async function refreshOfflineData(
-  supabase: SupabaseClient,
+  supabase: DataClient,
   db: LocalDatabase,
   studentId: string,
   timeZone: string,

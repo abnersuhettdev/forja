@@ -229,7 +229,10 @@ importers:
       '@forja/domain':
         specifier: workspace:*
         version: link:../../packages/domain
-      '@supabase/supabase-js':
+      '@supabase/auth-js':
+        specifier: 2.118.0
+        version: 2.118.0
+      '@supabase/postgrest-js':
         specifier: 2.118.0
         version: 2.118.0
       dexie:

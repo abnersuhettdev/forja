@@ -1,6 +1,6 @@
 // API-R03 — rascunho e versão ativa do aluno (Gestão). Leitura pela API de dados: o aluno
 // nunca recebe rascunhos (RN-005); o gestor recebe os dois.
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import type { MeasureType, SplitType } from "@forja/domain";
 import type { EditorDocument } from "./editor.ts";
 
@@ -84,10 +84,7 @@ export function toVersionView(row: VersionRow): VersionView {
   };
 }
 
-export async function fetchProgram(
-  supabase: SupabaseClient,
-  studentId: string,
-): Promise<ProgramView> {
+export async function fetchProgram(supabase: DataClient, studentId: string): Promise<ProgramView> {
   const { data, error } = await supabase
     .from("program_versions")
     .select(VERSION_SELECT)

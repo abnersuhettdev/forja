@@ -1,7 +1,7 @@
 // API-R01 — "Meu contexto" (DAD-04 §3): papéis do usuário, aluno, perfil, descanso e GATE-TER.
 // Lido pela API de dados (políticas por linha) e guardado no banco local do usuário para abrir
 // offline (UX-08 §6.2).
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
 import { hasUnsentRest } from "../training/rest.ts";
 
@@ -29,7 +29,7 @@ const CONTEXT_KEY = "contexto";
 
 /** Lê o contexto no servidor; dados pessoais nunca vão em URL (filtros por identificador). */
 export async function fetchUserContext(
-  supabase: SupabaseClient,
+  supabase: DataClient,
   userId: string,
   now: Date = new Date(),
 ): Promise<{ context: UserContext; profile: unknown; rest: unknown }> {

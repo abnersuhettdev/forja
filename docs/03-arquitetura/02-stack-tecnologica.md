@@ -68,6 +68,7 @@ Escolher tecnologias **proporcionais** a um projeto pessoal com potencial de cre
 | Service worker / cache | Workbox (via plugin PWA do Vite) | Service worker escrito à mão | Estratégias de cache testadas, atualização controlada |
 | Banco local | Dexie (sobre IndexedDB) | `idb` (mais enxuto) | Migrações de esquema versionadas (UX-08 §9), consultas indexadas |
 | Validação de dados | Zod (esquemas compartilhados) | Valibot | Mesmo esquema no app e na função de sincronização |
+| Cliente do provedor | `@supabase/auth-js` + `@supabase/postgrest-js` (só autenticação e consultas — ADR-039 alterada em 2026-10-28) | `@supabase/supabase-js` completo | O app não usa tempo real, arquivos nem funções do cliente; −26 KiB gzip no JS inicial |
 | Gráficos | Componente próprio em SVG ([ADR-092](06-adrs.md#adr-092--gráfico-de-linha-próprio-em-svg-no-lugar-do-uplot-substitui-parcialmente-a-adr-039); antes uPlot) | uPlot | Sem dependência; tabela alternativa feita pelo app (UX-06) |
 | Ícones / fontes | Lucide; Barlow (arquivos próprios) | — | ADR-023 |
 | Testes | Vitest (unidade), Playwright (E2E, inclusive modo offline) | — | SEG-03 |
@@ -209,3 +210,4 @@ De terceiros (usadas apenas na primeira triagem, substituídas pelas oficiais ac
 | 2026-10-28 | ADR-092: gráficos em componente próprio em SVG no lugar do uPlot (§3.4, §4). TAR-024: `@supabase/supabase-js` 2.118.0 também na raiz, só para o teste de leituras com 2 anos de dados. |
 | 2026-10-28 | TAR-006 (parte local): `vite-plugin-pwa` 2.0.0 e `workbox-window` 7.4.1 (MIT). `pnpm audit`: 2 vulnerabilidades baixas só nas ferramentas de build do plugin (`workbox-build` → `serialize-javascript`, `deepmerge`), fora do pacote distribuído. Lighthouse 13.5.0 usado pontualmente pelo `npx`, sem entrar nas dependências. |
 | 2026-10-28 | TAR-007 (parte local): `age-encryption` 0.3.1 (BSD-3-Clause; implementação oficial do formato `age`, pelo mesmo autor) como dependência de desenvolvimento, só nos scripts de backup e restauração — não vai para o app. |
+| 2026-10-28 | PR-DES-02 item 1 (aprovado): `@supabase/auth-js` 2.118.0 e `@supabase/postgrest-js` 2.118.0 (MIT) no app no lugar do `@supabase/supabase-js`, que fica só como dependência de desenvolvimento da raiz (teste de integração). |

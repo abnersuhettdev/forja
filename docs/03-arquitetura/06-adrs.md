@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-28 (ADR-092; extensão da ADR-090) |
+| Última atualização | 2026-10-28 (ADR-092; extensão da ADR-090; ADR-039 alterada para o cliente do provedor) |
 
 ## 1. Objetivo
 
@@ -482,6 +482,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Justificativa:** bibliotecas pequenas, maduras, com licenças permissivas; criptografia pela Web Crypto nativa.
 - **Consequências:** novas bibliotecas exigem justificativa no PR (ARQ-04 §8).
 - **Alteração (2026-10-28):** para gráficos, substituída pela [ADR-092](#adr-092--gráfico-de-linha-próprio-em-svg-no-lugar-do-uplot-substitui-parcialmente-a-adr-039) (SVG próprio, sem uPlot). As demais bibliotecas seguem como decididas.
+- **Alteração (2026-10-28 — aprovada: "Approve 1 and 3", PR-DES-02 item 1):** o app usa do provedor só autenticação e consultas — `@supabase/auth-js` e `@supabase/postgrest-js` (as mesmas bibliotecas que o cliente completo usa por dentro, mesma versão), compostas em `apps/web/src/auth/client.ts` com o mesmo envio do token da sessão. Tempo real, armazenamento de arquivos e funções do cliente completo ficam fora do pacote (−26 KiB gzip no JS inicial). `@supabase/supabase-js` permanece só no teste de integração.
 
 ## ADR-050 — Escrita da sincronização com papel de banco de privilégio mínimo vinculado ao usuário verificado
 
@@ -684,3 +685,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-27 | ADR-091 criada e aprovada pelo usuário (correção de importados no exercício comum, só com GATE-TER fechado). |
 | 2026-10-28 | ADR-092 criada e aprovada pelo usuário (gráfico próprio em SVG; ADR-039 alterada só para gráficos). |
 | 2026-10-28 | ADR-090 estendida pelo usuário às partes locais da TAR-006 e da TAR-007. |
+| 2026-10-28 | ADR-039 alterada pelo usuário: cliente do provedor só com autenticação e consultas (PR-DES-02). |

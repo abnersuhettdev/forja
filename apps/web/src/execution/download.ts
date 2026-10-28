@@ -1,7 +1,7 @@
 // Sessões dos últimos 90 dias (API-R06) e última execução por exercício (API-R07), baixadas
 // para o aparelho (UX-08 §6.2). O que ainda está na fila de saída — e a sessão em andamento —
 // prevalece sobre a cópia do servidor: nada local é perdido no download.
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import { LOCAL_SESSIONS_WINDOW_DAYS } from "@forja/domain";
 import type { LocalDatabase } from "../local/db.ts";
 import type {
@@ -40,7 +40,7 @@ const SESSION_SELECT = `id, program_version_id, workout_id, status, started_at, 
     completed_at, revision, deleted_at))`;
 
 export async function fetchSessionData(
-  supabase: SupabaseClient,
+  supabase: DataClient,
   studentId: string,
   now: Date,
 ): Promise<SessionData> {
@@ -183,7 +183,7 @@ function toBundle(row: SessionRow): SessionBundle {
  * TELA-018); nada é gravado no aparelho.
  */
 export async function fetchSessionsInRange(
-  supabase: SupabaseClient,
+  supabase: DataClient,
   studentId: string,
   from: string,
   to: string,

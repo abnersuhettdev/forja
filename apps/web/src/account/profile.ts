@@ -1,6 +1,6 @@
 // Perfil completo do aluno para a Gestão (TELA-037, TELA-038): aluno, perfil de treinamento e
 // última avaliação, lidos pela API de dados.
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import type {
   ActivityLevel,
   Equipment,
@@ -41,7 +41,7 @@ export interface StudentProfile {
 }
 
 export async function fetchStudentProfile(
-  supabase: SupabaseClient,
+  supabase: DataClient,
   studentId: string,
 ): Promise<StudentProfile> {
   const [student, profile, assessment] = await Promise.all([

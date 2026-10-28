@@ -63,6 +63,8 @@ jobs:
       - name: App instalável no build de produção (TAR-006)
         working-directory: apps/web
         run: pnpm exec playwright test -c playwright.pwa.config.ts
+      - name: Orçamento de JS inicial no build configurado (SEG-04 §2, PR-DES-02)
+        run: pnpm budget:check
 
   banco:
     name: Banco — migrações do zero e testes de políticas (DAD-07 §2)

@@ -1,5 +1,5 @@
 import { createContext, use, useEffect, useState, type ReactNode } from "react";
-import type { Session } from "@supabase/supabase-js";
+import type { Session } from "@supabase/auth-js";
 import { getSupabase } from "./client.ts";
 
 // Estado da sessão (DAD-05 §3). Expiração ou revogação pelo servidor não remove dados locais

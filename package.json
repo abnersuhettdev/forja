@@ -23,6 +23,7 @@
     "check": "tsc -p tsconfig.json --noEmit && tsc -p packages/domain/tsconfig.json --noEmit && tsc -p apps/web/tsconfig.json --noEmit && tsc -p supabase/tests/tsconfig.json --noEmit && eslint . --max-warnings=0 && prettier --check . && vitest run --coverage && node scripts/check-licenses.ts && node scripts/catalog/validate.ts",
     "test:e2e": "playwright test -c apps/web/playwright.config.ts",
     "test:pwa": "playwright test -c apps/web/playwright.pwa.config.ts",
+    "budget:check": "node apps/web/scripts/check-budget.ts apps/web/dist-pwa",
     "dev": "vite apps/web"
   },
   "devDependencies": {

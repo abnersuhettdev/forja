@@ -1,6 +1,6 @@
 // Catálogo (API-R04/R05, RF-030, RF-031): leitura dos exercícios ativos visíveis pela API de
 // dados, cópia no banco local (consulta offline) e filtros feitos no aparelho.
-import type { SupabaseClient } from "@supabase/supabase-js";
+import type { DataClient } from "../auth/data-client.ts";
 import type {
   Difficulty,
   Equipment,
@@ -95,7 +95,7 @@ export function toCatalogExercise(row: ExerciseRow): CatalogExercise {
 }
 
 /** Exercícios ativos visíveis ao usuário (as políticas por linha decidem quais). */
-export async function fetchCatalog(supabase: SupabaseClient): Promise<CatalogExercise[]> {
+export async function fetchCatalog(supabase: DataClient): Promise<CatalogExercise[]> {
   const { data, error } = await supabase
     .from("exercises")
     .select(SELECT)
