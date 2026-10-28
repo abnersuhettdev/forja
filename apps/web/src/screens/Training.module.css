@@ -210,3 +210,8 @@ button.card {
   text-align: left;
   cursor: pointer;
 }
+
+.weightValue {
+  flex: 1;
+  text-align: right;
+}

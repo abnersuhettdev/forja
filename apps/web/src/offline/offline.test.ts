@@ -74,7 +74,12 @@ describe("dados offline (UX-08 §6.2)", () => {
   it("lê do aparelho o programa, os pesos e o carimbo de atualização", async () => {
     const db = new LocalDatabase(`teste-${crypto.randomUUID()}`);
     opened.push(db);
-    expect(await readOfflineData(db)).toEqual({ program: null, weights: [], updatedAt: undefined });
+    expect(await readOfflineData(db)).toEqual({
+      program: null,
+      weights: [],
+      initialWeight: null,
+      updatedAt: undefined,
+    });
     await db.table("program").put({ key: "ativo", view: version });
     await db.table("weights").bulkPut([
       { id: "p1", measured_on: "2026-10-01", weight_kg: 81, source: "manual", revision: 1 },

@@ -75,6 +75,7 @@ const REVISION_STORES: Readonly<Record<string, { table: string; key: "current" |
   "session.update": { table: "sessions", key: "entity" },
   "set.upsert": { table: "set_logs", key: "entity" },
   "session_exercise.update": { table: "session_exercises", key: "entity" },
+  "weight.create": { table: "weights", key: "entity" },
 };
 
 /** Operações aguardando nova tentativa ficam prontas já (ex.: a conexão voltou). */

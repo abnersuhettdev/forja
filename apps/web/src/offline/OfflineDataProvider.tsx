@@ -21,11 +21,14 @@ export type OfflineState =
 interface OfflineValue {
   readonly state: OfflineState;
   readonly refresh: () => Promise<void>;
+  /** Relê a cópia do aparelho, sem rede (após gravações locais, como um peso novo). */
+  readonly reloadLocal: () => Promise<void>;
 }
 
 const Context = createContext<OfflineValue>({
   state: { status: "loading" },
   refresh: () => Promise.resolve(),
+  reloadLocal: () => Promise.resolve(),
 });
 
 export function OfflineDataProvider({ children }: { children: ReactNode }) {
@@ -93,7 +96,17 @@ export function OfflineDataProvider({ children }: { children: ReactNode }) {
     };
   }, [db, refresh]);
 
-  return <Context value={{ state, refresh }}>{children}</Context>;
+  const reloadLocal = useCallback(async () => {
+    if (db === null) return;
+    const cached = await readOfflineData(db);
+    setStored((previous) =>
+      previous.db === db && previous.value.status === "ready"
+        ? { db, value: { ...previous.value, ...cached } }
+        : previous,
+    );
+  }, [db]);
+
+  return <Context value={{ state, refresh, reloadLocal }}>{children}</Context>;
 }
 
 export function useOfflineData(): OfflineValue {

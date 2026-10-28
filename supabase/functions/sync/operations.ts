@@ -1,4 +1,4 @@
-// Tipos de operação (DAD-04 §5): API-002, API-003, API-007, API-008..014 e API-020 (personalizado). Cada um valida com o
+// Tipos de operação (DAD-04 §5): API-002..014 e API-020 (personalizado). Cada um valida com o
 // esquema do domínio, confere a revisão (ADR-053) e grava como sync_writer; restrições,
 // gatilhos e políticas do banco seguem como segunda barreira (DAD-03).
 import {
@@ -8,8 +8,10 @@ import {
   importedCorrectionPayloadSchema,
   onboardingPayloadSchema,
   profileUpdatePayloadSchema,
+  emptyPayloadSchema,
   restUpdatePayloadSchema,
   toLocalDate,
+  weightCreatePayloadSchema,
 } from "../../../packages/domain/src/index.ts";
 import type { z } from "zod";
 import { asJson, type Tx } from "./db.ts";
@@ -286,11 +288,53 @@ const assessmentCreate: OperationHandler = async (tx, ctx) => {
   return {};
 };
 
+// ---------- API-005 weight.create e API-006 weight.delete (RF-080, UXP-01) ----------
+
+const weightCreate: OperationHandler = async (tx, ctx) => {
+  const payload = parse(weightCreatePayloadSchema, ctx.payload);
+  if (ctx.baseRevision !== null) throw rejected("VALIDATION_FAILED", { field: "base_revision" });
+  const [student] = await tx<{ id: string; timezone: string }[]>`
+    select id, timezone from public.students where user_id = ${ctx.userId}`;
+  if (!student) throw rejected("NOT_FOUND");
+  assertNotFuture(payload.measured_on, student.timezone, ctx.now, "measured_on");
+  const [inserted] = await tx<{ revision: number }[]>`
+    insert into public.weight_entries (id, student_id, measured_on, weight_kg, source)
+    values (${ctx.entityId}, ${student.id}, ${payload.measured_on}, ${payload.weight_kg}, 'manual')
+    returning revision`;
+  return inserted ? { revision: inserted.revision } : {};
+};
+
+const weightDelete: OperationHandler = async (tx, ctx) => {
+  parse(emptyPayloadSchema, ctx.payload);
+  const base = requireBaseRevision(ctx);
+  const [entry] = await tx<
+    {
+      measured_on: string;
+      weight_kg: number | null;
+      source: string;
+      revision: number;
+      deleted_at: Date | null;
+    }[]
+  >`
+    select measured_on::text, weight_kg::float8 as weight_kg, source, revision, deleted_at
+    from public.weight_entries where id = ${ctx.entityId} for update`;
+  if (!entry) throw rejected("NOT_FOUND");
+  if (entry.deleted_at !== null) throw conflict("ENTITY_DELETED", null);
+  if (entry.source !== "manual") throw rejected("NOT_DELETABLE");
+  if (entry.revision !== base) throw conflict("REVISION_CONFLICT", { ...entry });
+  const [updated] = await tx<{ revision: number }[]>`
+    update public.weight_entries set deleted_at = ${ctx.now} where id = ${ctx.entityId}
+    returning revision`;
+  return updated ? { revision: updated.revision } : {};
+};
+
 export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "onboarding.complete": onboarding,
   "profile.update": profileUpdate,
   "rest.update": restUpdate,
   "assessment.create": assessmentCreate,
+  "weight.create": weightCreate,
+  "weight.delete": weightDelete,
   "exercise.create": exerciseCreate,
   "exercise.update": exerciseUpdate,
   "draft.create": draftCreate,

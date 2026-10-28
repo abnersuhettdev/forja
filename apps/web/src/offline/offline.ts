@@ -18,19 +18,30 @@ export interface WeightRecord {
   readonly measured_on: string;
   readonly weight_kg: number;
   readonly source: "manual" | "assessment";
-  readonly revision: number;
+  /** Ausente enquanto o registro feito neste aparelho não foi confirmado pelo servidor. */
+  readonly revision?: number;
+  /** Gravação (ISO), para escolher o último registro do dia (TRN-05 §2). */
+  readonly created_at?: string;
+}
+
+/** Peso da avaliação inicial (RN-017): linha tracejada do gráfico. */
+export interface InitialWeight {
+  readonly measured_on: string;
+  readonly weight_kg: number;
 }
 
 export interface OfflineSnapshot {
   /** Versão ativa (publicada) do programa; null = sem programa publicado. */
   readonly program: VersionView | null;
   readonly weights: readonly WeightRecord[];
+  readonly initialWeight: InitialWeight | null;
   /** Último download bem-sucedido (ISO); base do "Disponível offline · atualizado às". */
   readonly updatedAt: string | undefined;
 }
 
 const UPDATED_KEY = "dados_offline_atualizados_em";
 const PROGRAM_KEY = "ativo";
+const INITIAL_KEY = "peso_inicial";
 /** UX-08 §6.2 — janela de pesos mantidos no aparelho. */
 export const WEIGHT_WINDOW_DAYS = 365;
 
@@ -43,7 +54,7 @@ export async function refreshOfflineData(
   now: Date = new Date(),
 ): Promise<OfflineSnapshot> {
   const since = addDays(toLocalDate(now, timeZone), -WEIGHT_WINDOW_DAYS);
-  const [version, weights, catalog, sessionData] = await Promise.all([
+  const [version, weights, initial, catalog, sessionData] = await Promise.all([
     supabase
       .from("program_versions")
       .select(VERSION_SELECT)
@@ -52,32 +63,58 @@ export async function refreshOfflineData(
       .maybeSingle<VersionRow>(),
     supabase
       .from("weight_entries")
-      .select("id, measured_on, weight_kg, source, revision")
+      .select("id, measured_on, weight_kg, source, revision, created_at")
       .eq("student_id", studentId)
       .is("deleted_at", null)
       .gte("measured_on", since)
       .order("measured_on", { ascending: false })
       .overrideTypes<WeightRecord[], { merge: false }>(),
+    supabase
+      .from("assessments")
+      .select("assessed_on, weight_kg")
+      .eq("student_id", studentId)
+      .eq("kind", "initial")
+      .maybeSingle<{ assessed_on: string; weight_kg: number }>(),
     fetchCatalog(supabase),
     fetchSessionData(supabase, studentId, now),
   ]);
   if (version.error) throw version.error;
   if (weights.error) throw weights.error;
+  if (initial.error) throw initial.error;
 
   const program = version.data ? toVersionView(version.data) : null;
   const updatedAt = now.toISOString();
   await cacheCatalog(db, catalog, now);
   const programs = db.table("program");
   const weightTable = db.table<WeightRecord, string>("weights");
-  await db.transaction("rw", [programs, weightTable, db.sync_meta], async () => {
+  await db.transaction("rw", [programs, weightTable, db.sync_meta, db.outbox], async () => {
     if (program) await programs.put({ key: PROGRAM_KEY, view: program });
     else await programs.delete(PROGRAM_KEY);
+    // Pesos com algo na fila prevalecem: registro novo fica; exclusão pendente não volta.
+    const ops = await db.outbox.toArray();
+    const pendingCreate = new Set(
+      ops.filter((o) => o.type === "weight.create").map((o) => o.entity_id),
+    );
+    const pendingDelete = new Set(
+      ops.filter((o) => o.type === "weight.delete").map((o) => o.entity_id),
+    );
+    const keep = (await weightTable.toArray()).filter((w) => pendingCreate.has(w.id));
     await weightTable.clear();
-    await weightTable.bulkPut([...weights.data]);
+    await weightTable.bulkPut([
+      ...weights.data.filter((w) => !pendingDelete.has(w.id) && !pendingCreate.has(w.id)),
+      ...keep,
+    ]);
+    await writeMeta(
+      db,
+      INITIAL_KEY,
+      initial.data
+        ? { measured_on: initial.data.assessed_on, weight_kg: initial.data.weight_kg }
+        : null,
+    );
     await writeMeta(db, UPDATED_KEY, updatedAt);
   });
   await mergeSessionData(db, sessionData);
-  return { program, weights: weights.data, updatedAt };
+  return readOfflineData(db);
 }
 
 export async function readOfflineData(db: LocalDatabase): Promise<OfflineSnapshot> {
@@ -89,7 +126,12 @@ export async function readOfflineData(db: LocalDatabase): Promise<OfflineSnapsho
     .reverse()
     .toArray();
   const program = stored?.view ?? null;
-  return { program, weights, updatedAt: await readMeta<string>(db, UPDATED_KEY) };
+  return {
+    program,
+    weights,
+    initialWeight: (await readMeta<InitialWeight | null>(db, INITIAL_KEY)) ?? null,
+    updatedAt: await readMeta<string>(db, UPDATED_KEY),
+  };
 }
 
 /** Imagens dos exercícios do programa ativo, para pré-download (UX-08 §6.1). */

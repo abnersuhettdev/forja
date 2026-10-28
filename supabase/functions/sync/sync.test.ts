@@ -1393,3 +1393,79 @@ describe("execução (API-008..014; CA-060, CA-063, CA-065, CA-067)", () => {
     });
   });
 });
+
+describe("peso (API-005, API-006; CA-080, UXP-01)", () => {
+  const op = (who: Identity, type: string, entity: string, base: number | null, payload: unknown) =>
+    send(who, [
+      { owner_user_id: who.userId, type, entity_id: entity, base_revision: base, payload },
+    ]);
+
+  it("registra, recusa data futura e exclui o manual com a marca que apaga o valor", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const weight = randomUUID();
+    expect(
+      (
+        await op(me, "weight.create", weight, null, { measured_on: "2026-10-26", weight_kg: 81.4 })
+      )[0],
+    ).toMatchObject({ status: "accepted", revision: 1 });
+    expect(
+      (
+        await op(me, "weight.create", randomUUID(), null, {
+          measured_on: "2026-11-30",
+          weight_kg: 80,
+        })
+      )[0],
+    ).toMatchObject({ status: "rejected", error: { details: { field: "measured_on" } } });
+    expect(
+      (
+        await op(me, "weight.create", randomUUID(), 1, { measured_on: "2026-10-26", weight_kg: 80 })
+      )[0],
+    ).toMatchObject({ status: "rejected", error: { code: "VALIDATION_FAILED" } });
+
+    // Revisão desatualizada → conflito; na revisão atual → marca de exclusão sem o valor.
+    expect((await op(me, "weight.delete", weight, 7, {}))[0]).toMatchObject({
+      status: "conflict",
+      error: { code: "REVISION_CONFLICT" },
+    });
+    expect((await op(me, "weight.delete", weight, 1, {}))[0]).toMatchObject({
+      status: "accepted",
+      revision: 2,
+    });
+    const [row] = await admin`
+      select weight_kg, deleted_at from public.weight_entries where id = ${weight}`;
+    expect(row?.weight_kg).toBeNull();
+    expect(row?.deleted_at).not.toBeNull();
+    expect((await op(me, "weight.delete", weight, 2, {}))[0]).toMatchObject({
+      status: "conflict",
+      error: { code: "ENTITY_DELETED" },
+    });
+
+    // Peso de avaliação não é excluído; registro inexistente responde NOT_FOUND.
+    const [assessment] = await admin<{ id: string; revision: number }[]>`
+      select id, revision from public.weight_entries
+      where student_id = ${studentId} and source = 'assessment'`;
+    expect(
+      (await op(me, "weight.delete", assessment?.id ?? "", assessment?.revision ?? 1, {}))[0],
+    ).toMatchObject({ status: "rejected", error: { code: "NOT_DELETABLE" } });
+    await expect(
+      admin`update public.weight_entries set deleted_at = now() where id = ${assessment?.id ?? ""}`,
+    ).rejects.toThrow("NOT_DELETABLE");
+    expect((await op(me, "weight.delete", randomUUID(), 1, {}))[0]).toMatchObject({
+      status: "rejected",
+      error: { code: "NOT_FOUND" },
+    });
+  });
+
+  it("sem aluno próprio o registro é recusado", async () => {
+    const me = await fictitiousUser();
+    expect(
+      (
+        await op(me, "weight.create", randomUUID(), null, {
+          measured_on: "2026-10-26",
+          weight_kg: 80,
+        })
+      )[0],
+    ).toMatchObject({ status: "rejected", error: { code: "NOT_FOUND" } });
+  });
+});

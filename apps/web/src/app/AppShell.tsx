@@ -23,6 +23,7 @@ import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { OnboardingScreen } from "../screens/OnboardingScreen.tsx";
 import { RestScreen } from "../screens/RestScreen.tsx";
 import { SyncScreen } from "../screens/SyncScreen.tsx";
+import { EvolutionScreen } from "../screens/EvolutionScreen.tsx";
 import { AgendaScreen, DayScreen, EditSessionScreen } from "../screens/HistoryScreens.tsx";
 import { CompleteScreen } from "../screens/CompleteScreen.tsx";
 import { ExecutionScreen } from "../screens/ExecutionScreen.tsx";
@@ -52,6 +53,7 @@ const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-018": AgendaScreen,
   "TELA-019": DayScreen,
   "TELA-020": EditSessionScreen,
+  "TELA-021": EvolutionScreen,
   "TELA-014": ExerciseScreen,
   "TELA-030": ProgramScreen,
   "TELA-031": DraftEditorScreen,

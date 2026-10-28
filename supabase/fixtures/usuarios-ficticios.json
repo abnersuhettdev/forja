@@ -132,6 +132,18 @@
       "senha": "Ficticia-agenda-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "evolucao.chromium@exemplo.test",
+      "senha": "Ficticia-evolucao-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "evolucao.webkit@exemplo.test",
+      "senha": "Ficticia-evolucao-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

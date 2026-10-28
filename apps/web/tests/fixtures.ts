@@ -45,3 +45,5 @@ export const signOutUser = (browserName: string) => user(`saida.${browserName}@e
 export const otherDeviceUser = (browserName: string) => user(`outra.${browserName}@exemplo.test`);
 /** Aluno dos testes de agenda e histórico (um por navegador). */
 export const agendaUser = (browserName: string) => user(`agenda.${browserName}@exemplo.test`);
+/** Aluno dos testes de peso e evolução (um por navegador). */
+export const evolutionUser = (browserName: string) => user(`evolucao.${browserName}@exemplo.test`);

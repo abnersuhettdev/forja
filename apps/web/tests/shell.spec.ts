@@ -136,6 +136,6 @@ test("alvos de toque da navegação têm ao menos 44 px (CA-202)", async ({ page
 });
 
 test("tela em construção informa a tarefa que a entregará", async ({ page }) => {
-  await page.goto("/evolucao");
-  await expect(page.getByText("será entregue na TAR‑023")).toBeVisible();
+  await page.goto("/conta/instalar");
+  await expect(page.getByText("será entregue na TAR‑006")).toBeVisible();
 });

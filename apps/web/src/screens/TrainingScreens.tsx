@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { AlertTriangle, ChevronRight, ClipboardList, Play, SearchX } from "lucide-react";
+import { AlertTriangle, ChevronRight, ClipboardList, Play, Plus, SearchX } from "lucide-react";
 import {
+  currentWeight,
   MUSCLE_GROUP_LABELS,
   toLocalDate,
   type MuscleGroup,
   type WorkoutStatus,
 } from "@forja/domain";
-import { Button } from "../components/Button.tsx";
+import { Button, IconButton } from "../components/Button.tsx";
 import { SYNC_PATH } from "../components/SyncIndicator.tsx";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { pendingAge } from "../sync/status.ts";
@@ -25,6 +26,7 @@ import {
 } from "../training/format.ts";
 import { useTraining, type TrainingState } from "../training/useTraining.ts";
 import { SESSION_PATH, useStartWorkout } from "../execution/useStartWorkout.tsx";
+import { useRegisterWeight } from "./EvolutionScreen.tsx";
 import type { WeekDay, WorkoutSummary } from "../training/training.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -122,6 +124,7 @@ export function TodayScreen() {
   const result = useReadyTraining();
   const [choosing, setChoosing] = useState(false);
   const { start, dialog } = useStartWorkout();
+  const register = useRegisterWeight();
   if ("fallback" in result) return result.fallback;
   const { training } = result;
   const today = toLocalDate(training.now, training.timeZone);
@@ -139,7 +142,7 @@ export function TodayScreen() {
       />
       <section aria-label={T.week}>
         <WeekRow training={training} />
-        <WeightRow training={training} today={today} />
+        <WeightRow training={training} today={today} onRegister={register.open} />
       </section>
       <OfflineStamp updatedAt={training.updatedAt} />
       <ChooseWorkoutSheet
@@ -151,6 +154,7 @@ export function TodayScreen() {
         }}
       />
       {dialog}
+      {register.sheet}
     </div>
   );
 }
@@ -330,16 +334,25 @@ function WeekRow({ training }: { training: Ready }) {
   );
 }
 
-function WeightRow({ training, today }: { training: Ready; today: string }) {
-  const latest = training.weights[0];
+function WeightRow({
+  training,
+  today,
+  onRegister,
+}: {
+  training: Ready;
+  today: string;
+  onRegister: () => void;
+}) {
+  const latest = currentWeight(training.weights);
   return (
     <div className={styles.summaryRow}>
       <span className={styles.summaryLabel}>{T.weight}</span>
-      <span>
+      <span className={styles.weightValue}>
         {latest
           ? T.weightValue(formatKg(latest.weight_kg), formatDaysAgo(latest.measured_on, today))
           : T.noWeight}
       </span>
+      <IconButton label={TEXTS.evolution.register} icon={<Plus size={20} />} onClick={onRegister} />
     </div>
   );
 }

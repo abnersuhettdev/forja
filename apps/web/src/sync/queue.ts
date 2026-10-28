@@ -13,7 +13,7 @@ import {
 } from "../execution/session.ts";
 import { readStoredRest, type StoredRest } from "../training/rest.ts";
 
-export type GroupKind = "session" | "rest" | "other";
+export type GroupKind = "session" | "rest" | "weight" | "other";
 
 export interface QueueGroup {
   /** Registro do usuário (sessão, descanso…) a que as operações pertencem. */
@@ -46,12 +46,12 @@ async function sessionLookup(db: LocalDatabase) {
   };
 }
 
-const kindOf = (op: QueuedOperation): GroupKind =>
-  op.type === "rest.update"
-    ? "rest"
-    : op.type.startsWith("session") || op.type.startsWith("set.")
-      ? "session"
-      : "other";
+function kindOf(op: QueuedOperation): GroupKind {
+  if (op.type === "rest.update") return "rest";
+  if (op.type.startsWith("weight.")) return "weight";
+  if (op.type.startsWith("session") || op.type.startsWith("set.")) return "session";
+  return "other";
+}
 
 /** Agrupa a fila por registro do usuário, na ordem da operação mais antiga de cada grupo. */
 export async function readQueueGroups(db: LocalDatabase): Promise<QueueGroup[]> {

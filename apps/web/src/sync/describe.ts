@@ -1,7 +1,7 @@
 // Registros da fila em linguagem simples (TELA-007 e saída da conta — UX-04 §6.1).
 import { toLocalDate } from "@forja/domain";
 import type { SessionBundle } from "../execution/session.ts";
-import { formatShortDate } from "../training/format.ts";
+import { formatKg, formatShortDate } from "../training/format.ts";
 import { TEXTS } from "../app/texts.ts";
 import type { QueueGroup } from "./queue.ts";
 
@@ -26,6 +26,17 @@ export function describeGroup(group: QueueGroup): { title: string; detail: strin
     const hours = typeof payload.default_hours === "number" ? payload.default_hours : null;
     const overrides = Array.isArray(payload.overrides) ? payload.overrides.length : 0;
     return { title: T.restLabel, detail: hours === null ? "" : T.restDetail(hours, overrides) };
+  }
+  if (group.kind === "weight") {
+    // O conteúdo é o do registro na fila (criação) — a exclusão não leva valor.
+    const created = group.ops.find((op) => op.type === "weight.create")?.payload ?? {};
+    const date =
+      typeof created.measured_on === "string" ? formatShortDate(created.measured_on) : null;
+    const kg = typeof created.weight_kg === "number" ? created.weight_kg : null;
+    return {
+      title: date === null ? T.weightDeleted : T.weightLabel(date),
+      detail: kg === null ? "" : T.weightDetail(formatKg(kg)),
+    };
   }
   return { title: T.otherLabel, detail: "" };
 }
