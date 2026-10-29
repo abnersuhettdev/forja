@@ -1,13 +1,13 @@
 // Operações de programa (DAD-04 API-016..019; RF-020, RF-025, RF-027, RF-028; RN-003..005,
 // RN-021, RN-035). Só o gestor do aluno; gatilhos do banco garantem imutabilidade (TG-01) e
 // publicação atômica (TG-02) como segunda barreira.
+import { type DraftForIssues } from "../../../packages/domain/src/index.ts";
 import {
   draftCreatePayloadSchema,
   draftIssues,
   draftSavePayloadSchema,
   emptyPayloadSchema,
-  type DraftForIssues,
-} from "../../../packages/domain/src/index.ts";
+} from "../../../packages/domain/src/validacao/index.ts";
 import type { z } from "zod";
 import type { Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";

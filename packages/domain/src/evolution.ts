@@ -1,16 +1,8 @@
 // Evolução do peso (TRN-05 §2; RF-080, RF-081; RN-017, RN-018; DAD-04 API-005/006): registro,
 // peso atual, variação, progresso em direção à meta e série do gráfico por período.
-import { z } from "zod";
-import { inRange } from "./schemas.ts";
 import { addDays } from "./time.ts";
 
-/** API-005 `weight.create` (entity_id = id do registro; data não futura conferida no servidor). */
-export const weightCreatePayloadSchema = z.strictObject({
-  measured_on: z.iso.date(),
-  weight_kg: inRange("weightKg"),
-});
-
-export type WeightCreatePayload = z.infer<typeof weightCreatePayloadSchema>;
+export type { WeightCreatePayload } from "./validacao/evolution.ts";
 
 export interface WeightPoint {
   readonly measured_on: string;

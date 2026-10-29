@@ -19,9 +19,9 @@ import {
   SEXES,
   SPLIT_TYPES,
   TRAINING_LOCATIONS,
-} from "./enums.ts";
-import { isWithinRange, RANGES, type RangeName } from "./ranges.ts";
-import { isValidTimeZone } from "./time.ts";
+} from "../enums.ts";
+import { isWithinRange, RANGES, type RangeName } from "../ranges.ts";
+import { isValidTimeZone } from "../time.ts";
 
 /** Número dentro de uma faixa de RN-018/RN-035, com mensagem citando os limites. */
 export function inRange(name: RangeName) {

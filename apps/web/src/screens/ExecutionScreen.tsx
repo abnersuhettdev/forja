@@ -20,7 +20,7 @@ import {
   type ExecutionState,
   type ExerciseView,
 } from "../execution/useExecution.ts";
-import { itemSummary } from "../program/editor.ts";
+import { itemSummary } from "../program/summary.ts";
 import { formatKg, toLocalInput } from "../training/format.ts";
 import { writeMeta } from "../local/db.ts";
 import { navigate } from "../app/router.tsx";

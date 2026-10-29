@@ -1,9 +1,7 @@
 // API-030 — relato técnico do app (ADR-038; SEG-04 §3): validado, sem dados pessoais e limitado
 // a 20 por hora por usuário (contados pelo resumo do identificador, nunca pelo e-mail).
-import {
-  DIAGNOSTICS_PER_HOUR,
-  diagnosticReportSchema,
-} from "../../../packages/domain/src/index.ts";
+import { DIAGNOSTICS_PER_HOUR } from "../../../packages/domain/src/index.ts";
+import { diagnosticReportSchema } from "../../../packages/domain/src/validacao/index.ts";
 import type { ProcessDeps, Identity } from "./process.ts";
 
 export type DiagnosticsResult =

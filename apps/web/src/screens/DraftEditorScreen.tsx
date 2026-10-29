@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
 import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
 import {
-  draftIssues,
   EQUIPMENT_LABELS,
   MUSCLE_GROUP_LABELS,
   SPLIT_TYPES,
   type DraftIssue,
   type SplitType,
 } from "@forja/domain";
+import { draftIssues } from "@forja/domain/validacao";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { filterCatalog, NO_FILTERS, type CatalogExercise } from "../catalog/catalog.ts";
 import { useCatalog } from "../catalog/useCatalog.ts";

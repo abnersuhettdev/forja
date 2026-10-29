@@ -74,7 +74,7 @@ O modelo de dados definitivo é responsabilidade de DAD-01 (Etapa 4); divergênc
 
 ## 6. Validação e erros
 
-- Esquemas Zod no pacote de domínio são a definição única das estruturas trafegadas; o app valida para dar retorno imediato e a função de sincronização revalida (nunca confia no aparelho).
+- Esquemas Zod no pacote de domínio são a definição única das estruturas trafegadas; o app valida para dar retorno imediato e a função de sincronização revalida (nunca confia no aparelho). Os esquemas ficam num ponto de entrada próprio, `@forja/domain/validacao`, separado das regras puras (`@forja/domain`): o app o carrega sob demanda (telas de formulário e primeira resposta da sincronização), fora do JS inicial (PR-DES-03; SEG-04 §2); um teste impede que o ponto de entrada principal volte a carregar o Zod.
 - Erros de domínio são **valores** (resultado com sucesso/erro tipado), não exceções; exceções só para falhas inesperadas.
 - Cada erro tem código estável (ex.: `SESSION_OUTSIDE_EDIT_WINDOW`) mapeado para mensagem em português (UX-02 §8.3); a taxonomia completa é definida em SEG-05.
 
@@ -120,3 +120,4 @@ O modelo de dados definitivo é responsabilidade de DAD-01 (Etapa 4); divergênc
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 3). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 3). |
+| 2026-10-29 | Esquemas Zod em ponto de entrada próprio (`@forja/domain/validacao`), carregado sob demanda pelo app (PR-DES-03, aprovada pelo usuário). |

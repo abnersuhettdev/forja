@@ -1,8 +1,8 @@
 // Tipos de operação (DAD-04 §5): API-002..014 e API-020 (personalizado). Cada um valida com o
 // esquema do domínio, confere a revisão (ADR-053) e grava como sync_writer; restrições,
 // gatilhos e políticas do banco seguem como segunda barreira (DAD-03).
+import { CLIENT_CLOCK_TOLERANCE_MINUTES, toLocalDate } from "../../../packages/domain/src/index.ts";
 import {
-  CLIENT_CLOCK_TOLERANCE_MINUTES,
   assessmentCreatePayloadSchema,
   customExercisePayloadSchema,
   importedCorrectionPayloadSchema,
@@ -10,9 +10,8 @@ import {
   profileUpdatePayloadSchema,
   emptyPayloadSchema,
   restUpdatePayloadSchema,
-  toLocalDate,
   weightCreatePayloadSchema,
-} from "../../../packages/domain/src/index.ts";
+} from "../../../packages/domain/src/validacao/index.ts";
 import type { z } from "zod";
 import { asJson, type Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";

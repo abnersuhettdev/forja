@@ -2,7 +2,7 @@
 // operações de rascunho e a lista de pendências para publicar, usada pela função de
 // sincronização e pelo editor (TAR-016).
 import { z } from "zod";
-import { RANGES } from "./ranges.ts";
+import { RANGES } from "../ranges.ts";
 import { programDraftSchema, workoutItemSchema } from "./schemas.ts";
 
 const id = z.uuid();

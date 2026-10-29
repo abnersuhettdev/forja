@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { diagnosticReportSchema, platformOf } from "../src/index.ts";
+import { platformOf } from "../src/index.ts";
+import { diagnosticReportSchema } from "../src/validacao/index.ts";
 
 describe("relato técnico (API-030)", () => {
   const valid = {

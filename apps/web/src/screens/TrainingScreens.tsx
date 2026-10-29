@@ -15,7 +15,7 @@ import { pendingAge } from "../sync/status.ts";
 import { ExerciseImage } from "../components/ExerciseImage.tsx";
 import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { Sheet } from "../components/Sheet.tsx";
-import { itemSummary } from "../program/editor.ts";
+import { itemSummary } from "../program/summary.ts";
 import { formatUpdatedAt } from "../training/format.ts";
 import {
   formatAgo,

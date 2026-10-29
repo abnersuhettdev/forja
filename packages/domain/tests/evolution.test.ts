@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 import {
   currentWeight,
   periodStart,
-  weightCreatePayloadSchema,
   weightProgress,
   weightSeries,
   weightVariation,
 } from "../src/index.ts";
+import { weightCreatePayloadSchema } from "../src/validacao/index.ts";
 
 describe("progresso em direção à meta (TRN-05 §2, RN-017)", () => {
   it("CT-EVO-01: inicial 90, meta 80, atual 85 → 50%", () => {

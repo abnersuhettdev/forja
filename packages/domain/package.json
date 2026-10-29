@@ -5,7 +5,8 @@
   "description": "Regras de domínio puras e compartilhadas entre o app e a função de sincronização (ARQ-04 §3).",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./validacao": "./src/validacao/index.ts"
   },
   "dependencies": {
     "zod": "4.6.7"

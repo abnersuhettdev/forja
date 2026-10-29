@@ -3,16 +3,18 @@ import {
   isAbandoned,
   prefillSet,
   restRemainingSeconds,
-  sessionCompletePayloadSchema,
   sessionDurationMinutes,
-  sessionExerciseUpdatePayloadSchema,
-  sessionStartPayloadSchema,
   sessionTimesIssue,
-  sessionUpdatePayloadSchema,
   sessionVolumeKg,
-  setUpsertPayloadSchema,
   type Prescription,
 } from "../src/index.ts";
+import {
+  sessionCompletePayloadSchema,
+  sessionExerciseUpdatePayloadSchema,
+  sessionStartPayloadSchema,
+  sessionUpdatePayloadSchema,
+  setUpsertPayloadSchema,
+} from "../src/validacao/index.ts";
 
 const uuid = (n: number) => `00000000-0000-4000-8000-${String(n).padStart(12, "0")}`;
 const reps: Prescription = {

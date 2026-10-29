@@ -4,7 +4,7 @@ import {
   draftIssues,
   draftSavePayloadSchema,
   type DraftForIssues,
-} from "../src/index.ts";
+} from "../src/validacao/index.ts";
 
 const ACTIVE = "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa";
 const INACTIVE = "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb";

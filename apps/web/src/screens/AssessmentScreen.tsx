@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { assessmentCreatePayloadSchema, toLocalDate } from "@forja/domain";
+import { toLocalDate } from "@forja/domain";
+import { assessmentCreatePayloadSchema } from "@forja/domain/validacao";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { Button } from "../components/Button.tsx";
 import { Banner } from "../components/Feedback.tsx";

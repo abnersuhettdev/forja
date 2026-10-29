@@ -6,6 +6,8 @@ import {
   GOALS,
   MUSCLE_GROUP_LABELS,
   MUSCLE_GROUPS,
+} from "../src/index.ts";
+import {
   exerciseSchema,
   programDraftSchema,
   restSettingsSchema,
@@ -15,7 +17,7 @@ import {
   trainingProfileSchema,
   weightEntrySchema,
   workoutItemSchema,
-} from "../src/index.ts";
+} from "../src/validacao/index.ts";
 
 const ID = "6f1d2c3b-4a5e-4f60-8a7b-9c0d1e2f3a4b";
 const ID2 = "7a2e3d4c-5b6f-4071-9b8c-0d1e2f3a4b5c";

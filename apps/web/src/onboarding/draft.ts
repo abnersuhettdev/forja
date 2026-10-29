@@ -6,7 +6,6 @@ import {
   isAdult,
   isValidLocalDate,
   isWithinRange,
-  onboardingPayloadSchema,
   RANGES,
   type ActivityLevel,
   type Equipment,
@@ -18,6 +17,7 @@ import {
   type Sex,
   type TrainingLocation,
 } from "@forja/domain";
+import { onboardingPayloadSchema } from "@forja/domain/validacao";
 
 export const ONBOARDING_STEPS = 7;
 

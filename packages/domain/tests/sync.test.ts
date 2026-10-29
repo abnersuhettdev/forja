@@ -6,9 +6,9 @@ import {
   retryDelaySeconds,
   relatedEntityIds,
   selectBatch,
-  syncResponseSchema,
   type OutboxOperation,
 } from "../src/index.ts";
+import { syncResponseSchema } from "../src/validacao/index.ts";
 
 const A = "00000000-0000-4000-8000-00000000000a";
 const B = "00000000-0000-4000-8000-00000000000b";

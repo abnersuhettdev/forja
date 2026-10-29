@@ -7,7 +7,7 @@ import {
   MEASURE_TYPES,
   MOVEMENT_PATTERNS,
   MUSCLE_GROUPS,
-} from "./enums.ts";
+} from "../enums.ts";
 import { inRange, studentSchema, trainingProfileSchema } from "./schemas.ts";
 
 const id = z.uuid();

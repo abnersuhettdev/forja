@@ -3,7 +3,7 @@ import {
   customExercisePayloadSchema,
   profileUpdatePayloadSchema,
   restUpdatePayloadSchema,
-} from "../src/index.ts";
+} from "../src/validacao/index.ts";
 
 const exercise = {
   name: "Exercício fictício",

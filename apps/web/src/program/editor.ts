@@ -2,13 +2,15 @@
 // exercícios prescritos, resumo da prescrição, sugestão de alternativas (TRN-03 §7) e textos
 // das pendências de publicação (RN-035, RN-021).
 import {
-  draftSavePayloadSchema,
   type DraftIssue,
   type DraftSavePayload,
   type MeasureType,
   type SplitType,
 } from "@forja/domain";
+import { draftSavePayloadSchema } from "@forja/domain/validacao";
 import type { CatalogExercise } from "../catalog/catalog.ts";
+
+export { itemSummary } from "./summary.ts";
 
 export interface EditorItem {
   readonly id: string;
@@ -137,22 +139,6 @@ export function defaultItem(id: string, exercise: CatalogExercise): EditorItem {
     suggested_load_kg: null,
     notes: null,
   };
-}
-
-/** "3 × 8–12 · descanso 90 s" ou "3 × 30 s · descanso 60 s" (UX-02 §8.4). */
-export function itemSummary(
-  item: Pick<
-    EditorItem,
-    "measure_type" | "sets" | "reps_min" | "reps_max" | "duration_s" | "rest_s"
-  >,
-): string {
-  const volume =
-    item.measure_type === "duration"
-      ? `${String(item.duration_s ?? 0)} s`
-      : item.reps_min === item.reps_max
-        ? String(item.reps_min ?? 0)
-        : `${String(item.reps_min ?? 0)}–${String(item.reps_max ?? 0)}`;
-  return `${String(item.sets)} × ${volume} · descanso ${String(item.rest_s)} s`;
 }
 
 /** Conteúdo da operação draft.save, com posições na ordem atual (DAD-04 API-017). */

@@ -1,16 +1,15 @@
 // Operações de execução (DAD-04 API-008..014; RF-060..067, RF-069; RN-012, RN-018, RN-027,
 // RN-044, RN-045, RN-048). Só o próprio aluno executa; gatilhos do banco garantem revisão
 // (TG-03), janela de edição (TG-06) e limpeza na exclusão (TG-07) como segunda barreira.
+import { isClockSuspect, sessionDurationMinutes } from "../../../packages/domain/src/index.ts";
 import {
   emptyPayloadSchema,
-  isClockSuspect,
   sessionCompletePayloadSchema,
-  sessionDurationMinutes,
   sessionExerciseUpdatePayloadSchema,
   sessionStartPayloadSchema,
   sessionUpdatePayloadSchema,
   setUpsertPayloadSchema,
-} from "../../../packages/domain/src/index.ts";
+} from "../../../packages/domain/src/validacao/index.ts";
 import type { z } from "zod";
 import type { Tx } from "./db.ts";
 import { conflict, rejected } from "./errors.ts";

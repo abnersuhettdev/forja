@@ -1,6 +1,6 @@
 // Transporte do envio para a função de sincronização (DAD-04 §4). Classifica a resposta HTTP
 // em SyncOutcome; a resposta é dado externo e passa pelo esquema do domínio.
-import { syncResponseSchema, type SyncOutcome, type SyncRequest } from "@forja/domain";
+import type { SyncOutcome, SyncRequest } from "@forja/domain";
 
 export type SyncTransport = (request: SyncRequest) => Promise<SyncOutcome>;
 
@@ -50,6 +50,8 @@ export function createHttpTransport(options: HttpTransportOptions): SyncTranspor
     if (response.status === 429) return { kind: "rate_limited" };
     if (!response.ok) return { kind: "transport_failure", code: "INTERNAL" };
     try {
+      // Validação carregada sob demanda na primeira resposta (PR-DES-03): fora do JS inicial.
+      const { syncResponseSchema } = await import("@forja/domain/validacao");
       const parsed = syncResponseSchema.safeParse(await response.json());
       return parsed.success
         ? { kind: "response", response: parsed.data }

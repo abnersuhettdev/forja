@@ -1,7 +1,9 @@
 // Fila de saída e classificação dos resultados do envio (RN-042, RN-047, RN-051, UX-08 §6.3,
 // DAD-04 §4, ADR-028 L2–L3). Regras puras: o armazenamento e o transporte ficam no app.
-import { z } from "zod";
-import { ERROR_MESSAGES, type ErrorCode } from "./messages.ts";
+import type { ResultError, SyncResponse } from "./validacao/sync.ts";
+
+export type { ResultError, SyncResponse } from "./validacao/sync.ts";
+import type { ErrorCode } from "./messages.ts";
 import {
   SYNC_BATCH_LIMIT,
   SYNC_CONTRACT_VERSION,
@@ -202,45 +204,6 @@ export function buildSyncRequest(
   };
 }
 
-const errorCode = z
-  .string()
-  .transform((code): ErrorCode => (code in ERROR_MESSAGES ? (code as ErrorCode) : "UNEXPECTED"));
-
-const resultError = z.object({
-  code: errorCode,
-  message: z.string().optional(),
-  details: z.record(z.string(), z.unknown()).optional(),
-});
-
-/** Resposta do servidor: dado externo, sempre validado antes de usar. */
-export const syncResponseSchema = z.object({
-  server_time: z.string(),
-  results: z.array(
-    z.discriminatedUnion("status", [
-      z.object({
-        op_id: z.string(),
-        status: z.enum(["accepted", "duplicate"]),
-        entity_id: z.string().optional(),
-        revision: z.number().int().optional(),
-      }),
-      z.object({ op_id: z.string(), status: z.literal("rejected"), error: resultError }),
-      z.object({
-        op_id: z.string(),
-        status: z.literal("conflict"),
-        error: resultError,
-        server_record: z.record(z.string(), z.unknown()).nullable().optional(),
-      }),
-      z.object({
-        op_id: z.string(),
-        status: z.literal("deferred"),
-        error: resultError.optional(),
-      }),
-    ]),
-  ),
-});
-
-export type SyncResponse = z.infer<typeof syncResponseSchema>;
-
 /** O que aconteceu com a requisição de envio. */
 export type SyncOutcome =
   | { readonly kind: "response"; readonly response: SyncResponse }
@@ -264,7 +227,7 @@ export type OutboxChange =
       readonly server_record?: Readonly<Record<string, unknown>> | null;
     };
 
-function toError(error: z.infer<typeof resultError>): OutboxError {
+function toError(error: ResultError): OutboxError {
   return {
     code: error.code,
     ...(error.message === undefined ? {} : { message: error.message }),

@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Plus, Trash2 } from "lucide-react";
 import {
-  customExercisePayloadSchema,
-  importedCorrectionPayloadSchema,
   DIFFICULTIES,
   DIFFICULTY_LABELS,
   EQUIPMENT,
@@ -22,6 +20,10 @@ import {
   type MovementPattern,
   type MuscleGroup,
 } from "@forja/domain";
+import {
+  customExercisePayloadSchema,
+  importedCorrectionPayloadSchema,
+} from "@forja/domain/validacao";
 import type { CatalogExercise } from "../catalog/catalog.ts";
 import { useCatalog } from "../catalog/useCatalog.ts";
 import { Button, IconButton } from "../components/Button.tsx";

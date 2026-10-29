@@ -12,7 +12,6 @@ import {
   GOALS,
   LOCATION_EQUIPMENT_PRESETS,
   LOCATION_LABELS,
-  profileUpdatePayloadSchema,
   RESTRICTION_LABELS,
   RESTRICTIONS,
   SEX_LABELS,
@@ -21,6 +20,7 @@ import {
   type Equipment,
   type Restriction,
 } from "@forja/domain";
+import { profileUpdatePayloadSchema } from "@forja/domain/validacao";
 import { fetchStudentProfile, type StudentProfile } from "../account/profile.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { getSupabase } from "../auth/client.ts";
