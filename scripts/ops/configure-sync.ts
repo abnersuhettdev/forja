@@ -5,6 +5,8 @@
 //   SUPABASE_DB_URL=... SUPABASE_URL=... SYNC_DB_PASSWORD=... [APP_URL=...]
 //   SUPABASE_ACCESS_TOKEN=... node scripts/ops/configure-sync.ts
 import { execFileSync } from "node:child_process";
+import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import postgres from "postgres";
 
@@ -24,6 +26,14 @@ export function syncDbUrl(adminUrl: string, password: string): string {
   url.username = url.username.replace(/^[^.]+/, "sync_writer");
   url.password = password;
   return url.toString();
+}
+
+/** Tira segredos de um texto antes de registrá-lo. */
+export function redact(text: string, secrets: readonly string[]): string {
+  return secrets.reduce(
+    (out, secret) => (secret === "" ? out : out.split(secret).join("***")),
+    text,
+  );
 }
 
 function required(name: string): string {
@@ -48,19 +58,35 @@ if (import.meta.main) {
     await admin.end();
   }
 
-  // Saída ignorada: os valores não aparecem no registro do CI.
+  // Os valores vão por arquivo temporário, nunca como argumentos: uma falha do comando repetiria
+  // os argumentos na mensagem de erro.
   const origins = process.env.APP_URL ? new URL(process.env.APP_URL).origin : "";
-  execFileSync(
-    join(import.meta.dirname, "../../node_modules/.bin/supabase"),
-    [
-      "secrets",
-      "set",
-      "--project-ref",
-      ref,
-      `SYNC_DB_URL=${syncDbUrl(adminUrl, password)}`,
-      ...(origins === "" ? [] : [`ALLOWED_ORIGINS=${origins}`]),
-    ],
-    { stdio: "ignore" },
+  const url = syncDbUrl(adminUrl, password);
+  const dir = mkdtempSync(join(tmpdir(), "forja-segredos-"));
+  const envFile = join(dir, "segredos.env");
+  writeFileSync(
+    envFile,
+    `SYNC_DB_URL=${url}
+${
+  origins === ""
+    ? ""
+    : `ALLOWED_ORIGINS=${origins}
+`
+}`,
+    { mode: 0o600 },
   );
+  try {
+    execFileSync(
+      join(import.meta.dirname, "../../node_modules/.bin/supabase"),
+      ["secrets", "set", "--project-ref", ref, "--env-file", envFile],
+      { stdio: ["ignore", "ignore", "pipe"] },
+    );
+  } catch (error) {
+    const stderr = String((error as { stderr?: unknown }).stderr ?? "");
+    console.error(`supabase secrets set falhou: ${redact(stderr, [url, password, adminUrl])}`);
+    process.exit(1);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
   console.log(`Papel sync_writer e segredos da função configurados (origem: ${origins || "—"}).`);
 }

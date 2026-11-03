@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { projectRef, syncDbUrl } from "./configure-sync.ts";
+import { projectRef, redact, syncDbUrl } from "./configure-sync.ts";
 
 describe("configuração da função no projeto real", () => {
   it("extrai a referência do endereço do projeto", () => {
@@ -13,6 +13,13 @@ describe("configuração da função no projeto real", () => {
     expect(syncDbUrl(admin, "senha-ficticia")).toBe(
       "postgresql://sync_writer.abcd1234:senha-ficticia@aws-0-sa-east-1.pooler.supabase.com:5432/postgres",
     );
+  });
+
+  it("tira os segredos da mensagem de erro", () => {
+    expect(
+      redact("falhou: postgresql://u:senha@h e senha", ["postgresql://u:senha@h", "senha"]),
+    ).toBe("falhou: *** e ***");
+    expect(redact("nada", [""])).toBe("nada");
   });
 
   it("na conexão direta, sem referência no usuário", () => {
