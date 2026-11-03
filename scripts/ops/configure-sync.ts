@@ -82,7 +82,7 @@ ${
       { stdio: ["ignore", "ignore", "pipe"] },
     );
   } catch (error) {
-    const stderr = String((error as { stderr?: unknown }).stderr ?? "");
+    const stderr = (error as { stderr?: Buffer }).stderr?.toString() ?? "";
     console.error(`supabase secrets set falhou: ${redact(stderr, [url, password, adminUrl])}`);
     process.exit(1);
   } finally {
