@@ -32,6 +32,7 @@ Status: ver definições em [GOV-01 §4](01-metodologia-cascata.md#4-status-de-d
 | PRD-06 | [Requisitos não funcionais](../01-produto/06-requisitos-nao-funcionais.md) | RNF-### | PRD-01, PRD-02 | **Aprovado** |
 | PRD-07 | [Regras de negócio](../01-produto/07-regras-de-negocio.md) | RN-### e parâmetros | PRD-05, ADRs | **Aprovado** |
 | PRD-08 | [Modalidades de uso e limites profissionais](../01-produto/08-modalidades-de-uso-e-limites-profissionais.md) | Modalidades PES/TER, GATE-TER, itens regulatórios REG-###, classificação preliminar de dados | PRD-01, PRD-04, PRD-05, ADR-018 | **Aprovado** |
+| PRD-09 | [Proposta: gestor automático](../01-produto/09-proposta-gestor-automatico.md) | Motor com IA e uso por outras pessoas | PRD-08, TRN-02 | Proposta (não aprovada) |
 
 ## 02 — Experiência (Etapa 2)
 

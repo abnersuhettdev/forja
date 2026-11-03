@@ -84,3 +84,4 @@ Registra mudanças relevantes (criação de documentos, mudanças de requisito, 
 | 2026-10-28 | 9 | GOV-02, ARQ-06, ARQ-02 | PR-DES-02 itens 1 e 3: cliente do provedor só com autenticação e consultas (ADR-039 alterada; JS inicial 243 → 217 KiB gzip) e verificação do orçamento no CI (ainda acima por 23,4 KB). | "Approve 1 and 3" |
 | 2026-10-29 | 9 | GOV-02, ARQ-04 | PR-DES-03 implementada: validação (Zod) em `@forja/domain/validacao`, carregada sob demanda; JS inicial 195,2 KB gzip, dentro do orçamento. | "Approve PR-DES-03" |
 | 2026-11-03 | 9 | GOV-02, IMP-01 | Chave publishable no lugar da `anon` legada; Pages mantido; TAR-003 iniciada com as contas criadas pelo usuário; autoria dos commits ajustada. | "Sim, ajuste e teste" |
+| 2026-11-03 | 9 | PRD-09, GOV-02 | Proposta do gestor automático para outras pessoas registrada (não aprovada); Q-007 atualizada. | "Quero que outras pessoas usem também." |
