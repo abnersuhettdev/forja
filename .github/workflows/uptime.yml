@@ -21,7 +21,10 @@ jobs:
       - name: Página inicial do app
         env:
           APP_URL: ${{ vars.APP_URL }}
-        run: curl --fail --silent --show-error --max-time 30 --retry 2 --output /dev/null "$APP_URL/"
+        # Até a primeira publicação (TAR-006) não há endereço a verificar.
+        run: |
+          if [ -z "$APP_URL" ]; then echo "APP_URL ainda não definida."; exit 0; fi
+          curl --fail --silent --show-error --max-time 30 --retry 2 --output /dev/null "$APP_URL/"
       - name: Saúde do serviço de autenticação (sem consulta ao banco)
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
