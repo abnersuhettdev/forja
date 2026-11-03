@@ -132,7 +132,7 @@ async function syntheticStudent(user: string): Promise<string> {
 describe("leituras com 2 anos de dados (CA-208)", () => {
   it("programa, sessões, mês antigo, pesos e catálogo com p95 ≤ 500 ms", async () => {
     const url = env.VITE_SUPABASE_URL ?? "";
-    const key = env.VITE_SUPABASE_ANON_KEY ?? "";
+    const key = env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
     const email = `ficticio.leituras.${randomUUID().slice(0, 8)}@exemplo.test`;
     const password = "Ficticia-leituras-forja-01";
     const created = await createUser({ url, serviceKey: status.SERVICE_ROLE_KEY }, email, password);

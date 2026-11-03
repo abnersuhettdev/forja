@@ -469,7 +469,7 @@ describe("pela função HTTP (VH-12: conexão com o papel próprio)", () => {
         .map((line) => line.split(/=(.*)/s).slice(0, 2)),
     ) as Record<string, string>;
     const url = env.VITE_SUPABASE_URL ?? "";
-    const key = env.VITE_SUPABASE_ANON_KEY ?? "";
+    const key = env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "";
     const password = "Ficticia-http-forja-01";
     const email = `ficticio.http.${randomUUID().slice(0, 8)}@exemplo.test`;
     const created = await createUser({ url, serviceKey: status.SERVICE_ROLE_KEY }, email, password);

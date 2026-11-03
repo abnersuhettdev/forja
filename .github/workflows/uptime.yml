@@ -25,7 +25,7 @@ jobs:
       - name: Saúde do serviço de autenticação (sem consulta ao banco)
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ vars.SUPABASE_ANON_KEY }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
         run: >-
           curl --fail --silent --show-error --max-time 30 --retry 2 --output /dev/null
-          --header "apikey: $SUPABASE_ANON_KEY" "$SUPABASE_URL/auth/v1/health"
+          --header "apikey: $SUPABASE_PUBLISHABLE_KEY" "$SUPABASE_URL/auth/v1/health"

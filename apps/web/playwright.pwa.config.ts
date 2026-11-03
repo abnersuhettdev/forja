@@ -37,7 +37,7 @@ export default defineConfig({
     reuseExistingServer: false,
     env: {
       VITE_SUPABASE_URL: env.VITE_SUPABASE_URL ?? "",
-      VITE_SUPABASE_ANON_KEY: env.VITE_SUPABASE_ANON_KEY ?? "",
+      VITE_SUPABASE_PUBLISHABLE_KEY: env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "",
     },
   },
 });

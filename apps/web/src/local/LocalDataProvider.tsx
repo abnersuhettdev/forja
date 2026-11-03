@@ -114,7 +114,7 @@ export function LocalDataProvider({ children }: { children: ReactNode }) {
       };
       const transport = createHttpTransport({
         baseUrl: import.meta.env.VITE_SUPABASE_URL ?? "",
-        publicKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? "",
+        publicKey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "",
         accessToken: async () =>
           (await supabase.auth.getSession()).data.session?.access_token ?? null,
       });

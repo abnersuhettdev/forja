@@ -9,7 +9,7 @@
 | Dependências | ARQ-02, ADR-002, ADR-004, ADR-032, ADR-033, ADR-050, ADR-051, DAD-05, DAD-07, SEG-01 §7 |
 | Referenciado por | IMP-02..04, PLN-01 |
 | Decisões | ADR-074 (ambientes) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-03 |
 
 ## 1. Ambientes (ADR-074)
 
@@ -27,7 +27,7 @@
 | Variável | Pública? | Ambientes | Onde fica |
 |---|---|---|---|
 | Endereço do backend | Sim | Todos | Configuração de build do app |
-| Chave pública do provedor (`anon`) | Sim (pública por design; acesso limitado pelas políticas) | Todos | Configuração de build |
+| Chave publishable do provedor (`sb_publishable_...`; substitui a `anon` legada, aposentada pelo provedor) | Sim (pública por design; acesso limitado pelas políticas) | Todos | Configuração de build (`VITE_SUPABASE_PUBLISHABLE_KEY`); na função, fornecida pelo provedor em `SUPABASE_PUBLISHABLE_KEYS` |
 | Versão do app | Sim | Todos | Gerada no build |
 | Senha administrativa do banco | **Não** | Dev, Prod | Cofre do CI |
 | Senha do papel `sync_writer` | **Não** | Dev, Prod | Segredos da função de sincronização |
@@ -73,3 +73,4 @@ Nenhum arquivo `.env` com segredos é versionado (ARQ-03 §2).
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
 | 2026-10-27 | §4 passo 3: indicado o script `scripts/ops/init-manager.ts` (TAR-008); procedimento inalterado. |
+| 2026-11-03 | §2: chave publishable no lugar da `anon` legada; a função de sincronização publicada com `verify_jwt = false` (confere o token por conta própria). Decisão do usuário: "Sim, ajuste e teste". |

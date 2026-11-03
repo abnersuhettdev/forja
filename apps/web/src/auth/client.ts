@@ -26,7 +26,8 @@ function createDataClient(url: string, key: string): DataClient {
   const base = url.replace(/\/+$/, "");
   const auth = new AuthClient({
     url: `${base}/auth/v1`,
-    headers: { Authorization: `Bearer ${key}`, apikey: key },
+    // A chave publishable não é JWT: vai só em `apikey`, nunca em `Authorization`.
+    headers: { apikey: key },
     storageKey: AUTH_STORAGE_KEY,
     persistSession: true,
     autoRefreshToken: true,
@@ -35,14 +36,15 @@ function createDataClient(url: string, key: string): DataClient {
     // (ou a cópia do aparelho) em vez de carregar para sempre (UX-02 §8.3).
     fetch: fetchWithTimeout,
   });
-  // Consultas como o próprio usuário: o token da sessão (ou a chave pública, sem sessão), como
-  // faz o cliente completo; as políticas por linha decidem o que cada um vê (DAD-03 §7).
+  // Consultas como o próprio usuário: o token da sessão, quando há; sem ele, só a chave pública
+  // (papel `anon`, sem acesso a dados). As políticas por linha decidem o que cada um vê (DAD-03 §7).
   const withSession = async (input: RequestInfo | URL, init?: RequestInit) => {
     const { data } = await auth.getSession();
     const headers = new Headers(init?.headers);
     if (!headers.has("apikey")) headers.set("apikey", key);
-    if (!headers.has("Authorization")) {
-      headers.set("Authorization", `Bearer ${data.session?.access_token ?? key}`);
+    const token = data.session?.access_token;
+    if (token !== undefined && !headers.has("Authorization")) {
+      headers.set("Authorization", `Bearer ${token}`);
     }
     return fetchWithTimeout(input, { ...init, headers });
   };
@@ -54,7 +56,7 @@ function createDataClient(url: string, key: string): DataClient {
 export function getSupabase(): DataClient | null {
   if (client !== undefined) return client;
   const url = import.meta.env.VITE_SUPABASE_URL;
-  const key = import.meta.env.VITE_SUPABASE_ANON_KEY;
+  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
   client =
     typeof url === "string" && url !== "" && typeof key === "string" && key !== ""
       ? createDataClient(url, key)

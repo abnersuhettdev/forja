@@ -378,6 +378,11 @@ authorization_url_path = "/oauth/consent"
 # Allow dynamic client registration
 allow_dynamic_registration = false
 
+# A função confere o token do usuário no serviço de autenticação (index.ts); a chave publishable
+# não é JWT, então a checagem da plataforma fica desligada. Conferir no painel após publicar.
+[functions.sync]
+verify_jwt = false
+
 [edge_runtime]
 enabled = true
 # Supported request policies: `oneshot`, `per_worker`.

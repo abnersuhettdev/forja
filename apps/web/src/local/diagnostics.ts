@@ -31,7 +31,7 @@ export async function reportDiagnostic(code: DiagnosticCode, context: string): P
       method: "POST",
       headers: {
         Authorization: `Bearer ${token}`,
-        apikey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? "",
+        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY ?? "",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({

@@ -37,7 +37,7 @@ if (import.meta.main) {
   if (dir === undefined) throw new Error("Informe a pasta do build.");
   if (!hasBackendClient(dir)) {
     console.error(
-      "Build sem o endereço do backend: a medição não representa o app. Gere o build com VITE_SUPABASE_URL e VITE_SUPABASE_ANON_KEY.",
+      "Build sem o endereço do backend: a medição não representa o app. Gere o build com VITE_SUPABASE_URL e VITE_SUPABASE_PUBLISHABLE_KEY.",
     );
     process.exit(1);
   }

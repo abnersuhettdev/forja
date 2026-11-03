@@ -4,6 +4,7 @@
 import { createSyncDb } from "./db.ts";
 import { processDiagnostics } from "./diagnostics.ts";
 import { processRequest, type Identity } from "./process.ts";
+import { publishableKey } from "./public-key.ts";
 
 const env = (name: string): string => {
   const value = Deno.env.get(name);
@@ -12,7 +13,10 @@ const env = (name: string): string => {
 };
 
 const SUPABASE_URL = env("SUPABASE_URL");
-const SUPABASE_ANON_KEY = env("SUPABASE_ANON_KEY");
+const PUBLISHABLE_KEY = publishableKey(
+  Deno.env.get("SUPABASE_PUBLISHABLE_KEYS"),
+  Deno.env.get("SUPABASE_INTERNAL_PUBLISHABLE_KEY"),
+);
 const db = createSyncDb(env("SYNC_DB_URL"));
 const allowedOrigins = (Deno.env.get("ALLOWED_ORIGINS") ?? "")
   .split(",")
@@ -54,7 +58,7 @@ async function verify(request: Request): Promise<Identity | null> {
   const token = header.startsWith("Bearer ") ? header.slice(7) : "";
   if (token === "") return null;
   const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-    headers: { Authorization: `Bearer ${token}`, apikey: SUPABASE_ANON_KEY },
+    headers: { Authorization: `Bearer ${token}`, apikey: PUBLISHABLE_KEY },
   });
   if (!response.ok) return null;
   const user = (await response.json()) as { id?: unknown; email?: unknown };
