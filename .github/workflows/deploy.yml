@@ -1,0 +1,97 @@
+# Publicação (IMP-02 §1, ADR-075): backup de produção → migrações → função → app → fumaça.
+# Por enquanto só disparada à mão (Actions → Publicação): produção entra em `main` automática
+# depois de verificada (TAR-006). Desenvolvimento publica na pré-visualização da branch
+# "desenvolvimento" e nunca aponta para produção (IMP-01 §1). Actions fixadas por hash (AM-11).
+name: Publicação
+
+on:
+  workflow_dispatch:
+    inputs:
+      ambiente:
+        description: Ambiente
+        type: choice
+        required: true
+        default: desenvolvimento
+        options:
+          - desenvolvimento
+          - producao
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publicacao-${{ inputs.ambiente }}
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    name: Backup antes das migrações (P1)
+    if: inputs.ambiente == 'producao'
+    uses: ./.github/workflows/backup.yml
+    secrets: inherit
+
+  publicar:
+    name: Migrações, função e app
+    needs: backup
+    if: ${{ !cancelled() && (needs.backup.result == 'success' || needs.backup.result == 'skipped') }}
+    runs-on: ubuntu-24.04
+    environment: ${{ inputs.ambiente }}
+    env:
+      SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+      SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+      APP_URL: ${{ vars.APP_URL }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Migrações (P2)
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: pnpm exec supabase db push --db-url "$SUPABASE_DB_URL" --yes
+      - name: Papel sync_writer e segredos da função
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SYNC_DB_PASSWORD: ${{ secrets.SYNC_DB_PASSWORD }}
+        run: node scripts/ops/configure-sync.ts
+      - name: Função de sincronização (P3)
+        run: |
+          ref="$(node -p 'new URL(process.env.SUPABASE_URL).hostname.split(".")[0]')"
+          pnpm exec supabase functions deploy sync --project-ref "$ref" --no-verify-jwt
+      - name: Build do app, com o backend deste ambiente
+        env:
+          VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: pnpm --filter @forja/web run build
+      - name: Orçamento de JS inicial (SEG-04 §2)
+        run: node apps/web/scripts/check-budget.ts apps/web/dist
+      - name: App estático (P4)
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          BRANCH: ${{ inputs.ambiente == 'producao' && 'main' || 'desenvolvimento' }}
+        run: |
+          pnpm dlx wrangler@4.143.0 pages project create forja --production-branch main || true
+          pnpm dlx wrangler@4.143.0 pages deploy apps/web/dist --project-name forja --branch "$BRANCH" --commit-dirty=true
+      - name: Teste de fumaça (P5)
+        env:
+          SUPABASE_PUBLISHABLE_KEY: ${{ vars.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          curl --fail --silent --show-error --output /dev/null \
+            --header "apikey: $SUPABASE_PUBLISHABLE_KEY" "$SUPABASE_URL/auth/v1/health"
+          status="$(curl --silent --output /dev/null --write-out '%{http_code}' --request POST \
+            --header "apikey: $SUPABASE_PUBLISHABLE_KEY" --header 'Content-Type: application/json' \
+            --data '{}' "$SUPABASE_URL/functions/v1/sync")"
+          echo "Função sem token: HTTP $status"
+          test "$status" = "401"
+          if [ -z "$APP_URL" ]; then
+            echo "APP_URL ainda não definida: cabeçalhos do app não verificados."
+            exit 0
+          fi
+          headers="$(curl --fail --silent --show-error --head "$APP_URL/")"
+          for name in content-security-policy strict-transport-security x-content-type-options; do
+            echo "$headers" | grep -qi "^$name:" || { echo "Cabeçalho ausente: $name"; exit 1; }
+          done
