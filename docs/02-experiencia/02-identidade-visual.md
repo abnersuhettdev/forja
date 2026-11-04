@@ -38,7 +38,7 @@ Definir uma identidade **moderna, esportiva, elegante e consistente**, com valor
 - **Ícone do app:** "F" estilizado em grafite sobre fundo lima (e versão maskable com área de segurança — UX-08 §3).
 - Sem mascote, sem ilustrações complexas.
 
-**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** a tela de login adota a direção **Anilha**, escolhida pelo usuário em 2026-11-04 ("gostei da opção B"): anilha realista desenhada em SVG, cortada no canto superior, com filete lima; ícone do "F" e nome; frase "A rotina certa, sem você precisar pensar nela."; campos e botão arredondados. Sem foto e sem dependência nova, para manter o orçamento de JS (SEG-04 §1). As demais telas evoluem no mesmo sentido, mantendo "Grafite e lima", contraste e alvos (CA-201..203). Protótipo: [opções de login](https://claude.ai/artifact/WoJTKzPSSWBuk5bC4kxUnC), privado.
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** a tela de login adota a direção **Anilha**, escolhida pelo usuário em 2026-11-04 ("gostei da opção B"): anilha realista desenhada em SVG, cortada no canto superior, com filete lima; ícone do "F" e nome; frase "A rotina certa, sem você precisar pensar nela."; campos e botão em pílula; a tela fica sempre em grafite, qualquer que seja o tema (exceção ao §3, a confirmar pelo usuário). Sem foto e sem dependência nova, para manter o orçamento de JS (SEG-04 §1). As demais telas evoluem no mesmo sentido, mantendo "Grafite e lima", contraste e alvos (CA-201..203). Protótipo: [opções de login](https://claude.ai/artifact/WoJTKzPSSWBuk5bC4kxUnC), privado.
 
 ## 3. Temas (ADR-024)
 

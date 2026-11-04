@@ -1,23 +1,43 @@
-/* TELA-001 — direção "Anilha" (UX-02 §2.3). */
+/* TELA-001 — direção "Anilha" (UX-02 §2.3): sempre em grafite, como no protótipo aprovado.
+   Os valores repetem o tema escuro de tokens.css; manter sincronizados. */
 .page {
+  --color-bg: #0e1114;
+  --color-surface: #161a1f;
+  --color-surface-alt: #1f252c;
+  --color-border: #6b7684;
+  --color-divider: #2e3640;
+  --color-text: #f2f4f7;
+  --color-text-muted: #a9b3bf;
+  --color-primary: #a3e635;
+  --color-on-primary: #10160a;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-on-danger: #0e1114;
+  --color-info: #60a5fa;
+  --color-focus: #93c5fd;
+
   position: relative;
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
   overflow: hidden;
+  background: var(--color-bg);
+  color: var(--color-text);
+  color-scheme: dark;
 }
 
 .hero {
   flex: 1 0 auto;
-  min-height: min(26dvh, 220px);
+  min-height: min(16dvh, 140px);
 }
 
 .plate {
   --plate-size: min(118vw, 56dvh);
 
   position: absolute;
-  top: calc(var(--plate-size) * -0.28);
-  right: calc(var(--plate-size) * -0.32);
+  top: calc(var(--plate-size) * -0.24);
+  right: calc(var(--plate-size) * -0.28);
   width: var(--plate-size);
   height: var(--plate-size);
 }
@@ -26,17 +46,17 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-5);
+  gap: 22px;
   width: 100%;
   max-width: 440px;
   margin: 0 auto;
-  padding: var(--space-4) var(--page-gutter) calc(var(--space-5) + env(safe-area-inset-bottom));
+  padding: 0 var(--space-5) calc(var(--space-5) + env(safe-area-inset-bottom));
 }
 
 .header {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
+  gap: var(--space-4);
 }
 
 .brand {
@@ -44,7 +64,6 @@
   align-items: center;
   gap: var(--space-3);
   font: 700 1.625rem/2rem var(--font-metric);
-  color: var(--color-text);
 }
 
 .brand:focus {
@@ -59,8 +78,27 @@
 
 .tagline {
   margin: 0;
-  font: 700 2.5rem/1.05 var(--font-metric);
-  color: var(--color-text);
+  font: 700 clamp(2.25rem, 11.8vw, 2.875rem) / 1.02 var(--font-metric);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Campos e botão em pílula (UX-02 §2.3). */
+.form input {
+  min-height: 52px;
+  padding-inline: 20px;
+  border-radius: 26px;
+  font-weight: 500;
+}
+
+.form .submit {
+  margin-top: 6px;
+  border-radius: 28px;
+  font-weight: 700;
 }
 
 .help {
@@ -70,7 +108,7 @@
   text-align: center;
 }
 
-/* Computador: painel escuro com a anilha, sempre em grafite, e formulário ao lado. */
+/* Computador: anilha inteira à esquerda e formulário à direita. */
 @media (min-width: 900px) {
   .page {
     flex-direction: row;
@@ -78,16 +116,15 @@
   }
 
   .hero {
-    --login-plate-ground: #0e1114;
-
     position: relative;
     flex: 1 1 50%;
     min-height: auto;
     overflow: hidden;
-    background: #0e1114;
   }
 
   .plate {
+    --plate-size: min(44vw, 86dvh);
+
     top: 50%;
     right: auto;
     left: 50%;
@@ -102,16 +139,16 @@
   }
 }
 
-/* Tamanho da anilha: no computador, grande; em telas baixas, menor para não encostar na frase. */
-@media (min-width: 900px) {
-  .plate {
-    --plate-size: min(44vw, 86dvh);
-  }
-}
-
 @media (max-width: 899px) and (max-height: 700px) {
   .plate {
     --plate-size: min(118vw, 46dvh);
+  }
+}
+
+/* Telas baixas: anilha menor, para o filete não cruzar a frase. */
+@media (max-width: 899px) and (max-height: 640px) {
+  .plate {
+    --plate-size: 34dvh;
   }
 }
 

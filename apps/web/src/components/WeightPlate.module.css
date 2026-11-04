@@ -4,11 +4,11 @@
 
 /* Os vãos mostram o fundo da tela, em qualquer tema. */
 .hole {
-  stroke: var(--login-plate-ground, var(--color-bg));
+  stroke: var(--color-bg);
 }
 
 .bore {
-  fill: var(--login-plate-ground, var(--color-bg));
+  fill: var(--color-bg);
 }
 
 .weight {

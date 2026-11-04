@@ -33,13 +33,27 @@
   color: var(--color-danger);
 }
 
+/* Campo com botão dentro dele, à direita (ex.: mostrar senha). */
 .withAction {
+  position: relative;
   display: flex;
   align-items: center;
-  gap: var(--space-1);
 }
 
 .withAction > .input {
   flex: 1;
   min-width: 0;
+  padding-right: calc(var(--control-md) + var(--space-1));
+}
+
+/* O Edge e o Chrome têm olho próprio; sem isto, apareceriam dois. */
+.withAction > .input::-ms-reveal,
+.withAction > .input::-ms-clear {
+  display: none;
+}
+
+.withAction > .action {
+  position: absolute;
+  right: 2px;
+  color: var(--color-text-muted);
 }

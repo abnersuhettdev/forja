@@ -32,7 +32,7 @@ Permitir implementar cada tela sem decisões improvisadas. Telas `ESS` (Lançame
 - **Validações:** campos obrigatórios; erro de credenciais genérico ("E-mail ou senha incorretos"), sem revelar qual; após limite (RN-031), "Muitas tentativas. Aguarde alguns minutos."
 - **Estados:** enviando (botão com indicador, campos bloqueados); offline: "Para entrar é preciso estar conectado" — exceto se já houver sessão de acesso válida no aparelho (o app abre direto).
 
-**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** direção Anilha (UX-02 §2.3). O texto de ajuda muda para "Esqueceu a senha? Fale com quem administra sua conta." **Já implementado** (2026-11-04): no computador, painel escuro com a anilha e formulário ao lado; o título da página continua sendo "Forja", e a frase é parágrafo.
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** direção Anilha (UX-02 §2.3). O texto de ajuda muda para "Esqueceu a senha? Fale com quem administra sua conta." **Já implementado** (2026-11-04): no computador, a anilha inteira à esquerda e o formulário à direita; a tela fica sempre em grafite; o botão de mostrar a senha fica dentro do campo; o título da página continua sendo "Forja", e a frase é parágrafo.
 
 ### TELA-002 — Instalar o app
 

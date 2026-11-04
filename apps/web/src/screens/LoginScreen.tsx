@@ -16,7 +16,6 @@ import { WeightPlate } from "../components/WeightPlate.tsx";
 import { TEXTS } from "../app/texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import local from "./LoginScreen.module.css";
-import styles from "./Screens.module.css";
 
 const T = TEXTS.auth.login;
 
@@ -102,7 +101,7 @@ export function LoginScreen() {
           </h1>
           <p className={local.tagline}>{T.tagline}</p>
         </header>
-        <form className={styles.stack} noValidate onSubmit={(e) => void submit(e)}>
+        <form className={local.form} noValidate onSubmit={(e) => void submit(e)}>
           {!online ? <Banner tone="info">{T.offline}</Banner> : null}
           {wait > 0 ? (
             <Banner tone="warning">{T.wait(wait)}</Banner>
@@ -143,6 +142,7 @@ export function LoginScreen() {
             type="submit"
             variant="primary"
             size="lg"
+            className={local.submit}
             loading={submitting}
             disabled={wait > 0 || !online}
           >

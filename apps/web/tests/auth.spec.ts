@@ -56,7 +56,24 @@ test("campos obrigatórios e senha visível sob demanda", async ({ page }) => {
   const password = page.getByLabel("Senha", { exact: true });
   await password.fill("qualquer");
   await expect(password).toHaveAttribute("type", "password");
-  await page.getByRole("button", { name: "Mostrar senha" }).click();
+
+  // O botão fica dentro do campo, e os dois campos têm a mesma largura.
+  const toggle = page.getByRole("button", { name: "Mostrar senha" });
+  const [inputBox, toggleBox, emailBox] = await Promise.all([
+    password.boundingBox(),
+    toggle.boundingBox(),
+    page.getByLabel("E-mail").boundingBox(),
+  ]);
+  if (inputBox === null || toggleBox === null || emailBox === null) {
+    throw new Error("Campos do login não visíveis");
+  }
+  expect(toggleBox.x).toBeGreaterThan(inputBox.x);
+  expect(toggleBox.x + toggleBox.width).toBeLessThanOrEqual(inputBox.x + inputBox.width);
+  expect(toggleBox.y).toBeGreaterThanOrEqual(inputBox.y);
+  expect(toggleBox.y + toggleBox.height).toBeLessThanOrEqual(inputBox.y + inputBox.height);
+  expect(inputBox.width).toBe(emailBox.width);
+
+  await toggle.click();
   await expect(password).toHaveAttribute("type", "text");
 });
 

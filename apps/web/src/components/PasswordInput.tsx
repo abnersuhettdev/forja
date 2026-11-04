@@ -14,6 +14,7 @@ export function PasswordInput(props: Omit<InputHTMLAttributes<HTMLInputElement>,
         label={visible ? TEXTS.auth.login.hidePassword : TEXTS.auth.login.showPassword}
         icon={visible ? <EyeOff size={20} /> : <Eye size={20} />}
         aria-pressed={visible}
+        className={styles.action}
         onClick={() => {
           setVisible((v) => !v);
         }}
