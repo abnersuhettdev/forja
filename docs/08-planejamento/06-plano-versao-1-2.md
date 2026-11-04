@@ -29,7 +29,7 @@ Tornar o app mais automático e mais bonito: a pessoa informa seus dados, a IA m
 
 Tecnicamente é viável: a arquitetura foi feita para vários alunos (ADR-002). O bloqueio é **legal, de propósito** (ADR-018; PRD-09 §4). Ele só cai com o GATE-TER completo e nova ADR (RN-041).
 
-**Proposta:** na 1.2, criar "modelo de programa" e "aplicar a um aluno" já pensando em vários alunos, testado com alunos fictícios no ambiente de desenvolvimento, mas **desligado em produção** até a consulta jurídica. Cada aluno recebe sua própria cópia em rascunho, com restrições reavaliadas (RN-008): nunca o mesmo treino compartilhado.
+**Decisão da discussão:** fica para depois da 1.2, junto com a consulta jurídica. Quando vier, cada aluno recebe sua própria cópia em rascunho, com restrições reavaliadas (RN-008), nunca o mesmo treino compartilhado.
 
 ## 3. Escopo proposto
 
@@ -55,7 +55,7 @@ Hoje **nenhum** dos 110 exercícios tem imagem: todos usam o placeholder, porque
 | D. Free-exercise-db | Grátis | Depende de comprovar a origem; contato ainda em aberto | Só com comprovação (ADR-052) |
 | E. Conjunto comercial licenciado | Pago | Estilo uniforme e licença clara | Exige exceção à ADR-016 |
 
-**Proposta:** A em todos os exercícios, mais B ou C nos ~40 mais usados, revisadas pelo usuário. Uso gerado por IA exige ajuste na ADR-052 e no RN-036, que falam em procedência e licença. Técnica: arquivos WebP pequenos, fora do pré-carregamento do service worker, em cache sob demanda (UX-08 §6.1).
+**Decisão da discussão:** fotos do free-exercise-db nos 110 exercícios (opção D, sem comprovação de origem, com o risco aceito pelo usuário; altera ADR-052 e RN-036), revisando se cada foto corresponde ao exercício. O mapa muscular (A) fica como complemento opcional. Técnica: WebP otimizado, fora do pré-carregamento do service worker, em cache sob demanda (UX-08 §6.1).
 
 ### 3.3 "Meu treino", Gestão e modos (TAR-V12-04)
 
@@ -65,11 +65,13 @@ Hoje a pessoa alterna entre duas áreas, e a Gestão expõe o editor completo, o
 |---|---|---|
 | **Automático (padrão)** | Quem só quer treinar | Configuração inicial → rotina proposta → "Usar esta rotina". Sem área de Gestão visível; aba **Meu plano** com rotina, motivos e "gerar outra" |
 | **Manual** | Quem quer controlar | Editor atual, em Gestão. A IA vira assistente, propondo ajustes |
-| **Profissional** (futuro, GATE-TER) | Gestor com alunos | Lista de alunos, modelos, frequência (RF-010, RF-011, RF-029, RF-040) |
+| Profissional | **Fora da 1.2** | Lista de alunos, modelos e frequência (RF-010, RF-011, RF-029, RF-040) ficam para depois da consulta jurídica |
 
 Muda UX-03 e UX-05, e RF-005 (alternância de área).
 
 ### 3.4 Geração de treinos por IA (TAR-V12-05..08)
+
+**Ênfase em músculo ou área (novo):** a pessoa pode pedir mais foco, por exemplo em glúteos ou ombros. O motor aumenta o volume nesses grupos, dentro dos limites de TRN-02, e a IA explica a escolha. Altera TRN-02 e o perfil (TRN-01, DAD-02).
 
 **Pré-requisitos já planejados:** TAR-031 (contraindicações no catálogo) e TAR-032 (motor de regras, TRN-02). Sem contraindicações, nem as regras nem a IA conseguem excluir com segurança um exercício por lesão.
 
@@ -88,7 +90,7 @@ flowchart LR
 **Regras:**
 
 - A IA escolhe só entre exercícios elegíveis, por identificador; nunca publica (RN-009).
-- Vai o mínimo: objetivo, experiência, dias, tempo, equipamentos, categorias de restrição, faixa de idade. Sem nome, e-mail, identificador, peso exato nem texto livre.
+- Dados enviados, escolhidos pelo usuário em 2026-11-04: objetivo, experiência, dias, tempo, equipamentos, faixa de idade, **ênfase em músculo ou área**, histórico de treinos, peso e meta, categorias de restrição e **observações das sessões**. Nunca nome, e-mail ou identificador. As observações são texto livre e podem conter dados de saúde ou de identificação; o usuário escolheu enviá-las contra a recomendação, valendo só para a própria conta e a rever antes de terceiros (REG-15).
 - Saída em JSON é sempre validada, porque o modelo não garante o formato.
 - Chave só nos segredos da função; limite por usuário e controle da cota diária.
 - O aviso de RN-030 aparece junto da rotina.
@@ -111,7 +113,7 @@ Os valores são contas sobre a tabela de preços; precisam de medição. A escol
 - **As regras calculam os fatos:** frequência, séries, progressão, tempo até a meta, peso, reavaliação (TAR-030, TAR-033).
 - **A IA escreve o resumo** semanal e sugere ajustes, em linguagem simples, sem inventar números. Gerado ao abrir o app, no máximo uma vez por semana; sem conexão, mostra só os fatos.
 - **Mudanças no programa são só propostas:** viram novo rascunho, aceito com um toque (RN-009).
-- **A definir:** sugerir carga. Hoje o motor não sugere (TRN-02 §1; RN-026). Proposta: só com base no histórico da própria pessoa e por regra de progressão, sem a IA definir números.
+- **Sem sugestão de carga na 1.2** (TRN-02 §1; RN-026), conforme a discussão. **Motivação e hábitos** ficam dentro do app, sem notificações.
 - **Limite:** não é orientação médica. Dor ou condição de saúde leva ao texto de procurar um profissional (RN-030).
 
 ### 3.6 Robustez (TAR-V12-10)
@@ -122,10 +124,10 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 
 | Tarefa | Conteúdo | Depende de | Tamanho |
 |---|---|---|---|
-| — | Publicar 1.0, TAR-025, TAR-026 | — | Em andamento |
+| — | Publicar 1.0, TAR-025, TAR-026 | V12-* (decisão: depois da 1.2) | Depois |
 | V12-01 | Direções visuais do login; escolha do usuário | — | Pequeno |
 | V12-02 | Novo login; design das telas principais | V12-01 | Grande |
-| V12-03 | Mapa muscular; teste de ilustrações; imagens dos ~40 principais | Decisão da ADR-052 | Médio |
+| V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio |
 | V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio |
 | V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno |
 | V12-06 | TAR-031: contraindicações | — | Médio |
@@ -133,11 +135,10 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | V12-08 | IA sobre o motor: função, validação, cota, tela de geração | V12-05, V12-07 | Grande |
 | V12-09 | Reavaliação (TAR-030) e acompanhamento por IA | V12-08 | Grande |
 | V12-10 | Robustez e automação | — | Pequeno |
-| V12-11 | Modelos de programa e aplicação a alunos, desligado em produção | V12-07 | Médio |
 
 **Em paralelo:** V12-01/02 e V12-05..08 não dependem um do outro. A sequência sugerida entrega valor visível cedo (login) enquanto o motor é construído.
 
-**Fora da 1.2:** abrir para outras pessoas em produção (depende da consulta jurídica); conversa livre com a IA; pagamentos; aplicativo nativo.
+**Fora da 1.2:** vários alunos e abrir para outras pessoas (depende da consulta jurídica); sugestão de carga; notificações; conversa livre com a IA; pagamentos; aplicativo nativo.
 
 ## 5. Riscos
 
@@ -154,13 +155,9 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 
 ADR-006 e FUT-01 (IA deixa de ser futuro), ARQ-05 (nova integração), ADR-052 e RN-036 (imagens), TRN-02 (IA e carga), UX-03, UX-04, UX-05 e UX-02 (modos e design), RF-005, RF-021, RF-034, PLN-01 e PLN-02, SEG-02 e SEG-04 (dados enviados à IA), ADR-016 (se houver custo).
 
-## 7. Decisões pedidas ao usuário
+## 7. Decisão pedida ao usuário
 
-1. **Aprovar o escopo** (§3) e o que fica de fora, em especial terceiros **desligado em produção**.
-2. **Ordem:** publicar a 1.0 e começar a usar antes da 1.2 (recomendado)?
-3. **Imagens:** mapa muscular mais ~40 imagens revisadas, começando pelo teste de ilustrações por IA?
-4. **Carga sugerida:** aceitar a proposta de §3.5?
-5. **Limite de custo:** se a IA gratuita não passar na prova de qualidade, pagar até quanto por mês, ou ficar só com as regras?
+**Aprovar o escopo revisado** (§3 e §4), já com as respostas de §7A.
 
 ## 7A. Discussão com o usuário (2026-11-04)
 
@@ -174,7 +171,11 @@ Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**
 | Acompanhamento | Resumo semanal, ajuste da rotina, motivação e hábitos | Sem sugestão de carga: TRN-02 §1 não muda. Motivação só dentro do app; notificações seguem fora |
 | Design | "Quero ver opções" | Protótipos do login antes de programar (V12-01) |
 | Ordem | "1.2 antes de publicar" | Produção e uso real ficam depois da 1.2; até lá, testes só no `forja-dev`, com dados fictícios |
-| IA | Perguntou sobre Ollama | Em avaliação. Neste computador (Intel UHD, 16 GB, i5-13420H) um modelo de 7–8B em CPU rende cerca de 2 a 6 tokens por segundo, segundo guia da comunidade, ou seja, minutos por geração. Para produção exigiria máquina sempre ligada. Recomendação: Workers AI em produção, com o provedor trocável no código |
+| IA | "Sim, Workers AI" | **Workers AI em produção, sem Ollama**, com o provedor trocável no código. Sobre o Ollama: neste computador (Intel UHD, 16 GB, i5-13420H) um modelo de 7–8B em CPU rende cerca de 2 a 6 tokens por segundo, segundo guia da comunidade, ou seja, minutos por geração. Para produção exigiria máquina sempre ligada |
+| IA sem qualidade | "Só as regras" | Sem custo: o motor segue sozinho se nenhum modelo gratuito passar |
+| Modo Manual | "Manter como opção" | Automático por padrão; editor em lugar discreto |
+| Login | "Marca e frase curta" | Logotipo e frase; cadastro público segue fechado |
+| Dados para a IA | Histórico, peso e meta, restrições, observações, e **ênfase em músculo ou área** (sugerida pelo usuário) | Ver §3.4. Observações enviadas por decisão do usuário, contra a recomendação |
 
 ## 8. Fontes
 
@@ -189,4 +190,4 @@ Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**
 | Data | Alteração |
 |---|---|
 | 2026-11-04 | Criação como proposta, a pedido do usuário. |
-| 2026-11-04 | §7A: respostas da discussão com o usuário. |
+| 2026-11-04 | §7A: respostas da discussão com o usuário; escopo revisado. |
