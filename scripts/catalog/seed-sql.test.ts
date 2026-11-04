@@ -7,6 +7,7 @@ import {
   readCatalog,
   renderCatalogSeed,
   renderImagesSeed,
+  renderSafetySeed,
   stableUuid,
 } from "./seed-sql.ts";
 
@@ -27,6 +28,10 @@ describe("seed do catálogo (DAD-07 §3)", () => {
 
   it("a migração das fotos contém exatamente o seed gerado do arquivo curado (ADR-094)", () => {
     expect(migration("20261104120000_seed_catalog_images.sql")).toContain(renderImagesSeed());
+  });
+
+  it("a migração de segurança contém exatamente o seed gerado do arquivo curado (V12-06)", () => {
+    expect(migration("20261104130000_catalog_contraindications.sql")).toContain(renderSafetySeed());
   });
 
   it("identificadores são estáveis, únicos e no formato UUID", () => {

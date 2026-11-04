@@ -7,6 +7,7 @@ import {
   MEASURE_TYPES,
   MOVEMENT_PATTERNS,
   MUSCLE_GROUPS,
+  RESTRICTIONS,
 } from "../enums.ts";
 import { inRange, studentSchema, trainingProfileSchema } from "./schemas.ts";
 
@@ -93,6 +94,8 @@ export const customExercisePayloadSchema = z
     movement_pattern: z.enum(MOVEMENT_PATTERNS),
     instructions: z.array(step).min(1).max(15),
     safety_tips: z.array(step).max(15),
+    // RF-035: exclui o exercício do gerador para quem declarou a restrição.
+    contraindications: uniqueList(z.enum(RESTRICTIONS)).default([]),
   })
   .refine((p) => !p.primary_muscles.some((m) => p.secondary_muscles.includes(m)), {
     message: "Grupo repetido como principal e auxiliar.",

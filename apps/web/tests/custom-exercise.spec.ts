@@ -71,8 +71,23 @@ test("gestão cria e edita exercício personalizado; nome repetido é recusado (
   await page.getByLabel("Nome", { exact: true }).fill(name);
   await page.getByRole("button", { name: "Adicionar dica" }).click();
   await page.getByLabel("Dica 1", { exact: true }).fill("Controle a descida.");
+  await page
+    .getByRole("group", { name: /Evitar para quem declarou/ })
+    .getByLabel("Joelho")
+    .check();
   await save.click();
   await expect(page).toHaveURL(/\/exercicios\/[0-9a-f-]{36}$/);
+
+  // A contraindicação foi gravada no banco (RF-035).
+  const check = postgres(localStatus().DB_URL, { onnotice: () => undefined });
+  try {
+    const rows = await check`
+      select c.restriction_code from public.exercise_contraindications c
+      join public.exercises e on e.id = c.exercise_id where e.name = ${name}`;
+    expect(rows.map((r) => r.restriction_code as string)).toEqual(["knee"]);
+  } finally {
+    await check.end();
+  }
   await expect(page.getByRole("heading", { level: 2, name })).toBeVisible();
   await expect(page.getByText("Exercício personalizado criado na gestão.")).toBeVisible();
   await expect(page.getByRole("img", { name: "Imagem indisponível" })).toBeVisible();

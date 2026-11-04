@@ -171,6 +171,9 @@ export const TEXTS = {
     imageCredits: "Imagens",
   },
   exerciseForm: {
+    contraindications: "Evitar para quem declarou restrição em",
+    contraindicationsHelp:
+      "O treino gerado não usa este exercício para quem declarou essas restrições. Isso não substitui a avaliação de um profissional de saúde.",
     name: "Nome",
     primary: "Grupos principais (ao menos um)",
     secondary: "Grupos auxiliares",

@@ -4,9 +4,11 @@ import type { DataClient } from "../auth/data-client.ts";
 import type {
   Difficulty,
   Equipment,
+  LoadMarker,
   MeasureType,
   MovementPattern,
   MuscleGroup,
+  Restriction,
 } from "@forja/domain";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
 
@@ -40,6 +42,10 @@ export interface CatalogExercise {
   readonly is_bodyweight: boolean;
   readonly movement_pattern: MovementPattern;
   readonly edited_by_manager_at: string | null;
+  /** Código estável da fonte (desempate do motor, TRN-03 §6); nulo em personalizados. */
+  readonly source_ref: string | null;
+  readonly load_markers: readonly LoadMarker[];
+  readonly contraindications: readonly Restriction[];
   readonly primary: readonly MuscleGroup[];
   readonly secondary: readonly MuscleGroup[];
   readonly equipment: readonly Equipment[];
@@ -58,6 +64,9 @@ interface ExerciseRow {
   is_bodyweight: boolean;
   movement_pattern: MovementPattern;
   edited_by_manager_at: string | null;
+  source_ref: string | null;
+  load_markers: LoadMarker[];
+  exercise_contraindications: { restriction_code: Restriction }[];
   exercise_muscles: { muscle_group_code: MuscleGroup; role: "primary" | "secondary" }[];
   exercise_equipment: { equipment_code: Equipment }[];
   exercise_images: ExerciseImage[];
@@ -65,7 +74,8 @@ interface ExerciseRow {
 }
 
 const SELECT = `id, origin, name, instructions, safety_tips, difficulty, measure_type,
-  is_bodyweight, movement_pattern, edited_by_manager_at,
+  is_bodyweight, movement_pattern, edited_by_manager_at, source_ref, load_markers,
+  exercise_contraindications(restriction_code),
   exercise_muscles(muscle_group_code, role), exercise_equipment(equipment_code),
   exercise_images(id, path, position, alt_text, license_name, attribution_text, width, height),
   content_sources(name, url, license_name, license_url, attribution_text)`;
@@ -82,6 +92,9 @@ export function toCatalogExercise(row: ExerciseRow): CatalogExercise {
     is_bodyweight: row.is_bodyweight,
     movement_pattern: row.movement_pattern,
     edited_by_manager_at: row.edited_by_manager_at,
+    source_ref: row.source_ref,
+    load_markers: row.load_markers,
+    contraindications: row.exercise_contraindications.map((c) => c.restriction_code),
     primary: row.exercise_muscles
       .filter((m) => m.role === "primary")
       .map((m) => m.muscle_group_code),

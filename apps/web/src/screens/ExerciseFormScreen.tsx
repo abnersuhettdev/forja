@@ -11,8 +11,11 @@ import {
   MOVEMENT_PATTERNS,
   MUSCLE_GROUP_LABELS,
   MUSCLE_GROUPS,
+  RESTRICTION_LABELS,
+  RESTRICTIONS,
   SYNC_CONTRACT_VERSION,
   type CustomExercisePayload,
+  type Restriction,
   type ImportedCorrectionPayload,
   type Difficulty,
   type Equipment,
@@ -49,6 +52,7 @@ interface FormState {
   pattern: MovementPattern | "";
   instructions: string[];
   tips: string[];
+  contraindications: Restriction[];
 }
 
 function fromExercise(exercise: CatalogExercise | undefined): FormState {
@@ -62,6 +66,7 @@ function fromExercise(exercise: CatalogExercise | undefined): FormState {
     pattern: exercise?.movement_pattern ?? "",
     instructions: exercise ? [...exercise.instructions] : [""],
     tips: exercise ? [...exercise.safety_tips] : [],
+    contraindications: [...(exercise?.contraindications ?? [])],
   };
 }
 
@@ -88,6 +93,7 @@ function validate(
         difficulty: form.difficulty,
         measure_type: form.measure,
         movement_pattern: form.pattern === "" ? undefined : form.pattern,
+        contraindications: form.contraindications,
       });
   if (result.success) return { payload: result.data, errors: {} };
   const errors: Errors = {};
@@ -362,6 +368,17 @@ function ExerciseForm({
               </SelectInput>
             )}
           </FormField>
+          <ChoiceGroup<Restriction>
+            legend={T.contraindications}
+            multiple
+            layout="row"
+            options={RESTRICTIONS.map((value) => ({ value, label: RESTRICTION_LABELS[value] }))}
+            value={form.contraindications}
+            onChange={(contraindications) => {
+              set({ contraindications });
+            }}
+          />
+          <p className={styles.muted}>{T.contraindicationsHelp}</p>
         </>
       )}
       <StepList

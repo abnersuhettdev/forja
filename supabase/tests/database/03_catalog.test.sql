@@ -1,7 +1,7 @@
 -- Catálogo (TAR-013): seed, integridade e visibilidade (DAD-03 §3 e §7.2, RN-036, RN-037).
 begin;
 create extension if not exists pgtap with schema extensions;
-select plan(17);
+select plan(19);
 
 select is(
   (select count(*)::int from public.exercises where origin = 'imported' and active),
@@ -19,6 +19,11 @@ select is(
 );
 select is((select count(*)::int from public.exercise_images), 220,
   'duas fotos por exercício importado, com licença e fonte (ADR-094)');
+select is((select count(*)::int from public.exercise_contraindications), 53,
+  'contraindicações explícitas do catálogo (RF-035)');
+select ok(
+  (select count(*)::int from public.exercises where 'ankle_loaded' = any(load_markers)) >= 6,
+  'revisão de marcadores: tornozelo sob carga marcado (V12-06)');
 
 -- Fixtures fictícias: dois gestores, cada um com aluno próprio.
 insert into auth.users (id, email) values

@@ -9,6 +9,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -51,6 +53,8 @@
     "secondary_muscles": ["shoulders", "triceps"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -91,6 +95,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -133,6 +139,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -173,6 +181,8 @@
     "secondary_muscles": ["shoulders", "triceps"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -212,6 +222,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -251,6 +263,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["smith_machine", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -290,6 +304,8 @@
     "secondary_muscles": ["triceps", "shoulders", "abs"],
     "equipment": ["bodyweight"],
     "load_markers": ["wrist_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -332,6 +348,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["bodyweight", "bench"],
     "load_markers": ["wrist_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -371,6 +389,8 @@
     "secondary_muscles": ["shoulders", "triceps"],
     "equipment": ["bodyweight", "bench"],
     "load_markers": ["wrist_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -410,6 +430,8 @@
     "secondary_muscles": ["shoulders"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -449,6 +471,8 @@
     "secondary_muscles": ["shoulders"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -488,6 +512,8 @@
     "secondary_muscles": ["shoulders"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -527,6 +553,8 @@
     "secondary_muscles": ["shoulders"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -566,6 +594,8 @@
     "secondary_muscles": ["shoulders"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -605,6 +635,8 @@
     "secondary_muscles": ["triceps", "shoulders"],
     "equipment": ["bodyweight", "dip_bars"],
     "load_markers": ["shoulder_end_range"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -644,6 +676,8 @@
     "secondary_muscles": ["chest", "shoulders"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["elbow"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -683,6 +717,8 @@
     "secondary_muscles": ["triceps"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": ["overhead"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -722,6 +758,8 @@
     "secondary_muscles": ["triceps", "upper_back"],
     "equipment": ["barbell"],
     "load_markers": ["overhead", "axial_spine_load"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -763,6 +801,8 @@
     "secondary_muscles": ["triceps"],
     "equipment": ["machine"],
     "load_markers": ["overhead"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -802,6 +842,8 @@
     "secondary_muscles": ["triceps"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": ["overhead", "shoulder_end_range"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -841,6 +883,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -880,6 +924,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -919,6 +965,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -958,6 +1006,8 @@
     "secondary_muscles": ["upper_back"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -997,6 +1047,8 @@
     "secondary_muscles": ["upper_back"],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1036,6 +1088,8 @@
     "secondary_muscles": ["upper_back"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1075,6 +1129,8 @@
     "secondary_muscles": ["upper_back", "biceps"],
     "equipment": ["barbell"],
     "load_markers": ["shoulder_end_range"],
+    "load_markers_v12": [],
+    "contraindications": ["neck"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1114,6 +1170,8 @@
     "secondary_muscles": ["biceps", "upper_back"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1153,6 +1211,8 @@
     "secondary_muscles": ["biceps", "upper_back"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1192,6 +1252,8 @@
     "secondary_muscles": ["biceps"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1231,6 +1293,8 @@
     "secondary_muscles": ["biceps", "upper_back"],
     "equipment": ["bodyweight", "pullup_bar"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1270,6 +1334,8 @@
     "secondary_muscles": ["biceps"],
     "equipment": ["bodyweight", "pullup_bar"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1309,6 +1375,8 @@
     "secondary_muscles": ["biceps"],
     "equipment": ["band", "pullup_bar"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1348,6 +1416,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1387,6 +1457,8 @@
     "secondary_muscles": ["lats", "biceps"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1426,6 +1498,8 @@
     "secondary_muscles": ["lats", "biceps", "lower_back"],
     "equipment": ["barbell"],
     "load_markers": ["axial_spine_load"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1465,6 +1539,8 @@
     "secondary_muscles": ["lats", "biceps"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1504,6 +1580,8 @@
     "secondary_muscles": ["lats", "biceps", "shoulders"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1543,6 +1621,8 @@
     "secondary_muscles": ["lats", "biceps"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1582,6 +1662,8 @@
     "secondary_muscles": ["lats", "biceps", "lower_back"],
     "equipment": ["barbell"],
     "load_markers": ["axial_spine_load"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1621,6 +1703,8 @@
     "secondary_muscles": ["lats", "biceps"],
     "equipment": ["bodyweight", "barbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1660,6 +1744,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["dumbbell"],
     "load_markers": ["neck_load"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1699,6 +1785,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["machine"],
     "load_markers": ["spine_flexion_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1738,6 +1826,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["neck", "thoracic", "lower_back"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1782,6 +1872,8 @@
       "hip_deep_flexion_loaded",
       "technical_high"
     ],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1829,6 +1921,8 @@
       "wrist_loaded_extension",
       "technical_high"
     ],
+    "load_markers_v12": ["hip_deep_flexion_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1868,6 +1962,8 @@
     "secondary_muscles": ["glutes", "abs"],
     "equipment": ["dumbbell"],
     "load_markers": ["deep_knee_flexion_loaded"],
+    "load_markers_v12": ["hip_deep_flexion_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1907,6 +2003,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["knee"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -1946,6 +2044,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["machine"],
     "load_markers": ["deep_knee_flexion_loaded", "hip_deep_flexion_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -1985,6 +2085,8 @@
     "secondary_muscles": ["glutes"],
     "equipment": ["machine"],
     "load_markers": ["deep_knee_flexion_loaded"],
+    "load_markers_v12": ["axial_spine_load", "hip_deep_flexion_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2024,6 +2126,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["smith_machine"],
     "load_markers": ["axial_spine_load", "deep_knee_flexion_loaded"],
+    "load_markers_v12": ["hip_deep_flexion_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2063,6 +2167,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["dumbbell"],
     "load_markers": ["deep_knee_flexion_loaded"],
+    "load_markers_v12": ["ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2102,6 +2208,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["barbell"],
     "load_markers": ["axial_spine_load", "deep_knee_flexion_loaded"],
+    "load_markers_v12": ["ankle_loaded", "technical_high"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2141,6 +2249,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["knee", "ankle"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -2180,6 +2290,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["dumbbell"],
     "load_markers": ["deep_knee_flexion_loaded"],
+    "load_markers_v12": ["ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2219,6 +2331,8 @@
     "secondary_muscles": ["glutes", "hamstrings"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": ["deep_knee_flexion_loaded", "ankle_loaded"],
+    "contraindications": ["hip"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2258,6 +2372,8 @@
     "secondary_muscles": ["glutes"],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": ["deep_knee_flexion_loaded", "hip_deep_flexion_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2297,6 +2413,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["knee"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2336,6 +2454,8 @@
     "secondary_muscles": ["calves"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2375,6 +2495,8 @@
     "secondary_muscles": ["calves"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2414,6 +2536,8 @@
     "secondary_muscles": ["glutes", "calves"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": ["technical_high"],
+    "contraindications": ["lower_back", "knee"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -2455,6 +2579,8 @@
     "secondary_muscles": ["glutes", "lower_back"],
     "equipment": ["barbell"],
     "load_markers": ["axial_spine_load", "hip_deep_flexion_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2494,6 +2620,8 @@
     "secondary_muscles": ["glutes", "lower_back"],
     "equipment": ["dumbbell"],
     "load_markers": ["axial_spine_load", "hip_deep_flexion_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2533,6 +2661,8 @@
     "secondary_muscles": ["quadriceps", "upper_back", "forearms"],
     "equipment": ["barbell"],
     "load_markers": ["axial_spine_load", "hip_deep_flexion_loaded", "technical_high"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2572,6 +2702,8 @@
     "secondary_muscles": ["hamstrings"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2611,6 +2743,8 @@
     "secondary_muscles": ["hamstrings"],
     "equipment": ["barbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2650,6 +2784,8 @@
     "secondary_muscles": ["hamstrings"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -2689,6 +2825,8 @@
     "secondary_muscles": ["hamstrings"],
     "equipment": ["bodyweight"],
     "load_markers": ["wrist_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back", "hip"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -2728,6 +2866,8 @@
     "secondary_muscles": ["hamstrings"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2767,6 +2907,8 @@
     "secondary_muscles": ["glutes"],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["hip"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2806,6 +2948,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["hip"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2845,6 +2989,8 @@
     "secondary_muscles": ["glutes"],
     "equipment": ["band"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2884,6 +3030,8 @@
     "secondary_muscles": [],
     "equipment": ["band"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2923,6 +3071,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": ["axial_spine_load", "ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -2962,6 +3112,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": ["ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3001,6 +3153,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": ["ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3040,6 +3194,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": ["ankle_loaded"],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3079,6 +3235,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["barbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["wrist"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3118,6 +3276,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["ez_bar"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3157,6 +3317,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3196,6 +3358,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3235,6 +3399,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3274,6 +3440,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3313,6 +3481,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["barbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["elbow", "wrist"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3352,6 +3522,8 @@
     "secondary_muscles": ["forearms"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3391,6 +3563,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3430,6 +3604,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["wrist"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3469,6 +3645,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["wrist"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3508,6 +3686,8 @@
     "secondary_muscles": ["upper_back", "abs", "glutes"],
     "equipment": ["dumbbell"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["wrist", "neck", "lower_back", "ankle"],
     "measure_type": "duration",
     "is_bodyweight": false,
     "instructions": [
@@ -3547,6 +3727,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3586,6 +3768,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3625,6 +3809,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": ["overhead"],
+    "load_markers_v12": [],
+    "contraindications": ["elbow"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3664,6 +3850,8 @@
     "secondary_muscles": [],
     "equipment": ["ez_bar", "bench"],
     "load_markers": ["elbow_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3703,6 +3891,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell"],
     "load_markers": ["overhead"],
+    "load_markers_v12": ["axial_spine_load"],
+    "contraindications": ["elbow"],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3742,6 +3932,8 @@
     "secondary_muscles": [],
     "equipment": ["dumbbell", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3781,6 +3973,8 @@
     "secondary_muscles": ["chest", "shoulders"],
     "equipment": ["bodyweight", "bench"],
     "load_markers": ["shoulder_end_range", "wrist_loaded_extension"],
+    "load_markers_v12": [],
+    "contraindications": ["elbow"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -3820,6 +4014,8 @@
     "secondary_muscles": ["chest", "shoulders"],
     "equipment": ["bodyweight", "dip_bars"],
     "load_markers": ["shoulder_end_range"],
+    "load_markers_v12": [],
+    "contraindications": ["elbow"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -3859,6 +4055,8 @@
     "secondary_muscles": [],
     "equipment": ["machine"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -3898,6 +4096,8 @@
     "secondary_muscles": ["obliques", "lower_back", "shoulders"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "duration",
     "is_bodyweight": true,
     "instructions": [
@@ -3937,6 +4137,8 @@
     "secondary_muscles": ["abs", "shoulders"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "duration",
     "is_bodyweight": true,
     "instructions": [
@@ -3976,6 +4178,8 @@
     "secondary_muscles": ["obliques"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4015,6 +4219,8 @@
     "secondary_muscles": [],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["neck", "lower_back"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4054,6 +4260,8 @@
     "secondary_muscles": [],
     "equipment": ["cable"],
     "load_markers": ["spine_flexion_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [
@@ -4093,6 +4301,8 @@
     "secondary_muscles": [],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back", "hip"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4132,6 +4342,8 @@
     "secondary_muscles": ["obliques"],
     "equipment": ["bodyweight", "pullup_bar"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["shoulder", "lower_back", "hip"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4171,6 +4383,8 @@
     "secondary_muscles": [],
     "equipment": ["bodyweight", "bench"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["lower_back", "hip"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4210,6 +4424,8 @@
     "secondary_muscles": ["abs"],
     "equipment": ["bodyweight"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": ["neck", "thoracic", "lower_back"],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4249,6 +4465,8 @@
     "secondary_muscles": ["abs"],
     "equipment": ["bodyweight"],
     "load_markers": ["spine_rotation_loaded"],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": true,
     "instructions": [
@@ -4288,6 +4506,8 @@
     "secondary_muscles": ["abs"],
     "equipment": ["cable"],
     "load_markers": [],
+    "load_markers_v12": [],
+    "contraindications": [],
     "measure_type": "reps",
     "is_bodyweight": false,
     "instructions": [

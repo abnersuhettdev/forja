@@ -134,6 +134,31 @@ ${rows.join(",\n")};`,
   ].join("\n\n");
 }
 
+/** Revisão de marcadores e contraindicações explícitas (V12-06, RF-035, TRN-03 §5). */
+export function renderSafetySeed(entries: readonly CatalogEntry[] = readCatalog()): string {
+  const markers = entries
+    .filter((e) => e.load_markers_v12.length > 0)
+    .map(
+      (e) =>
+        `update public.exercises set load_markers = ${textArray([...e.load_markers, ...e.load_markers_v12])} where id = ${literal(exerciseId(e.codigo))};`,
+    );
+  const contraindications = entries.flatMap((e) =>
+    e.contraindications.map((r) => `  (${literal(exerciseId(e.codigo))}, ${literal(r)})`),
+  );
+  return [
+    markers.join("\n"),
+    `insert into public.exercise_contraindications (exercise_id, restriction_code) values
+${contraindications.join(",\n")};`,
+  ].join("\n\n");
+}
+
 if (import.meta.main) {
-  console.log(process.argv.includes("--imagens") ? renderImagesSeed() : renderCatalogSeed());
+  const argument = process.argv[2];
+  console.log(
+    argument === "--imagens"
+      ? renderImagesSeed()
+      : argument === "--seguranca"
+        ? renderSafetySeed()
+        : renderCatalogSeed(),
+  );
 }

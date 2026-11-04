@@ -193,6 +193,12 @@ async function writeClassification(tx: Tx, exerciseId: string, payload: CustomEx
       insert into public.exercise_equipment (exercise_id, equipment_code)
       values (${exerciseId}, ${code})`;
   }
+  await tx`delete from public.exercise_contraindications where exercise_id = ${exerciseId}`;
+  for (const code of payload.contraindications) {
+    await tx`
+      insert into public.exercise_contraindications (exercise_id, restriction_code)
+      values (${exerciseId}, ${code})`;
+  }
 }
 
 function exerciseFields(payload: CustomExercise) {

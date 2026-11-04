@@ -10,6 +10,7 @@ import {
   MEASURE_TYPES,
   MOVEMENT_PATTERNS,
   MUSCLE_GROUPS,
+  RESTRICTIONS,
   type Equipment,
   type MuscleGroup,
 } from "../../packages/domain/src/index.ts";
@@ -66,6 +67,9 @@ export const catalogEntrySchema = z
     secondary_muscles: z.array(z.enum(MUSCLE_GROUPS)),
     equipment: z.array(z.enum(EQUIPMENT)).min(1),
     load_markers: z.array(z.enum(LOAD_MARKERS)),
+    /** Revisão de marcadores da V12-06; `load_markers` fica como no seed v1, já aplicado. */
+    load_markers_v12: z.array(z.enum(LOAD_MARKERS)),
+    contraindications: z.array(z.enum(RESTRICTIONS)),
     measure_type: z.enum(MEASURE_TYPES),
     is_bodyweight: z.boolean(),
     instructions: z.array(sentence).min(1).max(15),
@@ -99,7 +103,8 @@ export const catalogEntrySchema = z
       ["primary_muscles", entry.primary_muscles],
       ["secondary_muscles", entry.secondary_muscles],
       ["equipment", entry.equipment],
-      ["load_markers", entry.load_markers],
+      ["load_markers", [...entry.load_markers, ...entry.load_markers_v12]],
+      ["contraindications", entry.contraindications],
     ] as const) {
       if (new Set(list).size !== list.length) issue(field, "Valor repetido.");
     }
