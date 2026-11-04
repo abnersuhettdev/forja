@@ -126,6 +126,17 @@ Em `packages/domain/src/motor/`, ponto de entrada `@forja/domain/motor`, fora do
 
 **Volume (decisão do usuário, 2026-11-04):** o caso CT-GER-02 pedia peitoral em 10–20 séries, e as vagas davam 6. O treino Superior ganhou `chest_iso`, e o peitoral foi a 12. Com 60 minutos, bíceps e tríceps se alternam entre os dois treinos Superior, com 3 séries semanais diretas de cada, abaixo da referência de 6, o que o relatório sinaliza. Posteriores ficam em 9, abaixo dos 10 do caso, também sinalizado.
 
+## 3B. Gerar outro treino (RF-119, pedido do usuário em 2026-11-04)
+
+Vale para qualquer treino com exercícios, gerado ou montado à mão, porque parte do que está nele e não do nome. O fundamento é a regra de alternativas de TRN-03 §7, com a elegibilidade de TRN-03 §6.
+
+1. Cada exercício é uma vaga. O substituto é elegível, do **mesmo padrão de movimento** e com **ao menos um grupo primário em comum**.
+2. Entre os candidatos, vem primeiro o menos usado nos outros treinos e, depois, a ordem de TRN-03 §6. Não repete dentro do treino nem volta logo aos já mostrados na mesma edição; esgotadas as opções, volta a eles.
+3. Sem alternativa, o exercício continua, se ainda for elegível. Se não for, por restrição, equipamento, nível ou idade, ou se não estiver mais ativo, **sai** e o motivo aparece (RN-008).
+4. Os demais treinos não mudam. Nada é publicado (RN-009).
+
+Interpretações de Claude, **a confirmar pelo usuário**: séries, repetições e descanso continuam os do item, porque são a prescrição da pessoa e mantêm volume e tempo do treino, salvo quando a medida muda entre repetições e duração; carga sugerida e observação são limpas, por serem do exercício anterior; o relatório do rascunho continua sendo o da geração inicial, e o motivo da troca aparece junto do treino, até sair do editor.
+
 ## 4. Relatório do gerador (`generator_report`)
 
 ```json

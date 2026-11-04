@@ -201,6 +201,7 @@ Prioridade `V1.2`: entra na versão 1.2 (PLN-06), só para o próprio usuário (
 | RF-115 | Resumo semanal do que foi feito, do que evoluiu e do que faltou, sem inventar números. | TODOS | PES | V1.2 | RN-060, RN-062 |
 | RF-116 | Propor ajuste da rotina conforme a frequência real; a proposta vira rascunho, aceito com um toque. | TODOS | PES | V1.2 | RN-009 |
 | RF-117 | Incentivo e hábitos dentro do app, sem notificações. | TODOS | PES | V1.2 | RF-094 |
+| RF-119 | Gerar outro treino, um por vez, com os mesmos grupos musculares, explicando o que mudou e por quê, sem alterar os demais. | GES | PES | V1.2 | RN-008, RN-009 |
 | RF-118 | Fotos nos exercícios do catálogo, com créditos e conferência de correspondência. | SIS | PES | V1.2 | RN-036 |
 
 ## Critérios de conclusão

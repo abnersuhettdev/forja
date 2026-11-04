@@ -282,6 +282,18 @@ export const TEXTS = {
     noStudent: "Conclua a configuração inicial para montar seu programa.",
   },
   editor: {
+    regenerate: (workout: string) => `Gerar outro ${workout}`,
+    regenerated: (workout: string) => `${workout} foi gerado de novo`,
+    regenerateWhy:
+      "Cada exercício foi trocado por outro do mesmo movimento, com os mesmos músculos principais, dentro dos seus equipamentos, experiência e restrições. Séries, repetições e descanso continuam os mesmos.",
+    regenerateNothing: "Não há outras opções para estes exercícios com o seu perfil.",
+    regenerateChange: (from: string, to: string) => `${from} → ${to}`,
+    regenerateKept: (names: string) => `Continuam, por falta de alternativa: ${names}.`,
+    regenerateRemoved: (name: string, reason: string) => `${name} saiu: ${reason}.`,
+    regenerateByDifficulty: "acima do seu nível de experiência",
+    regenerateUnavailable: "não está mais disponível",
+    regenerateProfile: "Complete o perfil em Gestão para gerar outro treino.",
+    regenerateFailed: "Não foi possível gerar outro treino. Tente de novo.",
     name: "Nome do programa",
     split: "Divisão",
     splits: {

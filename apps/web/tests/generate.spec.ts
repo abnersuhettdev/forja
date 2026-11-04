@@ -83,6 +83,19 @@ test("pendências, geração com restrição e ênfase, e nada publicado sozinho
     expect(used.length).toBeGreaterThan(0);
     expect(used.map((row) => row.name)).not.toContain("Cadeira extensora");
 
+    // RF-119, CA-410: outro treino A com os mesmos grupos, sem tocar no B; dá para desfazer.
+    const listA = page.getByRole("list", { name: "A — Superior" });
+    const listB = page.getByRole("list", { name: "B — Inferior" });
+    const firstA = await listA.getByRole("listitem").allInnerTexts();
+    const firstB = await listB.getByRole("listitem").allInnerTexts();
+    await page.getByRole("button", { name: "Gerar outro A — Superior" }).click();
+    await expect(page.getByText(/mesmo movimento, com os mesmos músculos/)).toBeVisible();
+    await expect(page.getByText(/→/).first()).toBeVisible();
+    expect(await listA.getByRole("listitem").allInnerTexts()).not.toEqual(firstA);
+    expect(await listB.getByRole("listitem").allInnerTexts()).toEqual(firstB);
+    await page.getByRole("button", { name: "Desfazer" }).click();
+    await expect.poll(() => listA.getByRole("listitem").allInnerTexts()).toEqual(firstA);
+
     // O rascunho é editável e publicável pelo caminho de sempre.
     await page.getByRole("button", { name: "Publicar" }).click();
     await page.getByRole("dialog").getByRole("button", { name: "Publicar" }).click();

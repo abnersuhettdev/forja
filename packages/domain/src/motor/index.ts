@@ -938,3 +938,88 @@ export function generateProgram(input: MotorInput): MotorResult {
     },
   };
 }
+
+// ---------- Gerar outro treino (RF-119; TRN-02 §3B, TRN-03 §7) ----------
+
+export interface RegenerationInput {
+  readonly profile: MotorProfile;
+  readonly catalog: readonly MotorExercise[];
+  readonly referenceDate: string;
+  /** Exercícios do treino, na ordem: cada um é uma vaga. */
+  readonly workoutExerciseIds: readonly string[];
+  /** Exercícios dos outros treinos, para não repetir enquanto houver opção. */
+  readonly otherExerciseIds: readonly string[];
+  /** Já mostrados nas gerações anteriores deste treino, para não voltar a eles de imediato. */
+  readonly avoidExerciseIds?: readonly string[];
+}
+
+export type RegenerationReason = ExclusionReason | { readonly kind: "not_available" };
+
+export type RegenerationOutcome =
+  | {
+      readonly kind: "changed";
+      readonly exercise_id: string;
+      readonly prescription: GeneratedItem;
+    }
+  /** Sem alternativa elegível: o exercício atual continua. */
+  | { readonly kind: "kept" }
+  /** Sem alternativa e o atual não serve mais para a pessoa: sai (RN-008). */
+  | { readonly kind: "removed"; readonly reason: RegenerationReason };
+
+export type RegenerationResult =
+  | { readonly status: "blocked"; readonly pending: readonly MotorPendingCode[] }
+  | { readonly status: "regenerated"; readonly outcomes: readonly RegenerationOutcome[] };
+
+/**
+ * Novo treino com os mesmos grupos: cada exercício dá lugar a outro elegível do mesmo padrão de
+ * movimento, com ao menos um grupo primário em comum (TRN-03 §7). Escolhe o menos usado nos
+ * outros treinos e, depois, pela ordem de TRN-03 §6. Determinística, como o resto do motor.
+ */
+export function regenerateWorkout(input: RegenerationInput): RegenerationResult {
+  const { profile, referenceDate } = input;
+  const pending = motorPending(profile, referenceDate);
+  const complete = completeProfile(profile, referenceDate);
+  const ctx = eligibilityContext(profile, referenceDate);
+  if (complete === null || ctx === null) return { status: "blocked", pending };
+
+  const previous = new Set<string>();
+  const eligible = input.catalog
+    .filter((e) => exclusionReason(e, ctx) === null)
+    .sort((a, b) => compareForSelection(a, b, ctx.experience, previous));
+  const byId = new Map(input.catalog.map((e) => [e.id, e]));
+  const avoid = new Set(input.avoidExerciseIds ?? []);
+  const inOthers = (id: string) => input.otherExerciseIds.filter((other) => other === id).length;
+  const taken = new Set<string>();
+  const current = new Set(input.workoutExerciseIds);
+
+  const best = (candidates: readonly MotorExercise[]) =>
+    candidates.reduce<MotorExercise | undefined>(
+      (chosen, e) => (chosen === undefined || inOthers(e.id) < inOthers(chosen.id) ? e : chosen),
+      undefined,
+    );
+
+  const outcomes = input.workoutExerciseIds.map((id): RegenerationOutcome => {
+    const exercise = byId.get(id);
+    if (exercise === undefined) return { kind: "removed", reason: { kind: "not_available" } };
+    const candidates = eligible.filter(
+      (e) =>
+        e.movement_pattern === exercise.movement_pattern &&
+        e.primary.some((m) => exercise.primary.includes(m)) &&
+        !current.has(e.id) &&
+        !taken.has(e.id),
+    );
+    // Esgotadas as novidades, volta a um já mostrado em vez de ficar parado.
+    const chosen = best(candidates.filter((e) => !avoid.has(e.id))) ?? best(candidates);
+    if (chosen !== undefined) {
+      taken.add(chosen.id);
+      return {
+        kind: "changed",
+        exercise_id: chosen.id,
+        prescription: prescribe(chosen, complete.goal, ctx.experience, ctx.age),
+      };
+    }
+    const reason = exclusionReason(exercise, ctx);
+    return reason === null ? { kind: "kept" } : { kind: "removed", reason };
+  });
+  return { status: "regenerated", outcomes };
+}

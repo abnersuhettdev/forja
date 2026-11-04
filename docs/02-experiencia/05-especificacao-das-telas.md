@@ -262,7 +262,7 @@ Durante o descanso, a zona inferior vira:
 ### TELA-031 — Editor de rascunho
 
 - **RF/RN:** RF-020, RF-024, RF-025 · RN-021, RN-035.
-- **Conteúdo:** nome do programa; divisão (Full body, AB, ABC, ABCD, Superior/Inferior, Outra); treinos em sequência — cada um com nome editável ("A — Peito e tríceps"), exercícios com resumo ("3 × 8–12 · 90 s") e ações (editar, mover para cima/baixo, remover com desfazer); **+ Adicionar exercício**; **+ Adicionar treino**; reordenar treinos (arrastar pela alça **e** botões subir/descer, por acessibilidade); indicador "Salvo às 14:32" (salvamento automático).
+- **Conteúdo:** nome do programa; divisão (Full body, AB, ABC, ABCD, Superior/Inferior, Outra); treinos em sequência — cada um com nome editável ("A — Peito e tríceps"), exercícios com resumo ("3 × 8–12 · 90 s") e ações (editar, mover para cima/baixo, remover com desfazer); **+ Adicionar exercício**; **Gerar outro** (RF-119, em cada treino com exercícios: troca os exercícios mantendo os grupos e a prescrição, mostra o que mudou e por quê, com desfazer); **+ Adicionar treino**; reordenar treinos (arrastar pela alça **e** botões subir/descer, por acessibilidade); indicador "Salvo às 14:32" (salvamento automático).
 - **Ações:** **Publicar** (primária) → validação → diálogo de confirmação (UX-04 §3); **Descartar rascunho** (menu).
 - **Validações (RN-035, RN-021):** lista de pendências com atalhos (ex.: "Treino C não tem exercícios", "Supino declinado está desativado — substitua").
 - **Desktop:** duas colunas (treinos | exercícios do treino selecionado).

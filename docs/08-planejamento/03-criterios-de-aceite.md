@@ -106,6 +106,7 @@
 | CA-407 | RF-115, RF-116 | Resumo sem números que não estejam nos fatos calculados; ajuste só vira rascunho | E |
 | CA-408 | RF-118, RN-036 | Fotos com créditos e conferidas nos exercícios; sem foto adequada, placeholder | E |
 | CA-409 | UX-02 | Login na direção Anilha, com acessibilidade e orçamento de JS verdes | E |
+| CA-410 | RF-119, RN-008 | Dado um treino no rascunho / quando pede outro / então cada exercício é trocado por outro elegível do mesmo padrão e com grupo primário em comum, os demais treinos não mudam, o motivo aparece e é possível desfazer | U, E |
 
 ## 4. Requisitos não funcionais
 

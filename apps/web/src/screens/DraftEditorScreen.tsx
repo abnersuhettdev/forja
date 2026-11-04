@@ -1,14 +1,19 @@
 import { useCallback, useEffect, useRef, useState, type DragEvent } from "react";
-import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Trash2 } from "lucide-react";
+import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Sparkles, Trash2 } from "lucide-react";
 import {
   EQUIPMENT_LABELS,
   MUSCLE_GROUP_LABELS,
+  RESTRICTION_LABELS,
   SPLIT_TYPES,
+  toLocalDate,
   type DraftIssue,
   type SplitType,
 } from "@forja/domain";
+import { regenerateWorkout, type RegenerationReason } from "@forja/domain/motor";
 import { draftIssues } from "@forja/domain/validacao";
 import { useUserContext } from "../account/UserContextProvider.tsx";
+import { fetchStudentProfile } from "../account/profile.ts";
+import { getSupabase } from "../auth/client.ts";
 import { filterCatalog, NO_FILTERS, type CatalogExercise } from "../catalog/catalog.ts";
 import { useCatalog } from "../catalog/useCatalog.ts";
 import { Button, IconButton } from "../components/Button.tsx";
@@ -37,6 +42,11 @@ import {
   type EditorItem,
   type IssueMessage,
 } from "../program/editor.ts";
+import {
+  applyRegeneration,
+  toMotorExercise,
+  type RegenerationSummary,
+} from "../program/generator.ts";
 import type { VersionView } from "../program/program.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
@@ -102,6 +112,7 @@ export function DraftEditorScreen() {
     <Editor
       key={draft.id}
       draft={draft}
+      studentId={studentId}
       catalog={catalogState.exercises}
       onReload={() => {
         void reload();
@@ -112,10 +123,12 @@ export function DraftEditorScreen() {
 
 function Editor({
   draft,
+  studentId,
   catalog,
   onReload,
 }: {
   draft: VersionView;
+  studentId: string | null;
   catalog: readonly CatalogExercise[];
   onReload: () => void;
 }) {
@@ -130,6 +143,10 @@ function Editor({
   const [error, setError] = useState<string | null>(null);
   const [picker, setPicker] = useState<{ workoutId: string; swapItem?: EditorItem } | null>(null);
   const [editing, setEditing] = useState<{ workoutId: string; item: EditorItem } | null>(null);
+  const [regenerating, setRegenerating] = useState<string | null>(null);
+  const [summaries, setSummaries] = useState<Readonly<Record<string, RegenerationSummary>>>({});
+  // O que cada treino já mostrou nesta edição, para "gerar outro" não voltar logo ao mesmo.
+  const shown = useRef(new Map<string, Set<string>>());
 
   // Salvamento serializado: um envio por vez, sempre do documento mais recente.
   const revision = useRef(draft.revision);
@@ -190,6 +207,63 @@ function Editor({
 
   const byId = new Map(catalog.map((e) => [e.id, e]));
   const nameOf = (id: string) => byId.get(id)?.name ?? TEXTS.catalog.notFound;
+
+  /** RF-119: outro treino com os mesmos grupos, sem tocar nos demais; pode ser desfeito. */
+  async function regenerate(workoutId: string) {
+    const supabase = getSupabase();
+    const workout = doc.workouts.find((w) => w.id === workoutId);
+    if (supabase === null || studentId === null || workout === undefined) return;
+    setRegenerating(workoutId);
+    setError(null);
+    try {
+      const { student, profile } = await fetchStudentProfile(supabase, studentId);
+      const current = latest.current;
+      const target = current.workouts.find((w) => w.id === workoutId);
+      if (target === undefined) return;
+      const seen = shown.current.get(workoutId) ?? new Set<string>();
+      const ids = target.items.map((i) => i.exercise_id);
+      const result = regenerateWorkout({
+        profile: { ...student, ...profile },
+        catalog: catalog.map(toMotorExercise),
+        referenceDate: toLocalDate(new Date(), student.timezone),
+        workoutExerciseIds: ids,
+        otherExerciseIds: current.workouts
+          .filter((w) => w.id !== workoutId)
+          .flatMap((w) => w.items.map((i) => i.exercise_id)),
+        avoidExerciseIds: [...seen],
+      });
+      if (result.status === "blocked") {
+        setError(T.regenerateProfile);
+        return;
+      }
+      for (const id of ids) seen.add(id);
+      shown.current.set(workoutId, seen);
+      const { doc: next, summary } = applyRegeneration(current, workoutId, result.outcomes, nameOf);
+      change(next);
+      setSummaries((all) => ({ ...all, [workoutId]: summary }));
+      show({
+        text: T.regenerated(target.name),
+        action: {
+          label: TEXTS.common.undo,
+          onAction: () => {
+            change({
+              ...latest.current,
+              workouts: latest.current.workouts.map((w) =>
+                w.id === workoutId ? { ...w, items: target.items } : w,
+              ),
+            });
+            setSummaries((all) =>
+              Object.fromEntries(Object.entries(all).filter(([id]) => id !== workoutId)),
+            );
+          },
+        },
+      });
+    } catch {
+      setError(T.regenerateFailed);
+    } finally {
+      setRegenerating(null);
+    }
+  }
 
   async function publish() {
     setConfirm(null);
@@ -351,6 +425,9 @@ function Editor({
         doc={doc}
         readOnly={readOnly}
         nameOf={nameOf}
+        regenerating={regenerating}
+        summaries={summaries}
+        onRegenerate={(workoutId) => void regenerate(workoutId)}
         onChange={change}
         onAddExercise={(workoutId) => {
           setPicker({ workoutId });
@@ -483,6 +560,9 @@ function WorkoutList({
   doc,
   readOnly,
   nameOf,
+  regenerating,
+  summaries,
+  onRegenerate,
   onChange,
   onAddExercise,
   onEditItem,
@@ -491,6 +571,9 @@ function WorkoutList({
   doc: EditorDocument;
   readOnly: boolean;
   nameOf: (id: string) => string;
+  regenerating: string | null;
+  summaries: Readonly<Record<string, RegenerationSummary>>;
+  onRegenerate: (workoutId: string) => void;
   onChange: (doc: EditorDocument) => void;
   onAddExercise: (workoutId: string) => void;
   onEditItem: (workoutId: string, item: EditorItem) => void;
@@ -651,9 +734,67 @@ function WorkoutList({
           >
             {T.addExercise}
           </Button>
+          {workout.items.length > 0 ? (
+            <Button
+              variant="ghost"
+              icon={<Sparkles size={20} />}
+              disabled={readOnly || regenerating !== null}
+              loading={regenerating === workout.id}
+              onClick={() => {
+                onRegenerate(workout.id);
+              }}
+            >
+              {T.regenerate(workout.name)}
+            </Button>
+          ) : null}
+          {summaries[workout.id] ? <RegenerationNote summary={summaries[workout.id]} /> : null}
         </li>
       ))}
     </ol>
+  );
+}
+
+function reasonText(reason: RegenerationReason): string {
+  switch (reason.kind) {
+    case "restriction":
+      return TEXTS.generate.report.byRestriction(RESTRICTION_LABELS[reason.restriction]);
+    case "equipment":
+      return TEXTS.generate.report.byEquipment(EQUIPMENT_LABELS[reason.equipment]);
+    case "age":
+      return TEXTS.generate.report.byAge;
+    case "difficulty":
+      return T.regenerateByDifficulty;
+    case "not_available":
+      return T.regenerateUnavailable;
+  }
+}
+
+/** O fundamento da troca (RF-119): o que mudou, o que ficou e por quê. */
+function RegenerationNote({ summary }: { summary: RegenerationSummary | undefined }) {
+  if (summary === undefined) return null;
+  return (
+    <div className={styles.stack}>
+      <p className={styles.muted} role="status">
+        {summary.changed.length > 0 ? T.regenerateWhy : T.regenerateNothing}
+      </p>
+      {summary.changed.length > 0 ? (
+        <ul className={styles.steps}>
+          {summary.changed.map((c) => (
+            <li key={c.to}>{T.regenerateChange(c.from, c.to)}</li>
+          ))}
+        </ul>
+      ) : null}
+      {summary.kept.length > 0 ? (
+        <p className={styles.muted}>{T.regenerateKept(summary.kept.join(", "))}</p>
+      ) : null}
+      {summary.removed.length > 0 ? (
+        <ul className={styles.steps}>
+          {summary.removed.map((r) => (
+            <li key={r.name}>{T.regenerateRemoved(r.name, reasonText(r.reason))}</li>
+          ))}
+        </ul>
+      ) : null}
+    </div>
   );
 }
 

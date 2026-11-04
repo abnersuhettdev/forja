@@ -12,6 +12,7 @@ import {
 } from "../../packages/domain/src/index.ts";
 import {
   generateProgram,
+  regenerateWorkout,
   type GeneratedItem,
   type MotorExercise,
   type MotorProfile,
@@ -438,5 +439,108 @@ describe("continuidade (TRN-03 §6, critério 2)", () => {
     });
     if (result.status !== "generated") throw new Error("esperava um rascunho");
     expect(result.program.workouts[0]?.items[0]?.exercise_id).toBe("supino-declinado-barra");
+  });
+});
+
+describe("gerar outro treino (RF-119, CA-410)", () => {
+  const program = generate();
+  const ids = program.program.workouts.map((w) => w.items.map((i) => i.exercise_id));
+  const regenerate = (
+    overrides: Partial<MotorProfile> = {},
+    workout: readonly string[] = ids[0] ?? [],
+    others: readonly string[] = ids.slice(1).flat(),
+    avoid: readonly string[] = [],
+  ) => {
+    const result = regenerateWorkout({
+      profile: profile(overrides),
+      catalog: CATALOG,
+      referenceDate: REFERENCE,
+      workoutExerciseIds: workout,
+      otherExerciseIds: others,
+      avoidExerciseIds: avoid,
+    });
+    if (result.status !== "regenerated") throw new Error("esperava um treino novo");
+    return result.outcomes;
+  };
+  const chosen = (outcomes: ReturnType<typeof regenerate>) =>
+    outcomes.flatMap((o) => (o.kind === "changed" ? [o.exercise_id] : []));
+
+  it("troca por exercícios do mesmo padrão e com grupo primário em comum", () => {
+    const workout = ids[0] ?? [];
+    const outcomes = regenerate();
+    expect(chosen(outcomes).length).toBeGreaterThan(0);
+    outcomes.forEach((outcome, index) => {
+      if (outcome.kind !== "changed") return;
+      const before = BY_ID.get(workout[index] ?? "");
+      const after = BY_ID.get(outcome.exercise_id);
+      expect(after?.movement_pattern).toBe(before?.movement_pattern);
+      expect(after?.primary.some((m) => before?.primary.includes(m))).toBe(true);
+      expect(workout).not.toContain(outcome.exercise_id);
+    });
+  });
+
+  it("não repete dentro do treino e evita o que está nos outros treinos", () => {
+    const picks = chosen(regenerate());
+    expect(new Set(picks).size).toBe(picks.length);
+    const repeated = picks.filter((id) => ids.slice(1).flat().includes(id));
+    expect(repeated.length).toBeLessThan(picks.length);
+  });
+
+  it("nunca sobrepõe restrição (RN-008)", () => {
+    for (const restriction of ["knee", "shoulder", "lower_back"] as const) {
+      const overrides = {
+        restrictions_declared: "listed",
+        restriction_codes: [restriction],
+      } as const;
+      const base = generate(overrides).program.workouts.map((w) =>
+        w.items.map((i) => i.exercise_id),
+      );
+      for (const workout of base) {
+        for (const id of chosen(regenerate(overrides, workout, []))) {
+          const exercise = BY_ID.get(id);
+          expect(exercise?.contraindications).not.toContain(restriction);
+          for (const marker of RESTRICTION_EXCLUDED_MARKERS[restriction]) {
+            expect(exercise?.load_markers).not.toContain(marker);
+          }
+        }
+      }
+    }
+  });
+
+  it("sem alternativa, mantém o atual; se ele não serve, tira e diz o motivo", () => {
+    const solo = ["pallof-press"];
+    expect(regenerate({ equipment_codes: ["cable"] }, solo, [])).toEqual([
+      expect.objectContaining({ kind: "changed" }),
+    ]);
+    expect(regenerate({ equipment_codes: ["bodyweight"] }, ["cadeira-extensora"], [])).toEqual([
+      { kind: "removed", reason: { kind: "equipment", equipment: "machine" } },
+    ]);
+    expect(regenerate({}, ["inexistente"], [])).toEqual([
+      { kind: "removed", reason: { kind: "not_available" } },
+    ]);
+    expect(regenerate({}, ["cadeira-extensora"], [])).toEqual([{ kind: "kept" }]);
+  });
+
+  it("gerar de novo traz outra opção e, esgotadas, volta às já vistas", () => {
+    const workout = ["supino-reto-barra"];
+    const first = chosen(regenerate({}, workout, []));
+    const second = chosen(regenerate({}, first, [], workout));
+    expect(second[0]).not.toBe(first[0]);
+    expect(second[0]).not.toBe(workout[0]);
+    const everything = CATALOG.filter((e) => e.movement_pattern === "h_push").map((e) => e.id);
+    expect(chosen(regenerate({}, workout, [], everything)).length).toBe(1);
+  });
+
+  it("é determinística e bloqueia com perfil incompleto", () => {
+    expect(JSON.stringify(regenerate())).toBe(JSON.stringify(regenerate()));
+    expect(
+      regenerateWorkout({
+        profile: profile({ goal: null }),
+        catalog: CATALOG,
+        referenceDate: REFERENCE,
+        workoutExerciseIds: ["supino-reto-barra"],
+        otherExerciseIds: [],
+      }),
+    ).toEqual({ status: "blocked", pending: ["goal"] });
   });
 });

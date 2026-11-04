@@ -1,21 +1,16 @@
 import { useEffect, useState } from "react";
 import { CircleCheck, CircleAlert, Sparkles } from "lucide-react";
 import { MUSCLE_GROUP_LABELS, toLocalDate } from "@forja/domain";
-import {
-  generateProgram,
-  motorPending,
-  type MotorExercise,
-  type MotorPendingCode,
-} from "@forja/domain/motor";
+import { generateProgram, motorPending, type MotorPendingCode } from "@forja/domain/motor";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { fetchStudentProfile, type StudentProfile } from "../account/profile.ts";
 import { getSupabase } from "../auth/client.ts";
-import type { CatalogExercise } from "../catalog/catalog.ts";
 import { useCatalog } from "../catalog/useCatalog.ts";
 import { Button } from "../components/Button.tsx";
 import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
 import { sendDirect } from "../local/direct.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
+import { toMotorExercise } from "../program/generator.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -34,22 +29,6 @@ const CHECKS: readonly MotorPendingCode[] = [
   "equipment",
   "restrictions",
 ];
-
-export function toMotorExercise(exercise: CatalogExercise): MotorExercise {
-  return {
-    id: exercise.id,
-    code: exercise.source_ref ?? exercise.id,
-    name: exercise.name,
-    difficulty: exercise.difficulty,
-    measure_type: exercise.measure_type,
-    movement_pattern: exercise.movement_pattern,
-    load_markers: exercise.load_markers,
-    contraindications: exercise.contraindications,
-    primary: exercise.primary,
-    secondary: exercise.secondary,
-    equipment: exercise.equipment,
-  };
-}
 
 // TELA-051 — Gerar treino (RF-021..023, RF-112; RN-006..009, RN-030). O motor roda no aparelho e
 // o resultado é só um rascunho: nada aparece em Meu treino sem publicar. Gestão exige conexão.
