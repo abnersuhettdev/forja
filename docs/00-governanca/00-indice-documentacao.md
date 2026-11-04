@@ -108,6 +108,7 @@ Status: ver definições em [GOV-01 §4](01-metodologia-cascata.md#4-status-de-d
 | PLN-03 | [Critérios de aceite](../08-planejamento/03-criterios-de-aceite.md) | CA-### | PRD-05..07, UX-05 | **Aprovado** |
 | PLN-04 | [Riscos e mitigações](../08-planejamento/04-riscos-e-mitigacoes.md) | RSK-### | Todos | **Aprovado** |
 | PLN-05 | [Checklist de aprovação final](../08-planejamento/05-checklist-de-aprovacao-final.md) | Auditoria e marco | Todos | **Aprovado** |
+| PLN-06 | [Plano da versão 1.2](../08-planejamento/06-plano-versao-1-2.md) | Design, imagens, IA, modos e vários alunos | PRD-09, TRN-02 | Proposta (não aprovada) |
 
 ## Ordem de dependência entre pastas
 

@@ -85,3 +85,4 @@ Registra mudanças relevantes (criação de documentos, mudanças de requisito, 
 | 2026-10-29 | 9 | GOV-02, ARQ-04 | PR-DES-03 implementada: validação (Zod) em `@forja/domain/validacao`, carregada sob demanda; JS inicial 195,2 KB gzip, dentro do orçamento. | "Approve PR-DES-03" |
 | 2026-11-03 | 9 | GOV-02, IMP-01 | Chave publishable no lugar da `anon` legada; Pages mantido; TAR-003 iniciada com as contas criadas pelo usuário; autoria dos commits ajustada. | "Sim, ajuste e teste" |
 | 2026-11-03 | 9 | PRD-09, GOV-02 | Proposta do gestor automático para outras pessoas registrada (não aprovada); Q-007 atualizada. | "Quero que outras pessoas usem também." |
+| 2026-11-04 | 9 | PLN-06, GOV-02, GOV-00 | Proposta do plano da versão 1.2 registrada (não aprovada). | Pedido do usuário: planejar a versão 1.2 |
