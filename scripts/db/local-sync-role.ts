@@ -22,6 +22,19 @@ function readPassword(): string | null {
   return match?.[1] ?? null;
 }
 
+/** Leva as credenciais de .env.ia.local à função local, para a IA funcionar em localhost. */
+function syncAiCredentials(): void {
+  const source = new URL("../../.env.ia.local", import.meta.url);
+  if (!existsSync(source) || !existsSync(FUNCTIONS_ENV)) return;
+  const wanted = readFileSync(source, "utf8")
+    .split(/\r?\n/)
+    .filter((line) => /^CLOUDFLARE_(ACCOUNT_ID|AI_TOKEN)=.+/.test(line));
+  const kept = readFileSync(FUNCTIONS_ENV, "utf8")
+    .split(/\r?\n/)
+    .filter((line) => line !== "" && !line.startsWith("CLOUDFLARE_"));
+  writeFileSync(FUNCTIONS_ENV, [...kept, ...wanted, ""].join("\n"));
+}
+
 function ensureEnv(): string {
   const existing = readPassword();
   if (existing) return existing;
@@ -51,6 +64,7 @@ async function apply(password: string): Promise<void> {
 const mode = process.argv[2];
 if (mode === "--env") {
   ensureEnv();
+  syncAiCredentials();
   console.log("supabase/functions/.env pronto.");
 } else if (mode === "--apply") {
   await apply(ensureEnv());

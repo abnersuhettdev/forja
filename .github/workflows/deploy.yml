@@ -61,6 +61,7 @@ jobs:
         run: |
           ref="$(node -p 'new URL(process.env.SUPABASE_URL).hostname.split(".")[0]')"
           pnpm exec supabase functions deploy sync --project-ref "$ref" --no-verify-jwt
+          pnpm exec supabase functions deploy ai --project-ref "$ref" --no-verify-jwt
       - name: Build do app, com o backend deste ambiente
         env:
           VITE_SUPABASE_URL: ${{ vars.SUPABASE_URL }}

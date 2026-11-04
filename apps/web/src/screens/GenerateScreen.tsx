@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { CircleCheck, CircleAlert, Sparkles } from "lucide-react";
 import { MUSCLE_GROUP_LABELS, toLocalDate } from "@forja/domain";
-import { generateProgram, motorPending, type MotorPendingCode } from "@forja/domain/motor";
+import {
+  generateProgram,
+  motorPending,
+  type MotorPendingCode,
+  type MotorResult,
+} from "@forja/domain/motor";
+import { motorOnlyReport } from "@forja/domain/motor/ia";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { fetchStudentProfile, type StudentProfile } from "../account/profile.ts";
 import { getSupabase } from "../auth/client.ts";
@@ -11,6 +17,7 @@ import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback
 import { sendDirect } from "../local/direct.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { toMotorExercise } from "../program/generator.ts";
+import { requestRoutine } from "../program/routine-client.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -29,6 +36,10 @@ const CHECKS: readonly MotorPendingCode[] = [
   "equipment",
   "restrictions",
 ];
+
+function withFallback(result: MotorResult): MotorResult {
+  return result.status === "generated" ? motorOnlyReport(result, "unavailable") : result;
+}
 
 // TELA-051 — Gerar treino (RF-021..023, RF-112; RN-006..009, RN-030). O motor roda no aparelho e
 // o resultado é só um rascunho: nada aparece em Meu treino sem publicar. Gestão exige conexão.
@@ -84,17 +95,27 @@ export function GenerateScreen() {
 
   async function generate() {
     if (local === null || studentId === null || catalogState.status !== "ready") return;
-    const result = generateProgram({
-      profile: motorProfile,
-      catalog: catalogState.exercises.map(toMotorExercise),
-      referenceDate: today,
-      previousExerciseIds:
-        active?.document.workouts.flatMap((w) => w.items.map((i) => i.exercise_id)) ?? [],
-      staleData: profile.review_recommended_since !== null,
-    });
-    if (result.status !== "generated") return;
     setBusy(true);
     setError(null);
+    // RN-062: sem a função de IA, o motor roda aqui mesmo, e o relatório diz que foi só por regras.
+    const remote = await requestRoutine();
+    const result: MotorResult =
+      remote ??
+      withFallback(
+        generateProgram({
+          profile: motorProfile,
+          catalog: catalogState.exercises.map(toMotorExercise),
+          referenceDate: today,
+          previousExerciseIds:
+            active?.document.workouts.flatMap((w) => w.items.map((i) => i.exercise_id)) ?? [],
+          staleData: profile.review_recommended_since !== null,
+        }),
+      );
+    if (result.status !== "generated") {
+      setBusy(false);
+      setError(T.failed);
+      return;
+    }
     const outcome = await sendDirect(local, {
       opId: crypto.randomUUID(),
       type: "draft.create",

@@ -199,8 +199,18 @@ export const TEXTS = {
       "Esta rotina é uma sugestão de organização para uso próprio, não uma prescrição. Em caso de dor ou condição de saúde, procure um profissional.",
     draftExists: "Já existe um rascunho. Continue nele ou descarte-o em Programa para gerar outro.",
     submit: "Gerar rotina",
+    failed: "Não foi possível gerar a rotina. Confira o perfil e tente de novo.",
     report: {
       title: "Como esta rotina foi montada",
+      aiSwaps: "Trocas sugeridas pela IA",
+      aiNotice: "Texto escrito por IA, que pode errar. Revise a rotina antes de usar.",
+      aiFallback: {
+        unavailable: "A IA não respondeu agora. Esta rotina foi montada só com as regras do app.",
+        quota:
+          "O limite de uso da IA acabou por hoje. Esta rotina foi montada só com as regras do app.",
+        invalid:
+          "A resposta da IA não passou na verificação. Esta rotina foi montada só com as regras do app.",
+      },
       considered: "Considerado",
       days: (n: number) => `${String(n)} ${n === 1 ? "dia" : "dias"} por semana`,
       minutes: (n: number) => `${String(n)} min por treino`,

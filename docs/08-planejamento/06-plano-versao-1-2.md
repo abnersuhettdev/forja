@@ -145,7 +145,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno. **Primeira rodada feita** (2026-11-04), ver §3.4: nenhum modelo passou na leitura dos textos; falta decisão do usuário |
 | V12-06 | TAR-031: contraindicações | — | Médio. **Feito no local** (2026-11-04) |
 | V12-07 | TAR-032: motor de regras | V12-06 | Grande. **Feito no local** (2026-11-04); falta a revisão pelo usuário com o próprio perfil |
-| V12-08 | IA sobre o motor: função, validação, cota, tela de geração | V12-05, V12-07 | Grande |
+| V12-08 | IA sobre o motor: função, validação, cota, tela de geração | V12-05, V12-07 | Grande. **Feito no local** (2026-11-04), sem uso real pelo usuário |
 | V12-09 | Reavaliação (TAR-030) e acompanhamento por IA | V12-08 | Grande |
 | V12-10 | Robustez e automação | — | Pequeno |
 

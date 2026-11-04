@@ -13,6 +13,7 @@ import { generateProgram, type MotorExercise } from "../../packages/domain/src/m
 import {
   buildAiRequest,
   validateAiReply,
+  workersAiReplyContent,
   type AiReply,
 } from "../../packages/domain/src/motor/ia.ts";
 import { readCatalog } from "../catalog/seed-sql.ts";
@@ -87,13 +88,7 @@ export function looksPortuguese(text: string): boolean {
 }
 
 /** Texto da resposta nos formatos que os modelos usam. */
-export function replyText(body: unknown): unknown {
-  const result = (body as { result?: Record<string, unknown> }).result;
-  if (result === undefined) return undefined;
-  if (result.response !== undefined) return result.response;
-  const choices = result.choices as { message?: { content?: unknown } }[] | undefined;
-  return choices?.[0]?.message?.content;
-}
+export const replyText = workersAiReplyContent;
 
 export function neuronsOf(model: ModelKey, body: unknown): number {
   const usage = (

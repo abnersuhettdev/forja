@@ -33,7 +33,7 @@
 | Senha do papel `sync_writer` | **Não** | Dev, Prod | Segredos da função de sincronização |
 | Token de acesso do provedor (CLI) | **Não** | CI | Cofre do CI |
 | Token de deploy da hospedagem | **Não** | CI | Cofre do CI |
-| Token da Cloudflare para Workers AI e identificador da conta (versão 1.2) | **Não** | Dev, Prod | Segredos da função no servidor, separados do token de publicação |
+| Token da Cloudflare para Workers AI e identificador da conta (versão 1.2) | **Não** | Dev, Prod | Segredos da função no servidor (`CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_AI_TOKEN`), separados do token de publicação. No local, `.env.ia.local`, fora do Git; em Dev e Prod, definir antes de publicar a 1.2. Sem eles, a rotina sai só das regras |
 | Chave pública de backup | Sim | Prod | Repositório/CI |
 | Chave privada de backup | **Não** | — | Somente o usuário |
 

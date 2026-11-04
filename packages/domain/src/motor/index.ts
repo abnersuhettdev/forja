@@ -147,7 +147,25 @@ export interface GeneratorReport {
   }[];
   readonly insufficient_workouts: readonly string[];
   readonly warnings: readonly string[];
+  /** Versão 1.2 (ADR-093): de onde veio a rotina e, com IA, os motivos. */
+  readonly ai?: GeneratorAi;
 }
+
+export interface GeneratorAi {
+  readonly source: "motor+ia" | "motor";
+  readonly model: string | null;
+  readonly fallback: "unavailable" | "quota" | "invalid" | null;
+  readonly summary: string | null;
+  readonly reasons: readonly string[];
+  readonly swaps: readonly {
+    readonly workout: string;
+    readonly from: string;
+    readonly to: string;
+    readonly reason: string;
+  }[];
+}
+
+export type ExperienceLevelInput = ExperienceLevel | null;
 
 export type MotorResult =
   | { readonly status: "blocked"; readonly pending: readonly MotorPendingCode[] }
@@ -517,7 +535,7 @@ const LEVEL_INDEX: Readonly<Record<ExperienceLevel, 0 | 1 | 2>> = {
 
 const NOTE_REPS = "Escolha uma carga que permita completar a faixa de repetições com boa execução.";
 
-function prescribe(
+export function prescribe(
   exercise: MotorExercise,
   goal: Goal,
   experience: ExperienceLevel,
@@ -1022,4 +1040,55 @@ export function regenerateWorkout(input: RegenerationInput): RegenerationResult 
     return reason === null ? { kind: "kept" } : { kind: "removed", reason };
   });
   return { status: "regenerated", outcomes };
+}
+
+// ---------- Volume de um programa já montado (TRN-02, Passo 9) ----------
+
+const ALL_GROUPS: readonly MuscleGroup[] = [
+  "chest",
+  "upper_back",
+  "lats",
+  "shoulders",
+  "biceps",
+  "triceps",
+  "forearms",
+  "abs",
+  "obliques",
+  "lower_back",
+  "glutes",
+  "quadriceps",
+  "hamstrings",
+  "adductors",
+  "abductors",
+  "calves",
+];
+
+/** Recalcula o volume depois das trocas da IA, com a mesma regra do motor. */
+export function weeklyVolumeOf(
+  workouts: readonly GeneratedWorkout[],
+  catalog: readonly MotorExercise[],
+  goal: Goal,
+  experience: ExperienceLevel,
+  days: number,
+): GeneratorReport["weekly_volume"] {
+  const byId = new Map(catalog.map((e) => [e.id, e]));
+  const occurrences = weeklyOccurrences(days, workouts.length);
+  const setsOf = (group: MuscleGroup) =>
+    workouts.reduce(
+      (total, workout, index) =>
+        total +
+        (occurrences[index] ?? 0) *
+          workout.items.reduce(
+            (sum, item) =>
+              sum + (byId.get(item.exercise_id)?.primary.includes(group) ? item.sets : 0),
+            0,
+          ),
+      0,
+    );
+  return ALL_GROUPS.filter((group) => setsOf(group) > 0 || LARGE_GROUPS.has(group)).map((group) => {
+    const { min, max } = volumeReference(group, goal, experience);
+    const sets = setsOf(group);
+    const status: "low" | "ok" | "high" = sets < min ? "low" : sets > max ? "high" : "ok";
+    return { group, sets, min, max, status };
+  });
 }

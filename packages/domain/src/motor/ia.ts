@@ -13,9 +13,13 @@ import {
   compareForSelection,
   eligibilityContext,
   exclusionReason,
+  prescribe,
+  weeklyVolumeOf,
   type GeneratedWorkout,
+  type GeneratorAi,
   type MotorExercise,
   type MotorProfile,
+  type MotorResult,
 } from "./index.ts";
 
 const MAX_OPTIONS = 6;
@@ -275,4 +279,94 @@ export function validateAiReply(raw: unknown, request: AiRequest): AiReply {
     return { ok: false, problem: "forbidden_text" };
   }
   return { ok: true, swaps, reasons, summary };
+}
+
+// ---------- Resultado (RN-060, RN-062) ----------
+
+type Generated = Extract<MotorResult, { readonly status: "generated" }>;
+
+/** Texto da resposta do Workers AI, nos formatos que os modelos usam. */
+export function workersAiReplyContent(body: unknown): unknown {
+  const result = (body as { result?: Record<string, unknown> }).result;
+  if (result === undefined) return undefined;
+  if (result.response !== undefined) return result.response;
+  const choices = result.choices as { message?: { content?: unknown } }[] | undefined;
+  return choices?.[0]?.message?.content;
+}
+
+/** Rascunho só do motor, dizendo por quê (RN-062). */
+export function motorOnlyReport(
+  result: Generated,
+  fallback: NonNullable<GeneratorAi["fallback"]>,
+): Generated {
+  return {
+    ...result,
+    report: {
+      ...result.report,
+      ai: { source: "motor", model: null, fallback, summary: null, reasons: [], swaps: [] },
+    },
+  };
+}
+
+/**
+ * Aplica as trocas validadas. Segunda barreira: confere de novo a elegibilidade de cada exercício do
+ * resultado; se algo não bater, devolve `null` e vale o motor (CA-402). Séries e descanso continuam
+ * os do motor; a medida acompanha o novo exercício. Nunca há carga sugerida (RN-026).
+ */
+export function applyAiReply(input: {
+  readonly result: Generated;
+  readonly reply: Extract<AiReply, { readonly ok: true }>;
+  readonly profile: MotorProfile;
+  readonly catalog: readonly MotorExercise[];
+  readonly referenceDate: string;
+  readonly model: string;
+}): Generated | null {
+  const { result, reply, profile, catalog, referenceDate, model } = input;
+  const ctx = eligibilityContext(profile, referenceDate);
+  const { goal, days_per_week: days } = profile;
+  if (ctx === null || goal === null || days === null) return null;
+  const byId = new Map(catalog.map((e) => [e.id, e]));
+  const swaps: GeneratorAi["swaps"][number][] = [];
+  const workouts = result.program.workouts.map((workout, workoutIndex) => ({
+    ...workout,
+    items: workout.items.map((item, itemIndex) => {
+      const swap = reply.swaps.find(
+        (s) => s.workout_index === workoutIndex && s.item_index === itemIndex,
+      );
+      const next = swap && byId.get(swap.exercise_id);
+      if (!swap || !next) return item;
+      swaps.push({
+        workout: workout.name,
+        from: byId.get(item.exercise_id)?.name ?? "",
+        to: next.name,
+        reason: swap.reason,
+      });
+      const prescribed = prescribe(next, goal, ctx.experience, ctx.age);
+      return prescribed.measure_type === item.measure_type
+        ? { ...item, exercise_id: next.id, notes: prescribed.notes }
+        : { ...prescribed, sets: item.sets, rest_s: item.rest_s };
+    }),
+  }));
+  for (const workout of workouts) {
+    for (const item of workout.items) {
+      const exercise = byId.get(item.exercise_id);
+      if (exercise === undefined || exclusionReason(exercise, ctx) !== null) return null;
+    }
+  }
+  return {
+    ...result,
+    program: { ...result.program, workouts },
+    report: {
+      ...result.report,
+      weekly_volume: weeklyVolumeOf(workouts, catalog, goal, ctx.experience, days),
+      ai: {
+        source: "motor+ia",
+        model,
+        fallback: null,
+        summary: reply.summary,
+        reasons: reply.reasons,
+        swaps,
+      },
+    },
+  };
 }

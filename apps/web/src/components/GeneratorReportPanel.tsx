@@ -29,7 +29,7 @@ function reasonText(reason: ExclusionReason): string {
 // TELA-051 (RF-023, CA-023): premissas, exclusões com motivo e vagas não preenchidas do rascunho
 // gerado, em linguagem simples, com o aviso de RN-030.
 export function GeneratorReportPanel({ report }: { report: GeneratorReport }) {
-  const { inputs } = report;
+  const { inputs, ai } = report;
   const health = report.excluded.filter((e) => e.reason.kind !== "equipment");
   const equipment = report.excluded.filter((e) => e.reason.kind === "equipment");
   const unfilled = report.unfilled_slots.filter((s) => !s.optional);
@@ -50,6 +50,34 @@ export function GeneratorReportPanel({ report }: { report: GeneratorReport }) {
   return (
     <section className={styles.stack} aria-label={T.title}>
       <Banner tone="info">{TEXTS.generate.notice}</Banner>
+      {ai?.source === "motor" ? (
+        <p className={styles.muted}>{T.aiFallback[ai.fallback ?? "unavailable"]}</p>
+      ) : null}
+      {ai?.source === "motor+ia" && ai.summary !== null ? (
+        <div className={styles.stack}>
+          <p>{ai.summary}</p>
+          {ai.reasons.length > 0 ? (
+            <ul className={styles.steps}>
+              {ai.reasons.map((reason) => (
+                <li key={reason}>{reason}</li>
+              ))}
+            </ul>
+          ) : null}
+          {ai.swaps.length > 0 ? (
+            <>
+              <h3 className={styles.sectionLabel}>{T.aiSwaps}</h3>
+              <ul className={styles.steps}>
+                {ai.swaps.map((swap, index) => (
+                  <li key={index}>
+                    {swap.workout}: {swap.from} → {swap.to}. {swap.reason}
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
+          <p className={styles.muted}>{T.aiNotice}</p>
+        </div>
+      ) : null}
       {report.warnings.map((warning) => (
         <Banner key={warning} tone="warning">
           {warning}
