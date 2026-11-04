@@ -53,6 +53,7 @@ export interface RunResult {
   readonly neurons: number;
   readonly summary: string;
   readonly reasons: readonly string[];
+  readonly swap_reasons?: readonly string[];
   /** Diagnóstico de resposta descartada: só dados fictícios, e fora do Git. */
   readonly output_tokens?: number;
   readonly raw_start?: string;
@@ -189,6 +190,7 @@ export async function runOne(
     neurons: Math.round(neuronsOf(model, body) * 10) / 10,
     summary: reply.ok ? reply.summary : "",
     reasons: reply.ok ? reply.reasons : [],
+    swap_reasons: reply.ok ? reply.swaps.map((s) => `${s.exercise_id}: ${s.reason}`) : [],
     output_tokens:
       (body as { result?: { usage?: { completion_tokens?: number } } }).result?.usage
         ?.completion_tokens ?? 0,
@@ -221,7 +223,15 @@ export function renderReport(results: readonly RunResult[]): string {
     lines.push(
       `### ${row.model} · ${row.profile}${row.ok ? "" : ` · descartada: ${row.problem ?? ""}`}`,
     );
-    if (row.ok) lines.push("", row.summary, "", ...row.reasons.map((r) => `- ${r}`));
+    if (row.ok) {
+      lines.push(
+        "",
+        row.summary,
+        "",
+        ...row.reasons.map((r) => `- ${r}`),
+        ...(row.swap_reasons ?? []).map((r) => `- Troca para ${r}`),
+      );
+    }
     lines.push("");
   }
   return lines.join("\n");

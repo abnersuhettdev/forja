@@ -74,6 +74,8 @@ describe("pedido à IA (RN-061, CA-404)", () => {
     expect(text).not.toContain("1992-01-15");
     expect(text).toContain("30 a 39");
     expect(ageBand(65)).toBe("60 ou mais");
+    expect(text).toContain("Hipertrofia");
+    expect(text).not.toMatch(/hypertrophy|intermediate|barbell/u);
   });
 
   it("só oferece opções elegíveis para as restrições", () => {
@@ -133,11 +135,9 @@ describe("resposta da IA (RN-060, CA-402)", () => {
       problem: "too_many_swaps",
     });
     const sibling = request.slots.find(
-      (s) =>
-        s.key !== slot.key &&
-        s.workout_index === slot.workout_index &&
-        s.options.some((o) => o.code === option.code),
+      (s) => s.key !== slot.key && s.options.some((o) => o.code === option.code),
     );
+    expect(sibling).toBeDefined();
     if (sibling) {
       expect(
         validateAiReply(
@@ -152,10 +152,39 @@ describe("resposta da IA (RN-060, CA-402)", () => {
     ["carga (RN-026)", "Use 40 kg no supino."],
     ["diagnóstico (RN-030)", "Isso parece uma tendinite."],
     ["remédio (RN-030)", "Tome um anti-inflamatório."],
+    ["promessa de proteção", "Ajustes para proteger o ombro."],
+    ["promessa de segurança", "Foco em estabilidade e segurança."],
+    ["lesão", "Ajuda a evitar lesões."],
+    ["região do corpo", "Reduzir carga na região lombar."],
+    ["joelho", "Menos esforço no joelho."],
+    ["dor", "Reduz a dor."],
+    ["desconforto", "A rotina pode causar desconforto."],
+    ["articulações", "Menor impacto nas articulações."],
+    ["termo técnico", "Ajustes de biomecânica."],
+    ["código em inglês", "Bom para o nível intermediate."],
   ])("descarta texto proibido: %s", (_name, resumo) => {
     expect(validateAiReply(reply([], { resumo }), request)).toEqual({
       ok: false,
       problem: "forbidden_text",
+    });
+  });
+
+  it("não confunde palavras comuns com termos proibidos", () => {
+    for (const resumo of [
+      "Com 4 dias por semana, a rotina alterna superior e inferior.",
+      "Dorsais e peitoral têm a mesma atenção para o objetivo de hipertrofia.",
+      "A ênfase em glúteos aumentou as séries desse grupo.",
+    ]) {
+      expect(validateAiReply(reply([], { resumo }), request).ok).toBe(true);
+    }
+  });
+
+  it("descarta troca sem motivo", () => {
+    expect(
+      validateAiReply(reply([{ vaga: slot.key, para: option.code, motivo: " " }]), request),
+    ).toEqual({
+      ok: false,
+      problem: "bad_format",
     });
   });
 
