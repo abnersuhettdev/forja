@@ -16,6 +16,7 @@ test-results/
 age-*.txt
 
 # Ferramentas locais
+.ia-prova/
 supabase/.temp/
 .DS_Store
 Thumbs.db

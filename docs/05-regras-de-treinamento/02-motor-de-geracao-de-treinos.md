@@ -212,6 +212,8 @@ Um componente futuro de IA poderá **propor ajustes** ao rascunho gerado, recebe
 
 Na 1.2 esse componente é o Cloudflare Workers AI. Diferenças em relação ao texto acima: além do perfil e dos elegíveis, recebe os dados de ADR-093; devolve ajustes e motivos em linguagem simples; sem IA, sem cota ou com resposta inválida, vale o rascunho do motor (RN-062). A publicação é o toque da própria pessoa. **O motor continua sem sugerir cargas (§1).** A determinação de §2 vale para o motor; a resposta da IA não é determinística, por isso o relatório registra o modelo usado e se o rascunho final é só do motor.
 
+**Contrato (`@forja/domain/motor/ia`, V12-05):** o pedido leva o perfil em faixa de idade, os treinos e, para cada exercício, até 6 opções elegíveis do mesmo padrão com grupo primário em comum, identificadas por códigos que valem só naquele pedido. Observações vão como dado, e o pedido manda não seguir instruções escritas nelas. A resposta traz até 4 trocas, motivos e resumo. Resposta fora do formato, com exercício fora das opções, carga em número, termo de diagnóstico ou texto longo demais é descartada inteira (RN-060, RN-062). Essa checagem de texto é uma barreira simples, não prova que o texto está certo.
+
 ## Critérios de conclusão
 
 - [x] Os 10 passos especificados de forma determinística e testável.

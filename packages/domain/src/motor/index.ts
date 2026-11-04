@@ -273,7 +273,7 @@ const FAMILY_ORDER: Readonly<Record<"beginner" | "other", readonly EquipmentFami
 
 const compareCodes = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
-function compareForSelection(
+export function compareForSelection(
   a: MotorExercise,
   b: MotorExercise,
   experience: ExperienceLevel,
