@@ -70,7 +70,7 @@ function assertNotFuture(localDate: string, timeZone: string, now: Date, field: 
 const PROFILE_COLUMNS = `student_id, goal, goal_weight_kg::float8 as goal_weight_kg,
   experience_level, activity_level, days_per_week, minutes_per_session, preferred_weekdays,
   training_location, equipment_codes, restrictions_declared, restriction_codes,
-  restrictions_note, preferences_note, review_recommended_since, revision`;
+  restrictions_note, preferences_note, emphasis_groups, review_recommended_since, revision`;
 
 // ---------- API-002 onboarding.complete ----------
 

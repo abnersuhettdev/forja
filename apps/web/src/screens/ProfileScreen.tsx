@@ -3,6 +3,9 @@ import { ClipboardPlus, Pencil } from "lucide-react";
 import {
   ACTIVITY_LABELS,
   ACTIVITY_LEVELS,
+  type MuscleGroup,
+  MUSCLE_GROUP_LABELS,
+  MUSCLE_GROUPS,
   EQUIPMENT,
   EQUIPMENT_LABELS,
   EXPERIENCE_LABELS,
@@ -43,7 +46,14 @@ const T = TEXTS.profile;
 const O = TEXTS.onboarding;
 
 type SectionKey =
-  "personal" | "goal" | "experience" | "availability" | "location" | "restrictions" | "preferences";
+  | "personal"
+  | "goal"
+  | "experience"
+  | "availability"
+  | "location"
+  | "restrictions"
+  | "preferences"
+  | "emphasis";
 
 type State =
   | { readonly status: "loading" }
@@ -186,6 +196,7 @@ export function ProfileScreen() {
         </p>,
       )}
       {section("preferences", T.preferences, <p>{value(profile.preferences_note)}</p>)}
+      {section("emphasis", T.emphasis, <p>{list(profile.emphasis_groups, MUSCLE_GROUP_LABELS)}</p>)}
 
       <section className={styles.details} aria-labelledby="perfil-avaliacoes">
         <h2 id="perfil-avaliacoes" className={styles.sectionLabel}>
@@ -242,6 +253,7 @@ function sectionTitle(key: SectionKey): string {
     location: T.location,
     restrictions: T.restrictions,
     preferences: T.preferences,
+    emphasis: T.emphasis,
   }[key];
 }
 
@@ -275,6 +287,7 @@ function SectionForm({
     restrictions: profile.restriction_codes ?? [],
     restrictionsNote: profile.restrictions_note ?? "",
     preferences: profile.preferences_note ?? "",
+    emphasis: profile.emphasis_groups ?? [],
   });
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -325,6 +338,8 @@ function SectionForm({
       }
       case "preferences":
         return { profile: { preferences_note: emptyToNull(form.preferences) } };
+      case "emphasis":
+        return { profile: { emphasis_groups: form.emphasis.length > 0 ? form.emphasis : null } };
     }
   }
 
@@ -508,6 +523,21 @@ function SectionForm({
             />
           )}
         </FormField>
+      </>
+    ),
+    emphasis: (
+      <>
+        <ChoiceGroup<MuscleGroup>
+          legend={T.emphasisLegend}
+          multiple
+          layout="row"
+          options={MUSCLE_GROUPS.map((v) => ({ value: v, label: MUSCLE_GROUP_LABELS[v] }))}
+          value={form.emphasis}
+          onChange={(emphasis) => {
+            set({ emphasis });
+          }}
+        />
+        <p className={styles.muted}>{T.emphasisHelp}</p>
       </>
     ),
     preferences: (

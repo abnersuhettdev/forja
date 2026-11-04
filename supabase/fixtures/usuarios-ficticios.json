@@ -162,6 +162,18 @@
       "senha": "Ficticia-pwa-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "gerador.chromium@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "gerador.webkit@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

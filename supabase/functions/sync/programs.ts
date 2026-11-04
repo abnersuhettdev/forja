@@ -85,6 +85,11 @@ export const draftCreate: OperationHandler = async (tx, ctx) => {
   let name = payload.name ?? "Meu programa";
   let splitType: string | null = null;
   let workouts: DraftForIssues["workouts"] = [];
+  if (payload.source === "generated" && payload.generated) {
+    // RF-021: nasce como rascunho; publicar continua sendo ação da pessoa (RN-009).
+    splitType = payload.generated.split_type;
+    workouts = payload.generated.workouts;
+  }
   if (payload.source === "from_version") {
     // RF-027: rascunho idêntico à versão de origem, com novos identificadores.
     const [origin] = await tx<VersionRow[]>`
@@ -134,10 +139,13 @@ export const draftCreate: OperationHandler = async (tx, ctx) => {
 
   await tx`
     insert into public.program_versions
-      (id, program_id, student_id, status, name, split_type, origin, created_from_version_id)
+      (id, program_id, student_id, status, name, split_type, origin, generator_report,
+       created_from_version_id)
     values
       (${ctx.entityId}, ${program.id}, ${payload.student_id}, 'draft', ${name}, ${splitType},
-       'manual', ${payload.source === "from_version" ? (payload.from_version_id ?? null) : null})`;
+       ${payload.source === "generated" ? "generated" : "manual"},
+       ${payload.generated ? tx.json(payload.generated.report as never) : null},
+       ${payload.source === "from_version" ? (payload.from_version_id ?? null) : null})`;
   await insertDocument(tx, ctx.entityId, workouts);
   return { revision: 1 };
 };

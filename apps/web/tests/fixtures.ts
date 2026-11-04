@@ -50,4 +50,6 @@ export const evolutionUser = (browserName: string) => user(`evolucao.${browserNa
 /** Aluno com dados em todas as telas, para as verificações de qualidade (um por navegador). */
 export const qualityUser = (browserName: string) => user(`qualidade.${browserName}@exemplo.test`);
 /** Aluno das verificações do app instalável no build de produção (TAR-006; só Chromium). */
+/** Aluno dos testes de geração de treino (um por navegador). */
+export const generatorUser = (browserName: string) => user(`gerador.${browserName}@exemplo.test`);
 export const pwaUser = () => user("pwa.chromium@exemplo.test");

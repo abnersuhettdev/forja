@@ -6,14 +6,31 @@ import { RANGES } from "../ranges.ts";
 import { programDraftSchema, workoutItemSchema } from "./schemas.ts";
 
 const id = z.uuid();
+const MAX_REPORT_LENGTH = 100_000;
 
 /** API-016 `draft.create` (entity_id = id da nova versão rascunho). */
 export const draftCreatePayloadSchema = z
   .strictObject({
     student_id: id,
-    source: z.enum(["empty", "from_version"]),
+    source: z.enum(["empty", "from_version", "generated"]),
     from_version_id: id.optional(),
     name: z.string().trim().min(1).max(80).optional(),
+    // RF-021: rascunho completo do motor, com o relatório (`generator_report`).
+    generated: z
+      .strictObject({
+        split_type: programDraftSchema.shape.split_type,
+        workouts: programDraftSchema.shape.workouts,
+        report: z
+          .record(z.string(), z.unknown())
+          .refine((report) => JSON.stringify(report).length <= MAX_REPORT_LENGTH, {
+            message: "Relatório grande demais.",
+          }),
+      })
+      .optional(),
+  })
+  .refine((p) => p.source !== "generated" || p.generated !== undefined, {
+    message: "Informe o rascunho gerado.",
+    path: ["generated"],
   })
   .refine((p) => p.source !== "from_version" || p.from_version_id !== undefined, {
     message: "Informe a versão de origem.",

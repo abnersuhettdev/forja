@@ -66,6 +66,13 @@ export const trainingProfileSchema = z.object({
   restriction_codes: z.array(z.enum(RESTRICTIONS)).nullable(),
   restrictions_note: text(500).nullable(),
   preferences_note: text(500).nullable(),
+  // RN-064: ênfase em músculo ou área (versão 1.2). Opcional para não exigir de quem já enviou.
+  emphasis_groups: z
+    .array(z.enum(MUSCLE_GROUPS))
+    .max(3)
+    .refine((list) => new Set(list).size === list.length, { message: "Valor repetido." })
+    .nullable()
+    .optional(),
   reassessment_interval_days: z.number().int().min(7).max(90),
   reassessment_snooze_until: localDate.nullable(),
   revision,

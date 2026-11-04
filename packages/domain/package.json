@@ -6,6 +6,7 @@
   "type": "module",
   "exports": {
     ".": "./src/index.ts",
+    "./motor": "./src/motor/index.ts",
     "./validacao": "./src/validacao/index.ts"
   },
   "dependencies": {

@@ -113,6 +113,19 @@ Calcular séries semanais por grupo muscular **primário**, considerando a rota�
 
 Criar o rascunho (`draft.create`, origem `generated`) e abrir o editor (TELA-031) com o painel do relatório (TELA-051). Publicar exige ação humana (RN-009); versões anteriores continuam preservadas (RN-004).
 
+## 3A. Implementação (V12-07, 2026-11-04)
+
+Em `packages/domain/src/motor/`, ponto de entrada `@forja/domain/motor`, fora do JS inicial. Pontos que TRN-02 não fixava, decididos por Claude e **a confirmar pelo usuário**:
+
+- **Vagas e tempo:** vaga que não cabe no tempo é pulada e as seguintes ainda podem entrar; se a vaga era obrigatória, vai ao relatório com o motivo "tempo".
+- **Ênfase (RN-064):** até 3 grupos. Em cada treino do tipo certo, entra um exercício a mais do grupo, tirando se preciso o último opcional de outro grupo, o que o relatório avisa; depois, uma série a mais nos itens do grupo. Tudo limitado pelo teto semanal de §5.2, pelo tempo e por 9 itens.
+- **Duração (§3, Passo 8):** o item guarda um único valor, por isso recebe o início da faixa (20 ou 30 s), e a observação indica até onde avançar.
+- **Família do equipamento (TRN-03 §6):** máquina e Smith são "guiado"; peso corporal e elástico vêm antes de barra, por isso a remada invertida conta como peso corporal.
+- **Tipo de divisão:** Empurrar/Puxar/Pernas de 3 dias grava `abc`; os de 5 e 6 dias gravam `other`, porque a tabela não tem outro valor.
+- **Motor no aparelho:** nesta etapa roda no app; a V12-08 o leva ao servidor, junto da IA.
+
+**Divergência em aberto (PLN-01, regra 4):** CT-GER-02 pede peitoral, costas e pernas em 10–20 séries semanais, mas as vagas de §3 dão, no perfil desse caso, peitoral 6, posteriores 9, dorsais 6 e parte alta das costas 6 (costas somadas: 12). O motor segue as vagas e o relatório sinaliza o que ficou abaixo. Ajustar as vagas ou o caso depende do usuário.
+
 ## 4. Relatório do gerador (`generator_report`)
 
 ```json

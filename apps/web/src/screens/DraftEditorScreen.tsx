@@ -43,6 +43,7 @@ import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import { formatTime } from "./ProgramScreen.tsx";
+import { GeneratorReportPanel } from "../components/GeneratorReportPanel.tsx";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.editor;
@@ -288,6 +289,7 @@ function Editor({
     <div className={styles.stack}>
       {readOnly ? <Banner tone="info">{TEXTS.program.offline}</Banner> : null}
       {error !== null ? <Banner tone="danger">{error}</Banner> : null}
+      {draft.generator_report ? <GeneratorReportPanel report={draft.generator_report} /> : null}
       <p className={styles.muted} role="status">
         {status}
         {save.kind === "conflict" ? (

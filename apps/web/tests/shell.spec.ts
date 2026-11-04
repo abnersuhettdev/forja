@@ -18,6 +18,7 @@ const ROUTES = [
   "/conta/sincronizacao",
   "/conta/instalar",
   "/gestao/programa",
+  "/gestao/programa/gerar",
   "/gestao/programa/rascunho",
   "/gestao/catalogo",
   "/gestao/catalogo/novo",

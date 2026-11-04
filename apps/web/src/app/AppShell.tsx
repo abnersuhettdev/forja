@@ -44,6 +44,10 @@ const ExerciseFormScreen = onlineScreen(
   () => import("../screens/ExerciseFormScreen.tsx"),
   "ExerciseFormScreen",
 );
+const GenerateScreen = onlineScreen(
+  () => import("../screens/GenerateScreen.tsx"),
+  "GenerateScreen",
+);
 const ProfileScreen = onlineScreen(() => import("../screens/ProfileScreen.tsx"), "ProfileScreen");
 const AssessmentScreen = onlineScreen(
   () => import("../screens/AssessmentScreen.tsx"),
@@ -74,6 +78,7 @@ const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-014": ExerciseScreen,
   "TELA-030": ProgramScreen,
   "TELA-031": DraftEditorScreen,
+  "TELA-051": GenerateScreen,
   "TELA-034": CatalogScreen,
   "TELA-037": ProfileScreen,
   "TELA-038": AssessmentScreen,

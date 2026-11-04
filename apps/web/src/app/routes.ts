@@ -85,6 +85,13 @@ export const ROUTES: readonly RouteDefinition[] = [
     task: "TAR-016",
   },
   {
+    pattern: "/gestao/programa/gerar",
+    screen: "TELA-051",
+    title: "Gerar treino",
+    area: "gestao",
+    task: "TAR-032",
+  },
+  {
     pattern: "/gestao/programa/rascunho",
     screen: "TELA-031",
     title: "Editor de programa",

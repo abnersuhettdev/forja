@@ -32,6 +32,13 @@ describe("pontos de entrada do domínio (PR-DES-03)", () => {
     expect(closure.size).toBeGreaterThan(10);
   });
 
+  it("o motor fica fora do ponto de entrada principal e não alcança o Zod (SEG-04 §1)", () => {
+    const main = runtimeClosure(join(SRC, "index.ts"));
+    expect([...main.keys()].filter((file) => file.includes("motor"))).toEqual([]);
+    const motor = runtimeClosure(join(SRC, "motor/index.ts"));
+    expect([...motor].filter(([, specs]) => specs.includes("zod"))).toEqual([]);
+  });
+
   it("a validação continua com o Zod (o teste acima não é vazio por engano)", () => {
     const closure = runtimeClosure(join(SRC, "validacao/index.ts"));
     expect([...closure].some(([, specs]) => specs.includes("zod"))).toBe(true);

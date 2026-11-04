@@ -2,6 +2,7 @@
 // nunca recebe rascunhos (RN-005); o gestor recebe os dois.
 import type { DataClient } from "../auth/data-client.ts";
 import type { MeasureType, SplitType } from "@forja/domain";
+import type { GeneratorReport } from "@forja/domain/motor";
 import type { EditorDocument } from "./editor.ts";
 
 export interface VersionView {
@@ -11,6 +12,7 @@ export interface VersionView {
   readonly version_number: number | null;
   readonly published_at: string | null;
   readonly updated_at: string;
+  readonly generator_report?: GeneratorReport | null;
   readonly document: EditorDocument;
 }
 
@@ -40,12 +42,13 @@ export interface VersionRow {
   version_number: number | null;
   published_at: string | null;
   updated_at: string;
+  generator_report?: GeneratorReport | null;
   name: string;
   split_type: SplitType | null;
   workouts: { id: string; position: number; name: string; workout_items: ItemRow[] }[];
 }
 
-export const VERSION_SELECT = `id, status, revision, version_number, published_at, updated_at, name, split_type,
+export const VERSION_SELECT = `id, status, revision, version_number, published_at, updated_at, generator_report, name, split_type,
   workouts(id, position, name, workout_items(id, position, exercise_id, measure_type, sets,
     reps_min, reps_max, duration_s, rest_s, suggested_load_kg, notes))`;
 
@@ -57,6 +60,7 @@ export function toVersionView(row: VersionRow): VersionView {
     version_number: row.version_number,
     published_at: row.published_at,
     updated_at: row.updated_at,
+    generator_report: row.generator_report ?? null,
     document: {
       name: row.name,
       split_type: row.split_type,

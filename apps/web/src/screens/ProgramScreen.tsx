@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ClipboardList, Pencil, Plus } from "lucide-react";
+import { ClipboardList, Pencil, Plus, Sparkles } from "lucide-react";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { Button } from "../components/Button.tsx";
 import { Dialog } from "../components/Dialog.tsx";
@@ -99,6 +99,19 @@ export function ProgramScreen() {
     await reload();
   }
 
+  // RF-021: gerar é a alternativa a montar à mão; o resultado é só um rascunho (RN-009).
+  const generateButton = (
+    <Button
+      icon={<Sparkles size={20} />}
+      disabled={!online}
+      onClick={() => {
+        navigate("/gestao/programa/gerar");
+      }}
+    >
+      {T.generate}
+    </Button>
+  );
+
   return (
     <div className={styles.stack}>
       {!online ? <Banner tone="info">{T.offline}</Banner> : null}
@@ -166,6 +179,7 @@ export function ProgramScreen() {
               {T.edit}
             </Button>
           )}
+          {draft ? null : generateButton}
         </section>
       ) : draft ? null : (
         <EmptyState
@@ -173,15 +187,18 @@ export function ProgramScreen() {
           title={T.none}
           description={T.noneHint}
           action={
-            <Button
-              variant="primary"
-              icon={<Plus size={20} />}
-              loading={busy}
-              disabled={!online}
-              onClick={() => void startDraft()}
-            >
-              {T.create}
-            </Button>
+            <div className={styles.stack}>
+              <Button
+                variant="primary"
+                icon={<Plus size={20} />}
+                loading={busy}
+                disabled={!online}
+                onClick={() => void startDraft()}
+              >
+                {T.create}
+              </Button>
+              {generateButton}
+            </div>
           }
         />
       )}

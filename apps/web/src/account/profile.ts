@@ -6,6 +6,7 @@ import type {
   Equipment,
   ExperienceLevel,
   Goal,
+  MuscleGroup,
   Restriction,
   Sex,
   TrainingLocation,
@@ -34,6 +35,7 @@ export interface StudentProfile {
     readonly restriction_codes: Restriction[] | null;
     readonly restrictions_note: string | null;
     readonly preferences_note: string | null;
+    readonly emphasis_groups: MuscleGroup[] | null;
     readonly review_recommended_since: string | null;
     readonly revision: number;
   };
@@ -53,7 +55,7 @@ export async function fetchStudentProfile(
     supabase
       .from("training_profiles")
       .select(
-        "goal, goal_weight_kg, experience_level, activity_level, days_per_week, minutes_per_session, preferred_weekdays, training_location, equipment_codes, restrictions_declared, restriction_codes, restrictions_note, preferences_note, review_recommended_since, revision",
+        "goal, goal_weight_kg, experience_level, activity_level, days_per_week, minutes_per_session, preferred_weekdays, training_location, equipment_codes, restrictions_declared, restriction_codes, restrictions_note, preferences_note, emphasis_groups, review_recommended_since, revision",
       )
       .eq("student_id", studentId)
       .single<StudentProfile["profile"]>(),
