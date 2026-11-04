@@ -35,6 +35,12 @@ export const MODELS = {
 } as const;
 export type ModelKey = keyof typeof MODELS;
 
+/** Reduz o raciocínio, que consome o limite de tokens. A documentação não detalha estes campos. */
+const EXTRA_PARAMETERS: Partial<Record<ModelKey, Record<string, unknown>>> = {
+  gemma: { chat_template_kwargs: { enable_thinking: false } },
+  gptoss: { reasoning_effort: "low" },
+};
+
 export interface RunResult {
   readonly model: ModelKey;
   readonly profile: string;
@@ -47,6 +53,10 @@ export interface RunResult {
   readonly neurons: number;
   readonly summary: string;
   readonly reasons: readonly string[];
+  /** Diagnóstico de resposta descartada: só dados fictícios, e fora do Git. */
+  readonly output_tokens?: number;
+  readonly raw_start?: string;
+  readonly raw_end?: string;
 }
 
 const toMotor = (): MotorExercise[] =>
@@ -147,10 +157,12 @@ export async function runOne(
       body: JSON.stringify({
         messages: [
           { role: "system", content: request.system },
-          { role: "user", content: request.user },
+          // O Qwen gasta o limite de tokens raciocinando, e a resposta vem vazia, sem este comando.
+          { role: "user", content: model === "qwen" ? `${request.user} /no_think` : request.user },
         ],
         max_tokens: MAX_TOKENS,
         temperature: 0.2,
+        ...EXTRA_PARAMETERS[model],
       }),
     },
   );
@@ -161,7 +173,9 @@ export async function runOne(
     return "failed";
   }
   const body: unknown = await response.json();
-  const reply = validateAiReply(replyText(body), request);
+  const content = replyText(body);
+  const reply = validateAiReply(content, request);
+  const rawText = typeof content === "string" ? content : JSON.stringify(content);
   const text = reply.ok ? [reply.summary, ...reply.reasons].join(" ") : "";
   return {
     model,
@@ -175,6 +189,10 @@ export async function runOne(
     neurons: Math.round(neuronsOf(model, body) * 10) / 10,
     summary: reply.ok ? reply.summary : "",
     reasons: reply.ok ? reply.reasons : [],
+    output_tokens:
+      (body as { result?: { usage?: { completion_tokens?: number } } }).result?.usage
+        ?.completion_tokens ?? 0,
+    ...(reply.ok ? {} : { raw_start: rawText.slice(0, 400), raw_end: rawText.slice(-300) }),
   };
 }
 

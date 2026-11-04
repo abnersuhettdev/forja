@@ -106,6 +106,17 @@ flowchart LR
 
 Os valores são contas sobre a tabela de preços; precisam de medição. A escolha sai da **prova de qualidade** (V12-05): 20 perfis fictícios, avaliando em português, formato, respeito às restrições, equilíbrio do treino e custo. Se nenhum modelo gratuito passar, o usuário decide entre pagar ou manter só as regras.
 
+**Primeira rodada da prova (2026-11-04, 20 perfis fictícios por modelo, sem observações reais):**
+
+| Modelo | Respostas válidas | Trocas fora das opções | Neurônios por geração | Gerações por dia | Tempo médio |
+|---|---|---|---|---|---|
+| `gemma-4-26b-a4b-it` | 19 de 20 | 1 | 22 | ~460 | 3,8 s |
+| `qwen3-30b-a3b-fp8` | 13 de 20 | 3 | 16 | ~620 | 1,9 s |
+| `gpt-oss-20b` | 15 de 20 | 0 | 42 | ~235 | 5,0 s |
+| `llama-3.3-70b-instruct-fp8-fast` | 17 de 20 | 3 | 71 | ~140 | 2,8 s |
+
+As respostas fora das regras foram descartadas pela validação, e nenhuma troca para exercício restrito passou. Na tentativa de instrução nas observações, nenhum modelo repetiu os 100 kg. **Nenhum modelo passou na leitura dos textos.** Os textos são genéricos, e o Gemma, o melhor em formato, usou o máximo de 4 trocas em 18 de 19 respostas e prometeu proteção à saúde em 9 de 19 ("proteger o ombro", "foco em segurança"), o que a validação atual não barra e RN-030 não permite. A contagem de português é uma heurística simples; a leitura foi de Claude e falta a do usuário. Decisão pendente: ver GOV-02.
+
 **Limitações conhecidas do Workers AI:** a página de limites não informa onde o processamento ocorre (REG-06), e a documentação de uso de dados não fala em revisão humana. Confirmar antes de usar com terceiros.
 
 ### 3.5 Acompanhamento por IA (TAR-V12-09)
@@ -129,7 +140,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | V12-02 | Novo login; design das telas principais | V12-01 | Grande. **Login feito** (2026-11-04); telas principais a fazer |
 | V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio. **Feito no local** (2026-11-04) |
 | V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio |
-| V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno. **Preparada** (2026-11-04): contrato, validação e `pnpm ia:prova` prontos e testados sem rede; falta o token e rodar |
+| V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno. **Primeira rodada feita** (2026-11-04), ver §3.4: nenhum modelo passou na leitura dos textos; falta decisão do usuário |
 | V12-06 | TAR-031: contraindicações | — | Médio. **Feito no local** (2026-11-04) |
 | V12-07 | TAR-032: motor de regras | V12-06 | Grande. **Feito no local** (2026-11-04); falta a revisão pelo usuário com o próprio perfil |
 | V12-08 | IA sobre o motor: função, validação, cota, tela de geração | V12-05, V12-07 | Grande |
