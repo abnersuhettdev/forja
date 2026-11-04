@@ -84,7 +84,7 @@ Ordem = prioridade. Vagas marcadas com * são opcionais (entram se houver tempo)
 | Empurrar | `h_push` · `v_push` · `h_push` (variação) · `shoulder_iso` · `elbow_ext` · `chest_iso`* · `elbow_ext` (variação)* |
 | Puxar | `v_pull` · `h_pull` · `h_pull` (variação) · `shoulder_iso` (posterior)* · `elbow_flex` · `elbow_flex` (variação)* · `carry_grip`* |
 | Pernas | `squat` · `hinge` · `lunge` · `knee_flex` · `knee_ext`* · `calf` · `core_stability`* · `hip_abd_add`* |
-| Superior | `h_push` · `h_pull` · `v_push` · `v_pull` · `elbow_flex`* · `elbow_ext`* · `shoulder_iso`* |
+| Superior | `h_push` · `h_pull` · `v_push` · `v_pull` · `chest_iso`* · `elbow_flex`* · `elbow_ext`* · `shoulder_iso`* (no segundo Superior da semana, `elbow_ext` antes de `elbow_flex`) |
 | Inferior | `squat` · `hinge` · `lunge` · `knee_flex`* · `knee_ext`* · `calf`* · `core_stability`* |
 
 Nos dois primeiros dias de corpo inteiro (A e B), as vagas alternam ênfase: B troca `squat`→`lunge`/`hinge` principal e `h_push`→`v_push`, para variar estímulos.
@@ -124,7 +124,7 @@ Em `packages/domain/src/motor/`, ponto de entrada `@forja/domain/motor`, fora do
 - **Tipo de divisão:** Empurrar/Puxar/Pernas de 3 dias grava `abc`; os de 5 e 6 dias gravam `other`, porque a tabela não tem outro valor.
 - **Motor no aparelho:** nesta etapa roda no app; a V12-08 o leva ao servidor, junto da IA.
 
-**Divergência em aberto (PLN-01, regra 4):** CT-GER-02 pede peitoral, costas e pernas em 10–20 séries semanais, mas as vagas de §3 dão, no perfil desse caso, peitoral 6, posteriores 9, dorsais 6 e parte alta das costas 6 (costas somadas: 12). O motor segue as vagas e o relatório sinaliza o que ficou abaixo. Ajustar as vagas ou o caso depende do usuário.
+**Volume (decisão do usuário, 2026-11-04):** o caso CT-GER-02 pedia peitoral em 10–20 séries, e as vagas davam 6. O treino Superior ganhou `chest_iso`, e o peitoral foi a 12. Com 60 minutos, bíceps e tríceps se alternam entre os dois treinos Superior, com 3 séries semanais diretas de cada, abaixo da referência de 6, o que o relatório sinaliza. Posteriores ficam em 9, abaixo dos 10 do caso, também sinalizado.
 
 ## 4. Relatório do gerador (`generator_report`)
 
@@ -217,3 +217,4 @@ Na 1.2 esse componente é o Cloudflare Workers AI. Diferenças em relação ao t
 | 2026-10-26 | Conteúdo completo (Etapa 5). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 5). |
 | 2026-11-04 | Versão 1.2: IA sobre o motor e ênfase (ADR-093). |
+| 2026-11-04 | Vaga de peitoral isolado no treino Superior, por decisão do usuário. |

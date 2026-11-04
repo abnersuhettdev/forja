@@ -175,10 +175,18 @@ describe("CT-GER-02: intermediário, hipertrofia, 4 dias, academia completa", ()
     expect(back).toBeGreaterThanOrEqual(10);
     expect(back).toBeLessThanOrEqual(20);
     expect(volume(result, "quadriceps")?.status).toBe("ok");
-    // Divergência em aberto (GOV-02): as vagas de TRN-02 dão 6 séries de peitoral e 9 de
-    // posteriores, abaixo dos 10 que CT-GER-02 pede. O relatório sinaliza, como manda o Passo 9.
-    expect(volume(result, "chest")).toMatchObject({ sets: 6, status: "low" });
+    expect(volume(result, "chest")).toMatchObject({ sets: 12, status: "ok" });
+    // Posteriores ficam em 9, abaixo dos 10 de CT-GER-02: o relatório sinaliza (TRN-02 §3A).
     expect(volume(result, "hamstrings")).toMatchObject({ sets: 9, status: "low" });
+  });
+
+  it("com pouco tempo, bíceps e tríceps se alternam entre os dois treinos Superior", () => {
+    const patterns = (index: number) =>
+      result.program.workouts[index]?.items.map((i) => BY_ID.get(i.exercise_id)?.movement_pattern);
+    expect(patterns(0)).toContain("chest_iso");
+    expect(patterns(0)).toContain("elbow_flex");
+    expect(patterns(2)).toContain("chest_iso");
+    expect(patterns(2)).toContain("elbow_ext");
   });
 
   it("não sugere carga e passa nas regras de publicação (RN-026, RN-035)", () => {

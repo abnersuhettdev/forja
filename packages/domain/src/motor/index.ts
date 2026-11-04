@@ -415,6 +415,7 @@ const SLOTS: Readonly<Record<Exclude<WorkoutKind, "full">, readonly Slot[]>> = {
     req("h_pull"),
     req("v_push"),
     req("v_pull"),
+    opt("chest_iso"),
     opt("elbow_flex"),
     opt("elbow_ext"),
     opt("shoulder_iso"),
@@ -430,7 +431,20 @@ const SLOTS: Readonly<Record<Exclude<WorkoutKind, "full">, readonly Slot[]>> = {
   ],
 };
 
+/** Segundo Superior da semana: tríceps antes de bíceps, para os dois treinarem quando falta tempo. */
+const UPPER_B: readonly Slot[] = [
+  req("h_push"),
+  req("h_pull"),
+  req("v_push"),
+  req("v_pull"),
+  opt("chest_iso"),
+  opt("elbow_ext"),
+  opt("elbow_flex"),
+  opt("shoulder_iso"),
+];
+
 function slotsFor(kind: WorkoutKind, index: number): readonly Slot[] {
+  if (kind === "upper" && index === 2) return UPPER_B;
   if (kind !== "full") return SLOTS[kind];
   return index === 1 ? FULL_B : FULL_A;
 }
