@@ -162,6 +162,20 @@ ADR-006 e FUT-01 (IA deixa de ser futuro), ARQ-05 (nova integração), ADR-052 e
 4. **Carga sugerida:** aceitar a proposta de §3.5?
 5. **Limite de custo:** se a IA gratuita não passar na prova de qualidade, pagar até quanto por mês, ou ficar só com as regras?
 
+## 7A. Discussão com o usuário (2026-11-04)
+
+Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**.
+
+| Tema | Resposta | Efeito |
+|---|---|---|
+| Imagens | "Usar para todos": fotos do free-exercise-db | Risco aceito pelo usuário: o repositório se declara Unlicense, mas não informa a origem das fotos. Exige alterar ADR-052 e RN-036. Cobertura conferida: 110 de 110 exercícios, 2 fotos cada, cerca de 70 KB por foto antes de otimizar. Revisar se a foto corresponde ao exercício (ADR-052 item 5). REG-12 continua a verificar ao abrir para terceiros |
+| Público | "Alguns conhecidos", mas GATE-TER "Deixar para depois" | **A 1.2 fica só para o usuário.** V12-11 (vários alunos) e o modo Profissional saem da 1.2 |
+| Palavra final | "Pessoa, com um toque" | RN-009 mantida |
+| Acompanhamento | Resumo semanal, ajuste da rotina, motivação e hábitos | Sem sugestão de carga: TRN-02 §1 não muda. Motivação só dentro do app; notificações seguem fora |
+| Design | "Quero ver opções" | Protótipos do login antes de programar (V12-01) |
+| Ordem | "1.2 antes de publicar" | Produção e uso real ficam depois da 1.2; até lá, testes só no `forja-dev`, com dados fictícios |
+| IA | Perguntou sobre Ollama | Em avaliação. Neste computador (Intel UHD, 16 GB, i5-13420H) um modelo de 7–8B em CPU rende cerca de 2 a 6 tokens por segundo, segundo guia da comunidade, ou seja, minutos por geração. Para produção exigiria máquina sempre ligada. Recomendação: Workers AI em produção, com o provedor trocável no código |
+
 ## 8. Fontes
 
 - [Workers AI: preços](https://developers.cloudflare.com/workers-ai/platform/pricing/)
@@ -175,3 +189,4 @@ ADR-006 e FUT-01 (IA deixa de ser futuro), ARQ-05 (nova integração), ADR-052 e
 | Data | Alteração |
 |---|---|
 | 2026-11-04 | Criação como proposta, a pedido do usuário. |
+| 2026-11-04 | §7A: respostas da discussão com o usuário. |
