@@ -9,7 +9,7 @@
 | Dependências | PRD-03, PRD-05, ADR-003, ADR-018 |
 | Referenciado por | UX-04, UX-05, UX-06, DAD-04 |
 | Decisões | ADR-025 (estrutura de navegação), ADR-026 (execução em modo foco) — aprovadas |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -26,6 +26,10 @@ Definir como o conteúdo se organiza: áreas, navegação principal, hierarquia 
 
 - Usuário com papel duplo (ADR-003) entra em **Meu treino** e alterna pela **chave de área** no cabeçalho ("Meu treino ▾ / Gestão") ou em Conta (RF-005).
 - Usuário só com papel de aluno (modalidade TER, futura) não vê a chave de área.
+
+### 2A. Modos
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** modo **Automático** por padrão, com a aba **Meu plano** e sem a área de Gestão à vista; modo **Manual** como opção discreta em Conta, que mostra a Gestão como hoje (ADR-095).
 
 ## 3. Navegação principal (ADR-025)
 
@@ -155,6 +159,8 @@ flowchart TB
 | TELA-038 | Registrar avaliação | Gestão | ESS | RF-016 |
 | TELA-050 | Reavaliação | Meu treino | DES (D1) | RF-083..085 |
 | TELA-051 | Gerar treino | Gestão | DES (D2) | RF-021..023 |
+| TELA-060 | Meu plano (versão 1.2) | Aluno | V1.2 | RF-114 |
+| TELA-061 | Resumo da semana (versão 1.2) | Aluno | V1.2 | RF-115..117 |
 | TELA-052 | Histórico do exercício | Meu treino | DES (D3) | RF-073 |
 | TELA-053 | Metas | Meu treino | DES (D3) | RF-082 |
 | TELA-054 | Medidas corporais | Meu treino | DES (D3) | RF-088 |
@@ -212,3 +218,4 @@ Folhas inferiores (TELA-011, 022, 032, 033) não têm rota própria; o botão "v
 | 2026-10-26 | Conteúdo completo (Etapa 2). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 2). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): referências de RF-093, RF-102 e RF-103 no inventário de telas. |
+| 2026-11-04 | Versão 1.2: modos e telas TELA-060 e TELA-061. |

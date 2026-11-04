@@ -8,7 +8,7 @@
 | Dono do assunto | Especificação de cada tela (TELA-###): requisitos, conteúdo, ações, validações e estados |
 | Dependências | PRD-05, PRD-07, UX-01, UX-02, UX-03, UX-04 |
 | Referenciado por | UX-06, DAD-04, PLN-01, PLN-03 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -31,6 +31,8 @@ Permitir implementar cada tela sem decisões improvisadas. Telas `ESS` (Lançame
 - **Conteúdo:** logotipo; campo E-mail (`inputmode=email`, autocompletar `username`); campo Senha (autocompletar `current-password`, botão mostrar/ocultar); botão primário **Entrar**; texto "Esqueceu a senha? A redefinição é feita pelo responsável pela instalação do app" (ADR-004).
 - **Validações:** campos obrigatórios; erro de credenciais genérico ("E-mail ou senha incorretos"), sem revelar qual; após limite (RN-031), "Muitas tentativas. Aguarde alguns minutos."
 - **Estados:** enviando (botão com indicador, campos bloqueados); offline: "Para entrar é preciso estar conectado" — exceto se já houver sessão de acesso válida no aparelho (o app abre direto).
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** direção Anilha (UX-02 §2.3). O texto de ajuda muda para "Esqueceu a senha? Fale com quem administra sua conta."
 
 ### TELA-002 — Instalar o app
 
@@ -334,6 +336,15 @@ Durante a especificação, dois comportamentos se mostraram necessários mas nã
 | UXP-01 | Permitir **excluir** um registro de peso (com confirmação), ampliando RF-080 | Um valor digitado errado distorceria o gráfico permanentemente | Pequeno; uma ação na lista de TELA-021 |
 | UXP-02 | Ao **sair da conta sem pendências**, apagar do aparelho os dados locais daquele usuário | Privacidade em aparelho compartilhado; coerente com RF-102 | Pequeno; próximo login baixa os dados novamente |
 
+## Telas da versão 1.2
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):**
+
+- **TELA-051 — Gerar treino:** no modo Automático, sem os atalhos de gestão; lista de pendências de RF-022; mostra a ênfase pedida; resultado com motivos e aviso; sem IA, informa de forma simples que a rotina veio só das regras.
+- **TELA-060 — Meu plano:** rotina atual, motivos, "gerar outra" e acesso ao resumo da semana. Estados: sem rotina, gerando, sem conexão (mostra a rotina guardada; gerar exige conexão).
+- **TELA-061 — Resumo da semana:** fatos calculados por regras, texto da IA e proposta de ajuste, se houver, aceita com um toque. Sem IA ou sem conexão, só os fatos.
+- **TELA-014 — Exercício:** fotos do exercício, com créditos (RF-118); sem foto adequada, placeholder.
+
 ## Critérios de conclusão
 
 - [x] Toda tela `ESS` especificada com RF, conteúdo, ações, validações e estados.
@@ -351,3 +362,4 @@ Durante a especificação, dois comportamentos se mostraram necessários mas nã
 | 2026-10-26 | Aprovado pelo usuário (Etapa 2). |
 | 2026-10-26 | Nota das listas de opções aponta para TRN-01/TRN-03. |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): fórmula de duração alinhada a TRN-04 §5 (antes omitia a transição de 60 s). |
+| 2026-11-04 | Versão 1.2: TELA-001, TELA-014, TELA-051, TELA-060 e TELA-061. |

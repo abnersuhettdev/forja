@@ -3,7 +3,7 @@
 | Campo | Valor |
 |---|---|
 | Identificador | PLN-06 (PR-PROD-02 em GOV-02 §4.3) |
-| Status | **Proposta — não aprovada.** Nada aqui altera requisitos, regras ou o plano até decisão do usuário |
+| Status | **Decisões aprovadas item a item** (§7A; ADR-093..096). Documentação atualizada a pedido do usuário em 2026-11-04. **Ainda não implementado** |
 | Etapa | 9 |
 | Dono do assunto | Escopo, ordem e riscos da versão 1.2: design, imagens, geração e acompanhamento por IA, separação entre "Meu treino" e Gestão, vários alunos |
 | Dependências | PRD-08 (GATE-TER), PRD-09, TRN-02, DAD-06, ADR-006, ADR-016, ADR-018, ADR-052, RN-007..009, RN-036, RN-040, SEG-04 §2 |
@@ -15,7 +15,7 @@ Tornar o app mais automático e mais bonito: a pessoa informa seus dados, a IA m
 
 **Numeração:** "1.0" é o Lançamento 1 de PLN-02. A 1.2 reúne os incrementos D1 e D2 e itens novos.
 
-**Antes da 1.2:** a produção ainda não foi publicada (em 2026-11-04, app e função de produção respondem 404). Faltam a publicação, TAR-025 (aparelhos) e TAR-026 (uso real). O uso real é o que vai mostrar o que melhorar, então recomenda-se não adiar.
+**Ordem (ADR-096):** a 1.2 vem antes de publicar em produção, por decisão do usuário. Em 2026-11-04, app e função de produção respondem 404; TAR-025 (aparelhos) e TAR-026 (uso real) vêm depois da 1.2.
 
 ## 2. Um gestor pode criar um treino para vários alunos?
 
@@ -37,7 +37,7 @@ Tecnicamente é viável: a arquitetura foi feita para vários alunos (ADR-002). 
 
 Observado na tela de login: nome em texto, dois campos e um botão no terço superior; o resto da tela fica vazio; não há logotipo, imagem nem frase sobre o produto. Funciona e passa em acessibilidade, mas não dá identidade.
 
-- **Direção:** manter "Grafite e lima" (UX-02), evoluindo a execução. Mudar a identidade exigiria nova decisão.
+- **Direção:** manter "Grafite e lima" (UX-02), evoluindo a execução. **Login: direção Anilha**, escolhida pelo usuário.
 - **Login:** logotipo com o "F", frase curta do que o app faz, composição que ocupe a tela, e no computador um painel lateral com a marca. O texto "Esqueceu a senha?" fala em "responsável pela instalação" e precisa ser reescrito.
 - **Telas principais:** Hoje, Treino, Execução, Evolução, com mais hierarquia, cartões e estados vazios com ilustração.
 - **Forma de trabalho:** duas ou três direções visuais do login para escolher **antes** de programar. Depois, aplicar às demais telas.
@@ -125,7 +125,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | Tarefa | Conteúdo | Depende de | Tamanho |
 |---|---|---|---|
 | — | Publicar 1.0, TAR-025, TAR-026 | V12-* (decisão: depois da 1.2) | Depois |
-| V12-01 | Direções visuais do login; escolha do usuário | — | Pequeno |
+| V12-01 | Direções visuais do login; escolha do usuário | — | **Feito:** direção Anilha |
 | V12-02 | Novo login; design das telas principais | V12-01 | Grande |
 | V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio |
 | V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio |
@@ -146,18 +146,20 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 |---|---|---|
 | Rotina errada para alguém com lesão | Dano físico | Motor e validação decidem; IA nunca passa por cima; aviso; revisão de um profissional antes de terceiros |
 | Qualidade do modelo gratuito em português | Texto ruim ou treino fraco | Prova de qualidade antes de construir; só as regras como alternativa |
-| Cota gratuita ou mudança de preços | IA para de responder | Motor sozinho; limite por usuário; custo a cada geração registrado |
-| Imagem gerada mostra o movimento errado | Execução incorreta | Revisão item a item; mapa muscular como base |
-| Questão legal com terceiros | Impede a abertura | Desligado em produção; consulta antes (PRD-09) |
+| Cota gratuita ou mudança de preços | IA para de responder | Motor sozinho; limite por usuário; consumo registrado em `ai_usage` |
+| Foto não corresponde ao exercício, ou reclamação de direitos sobre as fotos | Execução incorreta; remover fotos | Conferência item a item; risco aceito (ADR-094); placeholder como alternativa |
+| Observações enviadas à IA contêm dados de saúde ou de identificação | Exposição a terceiro | Só o próprio usuário na 1.2; provedor diz não treinar nem guardar; revisto antes de terceiros (REG-15) |
+| Uso real adiado (ADR-096) | Melhorias sem aprendizado de uso | Testes no `forja-dev`; publicar a 1.0 continua possível a qualquer momento |
+| Questão legal com terceiros | Impede a abertura | Fora da 1.2; consulta antes (PRD-09) |
 | Escopo grande | Atraso | Entrega em partes; cada tarefa é aproveitável sozinha |
 
-## 6. Mudanças em documentos, se aprovado
+## 6. Documentos alterados
 
 ADR-006 e FUT-01 (IA deixa de ser futuro), ARQ-05 (nova integração), ADR-052 e RN-036 (imagens), TRN-02 (IA e carga), UX-03, UX-04, UX-05 e UX-02 (modos e design), RF-005, RF-021, RF-034, PLN-01 e PLN-02, SEG-02 e SEG-04 (dados enviados à IA), ADR-016 (se houver custo).
 
-## 7. Decisão pedida ao usuário
+## 7. Decisões
 
-**Aprovar o escopo revisado** (§3 e §4), já com as respostas de §7A.
+Registradas em §7A e nas ADR-093 a ADR-096.
 
 ## 7A. Discussão com o usuário (2026-11-04)
 
@@ -171,6 +173,8 @@ Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**
 | Acompanhamento | Resumo semanal, ajuste da rotina, motivação e hábitos | Sem sugestão de carga: TRN-02 §1 não muda. Motivação só dentro do app; notificações seguem fora |
 | Design | "Quero ver opções" | Protótipos do login antes de programar (V12-01) |
 | Ordem | "1.2 antes de publicar" | Produção e uso real ficam depois da 1.2; até lá, testes só no `forja-dev`, com dados fictícios |
+| Login | "gostei da opção B" | Direção Anilha (UX-02 §2.3), com anilha realista |
+| Documentação | "atualizar a documentação toda" | Feita em 2026-11-04 |
 | IA | "Sim, Workers AI" | **Workers AI em produção, sem Ollama**, com o provedor trocável no código. Sobre o Ollama: neste computador (Intel UHD, 16 GB, i5-13420H) um modelo de 7–8B em CPU rende cerca de 2 a 6 tokens por segundo, segundo guia da comunidade, ou seja, minutos por geração. Para produção exigiria máquina sempre ligada |
 | IA sem qualidade | "Só as regras" | Sem custo: o motor segue sozinho se nenhum modelo gratuito passar |
 | Modo Manual | "Manter como opção" | Automático por padrão; editor em lugar discreto |
@@ -191,3 +195,4 @@ Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**
 |---|---|
 | 2026-11-04 | Criação como proposta, a pedido do usuário. |
 | 2026-11-04 | §7A: respostas da discussão com o usuário; escopo revisado. |
+| 2026-11-04 | Decisões aprovadas item a item; documentação atualizada; login Anilha. |

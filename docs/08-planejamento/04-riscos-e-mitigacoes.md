@@ -8,7 +8,7 @@
 | Dono do assunto | Registro de riscos (RSK-###): probabilidade, impacto, mitigação, gatilho e tarefa relacionada |
 | Dependências | Todos os documentos; GOV-02 §9 |
 | Referenciado por | PLN-05, IMP-04 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Escala
 
@@ -37,6 +37,10 @@ Probabilidade e impacto: Baixa/Média/Alta. Revisão do registro ao final de cad
 | RSK-017 | Falta de continuidade entre sessões de desenvolvimento | Média | Médio | Documentação como fonte principal; GOV-02 atualizado a cada tarefa | — | Todas |
 | RSK-018 | Domínio ou marca "Forja" indisponível (ADR-023) | Média | Baixo | Alternativas Ritmo/Carga; troca antes do uso real | Verificação negativa | 026 |
 
+## Riscos da versão 1.2
+
+Ver [PLN-06 §5](06-plano-versao-1-2.md#5-riscos): rotina errada para quem tem lesão, qualidade do modelo gratuito, cota, reclamação de direitos sobre as fotos (ADR-094), observações enviadas à IA (ADR-093) e atraso do uso real (ADR-096).
+
 ## Critérios de conclusão
 
 - [x] Riscos identificados nas etapas 1–6 consolidados, com mitigação e gatilho.
@@ -49,3 +53,4 @@ Probabilidade e impacto: Baixa/Média/Alta. Revisão do registro ao final de cad
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 7). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 7). |
+| 2026-11-04 | Versão 1.2: riscos. |

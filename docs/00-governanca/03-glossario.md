@@ -6,7 +6,7 @@
 | Status | **Aprovado** (2026-10-26 — Etapa 1, revisão 3) · acréscimos da Etapa 2 aprovados em 2026-10-26 |
 | Dono do assunto | Vocabulário oficial do domínio e do projeto |
 | Dependências | PRD-05, PRD-07 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 Este glossário é a fonte de verdade dos termos. Documentos, telas e código (na Fase 2) devem usar estes termos de forma consistente. Entre parênteses, o nome técnico sugerido em inglês para o código (definido de forma final em ARQ-04).
 
@@ -74,6 +74,13 @@ Este glossário é a fonte de verdade dos termos. Documentos, telas e código (n
 | **Dado desatualizado** | Informação cuja idade excede o limite definido nas regras de negócio; é sinalizada sem bloquear o uso. |
 | **Revisão recomendada** | Sinalização ao gestor de que o programa ativo pode não refletir mais o perfil do aluno. |
 
+## Versão 1.2
+
+- **Modo Automático / Manual:** forma de usar o app (ADR-095). No Automático, a rotina é proposta e aceita com um toque; no Manual, a pessoa usa o editor.
+- **Meu plano:** aba do modo Automático com a rotina atual e os motivos.
+- **Ênfase:** músculo ou área que a pessoa quer priorizar (RN-064).
+- **Motor de regras:** parte determinística que monta e valida a rotina (TRN-02); a IA trabalha sobre ele.
+
 ## Técnicos
 
 | Termo | Definição |
@@ -108,3 +115,4 @@ Este glossário é a fonte de verdade dos termos. Documentos, telas e código (n
 | 2026-10-26 | Aprovado pelo usuário (Etapa 1, revisão 3). |
 | 2026-10-26 | Etapa 2: modo foco, zona do polegar, fila de saída. |
 | 2026-10-26 | Acréscimos da Etapa 2 aprovados pelo usuário. |
+| 2026-11-04 | Versão 1.2: termos novos. |

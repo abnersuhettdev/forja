@@ -7,7 +7,7 @@
 | Dono do assunto | Separação entre uso pessoal e acompanhamento de terceiros; gate regulatório (GATE-TER); classificação preliminar de dados |
 | Dependências | PRD-01, PRD-04, PRD-05, ADR-003, ADR-018 |
 | Referenciado por | PRD-04, PRD-05, PRD-07, SEG-02, PLN-04, PLN-05 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 > **Justificativa da inclusão deste documento** (alteração da estrutura documental do prompt mestre): o usuário pediu que funcionalidades de uso pessoal e de acompanhamento de terceiros fossem documentadas **separadamente**, junto com os requisitos legais a verificar. O assunto atravessa escopo, requisitos, dados e segurança; um documento próprio evita espalhar a regra e serve de fonte única para o gate. Registrado em ADR-018 e GOV-04.
 
@@ -88,6 +88,17 @@ A modalidade TER só pode ser liberada quando **todos** os itens abaixo estivere
 | GT-05 | Papéis do sistema ajustados conforme REG-02 (ex.: exigir indicação de profissional responsável). |
 | GT-06 | Revisão das ADRs e requisitos marcados TER. |
 
+### 5.2A Itens acrescentados com a versão 1.2
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** a 1.2 fica na PES (ADR-096). Antes de abrir para terceiros, além dos itens acima:
+
+| ID | Tema | O que verificar | Quem verifica |
+|---|---|---|---|
+| REG-14 | Decisões automatizadas | LGPD art. 20: revisão de decisões tomadas unicamente por tratamento automatizado. Uma rotina automática entra nisso? | Advocacia |
+| REG-15 | Provedor de IA | Papel do provedor, retenção, região de processamento e quais dados podem ir, incluindo observações (ADR-093) | Advocacia |
+| REG-16 | Regulação de IA | PL 2338/2023, que ainda não é lei segundo fontes de outubro de 2026 | Advocacia |
+| REG-12 (acréscimo) | Fotos do catálogo | Reavaliar o risco das fotos sem origem comprovada (ADR-094) | Advocacia |
+
 ### 5.3 Registro
 
 O resultado de cada item é registrado em uma seção "Evidências do GATE-TER" a ser criada neste documento quando a verificação começar. Até lá, o gate está **fechado**.
@@ -130,3 +141,4 @@ A base legal e os documentos (termo, aviso de privacidade, registro de consentim
 | 2026-10-26 | Revisão 3: RF-038 incluído na coluna PES. |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 1, revisão 3). |
 | 2026-10-26 | RF-103 incluído na coluna PES. |
+| 2026-11-04 | REG-14..16 e acréscimo em REG-12, para a versão 1.2. |

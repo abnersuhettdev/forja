@@ -14,7 +14,7 @@ Referências: DAD-06 §6, ADR-052, RN-036. Exibido no app em "Créditos e fonte"
 | --------- | ------- | ------- | ------- | ----- |
 | —         | —       | —       | —       | —     |
 
-Nenhuma imagem publicada. Todos os exercícios usam o placeholder (RF-034) até haver imagem com procedência e licença comprovadas (ADR-052). As imagens do free-exercise-db não são usadas: a fonte não informa sua origem.
+**Hoje:** nenhuma imagem publicada. **Versão 1.2 (planejada, ADR-094):** serão usadas as fotos do free-exercise-db, sem comprovação de origem, com o risco aceito pelo usuário; esta tabela será preenchida na implementação. Até lá: Todos os exercícios usam o placeholder (RF-034) até haver imagem com procedência e licença comprovadas (ADR-052). As imagens do free-exercise-db não são usadas: a fonte não informa sua origem.
 
 ## Compatibilidade
 

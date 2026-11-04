@@ -8,7 +8,7 @@
 | Dono do assunto | Campos do perfil de treinamento e da avaliação, enumerações **finais** (substituem as provisórias de DAD-02 §7 e UX-05), presets de local e dados mínimos para geração |
 | Dependências | PRD-07 (RN-006, RN-010, RN-018, RN-022..025, RN-030), ADR-010, ADR-011, DAD-02 |
 | Referenciado por | TRN-02, TRN-03, TRN-05, UX-05 (TELA-003, TELA-037, TELA-038), DAD-07 (seeds) |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -27,6 +27,7 @@ Definir exatamente o que o perfil e a avaliação registram, os valores permitid
 | Experiência na academia | `experience_level` | §3.2 |
 | Estilo de vida e nível de atividade | `activity_level` | §3.3; informativo |
 | Disponibilidade semanal | `days_per_week`, `preferred_weekdays` | RN-038, RN-029 |
+| Ênfase em músculo ou área (versão 1.2, planejada) | `emphasis_groups` | RN-064 |
 | Tempo por sessão | `minutes_per_session` | 15–180 |
 | Preferências | `preferences_note` (texto livre) | Exibido ao revisar o rascunho; **não** interpretado automaticamente |
 | Equipamentos disponíveis | `training_location` + `equipment_codes` | §3.4; TRN-03 §3 |
@@ -127,3 +128,4 @@ Dados desatualizados (RN-016) não bloqueiam a geração, mas aparecem como avis
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 5). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 5). |
+| 2026-11-04 | Versão 1.2: ênfase em músculo ou área. |

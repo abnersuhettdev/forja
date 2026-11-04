@@ -8,7 +8,7 @@
 | Dono do assunto | Contratos de leitura e de escrita (API-###), formato da sincronização, idempotência, conflitos e códigos de erro |
 | Dependências | DAD-01..03, DAD-05, UX-05, UX-08 §6, ADR-022, ADR-034, ADR-050 |
 | Referenciado por | SEG-05, SEG-03, PLN-01, PLN-03 |
-| Última atualização | 2026-10-27 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo e escopo
 
@@ -158,6 +158,8 @@ Operações de gestão (API-016..021, 023) exigem conexão no app (RF-093), mas 
 | ID | Chamada | Descrição |
 |---|---|---|
 | API-030 | `POST /diagnostics` | Relato de erro técnico sem dados pessoais (`app_version`, `error_code`, `context`, `platform`); limitado a 20 por hora por usuário (ADR-038) |
+| API-032 (versão 1.2) | `POST /ai/routine` | Gera rascunho pelo motor com IA (ADR-093), com o usuário do token. Resposta: rascunho, motivos, `source` (`motor+ia` ou `motor`). Limite de RN-063; nunca publica |
+| API-033 (versão 1.2) | `POST /ai/summary` | Gera o resumo semanal (RF-115), no máximo um por semana. Sem IA, devolve só os fatos |
 | API-031 | `POST /export` | Gera o JSON com todos os dados do aluno (RF-095, D5); entrega direta ao aparelho, sem armazenamento intermediário |
 | API-A01..A04 | Autenticação | Login, renovação de sessão, saída, troca de senha — serviço de autenticação (DAD-05); atende RF-001, RF-002, RF-007 |
 
@@ -213,3 +215,4 @@ A taxonomia completa e o tratamento de cada código no app são de SEG-05.
 | 2026-10-26 | Aprovado pelo usuário (Etapa 4). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): API-024 (medidas, RF-088) e leituras API-R11/R12 (D3) acrescentadas; RF de API-016/020/A01..A04 e telas de API-R08/R09 completados. |
 | 2026-10-27 | API-013: "Manter ambas" (`possible_duplicate_of: null`) — interpretação da TAR-020 confirmada pelo usuário. |
+| 2026-11-04 | Versão 1.2: API-032 e API-033. |

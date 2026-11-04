@@ -14,6 +14,8 @@ Visão completa: [01-produto/01-visao-do-produto.md](01-produto/01-visao-do-prod
 
 **Modalidades:** o primeiro lançamento é de **uso pessoal** (PES). O acompanhamento de terceiros (TER) está bloqueado até a verificação legal e regulatória descrita em [01-produto/08-modalidades-de-uso-e-limites-profissionais.md](01-produto/08-modalidades-de-uso-e-limites-profissionais.md).
 
+> **Versão 1.2:** planejada e documentada em [08-planejamento/06-plano-versao-1-2.md](08-planejamento/06-plano-versao-1-2.md), ainda não implementada. Trechos marcados "versão 1.2" nos demais documentos descrevem o que vem, não o que o app já faz.
+
 ## Como navegar
 
 | Se você quer... | Comece por |

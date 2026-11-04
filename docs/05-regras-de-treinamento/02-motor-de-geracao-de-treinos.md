@@ -9,8 +9,8 @@
 | Dependências | TRN-01, TRN-03, ADR-006, ADR-018, RN-006..009, RN-022, RN-023, RN-030, RN-035, DAD-04 (API-016) |
 | Referenciado por | UX-05 (TELA-051), SEG-03, PLN-01 |
 | Decisões | ADR-061 (algoritmo), ADR-062 (parâmetros de prescrição), ADR-064 (ajustes por idade) — aprovadas |
-| Prioridade | `DES` — incremento D2 (PRD-04 §3) |
-| Última atualização | 2026-10-26 |
+| Prioridade | `DES` → versão 1.2 (PLN-06, ADR-093) |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo e limites
 
@@ -30,6 +30,7 @@ Os parâmetros numéricos (§5) são valores de referência gerais, configuráve
 | Entrada | Origem |
 |---|---|
 | Perfil de treinamento (TRN-01 §4) e data de nascimento | `students`, `training_profiles` |
+| Ênfase em músculo ou área (versão 1.2) | `training_profiles.emphasis_groups` (RN-064) |
 | Catálogo elegível | TRN-03 §6 |
 | Data de referência (para idade) | Passada como parâmetro (o motor não lê o relógio) |
 | Versão anterior do programa (opcional) | Para continuidade (TRN-03 §6, critério 2) |
@@ -181,9 +182,11 @@ As referências fundamentam a ordem de grandeza dos padrões; a escolha exata de
 | CT-GER-07 | Mesma entrada duas vezes | Saídas idênticas |
 | CT-GER-08 | Restrição `other` | Rascunho gerado com aviso de revisão manual obrigatória |
 
-## 7. Ponto de extensão para IA (FUT-01)
+## 7. IA sobre o motor (ADR-093; versão 1.2, planejada)
 
 Um componente futuro de IA poderá **propor ajustes** ao rascunho gerado, recebendo apenas o perfil e os exercícios **elegíveis** (identificadores do catálogo). Toda proposta passa pelas mesmas validações (elegibilidade, RN-035) antes de alterar o rascunho, e o resultado continua exigindo revisão e publicação humanas (RN-009).
+
+Na 1.2 esse componente é o Cloudflare Workers AI. Diferenças em relação ao texto acima: além do perfil e dos elegíveis, recebe os dados de ADR-093; devolve ajustes e motivos em linguagem simples; sem IA, sem cota ou com resposta inválida, vale o rascunho do motor (RN-062). A publicação é o toque da própria pessoa. **O motor continua sem sugerir cargas (§1).** A determinação de §2 vale para o motor; a resposta da IA não é determinística, por isso o relatório registra o modelo usado e se o rascunho final é só do motor.
 
 ## Critérios de conclusão
 
@@ -200,3 +203,4 @@ Um componente futuro de IA poderá **propor ajustes** ao rascunho gerado, recebe
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 5). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 5). |
+| 2026-11-04 | Versão 1.2: IA sobre o motor e ênfase (ADR-093). |

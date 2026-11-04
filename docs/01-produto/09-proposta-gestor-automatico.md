@@ -3,7 +3,7 @@
 | Campo | Valor |
 |---|---|
 | Identificador | PRD-09 (PR-PROD-01 em GOV-02 §4.3) |
-| Status | **Proposta — não aprovada.** Nada aqui altera requisitos, regras ou o plano até decisão do usuário |
+| Status | **Parcialmente incorporada.** A parte de uso próprio virou a versão 1.2 ([PLN-06](../08-planejamento/06-plano-versao-1-2.md), ADR-093). A parte de terceiros segue como proposta, para depois da consulta jurídica (ADR-096) |
 | Etapa | 9 (mudança de escopo) |
 | Dono do assunto | Ideia do gestor automático: o usuário informa seus dados e o app cria a rotina e a acompanha durante a meta, para ele e para outras pessoas |
 | Dependências | PRD-08 (GATE-TER), TRN-02, RN-007..009, RN-030, RN-040, RN-041, ADR-006, ADR-016, ADR-018, FUT-01, Q-007 |
@@ -144,3 +144,4 @@ Perguntas para levar à consulta: as de REG-01, REG-10, REG-11 e REG-14, mais um
 |---|---|
 | 2026-11-03 | Criação como proposta, a pedido do usuário ("Quero que outras pessoas usem também"). |
 | 2026-11-03 | Usuário considera o motor essencial e pede IA integrada, de preferência gratuita: camada 3 antecipada para a fase 1; provedores avaliados; descarte genérico de IA gratuita corrigido. |
+| 2026-11-04 | Parte de uso próprio incorporada à versão 1.2. |

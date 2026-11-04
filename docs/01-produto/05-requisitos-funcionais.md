@@ -7,7 +7,7 @@
 | Dono do assunto | Requisitos funcionais (RF-###), prioridade e modalidade |
 | Dependências | PRD-01..04, PRD-07, PRD-08 |
 | Referenciado por | UX-05, DAD-04, TRN-*, PLN-01, PLN-03 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -59,9 +59,9 @@ Listar, de forma testável e rastreável, o que o sistema deve fazer. Cada requi
 | ID | Requisito | Ator | Modal. | Prior. | Regras |
 |---|---|---|---|---|---|
 | RF-020 | Criar manualmente um rascunho de programa: nome, divisão, treinos (A, B, C…) e, em cada treino, exercícios do catálogo com prescrição (séries, faixa de repetições ou duração, intervalo, carga sugerida opcional, orientações). | GES | PES | ESS | RN-003, RN-005, RN-021, RN-035 |
-| RF-021 | Gerar automaticamente um rascunho a partir do perfil ("Gerar treino automaticamente"); na PES, apresentado como sugestão para uso próprio. | GES | PES | DES | RN-006..009, RN-022, RN-023 |
-| RF-022 | Antes de gerar, validar dados necessários e listar pendências com atalho para completá-las; sem dados obrigatórios, não gera. | GES | PES | DES | RN-006 |
-| RF-023 | O rascunho gerado exibe as premissas consideradas e os exercícios excluídos por restrição ou equipamento. | GES | PES | DES | RN-008 |
+| RF-021 | Gerar automaticamente um rascunho a partir do perfil ("Gerar treino automaticamente"); na PES, apresentado como sugestão para uso próprio. | GES | PES | DES → V1.2 | RN-006..009, RN-022, RN-023 |
+| RF-022 | Antes de gerar, validar dados necessários e listar pendências com atalho para completá-las; sem dados obrigatórios, não gera. | GES | PES | DES → V1.2 | RN-006 |
+| RF-023 | O rascunho gerado exibe as premissas consideradas e os exercícios excluídos por restrição ou equipamento. | GES | PES | DES → V1.2 | RN-008 |
 | RF-024 | Editar rascunho: adicionar, remover, reordenar e substituir exercícios; alterar prescrição; renomear treinos. | GES | PES | ESS | RN-021, RN-035 |
 | RF-025 | Publicar rascunho como versão ativa; a anterior passa a arquivada. | GES | PES | ESS | RN-003, RN-004, RN-009 |
 | RF-026 | Consultar histórico de versões e visualizar versões anteriores (somente leitura). | GES | PES | DES | RN-004 |
@@ -187,6 +187,22 @@ Listar, de forma testável e rastreável, o que o sistema deve fazer. Cada requi
 
 Contagem verificada automaticamente na auditoria (GOV-02 §8). Na revisão 1 havia 70 RF obrigatórios no MVP; agora o Lançamento 1 tem 44 (revisão 3: + RF-038 e RF-055; Etapa 2: + RF-103), todos de uso pessoal, e todo requisito de terceiros está bloqueado pelo GATE-TER.
 
+## 13. Versão 1.2 (planejada, ainda não implementada)
+
+Prioridade `V1.2`: entra na versão 1.2 (PLN-06), só para o próprio usuário (ADR-096).
+
+| ID | Requisito | Ator | Modal. | Prior. | Regras |
+|---|---|---|---|---|---|
+| RF-110 | Gerar a rotina automaticamente: o motor monta o rascunho e a IA ajusta entre exercícios elegíveis; a pessoa usa com um toque. | TODOS | PES | V1.2 | RN-009, RN-060..063 |
+| RF-111 | Mostrar os motivos das escolhas da rotina em linguagem simples, com o aviso de RN-030. | TODOS | PES | V1.2 | RN-030, RN-060 |
+| RF-112 | Permitir pedir ênfase em músculo ou área; o motor aumenta o volume dentro dos limites. | TODOS | PES | V1.2 | RN-064 |
+| RF-113 | Modos Automático (padrão) e Manual (editor atual, opção discreta). | TODOS | PES | V1.2 | RN-009 |
+| RF-114 | Aba Meu plano: rotina atual, motivos e "gerar outra". | TODOS | PES | V1.2 | RN-009 |
+| RF-115 | Resumo semanal do que foi feito, do que evoluiu e do que faltou, sem inventar números. | TODOS | PES | V1.2 | RN-060, RN-062 |
+| RF-116 | Propor ajuste da rotina conforme a frequência real; a proposta vira rascunho, aceito com um toque. | TODOS | PES | V1.2 | RN-009 |
+| RF-117 | Incentivo e hábitos dentro do app, sem notificações. | TODOS | PES | V1.2 | RF-094 |
+| RF-118 | Fotos nos exercícios do catálogo, com créditos e conferência de correspondência. | SIS | PES | V1.2 | RN-036 |
+
 ## Critérios de conclusão
 
 - [x] Todos os itens das seções 6.1–6.11 do prompt mestre possuem RF (matriz em PRD-04 §7).
@@ -205,3 +221,4 @@ Contagem verificada automaticamente na auditoria (GOV-02 §8). Na revisão 1 hav
 | 2026-10-26 | Alterações aprovadas pelo usuário na Etapa 2: RF-080 (excluir registro de peso — UXP-01); RF-101 revisado e RF-103 criado (saída da conta e limpeza de dados locais — UXP-02). |
 | 2026-10-26 | RF-101 (revisão) e RF-103 marcados como aguardando confirmação; nota sobre o total `ESS`. |
 | 2026-10-26 | RF-101 (revisão) e RF-103 como `ESS` confirmados pelo usuário. |
+| 2026-11-04 | Versão 1.2: RF-110..118; RF-021..023 antecipados (ADR-093, ADR-095). |

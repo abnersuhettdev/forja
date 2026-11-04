@@ -9,7 +9,7 @@
 | Dependências | PLN-01, PRD-04, PLN-03 |
 | Referenciado por | PLN-05, GOV-02 |
 | Decisões | ADR-080 (ordem e incrementos) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Visão geral
 
@@ -45,6 +45,10 @@ flowchart LR
 
 Ao final de cada incremento: demonstração para você, atualização de GOV-02 e registro de pendências. Um incremento só começa quando o anterior cumpre o critério de saída (ou você autoriza explicitamente prosseguir com pendências registradas).
 
+## 2A. Versão 1.2 (ADR-096)
+
+Por decisão do usuário, a versão 1.2 ([PLN-06](06-plano-versao-1-2.md)) vem **antes** da publicação em produção do Lançamento 1. D1 e D2 entram nela. Critério de saída: CA-401..409.
+
 ## 3. Incrementos desejáveis (após o Lançamento 1)
 
 | Incremento | Tarefas | Prazo/condição | Critério de saída |
@@ -75,3 +79,4 @@ A ordem D2–D5 pode ser trocada por você após o uso real, sem alterar requisi
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 7). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 7). |
+| 2026-11-04 | Versão 1.2 antes da publicação (ADR-096). |

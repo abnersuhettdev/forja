@@ -7,7 +7,7 @@
 | Dono do assunto | Regras de negócio (RN-###), limites, prazos, faixas válidas e parâmetros |
 | Dependências | PRD-01, PRD-05, PRD-08, ADRs |
 | Referenciado por | DAD-01..05, TRN-01..05, SEG-01, SEG-02, PLN-03 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -57,7 +57,7 @@ Coluna **Modal.**: `PES` vale no uso pessoal (e também em TER); `TER` só se ap
 | RN-006 | A geração exige: data de nascimento, objetivo, experiência, dias por semana, tempo por sessão, equipamentos disponíveis e declaração de restrições (lista **ou** "nenhuma restrição" explícito). Faltando algo, a geração é bloqueada e as pendências listadas. | PES | RF-021, RF-022 |
 | RN-007 | O gerador só usa exercícios **ativos** do catálogo; nunca cria exercícios ou referências inexistentes. | PES | RF-021 |
 | RN-008 | O gerador exclui exercícios contraindicados para as restrições declaradas e os que exigem equipamento indisponível; os excluídos por restrição são listados. | PES | RF-021, RF-023, RF-064 |
-| RN-009 | Todo programa gerado nasce como rascunho e só fica visível na área do aluno após publicação explícita. Nenhum componente automático (regras ou IA futura) pode publicar. | PES | RF-021, RF-025 |
+| RN-009 | Todo programa gerado nasce como rascunho e só fica visível na área do aluno após publicação explícita. Nenhum componente automático (regras ou IA) pode publicar; na 1.2, a publicação é o toque da própria pessoa em "Usar esta rotina". | PES | RF-021, RF-025 |
 | RN-022 | Biotipo não é coletado no MVP (ADR-011). | PES | RF-021 |
 | RN-023 | Sexo (opcional), peso e altura não alteram a seleção de exercícios no MVP; idade e experiência influenciam volume e complexidade (TRN-02). | PES | RF-021 |
 
@@ -108,7 +108,18 @@ Coluna **Modal.**: `PES` vale no uso pessoal (e também em TER); `TER` só se ap
 | ID | Regra | Modal. | Aplica-se a |
 |---|---|---|---|
 | RN-036 | Toda imagem de exercício deve corresponder ao exercício e ter fonte e licença registradas; sem imagem adequada e licenciada, usa-se o placeholder (imagem inadequada nunca é preferível ao placeholder). Nome e instruções são exibidos em pt-BR, revisados, com a fonte registrada; correções de exercícios importados mantêm o registro da origem e da correção. | PES | RF-031, RF-032, RF-034, RF-038 |
+| RN-036 (alteração, 1.2) | Para as fotos do free-exercise-db, a origem não comprovada é aceita pelo usuário (ADR-094). Continua valendo: a foto precisa corresponder ao exercício, com fonte e licença declarada nos créditos; senão, placeholder. | PES | RF-118 |
 | RN-037 | Exercícios importados e personalizados são identificados pela origem. Dados fictícios nunca se misturam a dados reais em produção e, em ambientes de teste, são marcados como tais. | PES | RF-032 |
+
+## 9A. Versão 1.2 (planejada, ainda não implementada)
+
+| ID | Regra | Modal. | RF |
+|---|---|---|---|
+| RN-060 | A IA só escolhe entre exercícios elegíveis, por identificador; toda resposta passa pelas validações do motor (RN-007, RN-008, RN-035) e o que falhar é descartado. | PES | RF-110, RF-111, RF-115 |
+| RN-061 | À IA vão só os dados de ADR-093; nunca nome, e-mail ou identificador. A chamada é feita pelo servidor. Na TER, a lista é revista (REG-15). | PES | RF-110, RF-115 |
+| RN-062 | Sem IA, sem cota ou com resposta inválida, o app entrega o resultado só com regras, avisando de forma simples. | PES | RF-110, RF-115 |
+| RN-063 | Limite de gerações por usuário e controle da cota diária do provedor. Valor definido depois da prova de qualidade. | PES | RF-110 |
+| RN-064 | A ênfase em músculo ou área nunca ultrapassa os limites de TRN-02 nem sobrepõe restrições. | PES | RF-112 |
 
 ## 10. Regras reservadas
 
@@ -152,3 +163,4 @@ Parâmetros "Sistema" são constantes centralizadas, alteráveis por deploy, sem
 | 2026-10-26 | RN-052 marcada como aguardando confirmação e com aviso de irreversibilidade; RN-053 criada (isolamento técnico — proposta, ADR-028). |
 | 2026-10-26 | RN-052 e RN-053 confirmadas pelo usuário. |
 | 2026-10-26 | RN-031 reescrita conforme ADR-051 (aprovada pelo usuário). |
+| 2026-11-04 | Versão 1.2: RN-060..064; RN-036 e RN-009 ajustadas (ADR-093, ADR-094, ADR-095). |

@@ -7,7 +7,7 @@
 | Dono do assunto | Propósito, proposta de valor, objetivos e métricas de sucesso |
 | Dependências | GOV-03 |
 | Referenciado por | PRD-02 a PRD-07, UX-01 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo do documento
 
@@ -82,7 +82,8 @@ Detalhamento de limites em [PRD-04](04-escopo-e-limites-do-mvp.md).
 1. **Lançamento 1 (essencial, uso pessoal):** perfil, programa manual versionado, execução offline com sincronização, agenda, histórico, peso.
 2. **Incrementos desejáveis (D1–D5):** reavaliação, gerador por regras, evolução ampliada, qualidade de dados, conveniências.
 3. **Modalidade de terceiros:** somente após o GATE-TER (PRD-08).
-4. **Futuro:** IA (sempre com revisão humana), notificações, fotos de progresso, integrações.
+4. **Versão 1.2 (planejada, PLN-06):** motor de regras com IA (sempre com revisão humana), acompanhamento, novo design e fotos nos exercícios; vem antes da publicação em produção (ADR-096).
+5. **Futuro:** notificações, fotos de progresso, integrações.
 
 ## 10. Premissas
 
@@ -106,3 +107,4 @@ Detalhamento de limites em [PRD-04](04-escopo-e-limites-do-mvp.md).
 | 2026-10-26 | Criação. |
 | 2026-10-26 | Revisão 2: foco no uso pessoal, limites profissionais, OBJ-04 e OBJ-07, horizonte por lançamentos, premissas atualizadas. |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 1, revisão 3). |
+| 2026-11-04 | Versão 1.2 no horizonte de evolução. |

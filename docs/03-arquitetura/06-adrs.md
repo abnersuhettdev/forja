@@ -7,7 +7,7 @@
 | Dono do assunto | Todas as decisões relevantes de produto, processo e arquitetura |
 | Dependências | — |
 | Referenciado por | Todos os documentos |
-| Última atualização | 2026-10-28 (ADR-092; extensão da ADR-090; ADR-039 alterada para o cliente do provedor) |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -83,8 +83,12 @@ Registrar decisões relevantes com contexto, alternativas, justificativa e conse
 | ADR-090 | Adiantar TAR-004 e seguintes no ambiente local enquanto as contas não existem | Processo | 9 | **Aprovada** | Não |
 | ADR-091 | Correção de exercícios importados altera o exercício comum (somente com GATE-TER fechado) | Produto/Segurança | 9 | **Aprovada** | Não |
 | ADR-092 | Gráfico de linha próprio em SVG no lugar do uPlot (substitui parcialmente a ADR-039) | Tecnologia | 9 | **Aprovada** | Não |
+| ADR-093 | IA generativa pelo Cloudflare Workers AI sobre o motor de regras | Produto/Arquitetura | 9 | **Aprovada** | Não |
+| ADR-094 | Fotos do free-exercise-db sem comprovação de origem, com risco aceito | Produto/Conteúdo | 9 | **Aprovada** | Não |
+| ADR-095 | Modos Automático e Manual | Produto/UX | 9 | **Aprovada** | Não |
+| ADR-096 | Versão 1.2 antes da publicação, só para o próprio usuário | Processo | 9 | **Aprovada** | Não |
 
-Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usadas: 090, 091, 092).
+Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa 3 (usadas: 030–039); ADR-050 a ADR-059 para a Etapa 4 (usadas: 050–053); ADR-060 a ADR-069 para a Etapa 5 (usadas: 060–065); ADR-070 a ADR-079 para a Etapa 6 (usadas: 070–075); ADR-080 a ADR-089 para a Etapa 7 (usada: 080); ADR-090+ para as etapas seguintes (usadas: 090 a 096).
 
 ---
 
@@ -147,6 +151,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Alternativas:** (a) regras determinísticas; (b) LLM gerando o treino; (c) templates fixos por objetivo.
 - **Decisão recomendada:** (a), com interface do motor (entrada: perfil + catálogo filtrado; saída: rascunho estruturado + justificativas) estável o bastante para, no futuro, um componente de IA propor ajustes que passem pelas mesmas validações.
 - **Justificativa:** previsível, testável, sem custo por uso, sem risco de alucinação; (c) violaria "não apresentar treino fixo como personalizado".
+- **Complemento (2026-11-04):** a [ADR-093](#adr-093--ia-generativa-pelo-cloudflare-workers-ai-sobre-o-motor-de-regras) coloca IA sobre o motor na versão 1.2. O motor continua decidindo o que é elegível e validando o resultado.
 - **Consequências:** algoritmo em TRN-02. Na modalidade Pessoal, o resultado é apresentado como **sugestão de organização para uso próprio**, não como prescrição profissional (ADR-018). No Lançamento 1 a geração é `DES` (ADR-019).
 
 ## ADR-007 — Treino recomendado
@@ -509,6 +514,7 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Alternativas:** (a) usar dados/textos do free-exercise-db e **não** usar suas imagens sem comprovação de procedência; placeholder + curadoria progressiva com Wikimedia Commons e imagens próprias; (b) usar as imagens assumindo a licença do repositório (risco de violar direito autoral); (c) conjunto comercial de imagens (custo).
 - **Decisão recomendada:** (a) — [DAD-06 §3](../04-dados-e-api/06-catalogo-de-exercicios-e-fontes.md#3-política-de-imagens-adr-052--aprovada). Tentar comprovar a procedência com os mantenedores; se comprovada, as imagens podem ser usadas.
 - **Consequências:** parte dos exercícios pode iniciar com placeholder; curadoria de imagens vira tarefa contínua.
+- **Alteração (2026-11-04):** para as fotos do free-exercise-db, substituída pela [ADR-094](#adr-094--fotos-do-free-exercise-db-sem-comprovação-de-origem-com-risco-aceito). O restante da política vale para outras fontes.
 
 ## ADR-053 — Revisões e marcas de exclusão nos registros sincronizáveis
 
@@ -657,6 +663,39 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 - **Justificativa:** sem dependência a mais no pacote inicial (SEG-04 §2), cores pelos tokens do tema claro/escuro, e a acessibilidade (rótulos, tabela alternativa, alvos de toque) já verificada pelo axe e pelos testes E2E.
 - **Consequências:** ARQ-02 §3.4 e §4 atualizados; a ADR-039 continua valendo para as demais bibliotecas. Reavaliar uPlot se surgir gráfico com várias séries, zoom ou milhares de pontos.
 
+## ADR-093 — IA generativa pelo Cloudflare Workers AI sobre o motor de regras
+
+- **Tipo:** Produto/Arquitetura · **Status:** Aprovada (2026-11-04 — "Sim, Workers AI"; sem IA adequada: "Só as regras") · **Data:** 2026-11-04
+- **Contexto:** o usuário quer a montagem e o acompanhamento do treino automatizados por IA, sem custo. A ADR-006 previa só regras, com IA como evolução (FUT-01).
+- **Alternativas:** (a) Workers AI, gratuito até a cota; (b) Grok, cobrado por token, com termos de dados não verificados; (c) Gemini gratuito, cujos termos pedem para não enviar dados sensíveis ou pessoais; (d) Ollama em máquina própria, lento sem GPU e dependente de máquina ligada; (e) serviços pagos.
+- **Decisão:** (a), sem Ollama em produção e com o provedor trocável no código. O motor monta o rascunho, a IA ajusta entre exercícios elegíveis e explica, e o motor valida. Sem IA, sem cota ou com resposta inválida, o motor entrega sozinho. O modelo sai de uma prova de qualidade; se nenhum gratuito passar, ficam só as regras, sem custo.
+- **Dados enviados, escolhidos pelo usuário:** objetivo, experiência, dias, tempo, equipamentos, faixa de idade, ênfase em músculo ou área, histórico de treinos, peso e meta, categorias de restrição e observações das sessões. Nunca nome, e-mail ou identificador. Enviar observações foi escolha do usuário contra a recomendação, por serem texto livre, e vale só para a própria conta.
+- **Limites:** a IA nunca publica (RN-009), não sugere carga (RN-026) e não dá orientação médica (RN-030).
+- **Consequências:** nova integração (ARQ-05), segredos novos (IMP-01), terceiro novo (SEG-02 §5), RF-110..117 e RN-060..064. A documentação do provedor não informa onde o processamento ocorre: verificar antes de terceiros (REG-06, REG-15). Revisar esta ADR no GATE-TER.
+
+## ADR-094 — Fotos do free-exercise-db sem comprovação de origem, com risco aceito
+
+- **Tipo:** Produto/Conteúdo · **Status:** Aprovada (2026-11-04 — "Usar para todos") · **Data:** 2026-11-04
+- **Contexto:** nenhum dos 110 exercícios tem imagem. O repositório, de onde já vêm os dados, tem 2 fotos para cada um dos 110, e se declara Unlicense, mas não informa quem fez as fotos nem se as pessoas fotografadas autorizaram. Uma licença só vale para o que quem publicou podia liberar.
+- **Alternativas:** (a) usar só no uso pessoal; (b) usar para todos, sem exigir comprovação; (c) esperar a comprovação.
+- **Decisão:** (b). O usuário foi informado do risco e o aceitou: uma reclamação de direitos pode obrigar a remover as fotos.
+- **Regras mantidas:** foto que não corresponda ao exercício é removida; fonte e licença declarada ficam registradas nos créditos; o placeholder cobre a falta; contato com o mantenedor continua útil.
+- **Consequências:** altera RN-036 e DAD-06 §3. **O item REG-12 do GATE-TER continua valendo:** ao abrir para outras pessoas, o risco é reavaliado com a consulta jurídica.
+
+## ADR-095 — Modos Automático e Manual
+
+- **Tipo:** Produto/UX · **Status:** Aprovada (2026-11-04 — "Manter como opção"; palavra final: "Pessoa, com um toque") · **Data:** 2026-11-04
+- **Contexto:** a Gestão expõe o editor completo a quem só quer treinar.
+- **Decisão:** modo **Automático** por padrão: dados → rotina proposta → um toque em "Usar esta rotina", com a aba Meu plano e sem a área de Gestão à vista. Modo **Manual** como opção discreta, com o editor atual. RN-009 mantida: nada automático publica.
+- **Consequências:** UX-03, UX-04, UX-05, RF-005, RF-113. O modo Profissional (vários alunos) fica fora da 1.2.
+
+## ADR-096 — Versão 1.2 antes da publicação, só para o próprio usuário
+
+- **Tipo:** Processo · **Status:** Aprovada (2026-11-04 — "1.2 antes de publicar"; terceiros: "Deixar para depois") · **Data:** 2026-11-04
+- **Contexto:** a produção ainda não foi publicada. O plano recomendava publicar e usar a 1.0 antes, para aprender com o uso real.
+- **Decisão:** a 1.2 vem antes da publicação em produção. Até lá, testes só no `forja-dev`, com dados fictícios (IMP-01). A 1.2 é só para o próprio usuário: o GATE-TER continua fechado, e vários alunos e conhecidos ficam para depois da consulta jurídica, mesmo que o usuário tenha manifestado querer abrir para conhecidos.
+- **Consequências:** altera a ordem de PLN-01 e PLN-02; TAR-006 (produção), TAR-025 e TAR-026 vêm depois; o uso real na academia e o aprendizado com ele ficam para depois. RF-011, RF-029 e RN-040 não mudam.
+
 ## Histórico
 
 | Data | Alteração |
@@ -686,3 +725,4 @@ Faixas: ADR-023 a ADR-029 para a Etapa 2 (UX/UI); ADR-030 a ADR-049 para a Etapa
 | 2026-10-28 | ADR-092 criada e aprovada pelo usuário (gráfico próprio em SVG; ADR-039 alterada só para gráficos). |
 | 2026-10-28 | ADR-090 estendida pelo usuário às partes locais da TAR-006 e da TAR-007. |
 | 2026-10-28 | ADR-039 alterada pelo usuário: cliente do provedor só com autenticação e consultas (PR-DES-02). |
+| 2026-11-04 | ADR-093 a ADR-096 criadas e aprovadas pelo usuário (versão 1.2); ADR-006 e ADR-052 complementadas. |

@@ -9,7 +9,7 @@
 | Dependências | ARQ-01, ARQ-02, DAD-06 (Etapa 4) |
 | Referenciado por | SEG-01, SEG-02, IMP-01..04, PRD-08 (REG-04, REG-06) |
 | Decisões | ADR-038 (monitoramento mínimo) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -28,6 +28,8 @@ Listar cada serviço externo, o que ele recebe, o que acontece se falhar e como 
 
 **Não há** no Lançamento 1: e-mail transacional, push, analytics de terceiros, IA, pagamentos.
 
+**Versão 1.2 (planejada, ADR-093):** **Cloudflare Workers AI**, para ajustar a rotina e escrever o resumo. Recebe os dados de ADR-093, sem identificação, chamado só pela função no servidor. Se falhar, o motor entrega sozinho (RN-062). Grátis até 10.000 neurônios por dia. O provedor diz não usar o conteúdo para treinar nem guardá-lo em chamadas comuns; não informa a região.
+
 ## 3. Monitoramento mínimo (ADR-038)
 
 | Necessidade | Solução no Lançamento 1 |
@@ -45,7 +47,7 @@ Ferramentas externas de monitoramento (ex.: serviços de rastreamento de erros) 
 |---|---|---|
 | E-mail transacional | RF-008 (FUT) | Domínio próprio (Q-006), provedor gratuito/baixo custo, ADR |
 | Notificações push | RF-094 (FUT) | ADR-017 (só app instalado no iPhone) |
-| IA para geração | FUT-01 | Revisão humana obrigatória (RN-009); análise de privacidade |
+| IA para geração | Antecipada para a versão 1.2 (acima) | Revisão humana obrigatória (RN-009); para terceiros, REG-15 |
 
 ## Critérios de conclusão
 
@@ -62,3 +64,4 @@ Ferramentas externas de monitoramento (ex.: serviços de rastreamento de erros) 
 | 2026-10-26 | Referências ajustadas às verificações oficiais (Cloudflare Pages; condições do Supabase). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 3). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): fonte do catálogo atualizada (já definida em DAD-06). |
+| 2026-11-04 | Versão 1.2: Cloudflare Workers AI. |

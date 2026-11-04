@@ -7,7 +7,7 @@
 | Dono do assunto | Fronteira do MVP: Lançamento 1 (essencial), desejáveis, futuro e fora do escopo |
 | Dependências | PRD-01, PRD-02, PRD-03, PRD-08 |
 | Referenciado por | PRD-05, PLN-02, PLN-05 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -73,7 +73,7 @@ RF-003, RF-004, RF-006, RF-010, RF-011, RF-013, RF-014, RF-029, RF-037, RF-040, 
 | RF-008 | Recuperação de senha por e-mail | Exige provedor de e-mail (ADR-016). |
 | RF-019 | Intervalo de reavaliação configurável por aluno | No MVP o intervalo é fixo em 30 dias. |
 | RF-094 | Notificações push | No iPhone, somente com o app instalado (ADR-017). |
-| FUT-01 | Geração/ajuste assistido por IA | Sempre como rascunho com revisão humana (RN-009); só IDs do catálogo; respeita restrições. |
+| FUT-01 | Geração/ajuste assistido por IA | **Antecipado para a versão 1.2** (ADR-093, PLN-06). Sempre como rascunho com revisão humana (RN-009); só IDs do catálogo; respeita restrições. |
 | FUT-03 | Progressão automática de carga sugerida | Hoje a prescrição não muda com os registros (RN-026). |
 | FUT-05 | Fotos de progresso | Dado de alto risco; exige nova análise de privacidade. |
 | FUT-06 | Periodização avançada | — |
@@ -85,6 +85,10 @@ RF-003, RF-004, RF-006, RF-010, RF-011, RF-013, RF-014, RF-029, RF-037, RF-040, 
 | FUT-12 | Comunicação gestor ↔ aluno no app | Depende da modalidade TER. |
 
 (FUT-02 e FUT-04 da revisão 1 foram incorporados a RF-094 e à modalidade TER, respectivamente; os identificadores não são reutilizados.)
+
+## 4A. Versão 1.2 (planejada, ainda não implementada)
+
+Definida em [PLN-06](../08-planejamento/06-plano-versao-1-2.md): novo design com login na direção "Anilha", fotos nos exercícios, modos Automático e Manual, motor de regras com IA, acompanhamento por IA. Só para o próprio usuário (ADR-096). **Fora dela:** vários alunos e abertura a terceiros, sugestão de carga (FUT-03), notificações (RF-094), conversa livre com a IA, pagamentos.
 
 ## 5. Fora do escopo
 
@@ -144,3 +148,4 @@ Lançamento 1 + incrementos D1 a D5 com critérios de aceite validados.
 | 2026-10-26 | Revisão 3: Lançamento 1 com 43 RF (+ RF-038, RF-055) e verificação de uso ponta a ponta. |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 1, revisão 3). |
 | 2026-10-26 | Etapa 2: RF-103 incluído no Lançamento 1 (UXP-02 aprovada) → 44 RF. |
+| 2026-11-04 | Versão 1.2: escopo e antecipação de FUT-01. |

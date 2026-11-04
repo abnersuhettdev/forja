@@ -9,7 +9,7 @@
 | Dependências | UX-01, Q-005 (delegada a Claude pelo usuário) |
 | Referenciado por | UX-06, UX-07, UX-08 |
 | Decisões | ADR-023 (identidade), ADR-024 (temas) — aprovadas |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -37,6 +37,8 @@ Definir uma identidade **moderna, esportiva, elegante e consistente**, com valor
 - **Logotipo:** palavra "Forja" em Barlow Semi Condensed, peso 700, com o "F" em cor de acento.
 - **Ícone do app:** "F" estilizado em grafite sobre fundo lima (e versão maskable com área de segurança — UX-08 §3).
 - Sem mascote, sem ilustrações complexas.
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** a tela de login adota a direção **Anilha**, escolhida pelo usuário em 2026-11-04 ("gostei da opção B"): anilha realista desenhada em SVG, cortada no canto superior, com filete lima; ícone do "F" e nome; frase "A rotina certa, sem você precisar pensar nela."; campos e botão arredondados. Sem foto e sem dependência nova, para manter o orçamento de JS (SEG-04 §1). As demais telas evoluem no mesmo sentido, mantendo "Grafite e lima", contraste e alvos (CA-201..203). Protótipo: [opções de login](https://claude.ai/artifact/WoJTKzPSSWBuk5bC4kxUnC), privado.
 
 ## 3. Temas (ADR-024)
 
@@ -168,6 +170,7 @@ Escala (rem relativo a 16 px; respeita o tamanho de fonte do sistema):
 
 - **Ícones:** biblioteca Lucide (licença ISC — confirmar na Etapa 3), traço 2 px, tamanhos 20/24 px; sempre com rótulo acessível.
 - **Imagens de exercícios:** exibidas sem filtros, proporção 4:3, fundo `surface-alt`, carregamento progressivo. Origem e licença acessíveis no detalhe (RN-036). Nunca imagens decorativas genéricas no lugar de imagem do exercício.
+- **Fotos (RF-118, versão 1.2):** fotos do free-exercise-db com créditos (ADR-094).
 - **Placeholder (RF-034):** retângulo 4:3 em `surface-alt` com ícone `dumbbell` e o texto "Imagem indisponível" — padronizado e claramente distinto de uma demonstração.
 - **Movimento:** durações 150 ms (micro), 250 ms (folhas e transições); curva `ease-out`. Com `prefers-reduced-motion`, transições viram troca instantânea ou fade curto. Nenhuma animação em loop, exceto o indicador de "enviando".
 
@@ -228,3 +231,4 @@ Direto, encorajador sem exageros, em segunda pessoa ("você"), frases curtas. Se
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 2); Q-005 delegada a Claude pelo usuário. |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 2). |
+| 2026-11-04 | Versão 1.2: direção de login Anilha e fotos nos exercícios. |

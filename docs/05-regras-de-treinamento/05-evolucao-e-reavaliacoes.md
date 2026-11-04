@@ -8,7 +8,7 @@
 | Dono do assunto | Indicadores de evolução, ciclo de reavaliação e adiamento, detecção de dados desatualizados e revisão recomendada |
 | Dependências | RN-014..017, RN-025, RN-038, ADR-008, ADR-020, TRN-01, TRN-04 |
 | Referenciado por | UX-05 (TELA-010, 021, 050, 053), SEG-03 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -68,6 +68,10 @@ Nenhum sinal bloqueia funcionalidades (RF-086).
 - Efeito: `review_recommended_since` preenchido, com a lista dos campos alterados no relatório da marca.
 - Removida ao publicar nova versão ou por **Dispensar** (API-023).
 
+## 5A. Acompanhamento por IA
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** as regras calculam os fatos (indicadores de §2, frequência, tempo até a meta, reavaliação). A IA só escreve o resumo semanal e propõe ajustes (RF-115..117), sem inventar números. O resumo é gerado ao abrir o app, no máximo uma vez por semana; sem conexão, aparecem só os fatos. Ajuste proposto vira rascunho (RN-009). Dor ou condição de saúde leva ao texto de procurar um profissional (RN-030).
+
 ## 6. Casos de teste de referência
 
 | Caso | Situação | Esperado |
@@ -92,3 +96,4 @@ Nenhum sinal bloqueia funcionalidades (RF-086).
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 5). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 5). |
+| 2026-11-04 | Versão 1.2: acompanhamento por IA. |

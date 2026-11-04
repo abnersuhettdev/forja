@@ -8,7 +8,7 @@
 | Dono do assunto | Critérios de aceite (CA-###) verificáveis, rastreados a RF, RNF, RN e jornadas |
 | Dependências | PRD-04..07, UX-05, TRN-02..05, SEG-03 |
 | Referenciado por | PLN-01, PLN-05 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Convenções
 
@@ -93,6 +93,20 @@
 | CA-088 | RF-088 | Dado registro de medidas / quando salva valores nas faixas / então aparecem no histórico | E |
 | CA-095 | RF-095 | Dado aluno / quando exporta / então recebe um JSON com todos os seus dados, sem dados de outros | I, E |
 
+## 3A. Versão 1.2 (planejada, ainda não implementada)
+
+| ID | Origem | Critério | Prior. |
+|---|---|---|---|
+| CA-401 | RF-110 | Dado o perfil completo / quando pede a rotina / então recebe rascunho válido, com aviso, e nada é publicado sem o toque | E |
+| CA-402 | RN-060 | Dada resposta da IA com exercício inexistente, inelegível ou restrito / então ela é descartada e vale o rascunho do motor | E |
+| CA-403 | RN-062 | Dada IA indisponível ou sem cota / então a rotina vem só das regras, com aviso simples | E |
+| CA-404 | RN-061 | Os dados enviados à IA não contêm nome, e-mail nem identificador, verificado por teste | E |
+| CA-405 | RF-112, RN-064 | Dada ênfase pedida / então o volume aumenta dentro dos limites, sem desrespeitar restrições | E |
+| CA-406 | RF-113, RF-114 | Modo Automático sem Gestão à vista; modo Manual com o editor atual | E |
+| CA-407 | RF-115, RF-116 | Resumo sem números que não estejam nos fatos calculados; ajuste só vira rascunho | E |
+| CA-408 | RF-118, RN-036 | Fotos com créditos e conferidas nos exercícios; sem foto adequada, placeholder | E |
+| CA-409 | UX-02 | Login na direção Anilha, com acessibilidade e orçamento de JS verdes | E |
+
 ## 4. Requisitos não funcionais
 
 | CA | Req. | Critério | Verif. |
@@ -151,3 +165,4 @@
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 7). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 7). |
+| 2026-11-04 | Versão 1.2: CA-401..409. |

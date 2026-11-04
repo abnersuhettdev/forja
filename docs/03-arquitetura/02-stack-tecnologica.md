@@ -9,7 +9,7 @@
 | Dependências | ARQ-01, RNF-020..024, ADR-016, ADR-017, ADR-027, ADR-028, Q-006 |
 | Referenciado por | ARQ-03..05, DAD-*, IMP-*, PLN-01 |
 | Decisões | ADR-031, ADR-032, ADR-033, ADR-035, ADR-036, ADR-039 — aprovadas |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -70,6 +70,7 @@ Escolher tecnologias **proporcionais** a um projeto pessoal com potencial de cre
 | Validação de dados | Zod (esquemas compartilhados) | Valibot | Mesmo esquema no app e na função de sincronização |
 | Cliente do provedor | `@supabase/auth-js` + `@supabase/postgrest-js` (só autenticação e consultas — ADR-039 alterada em 2026-10-28) | `@supabase/supabase-js` completo | O app não usa tempo real, arquivos nem funções do cliente; −26 KiB gzip no JS inicial |
 | Gráficos | Componente próprio em SVG ([ADR-092](06-adrs.md#adr-092--gráfico-de-linha-próprio-em-svg-no-lugar-do-uplot-substitui-parcialmente-a-adr-039); antes uPlot) | uPlot | Sem dependência; tabela alternativa feita pelo app (UX-06) |
+| IA (versão 1.2) | Cloudflare Workers AI; modelo definido na prova de qualidade (ADR-093) | Grok, Gemini, Ollama, serviços pagos | Gratuito até a cota, sem treinar com os dados, conta já existente |
 | Ícones / fontes | Lucide; Barlow (arquivos próprios) | — | ADR-023 |
 | Testes | Vitest (unidade), Playwright (E2E, inclusive modo offline) | — | SEG-03 |
 | Criptografia local (L6) | Web Crypto API nativa | — | Sem biblioteca extra |
@@ -212,3 +213,4 @@ De terceiros (usadas apenas na primeira triagem, substituídas pelas oficiais ac
 | 2026-10-28 | TAR-007 (parte local): `age-encryption` 0.3.1 (BSD-3-Clause; implementação oficial do formato `age`, pelo mesmo autor) como dependência de desenvolvimento, só nos scripts de backup e restauração — não vai para o app. |
 | 2026-10-28 | PR-DES-02 item 1 (aprovado): `@supabase/auth-js` 2.118.0 e `@supabase/postgrest-js` 2.118.0 (MIT) no app no lugar do `@supabase/supabase-js`, que fica só como dependência de desenvolvimento da raiz (teste de integração). |
 | 2026-11-03 | VH-03 e HSTS (HD-05) confirmados no projeto real (TAR-003). |
+| 2026-11-04 | Versão 1.2: IA na stack (ADR-093). |

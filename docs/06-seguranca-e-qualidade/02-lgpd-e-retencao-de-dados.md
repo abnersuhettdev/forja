@@ -9,7 +9,7 @@
 | Dependências | PRD-08 (§5, §6), RN-020, RN-024, RN-052, RNF-015, DAD-02, ADR-072, ADR-073 |
 | Referenciado por | IMP-03, IMP-04, PLN-05 |
 | Decisões | ADR-072 (prazos de retenção) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo e premissas
 
@@ -39,6 +39,7 @@ Aplicar boas práticas de proteção de dados no uso pessoal e preparar o terren
 | Marcas de exclusão | 90 dias |
 | `sync_operations` | 90 dias |
 | `client_error_reports` | 30 dias |
+| `ai_usage` (versão 1.2) | 30 dias, sem conteúdo |
 | `audit_events` | 2 anos, sem dados pessoais |
 | Backups | 35 dias (ADR-073); dados excluídos podem permanecer nos backups até expirarem — informado ao usuário |
 | Cópias mensais baixadas pelo usuário (ADR-073) | Sob responsabilidade do usuário; recomendação de manter as 3 últimas |
@@ -63,6 +64,7 @@ A limpeza automática (marcas, operações, relatos) roda diariamente por tarefa
 | Supabase (região São Paulo — VH-03) | Todos os dados do aluno | Empresa estrangeira; termos com ressalvas (ARQ-02 §7) |
 | GitHub (backups) | Backups **criptografados** | Armazenamento fora do Brasil; sem acesso ao conteúdo (chave privada só com o usuário) |
 | Cloudflare | Metadados de requisição do app estático | Sem dados do app |
+| Cloudflare Workers AI (versão 1.2, planejada) | Dados de ADR-093, incluindo peso, restrições e observações, sem identificação | Só o próprio usuário na 1.2; região não informada pelo provedor; na TER, REG-06 e REG-15 |
 
 Para a TER, transferência internacional e papéis de tratamento entram na verificação REG-04/REG-06.
 
@@ -88,3 +90,4 @@ Para a TER, transferência internacional e papéis de tratamento entram na verif
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
+| 2026-11-04 | Versão 1.2: Workers AI como terceiro e retenção de `ai_usage`. |

@@ -5,7 +5,7 @@
 | Identificador | GOV-00 |
 | Status | Vivo |
 | Dono do assunto | Lista oficial de documentos, responsabilidades, dependências e status |
-| Última atualização | 2026-10-26 (Marco autorizado — Fase 2 iniciada) |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 Status: ver definições em [GOV-01 §4](01-metodologia-cascata.md#4-status-de-documentos). "Dependências" indica os documentos que precisam estar concluídos antes e que devem ser revisados quando este mudar.
 
@@ -32,7 +32,7 @@ Status: ver definições em [GOV-01 §4](01-metodologia-cascata.md#4-status-de-d
 | PRD-06 | [Requisitos não funcionais](../01-produto/06-requisitos-nao-funcionais.md) | RNF-### | PRD-01, PRD-02 | **Aprovado** |
 | PRD-07 | [Regras de negócio](../01-produto/07-regras-de-negocio.md) | RN-### e parâmetros | PRD-05, ADRs | **Aprovado** |
 | PRD-08 | [Modalidades de uso e limites profissionais](../01-produto/08-modalidades-de-uso-e-limites-profissionais.md) | Modalidades PES/TER, GATE-TER, itens regulatórios REG-###, classificação preliminar de dados | PRD-01, PRD-04, PRD-05, ADR-018 | **Aprovado** |
-| PRD-09 | [Proposta: gestor automático](../01-produto/09-proposta-gestor-automatico.md) | Motor com IA e uso por outras pessoas | PRD-08, TRN-02 | Proposta (não aprovada) |
+| PRD-09 | [Proposta: gestor automático](../01-produto/09-proposta-gestor-automatico.md) | Motor com IA e uso por outras pessoas | PRD-08, TRN-02 | Parcialmente incorporada à versão 1.2 |
 
 ## 02 — Experiência (Etapa 2)
 
@@ -108,7 +108,7 @@ Status: ver definições em [GOV-01 §4](01-metodologia-cascata.md#4-status-de-d
 | PLN-03 | [Critérios de aceite](../08-planejamento/03-criterios-de-aceite.md) | CA-### | PRD-05..07, UX-05 | **Aprovado** |
 | PLN-04 | [Riscos e mitigações](../08-planejamento/04-riscos-e-mitigacoes.md) | RSK-### | Todos | **Aprovado** |
 | PLN-05 | [Checklist de aprovação final](../08-planejamento/05-checklist-de-aprovacao-final.md) | Auditoria e marco | Todos | **Aprovado** |
-| PLN-06 | [Plano da versão 1.2](../08-planejamento/06-plano-versao-1-2.md) | Design, imagens, IA, modos e vários alunos | PRD-09, TRN-02 | Proposta (não aprovada) |
+| PLN-06 | [Plano da versão 1.2](../08-planejamento/06-plano-versao-1-2.md) | Design, imagens, IA, modos e vários alunos | PRD-09, TRN-02 | Decisões aprovadas; não implementado |
 
 ## Ordem de dependência entre pastas
 
@@ -123,3 +123,4 @@ flowchart LR
     SEG --> IMP[07 Implantação]
     IMP --> PLN[08 Planejamento]
 ```
+| 2026-11-04 | PRD-09 e PLN-06 com situação atualizada. |

@@ -8,7 +8,7 @@
 | Dono do assunto | Campos, tipos, obrigatoriedade, faixas, valores padrão e classificação de privacidade |
 | Dependências | DAD-01, PRD-07 (RN-018), PRD-08 §6, TRN-01/TRN-03 (enumerações finais) |
 | Referenciado por | DAD-03, DAD-04, DAD-07, SEG-02 |
-| Última atualização | 2026-10-28 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Convenções
 
@@ -63,6 +63,7 @@
 | `restriction_codes` | text[] | N | Códigos de categoria de restrição (§7) | S |
 | `restrictions_note` | text | N | Até 500 caracteres | S |
 | `preferences_note` | text | N | Até 500 caracteres | C |
+| `emphasis_groups` | text[] | N | Versão 1.2: grupos musculares com ênfase (RN-064) | C |
 | `reassessment_interval_days` | smallint | S | Padrão 30 (fixo no MVP; RF-019 FUT) | T |
 | `reassessment_snooze_until` | date | N | Data escolhida no último adiamento (RN-015) | T |
 | `review_recommended_since` | timestamptz | N | Preenchido por RN-025 | T |
@@ -247,6 +248,8 @@ A fonte única das enumerações é [TRN-01 §3](../05-regras-de-treinamento/01-
 | `audit_events` | `id` · `event_type` · `subject_hash` (hash, nunca e-mail) · `occurred_at` · `details` jsonb sem dados pessoais | 2 anos | T |
 | `client_error_reports` | `id` · `subject_hash` (resumo SHA-256 do identificador do usuário, nunca e-mail — só para o limite de 20 por hora da API-030) · `app_version` · `error_code` · `context` (rota lógica, sem identificadores) · `platform` (`android`, `ios`, `desktop`, `other`) · `occurred_at` | 30 dias | T |
 | `system_settings` | `key` text PK · `value` jsonb | — | T |
+| `ai_usage` (versão 1.2) | `id` · `subject_hash` · `kind` (`routine`, `summary`) · `model` · `outcome` · `neurons` · `occurred_at`. Sem conteúdo enviado ou recebido | 30 dias | T |
+| `weekly_summaries` (versão 1.2) | `id` · `student_id` · `week_start` · `facts` jsonb · `text` · `model` · `created_at` | Enquanto a conta existir | S |
 
 ## Critérios de conclusão
 
@@ -265,3 +268,4 @@ A fonte única das enumerações é [TRN-01 §3](../05-regras-de-treinamento/01-
 | 2026-10-26 | §7 aponta para as enumerações finais de TRN-01/TRN-03 (Etapa 5, aguardando aprovação); novos campos `movement_pattern` e `load_markers` em `exercises`. |
 | 2026-10-26 | Enumerações finais aprovadas com a Etapa 5. |
 | 2026-10-28 | TAR-024 (confirmado pelo usuário): `client_error_reports` recebe `subject_hash` para o limite por usuário da API-030; valores de `platform` explicitados. |
+| 2026-11-04 | Versão 1.2: `emphasis_groups`, `ai_usage` e `weekly_summaries`. |

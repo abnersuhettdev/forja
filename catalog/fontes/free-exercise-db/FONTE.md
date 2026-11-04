@@ -8,6 +8,6 @@
 | Licença | Unlicense (domínio público declarado) — ver `LICENSE.md` |
 | Data da cópia | 2026-10-26 |
 | Uso no projeto | Seleção, classificação e base para textos reescritos em pt-BR (`catalog/exercicios.json`, campo `source_ref` = `id` da fonte) |
-| Imagens | **Não copiadas nem usadas.** A procedência das imagens não é informada pela fonte (ADR-052) |
+| Imagens | **Ainda não copiadas nem usadas.** A procedência não é informada pela fonte; a versão 1.2 passa a usá-las com o risco aceito pelo usuário (ADR-094) |
 
 O snapshot é dado de entrada não confiável: só é lido pelo validador (`scripts/catalog/validate.ts`) para conferir `source_ref`. Produção nunca consulta a fonte externa (DAD-06 §5).

@@ -8,7 +8,7 @@
 | Dono do assunto | Orçamento de desempenho, técnicas para atingi-lo, registros, relatos de erro, verificação de disponibilidade e alertas |
 | Dependências | RNF-006..009, RNF-025, ADR-038, DAD-04 (API-030), ARQ-02 §7 |
 | Referenciado por | SEG-03, IMP-04 |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Orçamento de desempenho
 
@@ -38,6 +38,10 @@
 | Logs do provedor | Requisições e erros da API/função | Política do provedor | A função não registra corpos de requisição |
 | Resultados do CI | Testes, deploy, backup | Política do GitHub | Nenhum |
 
+### 3A. IA
+
+**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** `ai_usage` registra modelo, resultado e consumo, nunca o conteúdo. Conteúdo enviado ou recebido não vai para registros. Telas novas ficam fora do JS inicial; o orçamento de ≤ 200 KB continua valendo, com folga de cerca de 5 KB.
+
 ## 4. Verificação de disponibilidade e alertas
 
 | Verificação | Como | Frequência | Alerta |
@@ -61,3 +65,4 @@ A verificação de disponibilidade **não** consulta o banco, para não gerar at
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
+| 2026-11-04 | Versão 1.2: observabilidade da IA. |

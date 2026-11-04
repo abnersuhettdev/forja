@@ -9,7 +9,7 @@
 | Dependências | ARQ-02, ADR-002, ADR-004, ADR-032, ADR-033, ADR-050, ADR-051, DAD-05, DAD-07, SEG-01 §7 |
 | Referenciado por | IMP-02..04, PLN-01 |
 | Decisões | ADR-074 (ambientes) — aprovada |
-| Última atualização | 2026-11-03 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Ambientes (ADR-074)
 
@@ -33,6 +33,7 @@
 | Senha do papel `sync_writer` | **Não** | Dev, Prod | Segredos da função de sincronização |
 | Token de acesso do provedor (CLI) | **Não** | CI | Cofre do CI |
 | Token de deploy da hospedagem | **Não** | CI | Cofre do CI |
+| Token da Cloudflare para Workers AI e identificador da conta (versão 1.2) | **Não** | Dev, Prod | Segredos da função no servidor, separados do token de publicação |
 | Chave pública de backup | Sim | Prod | Repositório/CI |
 | Chave privada de backup | **Não** | — | Somente o usuário |
 
@@ -74,3 +75,4 @@ Nenhum arquivo `.env` com segredos é versionado (ARQ-03 §2).
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
 | 2026-10-27 | §4 passo 3: indicado o script `scripts/ops/init-manager.ts` (TAR-008); procedimento inalterado. |
 | 2026-11-03 | §2: chave publishable no lugar da `anon` legada; a função de sincronização publicada com `verify_jwt = false` (confere o token por conta própria). Decisão do usuário: "Sim, ajuste e teste". |
+| 2026-11-04 | Versão 1.2: token do Workers AI. |

@@ -9,7 +9,7 @@
 | Dependências | PRD-05, PRD-06, PRD-07, UX-08, ADR-005, ADR-016, ADR-017, ADR-027, ADR-028 |
 | Referenciado por | ARQ-02..05, DAD-01..07, SEG-01, IMP-01..04, PLN-01 |
 | Decisões | ADR-030 (estilo arquitetural), ADR-034 (escritas por função de sincronização) — aprovadas |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -132,6 +132,10 @@ Exigem conexão (RF-093). A publicação é uma operação única na função de
 
 Conforme UX-08 §9: download em segundo plano; ativação apenas sem sessão em andamento; migração do banco local preservando a fila.
 
+### 6A. Geração com IA (versão 1.2, planejada; ADR-093)
+
+Uma nova função no servidor confere o usuário e a cota, roda o motor do pacote de domínio, chama o Workers AI, valida a resposta com as mesmas regras e devolve o rascunho. A escrita continua pela função de sincronização (ADR-034, ADR-050): a IA não grava nada. O provedor fica atrás de uma interface, para poder ser trocado.
+
 ## 7. Requisitos não funcionais atendidos pela arquitetura
 
 | RNF | Como |
@@ -166,3 +170,4 @@ Conforme UX-08 §9: download em segundo plano; ativação apenas sem sessão em 
 | 2026-10-26 | Conteúdo completo (Etapa 3). |
 | 2026-10-26 | RNF-009 com risco de pausa confirmado. |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 3). |
+| 2026-11-04 | Versão 1.2: fluxo de geração com IA. |

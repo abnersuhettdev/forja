@@ -9,7 +9,7 @@
 | Dependências | Todas as etapas 1–6 aprovadas |
 | Referenciado por | PLN-02, PLN-03, PLN-05 |
 | Decisões | ADR-080 (ordem e incrementos) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Regras do plano
 
@@ -553,6 +553,10 @@ A curadoria (TAR-012) é trabalho de conteúdo e pode correr em paralelo desde o
 | Condição para avançar | CA verdes |
 | Tamanho | Médio |
 
+### Versão 1.2 (ADR-096)
+
+As tarefas V12-01..10 estão em [PLN-06 §4](06-plano-versao-1-2.md#4-tarefas-e-ordem) e vêm **antes** da publicação em produção. TAR-031 e TAR-032 entram como V12-06 e V12-07, e TAR-030 faz parte de V12-09. A produção em TAR-006, TAR-025 e TAR-026 vem depois da 1.2. TAR-033, TAR-034 e TAR-035 seguem depois.
+
 ## 4. Cobertura
 
 Todo RF `ESS` e `DES` aparece em ao menos uma tarefa (verificação automática registrada em GOV-02). Requisitos `FUT` e da modalidade TER não têm tarefa (bloqueados — PRD-04 §4).
@@ -572,3 +576,4 @@ Todo RF `ESS` e `DES` aparece em ao menos uma tarefa (verificação automática 
 | 2026-10-26 | Conteúdo completo (Etapa 7). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 7). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): referências a API-024, API-R09, API-R11 e API-R12 em TAR-030 e TAR-033. |
+| 2026-11-04 | Versão 1.2: ordem alterada pela ADR-096. |

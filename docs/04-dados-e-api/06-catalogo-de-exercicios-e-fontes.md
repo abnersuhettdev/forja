@@ -9,7 +9,7 @@
 | Dependências | ADR-012, RF-030..038, RN-036, RN-037, RNF-027, PRD-08 (REG-12) |
 | Referenciado por | TRN-03, DAD-07, ARQ-05, PLN-01 |
 | Decisões | ADR-052 (fonte do catálogo e política de imagens) — aprovada |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -27,6 +27,8 @@ Garantir um catálogo inicial real, variado, em português, com imagens corretas
 | Imagens próprias | Do usuário/projeto | Fotos/ilustrações feitas para o app | Esforço de produção | Complemento (D5+: imagem própria em exercício personalizado) |
 
 ## 3. Política de imagens (ADR-052 — aprovada)
+
+> **Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** **a ADR-094 altera os itens 1 e 2 para as fotos do free-exercise-db**: serão usadas sem comprovação de origem, com o risco aceito pelo usuário. Cobertura conferida: 110 de 110 exercícios, 2 fotos cada, cerca de 70 KB cada antes de otimizar. Os itens 3 a 5 continuam valendo. As fotos são convertidas para WebP e ficam fora do pré-carregamento do service worker. Ao abrir para terceiros, REG-12 reavalia o risco.
 
 1. **Nenhuma imagem é publicada sem procedência e licença comprovadas** (RN-036). Uma declaração genérica de licença do repositório não comprova a autoria das imagens.
 2. Para as imagens do free-exercise-db: antes de usar, tentar comprovar a origem (contato com os mantenedores; registros no histórico do repositório). Sem comprovação, **não usar**.
@@ -98,3 +100,4 @@ Mantido em `catalog/LICENCAS.md` (gerado a partir de `content_sources` e `exerci
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 4). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 4). |
+| 2026-11-04 | Versão 1.2: fotos do free-exercise-db (ADR-094). |

@@ -8,7 +8,7 @@
 | Dono do assunto | Fluxos tela a tela das jornadas, pontos de decisão, estados de erro e fluxos offline |
 | Dependências | PRD-03, PRD-07, UX-03 |
 | Referenciado por | UX-05, PLN-03 (testes E2E) |
-| Última atualização | 2026-10-26 |
+| Última atualização | 2026-11-04 (versão 1.2) |
 
 ## 1. Objetivo
 
@@ -36,6 +36,7 @@ flowchart TD
 
 Notas:
 - A sugestão de instalação aparece uma vez, como banner dispensável; nunca como modal.
+- **Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** no modo Automático, a configuração inicial termina na rotina proposta, com motivos e o aviso de RN-030. "Usar esta rotina" publica e leva a Hoje; a pessoa pode pedir outra (ADR-095).
 - A configuração inicial exige conexão para o envio final; se offline, o botão "Concluir" explica que é preciso conexão e os dados permanecem no aparelho.
 
 ## 3. JOR-02 — Montagem do programa (manual)
@@ -225,3 +226,4 @@ O estado de **sincronização** (RN-051) é independente do ciclo de vida acima:
 | 2026-10-26 | Aprovado pelo usuário (Etapa 2); seções de saída da conta detalhadas conforme condição da UXP-02. |
 | 2026-10-26 | Texto de irreversibilidade no descarte; confirmação de senha em "Sair e manter" (ADR-028). |
 | 2026-10-26 | Detalhamento da saída da conta e isolamento confirmado pelo usuário. |
+| 2026-11-04 | Versão 1.2: fluxo do modo Automático. |

@@ -86,3 +86,4 @@ Registra mudanças relevantes (criação de documentos, mudanças de requisito, 
 | 2026-11-03 | 9 | GOV-02, IMP-01 | Chave publishable no lugar da `anon` legada; Pages mantido; TAR-003 iniciada com as contas criadas pelo usuário; autoria dos commits ajustada. | "Sim, ajuste e teste" |
 | 2026-11-03 | 9 | PRD-09, GOV-02 | Proposta do gestor automático para outras pessoas registrada (não aprovada); Q-007 atualizada. | "Quero que outras pessoas usem também." |
 | 2026-11-04 | 9 | PLN-06, GOV-02, GOV-00 | Proposta do plano da versão 1.2 registrada (não aprovada). | Pedido do usuário: planejar a versão 1.2 |
+| 2026-11-04 | 9 | PLN-06, ADR-093..096, PRD-01/04/05/07/08/09, TRN-01/02/05, UX-02/03/04/05, DAD-02/04/06, ARQ-01/02/05, SEG-02/04, IMP-01, PLN-01/02/03/04, GOV-00/02/03, catálogo | Documentação atualizada para a versão 1.2 (planejada, ainda não implementada). | "atualizar a documentação toda também com as informações do v1.2" |
