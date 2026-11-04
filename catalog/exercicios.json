@@ -20,8 +20,25 @@
     "safety_tips": [
       "Com cargas altas, treine com alguém para ajudar a devolver a barra ao suporte."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-reto-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Bench_Press_-_Medium_Grip/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-reto-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Bench_Press_-_Medium_Grip/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -43,8 +60,25 @@
       "Empurre a barra para cima até estender os braços."
     ],
     "safety_tips": ["Mantenha as escápulas apoiadas no banco durante todo o movimento."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-inclinado-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Incline_Bench_Press_-_Medium_Grip/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-inclinado-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Incline_Bench_Press_-_Medium_Grip/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -68,8 +102,25 @@
     "safety_tips": [
       "Peça ajuda para retirar e devolver a barra; a posição dificulta alcançar o suporte."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-declinado-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Decline_Barbell_Bench_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-declinado-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Decline_Barbell_Bench_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -91,8 +142,25 @@
       "Repita, mantendo os pés firmes no chão."
     ],
     "safety_tips": ["Ao terminar, traga os halteres ao peito e sente-se antes de soltá-los."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-reto-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-reto-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Bench_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -113,8 +181,25 @@
       "Desça de forma controlada até os halteres ficarem ao lado da parte alta do peito."
     ],
     "safety_tips": ["Evite bater os halteres no alto; mantenha o controle do movimento."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-inclinado-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-inclinado-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -135,8 +220,25 @@
       "Volte de forma controlada até sentir o alongamento do peito."
     ],
     "safety_tips": ["Mantenha as costas apoiadas no encosto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Bench_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Bench_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -157,8 +259,25 @@
       "Empurre até estender os braços e trave a barra ao terminar."
     ],
     "safety_tips": ["Ajuste as travas de segurança do Smith logo acima do peito."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-smith-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Bench_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-smith-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Bench_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -182,8 +301,25 @@
     "safety_tips": [
       "Se ficar difícil manter o corpo alinhado, apoie os joelhos ou as mãos num banco."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "flexao-de-bracos-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pushups/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "flexao-de-bracos-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pushups/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -204,8 +340,25 @@
       "Desça o peito até perto do banco e empurre de volta."
     ],
     "safety_tips": ["Use um banco que não deslize."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "flexao-inclinada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Push-Up/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "flexao-inclinada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Push-Up/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -226,8 +379,25 @@
       "Empurre até estender os braços."
     ],
     "safety_tips": ["Não deixe o quadril cair durante a descida."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "flexao-pes-elevados-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Push-Ups_With_Feet_Elevated/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "flexao-pes-elevados-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Push-Ups_With_Feet_Elevated/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -248,8 +418,25 @@
       "Feche os braços pelo mesmo arco até os halteres se aproximarem."
     ],
     "safety_tips": ["Não desça além do alongamento confortável dos ombros."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crucifixo-reto-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Flyes/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crucifixo-reto-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Flyes/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -270,8 +457,25 @@
       "Volte pelo mesmo arco até os halteres se aproximarem."
     ],
     "safety_tips": ["Use cargas que permitam controlar o arco do início ao fim."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crucifixo-inclinado-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Flyes/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crucifixo-inclinado-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Flyes/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -292,8 +496,25 @@
       "Volte de forma controlada até sentir o alongamento."
     ],
     "safety_tips": ["Mantenha as costas apoiadas e os ombros afastados das orelhas."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "voador-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Butterfly/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "voador-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Butterfly/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -314,8 +535,25 @@
       "Volte de forma controlada até os braços ficarem abertos."
     ],
     "safety_tips": ["Mantenha um pé à frente do outro para ter equilíbrio."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crossover-polia-alta-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crossover/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crossover-polia-alta-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crossover/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -336,8 +574,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Evite usar o impulso do tronco."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crossover-polia-baixa-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Low_Cable_Crossover/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crossover-polia-baixa-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Low_Cable_Crossover/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -358,8 +613,25 @@
       "Empurre de volta até estender os braços."
     ],
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "paralelas-peitoral-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dips_-_Chest_Version/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "paralelas-peitoral-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dips_-_Chest_Version/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -380,8 +652,25 @@
       "Empurre até estender os braços."
     ],
     "safety_tips": ["Pegada muito fechada sobrecarrega os punhos; mantenha a largura dos ombros."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "supino-fechado-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Close-Grip_Barbell_Bench_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "supino-fechado-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Close-Grip_Barbell_Bench_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -402,8 +691,25 @@
       "Desça de forma controlada até a altura das orelhas."
     ],
     "safety_tips": ["Não arqueie a lombar; mantenha as costas apoiadas."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "desenvolvimento-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Shoulder_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "desenvolvimento-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Shoulder_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -426,8 +732,25 @@
     "safety_tips": [
       "Afaste levemente a cabeça para trás na passagem da barra; não incline o tronco."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "desenvolvimento-militar-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Military_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "desenvolvimento-militar-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Military_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -448,8 +771,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha as costas apoiadas no encosto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "desenvolvimento-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Shoulder_Military_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "desenvolvimento-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Shoulder_Military_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -470,8 +810,25 @@
       "Desça invertendo a rotação até a posição inicial."
     ],
     "safety_tips": ["Use cargas menores que no desenvolvimento comum."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "desenvolvimento-arnold-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Arnold_Dumbbell_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "desenvolvimento-arnold-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Arnold_Dumbbell_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -492,8 +849,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Não use impulso do tronco; prefira cargas leves e controle."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-lateral-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Side_Lateral_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-lateral-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Side_Lateral_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -514,8 +888,25 @@
       "Desça de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Mantenha o tronco imóvel."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-lateral-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Seated_Lateral_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-lateral-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Seated_Lateral_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -536,8 +927,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Não balance o tronco para subir a carga."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-frontal-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Dumbbell_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-frontal-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Dumbbell_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -558,8 +966,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha o peito apoiado no encosto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crucifixo-inverso-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Machine_Flyes/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crucifixo-inverso-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Machine_Flyes/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -580,8 +1005,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Se sentir a lombar, faça sentado com o peito apoiado num banco inclinado."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "crucifixo-inverso-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Flyes/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "crucifixo-inverso-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Flyes/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -602,8 +1044,25 @@
       "Volte de forma controlada até estender os braços."
     ],
     "safety_tips": ["Use carga moderada; o foco é a parte posterior do ombro."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "face-pull-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Face_Pull/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "face-pull-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Face_Pull/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -624,8 +1083,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Não eleve os cotovelos acima dos ombros se houver desconforto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-alta-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Upright_Barbell_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-alta-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Upright_Barbell_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -646,8 +1122,25 @@
       "Volte de forma controlada até estender os braços."
     ],
     "safety_tips": ["Não puxe a barra para trás da nuca."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "puxada-frontal-aberta-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Wide-Grip_Lat_Pulldown/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "puxada-frontal-aberta-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Wide-Grip_Lat_Pulldown/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -668,8 +1161,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Evite balançar o tronco para ganhar impulso."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "puxada-frontal-fechada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Close-Grip_Front_Lat_Pulldown/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "puxada-frontal-fechada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Close-Grip_Front_Lat_Pulldown/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -690,8 +1200,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha o peito aberto durante a puxada."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "puxada-supinada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Underhand_Cable_Pulldowns/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "puxada-supinada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Underhand_Cable_Pulldowns/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -712,8 +1239,25 @@
       "Desça de forma controlada até estender os braços."
     ],
     "safety_tips": ["Se não conseguir completar repetições, use a versão assistida com elástico."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "barra-fixa-pronada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pullups/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "barra-fixa-pronada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pullups/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -734,8 +1278,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Evite chutar as pernas para subir."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "barra-fixa-supinada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Chin-Up/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "barra-fixa-supinada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Chin-Up/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -756,8 +1317,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Verifique se o elástico está bem preso antes de começar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "barra-fixa-assistida-elastico-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/0.jpg",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "file": "barra-fixa-assistida-elastico-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Assisted_Pull-Up/1.jpg",
+        "width": 640,
+        "height": 960
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -778,8 +1356,25 @@
       "Volte de forma controlada até a altura dos olhos."
     ],
     "safety_tips": ["Mantenha o tronco firme, levemente inclinado à frente."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "pulldown-bracos-estendidos-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Straight-Arm_Pulldown/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "pulldown-bracos-estendidos-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Straight-Arm_Pulldown/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -800,8 +1395,25 @@
       "Volte de forma controlada sem curvar as costas."
     ],
     "safety_tips": ["Não use o balanço do tronco para puxar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-baixa-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-baixa-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Cable_Rows/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -822,8 +1434,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Mantenha a coluna neutra; se a lombar incomodar, prefira a remada apoiada."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-curvada-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bent_Over_Barbell_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-curvada-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bent_Over_Barbell_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -844,8 +1473,25 @@
       "Desça de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Não gire o tronco para subir a carga."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-unilateral-halter-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Arm_Dumbbell_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-unilateral-halter-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Arm_Dumbbell_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -866,8 +1512,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Boa opção para poupar a lombar, já que o peito fica apoiado."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-apoiada-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-apoiada-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Incline_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -888,8 +1551,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha o peito em contato com o apoio."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leverage_Iso_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leverage_Iso_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -910,8 +1590,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Mantenha os joelhos levemente flexionados e a coluna neutra."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-cavalinho-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/T-Bar_Row_with_Handle/0.jpg",
+        "width": 500,
+        "height": 750
+      },
+      {
+        "file": "remada-cavalinho-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/T-Bar_Row_with_Handle/1.jpg",
+        "width": 500,
+        "height": 750
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -932,8 +1629,25 @@
       "Puxe o peito até a barra e desça de forma controlada."
     ],
     "safety_tips": ["Quanto mais vertical o corpo, mais fácil o exercício."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "remada-invertida-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Inverted_Row/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "remada-invertida-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Inverted_Row/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -954,8 +1668,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Não gire os ombros; o movimento é só para cima e para baixo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "encolhimento-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Shrug/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "encolhimento-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Shrug/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -976,8 +1707,25 @@
       "Suba até alinhar o tronco às pernas, sem arquear além disso."
     ],
     "safety_tips": ["Não estenda a coluna além da linha do corpo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "extensao-lombar-banco-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hyperextensions_Back_Extensions/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "extensao-lombar-banco-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hyperextensions_Back_Extensions/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -998,8 +1746,25 @@
       "Segure por um instante e desça de forma controlada."
     ],
     "safety_tips": ["Movimento curto e controlado; não force a extensão."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "superman-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Superman/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "superman-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Superman/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1028,8 +1793,25 @@
     "safety_tips": [
       "Ajuste as travas de segurança do suporte; aprenda o movimento com pouca carga."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-livre-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Squat/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "agachamento-livre-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Squat/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1055,8 +1837,25 @@
       "Suba empurrando o chão até estender quadril e joelhos."
     ],
     "safety_tips": ["Exige mobilidade de punhos e tornozelos; comece com pouca carga."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-frontal-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Barbell_Squat/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "agachamento-frontal-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Front_Barbell_Squat/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1077,8 +1876,25 @@
       "Suba empurrando o chão."
     ],
     "safety_tips": ["Os joelhos devem acompanhar a direção das pontas dos pés."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-goblet-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Goblet_Squat/0.jpg",
+        "width": 640,
+        "height": 428
+      },
+      {
+        "file": "agachamento-goblet-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Goblet_Squat/1.jpg",
+        "width": 640,
+        "height": 428
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1099,8 +1915,25 @@
       "Suba empurrando o chão."
     ],
     "safety_tips": ["Mantenha os calcanhares no chão."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-peso-corporal-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bodyweight_Squat/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "agachamento-peso-corporal-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bodyweight_Squat/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1121,8 +1954,25 @@
       "Empurre até quase estender os joelhos, sem travá-los."
     ],
     "safety_tips": ["Não desça a ponto de a lombar sair do encosto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "leg-press-45-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leg_Press/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "leg-press-45-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leg_Press/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1143,8 +1993,25 @@
       "Suba empurrando a plataforma até quase estender os joelhos."
     ],
     "safety_tips": ["Ajuste a profundidade ao seu conforto nos joelhos."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-hack-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hack_Squat/0.jpg",
+        "width": 640,
+        "height": 640
+      },
+      {
+        "file": "agachamento-hack-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hack_Squat/1.jpg",
+        "width": 640,
+        "height": 640
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1165,8 +2032,25 @@
       "Suba até estender as pernas e trave a barra ao terminar."
     ],
     "safety_tips": ["Ajuste as travas de segurança na altura mínima que você vai descer."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-smith-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Squat/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "agachamento-smith-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Smith_Machine_Squat/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1187,8 +2071,25 @@
       "Empurre com a perna da frente para voltar e alterne as pernas."
     ],
     "safety_tips": ["O joelho de trás deve chegar perto do chão sem bater."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "afundo-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Lunges/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "afundo-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Lunges/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1209,8 +2110,25 @@
       "Suba e avance com a outra perna, caminhando."
     ],
     "safety_tips": ["Exige espaço livre e equilíbrio; comece com pouca carga."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "afundo-caminhando-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Walking_Lunge/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "afundo-caminhando-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Walking_Lunge/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1231,8 +2149,25 @@
       "Suba e avance com a outra perna."
     ],
     "safety_tips": ["Mantenha o tronco ereto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "afundo-caminhando-peso-corporal-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bodyweight_Walking_Lunge/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "afundo-caminhando-peso-corporal-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bodyweight_Walking_Lunge/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1253,8 +2188,25 @@
       "Suba e complete a série antes de trocar de perna."
     ],
     "safety_tips": ["Mantenha o peso distribuído no pé da frente."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "afundo-estatico-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Split_Squat_with_Dumbbells/0.jpg",
+        "width": 640,
+        "height": 960
+      },
+      {
+        "file": "afundo-estatico-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Split_Squat_with_Dumbbells/1.jpg",
+        "width": 640,
+        "height": 960
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1275,8 +2227,25 @@
       "Desça de forma controlada e alterne as pernas."
     ],
     "safety_tips": ["Use um banco estável e de altura que mantenha o joelho confortável."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "subida-banco-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Step_Ups/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "subida-banco-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Step_Ups/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1297,8 +2266,25 @@
       "Suba contraindo as coxas e os glúteos."
     ],
     "safety_tips": ["Os joelhos devem seguir a direção das pontas dos pés."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "agachamento-sumo-halter-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plie_Dumbbell_Squat/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "agachamento-sumo-halter-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plie_Dumbbell_Squat/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1319,8 +2305,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Evite cargas que façam o quadril sair do assento."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "cadeira-extensora-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leg_Extensions/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "cadeira-extensora-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Leg_Extensions/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1341,8 +2344,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Mantenha o quadril apoiado no banco."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "mesa-flexora-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lying_Leg_Curls/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "mesa-flexora-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Lying_Leg_Curls/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1363,8 +2383,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Ajuste o encosto para o joelho alinhar com o eixo do aparelho."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "cadeira-flexora-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Leg_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "cadeira-flexora-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Leg_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1387,8 +2424,25 @@
     "safety_tips": [
       "Exercício intenso para os posteriores; comece com poucas repetições e pouca amplitude."
     ],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "flexora-nordica-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Natural_Glute_Ham_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "flexora-nordica-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Natural_Glute_Ham_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1409,8 +2463,25 @@
       "Desça até sentir o alongamento atrás das coxas e volte estendendo o quadril."
     ],
     "safety_tips": ["Mantenha a barra próxima ao corpo e a coluna neutra."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "terra-romeno-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Romanian_Deadlift/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "terra-romeno-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Romanian_Deadlift/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1431,8 +2502,25 @@
       "Volte estendendo o quadril."
     ],
     "safety_tips": ["Desça só até onde mantiver as costas retas."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "stiff-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Stiff-Legged_Dumbbell_Deadlift/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "stiff-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Stiff-Legged_Dumbbell_Deadlift/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1453,8 +2541,25 @@
       "Fique ereto no alto e desça a barra pelo mesmo caminho."
     ],
     "safety_tips": ["Aprenda com pouca carga; a coluna deve permanecer neutra do início ao fim."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "levantamento-terra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Deadlift/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "levantamento-terra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Deadlift/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1475,8 +2580,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Use uma almofada sob a barra para proteger o quadril."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-pelvica-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Hip_Thrust/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-pelvica-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Hip_Thrust/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1497,8 +2619,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Use uma almofada sob a barra."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "ponte-gluteo-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Glute_Bridge/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "ponte-gluteo-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Glute_Bridge/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1519,8 +2658,25 @@
       "Desça de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Mantenha o quadril nivelado durante a subida."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "ponte-gluteo-unilateral-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single_Leg_Glute_Bridge/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "ponte-gluteo-unilateral-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Single_Leg_Glute_Bridge/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1541,8 +2697,25 @@
       "Volte de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Não arqueie a lombar ao subir a perna."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "coice-gluteo-solo-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Glute_Kickback/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "coice-gluteo-solo-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Glute_Kickback/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1563,8 +2736,25 @@
       "Volte de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Mantenha o tronco firme, sem balançar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "coice-gluteo-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Legged_Cable_Kickback/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "coice-gluteo-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/One-Legged_Cable_Kickback/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1585,8 +2775,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Use amplitude confortável para o quadril."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "cadeira-abdutora-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Thigh_Abductor/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "cadeira-abdutora-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Thigh_Abductor/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1607,8 +2814,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Ajuste a abertura inicial a uma amplitude confortável."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "cadeira-adutora-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Thigh_Adductor/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "cadeira-adutora-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Thigh_Adductor/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1629,8 +2853,25 @@
       "Volte para o outro lado com o mesmo número de passos."
     ],
     "safety_tips": ["Mantenha os joelhos apontados para a frente."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "abducao-elastico-caminhando-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Monster_Walk/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "abducao-elastico-caminhando-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Monster_Walk/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1651,8 +2892,25 @@
       "Volte de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Apoie-se em algo firme para manter o equilíbrio."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "aducao-elastico-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Hip_Adductions/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "aducao-elastico-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Band_Hip_Adductions/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1673,8 +2931,25 @@
       "Desça até sentir o alongamento da panturrilha."
     ],
     "safety_tips": ["Faça o movimento completo, sem quicar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "panturrilha-em-pe-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Calf_Raises/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "panturrilha-em-pe-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Calf_Raises/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1695,8 +2970,25 @@
       "Desça até sentir o alongamento."
     ],
     "safety_tips": ["Controle a descida."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "panturrilha-sentado-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Calf_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "panturrilha-sentado-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Seated_Calf_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1717,8 +3009,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha a trava de segurança ao alcance e os joelhos sem travar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "panturrilha-leg-press-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Calf_Press_On_The_Leg_Press_Machine/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "panturrilha-leg-press-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Calf_Press_On_The_Leg_Press_Machine/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1739,8 +3048,25 @@
       "Desça até sentir o alongamento."
     ],
     "safety_tips": ["Apoie uma das mãos para ter equilíbrio, se necessário."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "panturrilha-em-pe-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Dumbbell_Calf_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "panturrilha-em-pe-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Dumbbell_Calf_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1761,8 +3087,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Mantenha os cotovelos junto ao corpo, sem balançar o tronco."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-direta-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-direta-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Barbell_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1783,8 +3126,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["A barra W costuma ser mais confortável para os punhos."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-direta-barra-w-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/EZ-Bar_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-direta-barra-w-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/EZ-Bar_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1805,8 +3165,25 @@
       "Desça de forma controlada e alterne os braços."
     ],
     "safety_tips": ["Evite usar impulso do tronco."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-alternada-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Alternate_Bicep_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-alternada-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dumbbell_Alternate_Bicep_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1827,8 +3204,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Mantenha os cotovelos fixos ao lado do corpo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-martelo-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hammer_Curls/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-martelo-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hammer_Curls/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1849,8 +3243,25 @@
       "Desça de forma controlada até estender."
     ],
     "safety_tips": ["Use cargas menores que na rosca em pé."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-inclinada-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-inclinada-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Incline_Dumbbell_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1871,8 +3282,25 @@
       "Desça de forma controlada e troque de braço ao fim da série."
     ],
     "safety_tips": ["Mantenha o braço parado; só o antebraço se move."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-concentrada-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Concentration_Curls/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-concentrada-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Concentration_Curls/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1893,8 +3321,25 @@
       "Desça de forma controlada sem estender bruscamente."
     ],
     "safety_tips": ["Não solte o peso no final da descida."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-scott-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Preacher_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-scott-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Preacher_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1915,8 +3360,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha os cotovelos junto ao corpo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Biceps_Cable_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Biceps_Cable_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1937,8 +3399,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Não tire os braços do apoio."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Bicep_Curl/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Bicep_Curl/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1959,8 +3438,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Use cargas leves; o movimento é curto."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-punho-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-punho-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Palms-Up_Dumbbell_Wrist_Curl_Over_A_Bench/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -1981,8 +3477,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Use cargas leves."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rosca-punho-inversa-halteres-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rosca-punho-inversa-halteres-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Palms-Down_Dumbbell_Wrist_Curl_Over_A_Bench/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2003,8 +3516,25 @@
       "Percorra a distância ou o tempo combinado e apoie os halteres no chão com cuidado."
     ],
     "safety_tips": ["Escolha um percurso livre de obstáculos."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "caminhada-do-fazendeiro-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Farmers_Walk/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "caminhada-do-fazendeiro-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Farmers_Walk/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2025,8 +3555,25 @@
       "Volte de forma controlada até a altura do peito."
     ],
     "safety_tips": ["Os cotovelos devem ficar parados ao lado do corpo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-polia-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Pushdown/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-polia-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Pushdown/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2047,8 +3594,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Não incline o tronco para ajudar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-polia-corda-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Pushdown_-_Rope_Attachment/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-polia-corda-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Pushdown_-_Rope_Attachment/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2069,8 +3633,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Mantenha o abdômen firme para não arquear a lombar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-frances-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Overhead_Extension_with_Rope/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-frances-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Triceps_Overhead_Extension_with_Rope/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2091,8 +3672,25 @@
       "Estenda os cotovelos de volta, sem mover os braços."
     ],
     "safety_tips": ["Use carga moderada e desça devagar."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-testa-barra-w-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/EZ-Bar_Skullcrusher/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-testa-barra-w-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/EZ-Bar_Skullcrusher/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2113,8 +3711,25 @@
       "Estenda os cotovelos de volta."
     ],
     "safety_tips": ["Pode ser feito sentado para mais estabilidade."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-frances-halter-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Dumbbell_Triceps_Extension/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-frances-halter-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Standing_Dumbbell_Triceps_Extension/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2135,8 +3750,25 @@
       "Volte de forma controlada e troque de lado ao fim da série."
     ],
     "safety_tips": ["Só o antebraço se move."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-coice-halter-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tricep_Dumbbell_Kickback/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-coice-halter-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Tricep_Dumbbell_Kickback/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2157,8 +3789,25 @@
       "Empurre até estender os braços."
     ],
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "mergulho-banco-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bench_Dips/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "mergulho-banco-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Bench_Dips/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2179,8 +3828,25 @@
       "Empurre até estender os braços."
     ],
     "safety_tips": ["Desça só até onde o ombro fica confortável."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "paralelas-triceps-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dips_-_Triceps_Version/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "paralelas-triceps-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dips_-_Triceps_Version/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2201,8 +3867,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["Não tire os braços do apoio."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "triceps-maquina-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Triceps_Extension/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "triceps-maquina-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Machine_Triceps_Extension/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2223,8 +3906,25 @@
       "Mantenha a posição contraindo abdômen e glúteos pelo tempo prescrito."
     ],
     "safety_tips": ["Não deixe o quadril cair nem subir demais."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "prancha-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plank/1.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "prancha-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Plank/0.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2245,8 +3945,25 @@
       "Mantenha a posição pelo tempo prescrito e troque de lado."
     ],
     "safety_tips": ["Se ficar difícil, apoie o joelho de baixo."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "prancha-lateral-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Side_Bridge/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "prancha-lateral-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Side_Bridge/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2267,8 +3984,25 @@
       "Volte e alterne os lados."
     ],
     "safety_tips": ["Movimento lento; a lombar deve permanecer apoiada."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "dead-bug-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dead_Bug/0.jpg",
+        "width": 640,
+        "height": 360
+      },
+      {
+        "file": "dead-bug-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Dead_Bug/1.jpg",
+        "width": 640,
+        "height": 360
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2289,8 +4023,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Não puxe a cabeça com as mãos."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "abdominal-supra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "abdominal-supra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Crunches/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2311,8 +4062,25 @@
       "Volte de forma controlada."
     ],
     "safety_tips": ["O movimento vem do abdômen, não do quadril."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "abdominal-polia-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crunch/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "abdominal-polia-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Cable_Crunch/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2333,8 +4101,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Evite usar impulso das pernas."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "abdominal-infra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Crunch/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "abdominal-infra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Reverse_Crunch/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2355,8 +4140,25 @@
       "Desça de forma controlada."
     ],
     "safety_tips": ["Comece com os joelhos flexionados se a versão estendida for difícil."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-pernas-barra-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hanging_Leg_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-pernas-barra-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Hanging_Leg_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2377,8 +4179,25 @@
       "Desça devagar sem encostar os pés no chão."
     ],
     "safety_tips": ["Mantenha a lombar apoiada no banco."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "elevacao-pernas-banco-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Flat_Bench_Lying_Leg_Raise/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "elevacao-pernas-banco-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Flat_Bench_Lying_Leg_Raise/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2399,8 +4218,25 @@
       "Desça e troque de lado ao fim da série."
     ],
     "safety_tips": ["Não puxe o pescoço."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "abdominal-obliquo-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Oblique_Crunches_-_On_The_Floor/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "abdominal-obliquo-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Oblique_Crunches_-_On_The_Floor/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2421,8 +4257,25 @@
       "Mantenha o abdômen firme durante todo o movimento."
     ],
     "safety_tips": ["Evite se houver desconforto na coluna; prefira o Pallof press."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "rotacao-russa-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Russian_Twist/0.jpg",
+        "width": 640,
+        "height": 427
+      },
+      {
+        "file": "rotacao-russa-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Russian_Twist/1.jpg",
+        "width": 640,
+        "height": 427
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   },
   {
@@ -2443,8 +4296,25 @@
       "Volte as mãos ao peito e troque de lado ao fim da série."
     ],
     "safety_tips": ["A resistência deve tentar girar o tronco; você não deixa."],
-    "images": [],
-    "image_status": "procedencia-nao-comprovada",
+    "images": [
+      {
+        "file": "pallof-press-1.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pallof_Press/0.jpg",
+        "width": 640,
+        "height": 360
+      },
+      {
+        "file": "pallof-press-2.webp",
+        "license": "Unlicense (declarada pelo repositório)",
+        "attribution": "Fotos do free-exercise-db (yuhonas); a fonte não informa a autoria.",
+        "source_url": "https://raw.githubusercontent.com/yuhonas/free-exercise-db/f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5/exercises/Pallof_Press/1.jpg",
+        "width": 640,
+        "height": 360
+      }
+    ],
+    "image_status": "risco-aceito-adr-094",
     "text_review": "revisado"
   }
 ]

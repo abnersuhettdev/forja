@@ -2,7 +2,13 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { LOAD_MARKERS, MOVEMENT_PATTERNS } from "../../packages/domain/src/index.ts";
-import { exerciseId, readCatalog, renderCatalogSeed, stableUuid } from "./seed-sql.ts";
+import {
+  exerciseId,
+  readCatalog,
+  renderCatalogSeed,
+  renderImagesSeed,
+  stableUuid,
+} from "./seed-sql.ts";
 
 const migration = (name: string) =>
   readFileSync(new URL(`../../supabase/migrations/${name}`, import.meta.url), "utf8");
@@ -17,6 +23,10 @@ function quotedValues(text: string, marker: string, end: string): string[] {
 describe("seed do catálogo (DAD-07 §3)", () => {
   it("a migração contém exatamente o seed gerado do arquivo curado", () => {
     expect(migration("20261027140100_seed_catalog_v1.sql")).toContain(renderCatalogSeed());
+  });
+
+  it("a migração das fotos contém exatamente o seed gerado do arquivo curado (ADR-094)", () => {
+    expect(migration("20261104120000_seed_catalog_images.sql")).toContain(renderImagesSeed());
   });
 
   it("identificadores são estáveis, únicos e no formato UUID", () => {

@@ -28,7 +28,7 @@ Garantir um catálogo inicial real, variado, em português, com imagens corretas
 
 ## 3. Política de imagens (ADR-052 — aprovada)
 
-> **Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** **a ADR-094 altera os itens 1 e 2 para as fotos do free-exercise-db**: serão usadas sem comprovação de origem, com o risco aceito pelo usuário. Cobertura conferida: 110 de 110 exercícios, 2 fotos cada, cerca de 70 KB cada antes de otimizar. Os itens 3 a 5 continuam valendo. As fotos são convertidas para WebP e ficam fora do pré-carregamento do service worker. Ao abrir para terceiros, REG-12 reavalia o risco.
+> **Versão 1.2 ([PLN-06](../08-planejamento/06-plano-versao-1-2.md), implementado no local em 2026-11-04):** **a ADR-094 altera os itens 1 e 2 para as fotos do free-exercise-db**: são usadas sem comprovação de origem, com o risco aceito pelo usuário. São 110 de 110 exercícios, com 2 fotos cada, conferidas uma a uma por Claude em folhas de contato; o usuário ainda não as revisou. Os itens 3 a 5 continuam valendo. As fotos são WebP de até 640 px, cerca de 20 KB cada, em `apps/web/public/exercicios/`, e ficam fora do pré-carregamento do service worker. Se uma foto não carregar, o placeholder aparece. Ao abrir para terceiros, REG-12 reavalia o risco.
 
 1. **Nenhuma imagem é publicada sem procedência e licença comprovadas** (RN-036). Uma declaração genérica de licença do repositório não comprova a autoria das imagens.
 2. Para as imagens do free-exercise-db: antes de usar, tentar comprovar a origem (contato com os mantenedores; registros no histórico do repositório). Sem comprovação, **não usar**.

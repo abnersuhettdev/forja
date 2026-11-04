@@ -128,11 +128,13 @@ export function ExerciseScreen({
         {exercise.images.length > 0 ? (
           <p>
             {T.imageCredits}:{" "}
-            {exercise.images
-              .map((image) =>
-                [image.attribution_text, image.license_name].filter(Boolean).join(" · "),
-              )
-              .join("; ")}
+            {[
+              ...new Set(
+                exercise.images.map((image) =>
+                  [image.attribution_text, image.license_name].filter(Boolean).join(" · "),
+                ),
+              ),
+            ].join("; ")}
           </p>
         ) : null}
       </section>

@@ -127,7 +127,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | — | Publicar 1.0, TAR-025, TAR-026 | V12-* (decisão: depois da 1.2) | Depois |
 | V12-01 | Direções visuais do login; escolha do usuário | — | **Feito:** direção Anilha |
 | V12-02 | Novo login; design das telas principais | V12-01 | Grande. **Login feito** (2026-11-04); telas principais a fazer |
-| V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio |
+| V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio. **Feito no local** (2026-11-04) |
 | V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio |
 | V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno |
 | V12-06 | TAR-031: contraindicações | — | Médio |

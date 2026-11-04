@@ -10,11 +10,11 @@ Referências: DAD-06 §6, ADR-052, RN-036. Exibido no app em "Créditos e fonte"
 
 ## Imagens
 
-| Exercício | Arquivo | Licença | Autoria | Fonte |
-| --------- | ------- | ------- | ------- | ----- |
-| —         | —       | —       | —       | —     |
+| Exercício    | Arquivo                                                                                                               | Licença                               | Autoria                  | Fonte                                                               |
+| ------------ | --------------------------------------------------------------------------------------------------------------------- | ------------------------------------- | ------------------------ | ------------------------------------------------------------------- |
+| Todos os 110 | `apps/web/public/exercicios/<codigo>-1.webp` e `-2.webp` (220 arquivos; cada um listado em `catalog/exercicios.json`) | Unlicense, declarada pelo repositório | Não informada pela fonte | free-exercise-db, commit `f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5` |
 
-**Hoje:** nenhuma imagem publicada. **Versão 1.2 (planejada, ADR-094):** serão usadas as fotos do free-exercise-db, sem comprovação de origem, com o risco aceito pelo usuário; esta tabela será preenchida na implementação. Até lá: Todos os exercícios usam o placeholder (RF-034) até haver imagem com procedência e licença comprovadas (ADR-052). As imagens do free-exercise-db não são usadas: a fonte não informa sua origem.
+**Versão 1.2 (ADR-094):** as fotos do free-exercise-db são usadas sem comprovação de origem, com o risco aceito pelo usuário: o repositório se declara Unlicense, mas não diz quem fez as fotos. REG-12 reavalia antes de abrir para terceiros. Exercícios personalizados e fotos que não carregam usam o placeholder (RF-034).
 
 ## Compatibilidade
 

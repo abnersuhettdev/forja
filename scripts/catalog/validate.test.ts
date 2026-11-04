@@ -1,5 +1,5 @@
 // Testes do validador do catálogo (TAR-012; DAD-06 §4).
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   CATALOG_PATH,
@@ -20,8 +20,18 @@ describe("catálogo curado", () => {
     expect(report.total).toBeGreaterThanOrEqual(MIN_EXERCISES);
   });
 
-  it("não publica imagens sem procedência comprovada (ADR-052)", () => {
-    expect(catalog.filter((e) => e.images.length > 0)).toEqual([]);
+  it("todo exercício tem suas duas fotos, publicadas e com crédito (ADR-094, CA-408)", () => {
+    for (const entry of catalog) {
+      expect(entry.images.map((i) => i.file).sort()).toEqual([
+        `${entry.codigo}-1.webp`,
+        `${entry.codigo}-2.webp`,
+      ]);
+      for (const image of entry.images) {
+        const file = new URL(`../../apps/web/public/exercicios/${image.file}`, import.meta.url);
+        expect(existsSync(file), image.file).toBe(true);
+        expect(image.source_url).toContain(`/${entry.source_ref}/`);
+      }
+    }
   });
 
   it("em modo de lançamento, exige textos revisados (CA-038)", () => {
@@ -43,7 +53,17 @@ describe("validador", () => {
         {
           ...base,
           codigo: "outro",
-          images: [{ file: "a.jpg", license: "CC0", attribution: "x", source_url: "https://a.b" }],
+          image_status: "procedencia-nao-comprovada",
+          images: [
+            {
+              file: "a.jpg",
+              license: "CC0",
+              attribution: "x",
+              source_url: "https://a.b",
+              width: 1,
+              height: 1,
+            },
+          ],
         },
       ],
       sourceIds,

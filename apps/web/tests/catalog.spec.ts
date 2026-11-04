@@ -55,8 +55,15 @@ test("detalhe mostra placeholder, grupos, equipamentos, instruções, dicas e cr
   await expect(
     page.getByRole("heading", { level: 2, name: "Supino reto com barra" }),
   ).toBeVisible();
-  await expect(page.getByRole("img", { name: "Imagem indisponível" })).toBeVisible();
-  await expect(page.getByText("Imagem indisponível", { exact: true })).toBeVisible();
+  for (const position of [1, 2]) {
+    const photo = page.getByRole("img", {
+      name: `Supino reto com barra, foto ${String(position)} de 2`,
+    });
+    await expect(photo).toBeVisible();
+    await expect(photo).toHaveJSProperty("complete", true);
+    expect(await photo.evaluate((img: HTMLImageElement) => img.naturalWidth)).toBeGreaterThan(0);
+  }
+  await expect(page.getByText(/Fotos do free-exercise-db/)).toHaveCount(1);
   await expect(page.getByRole("listitem").filter({ hasText: /^Peitoral$/ })).toBeVisible();
   await expect(page.getByRole("listitem").filter({ hasText: /^Tríceps$/ })).toBeVisible();
   await expect(page.getByRole("listitem").filter({ hasText: /^Banco$/ })).toBeVisible();
@@ -67,6 +74,17 @@ test("detalhe mostra placeholder, grupos, equipamentos, instruções, dicas e cr
   await expect(credits.getByRole("link", { name: "free-exercise-db (yuhonas)" })).toBeVisible();
   await expect(credits.getByRole("link", { name: "Unlicense" })).toBeVisible();
   if (browserName === "chromium") await expectAccessible(page);
+});
+
+test("foto que não carrega dá lugar ao placeholder (CA-034, CA-408)", async ({ page }) => {
+  await page.route("**/exercicios/*.webp", (route) => route.abort());
+  await page.goto("/gestao/catalogo");
+  await page.getByLabel("Buscar por nome").fill("supino reto com barra");
+  await list(page)
+    .getByRole("link", { name: /Supino reto com barra/ })
+    .click();
+  await expect(page.getByRole("img", { name: "Imagem indisponível" })).toBeVisible();
+  await expect(page.getByText("Imagem indisponível", { exact: true })).toBeVisible();
 });
 
 test("sem conexão, o catálogo já baixado continua consultável (UX-08 §6.2)", async ({

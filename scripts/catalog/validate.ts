@@ -76,17 +76,20 @@ export const catalogEntrySchema = z
         license: z.string().min(1),
         attribution: z.string().min(1),
         source_url: z.url(),
+        width: z.number().int().positive(),
+        height: z.number().int().positive(),
       }),
     ),
-    image_status: z.enum(["procedencia-nao-comprovada", "comprovada"]),
+    image_status: z.enum(["procedencia-nao-comprovada", "comprovada", "risco-aceito-adr-094"]),
     text_review: z.enum(["pendente-usuario", "revisado"]),
   })
   .superRefine((entry, ctx) => {
     const issue = (path: string, message: string): void => {
       ctx.addIssue({ code: "custom", path: [path], message });
     };
-    // ADR-052 — sem procedência comprovada, nenhuma imagem é publicada.
-    if (entry.image_status !== "comprovada" && entry.images.length > 0) {
+    // ADR-052 — sem procedência comprovada, nenhuma imagem é publicada; a ADR-094 é a única
+    // exceção, para as fotos do free-exercise-db.
+    if (entry.image_status === "procedencia-nao-comprovada" && entry.images.length > 0) {
       issue("images", "Imagem sem procedência comprovada.");
     }
     if (entry.primary_muscles.some((m) => entry.secondary_muscles.includes(m))) {

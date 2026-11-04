@@ -17,8 +17,8 @@ select is(
   (select count(*)::int from public.exercises where origin = 'imported' and text_reviewed_at is null),
   0, 'textos revisados (CA-038)'
 );
-select is((select count(*)::int from public.exercise_images), 0,
-  'nenhuma imagem sem procedência comprovada (ADR-052)');
+select is((select count(*)::int from public.exercise_images), 220,
+  'duas fotos por exercício importado, com licença e fonte (ADR-094)');
 
 -- Fixtures fictícias: dois gestores, cada um com aluno próprio.
 insert into auth.users (id, email) values

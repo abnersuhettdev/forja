@@ -103,4 +103,37 @@ ${equipment.join(",\n")};`,
   ].join("\n\n");
 }
 
-if (import.meta.main) console.log(renderCatalogSeed());
+/** Fotos dos exercícios (ADR-094): seed próprio, porque o v1 já foi aplicado. */
+export function renderImagesSeed(entries: readonly CatalogEntry[] = readCatalog()): string {
+  const rows = entries.flatMap((e) =>
+    e.images.map((image, index) => {
+      const position = index + 1;
+      const values = [
+        literal(stableUuid(`imagem:${e.codigo}:${String(position)}`)),
+        literal(exerciseId(e.codigo)),
+        literal(`/exercicios/${image.file}`),
+        String(position),
+        literal(SOURCE_ID),
+        literal(image.license),
+        literal(image.attribution),
+        String(image.width),
+        String(image.height),
+        literal(`${e.name}, foto ${String(position)} de ${String(e.images.length)}`),
+      ];
+      return `  (${values.join(", ")})`;
+    }),
+  );
+  return [
+    `update public.content_sources
+set notes = ${literal(`Commit f00c92c7dcf1216a928a52c3706c7ce8e2f71ed5. Fotos usadas sem comprovação de origem, com risco aceito (ADR-094).`)}
+where id = ${literal(SOURCE_ID)};`,
+    `insert into public.exercise_images
+  (id, exercise_id, path, position, source_id, license_name, attribution_text, width, height, alt_text)
+values
+${rows.join(",\n")};`,
+  ].join("\n\n");
+}
+
+if (import.meta.main) {
+  console.log(process.argv.includes("--imagens") ? renderImagesSeed() : renderCatalogSeed());
+}
