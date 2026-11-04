@@ -215,7 +215,7 @@ export function validateAiReply(raw: unknown, request: AiRequest): AiReply {
     return { ok: false, problem: "bad_format" };
   }
   if (trocas.length > MAX_SWAPS) return { ok: false, problem: "too_many_swaps" };
-  const reasons = (motivos as string[]).map((m) => m.trim()).filter((m) => m !== "");
+  const reasons = motivos.map((m) => m.trim()).filter((m) => m !== "");
   if (
     reasons.length > MAX_REASONS ||
     reasons.some((m) => m.length > MAX_REASON_LENGTH) ||
