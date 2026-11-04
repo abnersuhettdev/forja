@@ -152,7 +152,7 @@ export function AppShell() {
   }
   if (auth.status === "signedOut" || pathname === LOGIN_PATH) {
     return (
-      <main className={styles.main}>
+      <main>
         <LoginScreen />
       </main>
     );

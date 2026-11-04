@@ -1,0 +1,122 @@
+/* TELA-001 — direção "Anilha" (UX-02 §2.3). */
+.page {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+.hero {
+  flex: 1 0 auto;
+  min-height: min(26dvh, 220px);
+}
+
+.plate {
+  --plate-size: min(118vw, 56dvh);
+
+  position: absolute;
+  top: calc(var(--plate-size) * -0.28);
+  right: calc(var(--plate-size) * -0.32);
+  width: var(--plate-size);
+  height: var(--plate-size);
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  width: 100%;
+  max-width: 440px;
+  margin: 0 auto;
+  padding: var(--space-4) var(--page-gutter) calc(var(--space-5) + env(safe-area-inset-bottom));
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font: 700 1.625rem/2rem var(--font-metric);
+  color: var(--color-text);
+}
+
+.brand:focus {
+  outline: none;
+}
+
+.mark {
+  flex: none;
+  width: 44px;
+  height: 44px;
+}
+
+.tagline {
+  margin: 0;
+  font: 700 2.5rem/1.05 var(--font-metric);
+  color: var(--color-text);
+}
+
+.help {
+  margin: 0;
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+  text-align: center;
+}
+
+/* Computador: painel escuro com a anilha, sempre em grafite, e formulário ao lado. */
+@media (min-width: 900px) {
+  .page {
+    flex-direction: row;
+    align-items: stretch;
+  }
+
+  .hero {
+    --login-plate-ground: #0e1114;
+
+    position: relative;
+    flex: 1 1 50%;
+    min-height: auto;
+    overflow: hidden;
+    background: #0e1114;
+  }
+
+  .plate {
+    top: 50%;
+    right: auto;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .content {
+    flex: 1 1 50%;
+    align-self: center;
+    max-width: 480px;
+    padding: var(--space-6);
+  }
+}
+
+/* Tamanho da anilha: no computador, grande; em telas baixas, menor para não encostar na frase. */
+@media (min-width: 900px) {
+  .plate {
+    --plate-size: min(44vw, 86dvh);
+  }
+}
+
+@media (max-width: 899px) and (max-height: 700px) {
+  .plate {
+    --plate-size: min(118vw, 46dvh);
+  }
+}
+
+@media (max-height: 640px) {
+  .tagline {
+    font-size: 2rem;
+  }
+}

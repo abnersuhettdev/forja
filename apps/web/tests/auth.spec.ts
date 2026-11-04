@@ -29,6 +29,7 @@ test("sem sessão, qualquer tela leva ao login", async ({ page }) => {
   await page.goto("/hoje");
   await expect(page).toHaveURL(/\/entrar$/);
   await expect(page.getByRole("heading", { level: 1, name: "Forja" })).toBeVisible();
+  await expect(page.getByText("A rotina certa, sem você precisar pensar nela.")).toBeVisible();
 });
 
 for (const scheme of ["light", "dark"] as const) {

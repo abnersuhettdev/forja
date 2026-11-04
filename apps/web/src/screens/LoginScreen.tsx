@@ -12,8 +12,10 @@ import { Button } from "../components/Button.tsx";
 import { Banner } from "../components/Feedback.tsx";
 import { FormField, TextInput } from "../components/FormField.tsx";
 import { PasswordInput } from "../components/PasswordInput.tsx";
+import { WeightPlate } from "../components/WeightPlate.tsx";
 import { TEXTS } from "../app/texts.ts";
 import { useOnline } from "../app/useOnline.ts";
+import local from "./LoginScreen.module.css";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.auth.login;
@@ -85,58 +87,70 @@ export function LoginScreen() {
   }
 
   return (
-    <div className={styles.authPage}>
-      <h1 tabIndex={-1} className={styles.brand}>
-        {TEXTS.appName}
-      </h1>
-      <form className={styles.stack} noValidate onSubmit={(e) => void submit(e)}>
-        {!online ? <Banner tone="info">{T.offline}</Banner> : null}
-        {wait > 0 ? (
-          <Banner tone="warning">{T.wait(wait)}</Banner>
-        ) : error !== null ? (
-          <Banner tone="danger">{error}</Banner>
-        ) : null}
-        <FormField label={T.email} error={emailError}>
-          {(control) => (
-            <TextInput
-              {...control}
-              type="email"
-              inputMode="email"
-              autoComplete="username"
-              autoCapitalize="none"
-              spellCheck={false}
-              value={email}
-              disabled={submitting}
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-            />
-          )}
-        </FormField>
-        <FormField label={T.password} error={passwordError}>
-          {(control) => (
-            <PasswordInput
-              {...control}
-              autoComplete="current-password"
-              value={password}
-              disabled={submitting}
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          )}
-        </FormField>
-        <Button
-          type="submit"
-          variant="primary"
-          size="lg"
-          loading={submitting}
-          disabled={wait > 0 || !online}
-        >
-          {T.submit}
-        </Button>
-        <p className={styles.muted}>{T.forgot}</p>
-      </form>
+    <div className={local.page}>
+      <div className={local.hero}>
+        <WeightPlate className={local.plate} />
+      </div>
+      <div className={local.content}>
+        <header className={local.header}>
+          <h1 tabIndex={-1} className={local.brand}>
+            <svg viewBox="0 0 100 100" aria-hidden="true" className={local.mark}>
+              <rect width="100" height="100" rx="22" fill="#a3e635" />
+              <path d="M30 18 H74 V32 H46 V44 H68 V58 H46 V82 H30 Z" fill="#0e1114" />
+            </svg>
+            {TEXTS.appName}
+          </h1>
+          <p className={local.tagline}>{T.tagline}</p>
+        </header>
+        <form className={styles.stack} noValidate onSubmit={(e) => void submit(e)}>
+          {!online ? <Banner tone="info">{T.offline}</Banner> : null}
+          {wait > 0 ? (
+            <Banner tone="warning">{T.wait(wait)}</Banner>
+          ) : error !== null ? (
+            <Banner tone="danger">{error}</Banner>
+          ) : null}
+          <FormField label={T.email} error={emailError}>
+            {(control) => (
+              <TextInput
+                {...control}
+                type="email"
+                inputMode="email"
+                autoComplete="username"
+                autoCapitalize="none"
+                spellCheck={false}
+                value={email}
+                disabled={submitting}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                }}
+              />
+            )}
+          </FormField>
+          <FormField label={T.password} error={passwordError}>
+            {(control) => (
+              <PasswordInput
+                {...control}
+                autoComplete="current-password"
+                value={password}
+                disabled={submitting}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            )}
+          </FormField>
+          <Button
+            type="submit"
+            variant="primary"
+            size="lg"
+            loading={submitting}
+            disabled={wait > 0 || !online}
+          >
+            {T.submit}
+          </Button>
+          <p className={local.help}>{T.forgot}</p>
+        </form>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,17 @@
+.plate {
+  display: block;
+}
+
+/* Os vãos mostram o fundo da tela, em qualquer tema. */
+.hole {
+  stroke: var(--login-plate-ground, var(--color-bg));
+}
+
+.bore {
+  fill: var(--login-plate-ground, var(--color-bg));
+}
+
+.weight {
+  fill: #8a94a0;
+  font: 700 28px var(--font-metric);
+}
