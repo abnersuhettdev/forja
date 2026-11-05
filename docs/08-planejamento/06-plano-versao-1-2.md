@@ -139,7 +139,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 |---|---|---|---|
 | — | Publicar 1.0, TAR-025, TAR-026 | V12-* (decisão: depois da 1.2) | Depois |
 | V12-01 | Direções visuais do login; escolha do usuário | — | **Feito:** direção Anilha |
-| V12-02 | Novo login; design das telas principais | V12-01 | Grande. **Login feito** (2026-11-04); telas principais a fazer |
+| V12-02 | Novo login; design das telas principais | V12-01 | Grande. **Feito no local:** login (2026-11-04) e telas principais (2026-11-05) |
 | V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio. **Feito no local** (2026-11-04) |
 | V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio. **Feito no local** (2026-11-04) |
 | V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno. **Primeira rodada feita** (2026-11-04), ver §3.4: nenhum modelo passou na leitura dos textos; falta decisão do usuário |
@@ -210,3 +210,4 @@ Respostas dadas na discussão; o escopo como um todo **ainda não foi aprovado**
 | 2026-11-04 | §7A: respostas da discussão com o usuário; escopo revisado. |
 | 2026-11-04 | Decisões aprovadas item a item; documentação atualizada; login Anilha. |
 | 2026-11-04 | Login na direção Anilha implementado (parte de V12-02). |
+| 2026-11-05 | Telas principais implementadas conforme o protótipo aprovado (V12-02). |

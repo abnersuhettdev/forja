@@ -467,6 +467,11 @@ export const TEXTS = {
     none: "Você ainda não tem um programa",
     noneHint: "Monte seus treinos em Gestão › Programa e publique para vê-los aqui.",
     build: "Montar programa",
+    noneAutomatic: "Você ainda não tem uma rotina",
+    noneAutomaticHint:
+      "O app monta uma proposta com os seus dados. Ela só passa a valer quando você escolher usar.",
+    buildAutomatic: "Gerar minha rotina",
+    back: "Voltar",
     neverDownloaded:
       "Seus treinos ainda não foram baixados neste aparelho. Conecte-se uma vez para usá-los offline.",
     version: (date: string) => `versão de ${date}`,
@@ -682,6 +687,8 @@ export const TEXTS = {
     current: "Peso atual",
     none: "Nenhum peso registrado",
     variation: (kg: string, date: string) => `${kg} kg desde ${date}`,
+    toGoal: (kg: string) => `faltam ${kg} kg para a meta`,
+    goalReached: "meta atingida",
     register: "Registrar peso",
     period: "Período",
     periods: { "30d": "30 dias", "90d": "90 dias", "1y": "1 ano", all: "Tudo" },

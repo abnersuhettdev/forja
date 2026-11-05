@@ -2,7 +2,7 @@ import { appModeOf } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { InstallBanner } from "../components/InstallBanner.tsx";
 import { useState } from "react";
-import { AlertTriangle, ChevronRight, ClipboardList, Play, Plus, SearchX } from "lucide-react";
+import { AlertTriangle, Check, ChevronLeft, ChevronRight, Play, SearchX } from "lucide-react";
 import {
   currentWeight,
   MUSCLE_GROUP_LABELS,
@@ -12,6 +12,7 @@ import {
 } from "@forja/domain";
 import { Button, IconButton } from "../components/Button.tsx";
 import { SYNC_PATH } from "../components/SyncIndicator.tsx";
+import { WeightPlate } from "../components/WeightPlate.tsx";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { pendingAge } from "../sync/status.ts";
 import { ExerciseImage } from "../components/ExerciseImage.tsx";
@@ -29,7 +30,7 @@ import {
 } from "../training/format.ts";
 import { useTraining, type TrainingState } from "../training/useTraining.ts";
 import { SESSION_PATH, useStartWorkout } from "../execution/useStartWorkout.tsx";
-import { useRegisterWeight } from "./EvolutionScreen.tsx";
+import { useGoalWeight, useRegisterWeight } from "./EvolutionScreen.tsx";
 import type { WeekDay, WorkoutSummary } from "../training/training.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -60,6 +61,48 @@ function GroupChips({ groups }: { groups: readonly string[] }) {
 const workoutFacts = (w: WorkoutSummary) =>
   [TEXTS.program.exercisesCount(w.exerciseCount), T.minutes(w.minutes)].join(" · ");
 
+/** Barra com anilhas do estado sem rotina: decorativa, em SVG, como a anilha do login. */
+function BarbellArt() {
+  const plates = [
+    [40, 16, 30, 128],
+    [74, 40, 20, 80],
+    [226, 40, 20, 80],
+    [250, 16, 30, 128],
+  ];
+  return (
+    <svg viewBox="0 0 320 160" aria-hidden="true" className={styles.barbell}>
+      <rect className={styles.bar} x="8" y="74" width="304" height="12" rx="6" />
+      <rect className={styles.bar} x="98" y="66" width="12" height="28" rx="4" />
+      <rect className={styles.bar} x="210" y="66" width="12" height="28" rx="4" />
+      {plates.map(([x, y, width, height]) => (
+        <rect
+          key={x}
+          x={x}
+          y={y}
+          width={width}
+          height={height}
+          rx="9"
+          fill="#1a1f25"
+          stroke="#59636e"
+          strokeWidth="2"
+        />
+      ))}
+      <rect x="46" y="20" width="4" height="120" rx="2" fill="#a3e635" />
+      <rect x="270" y="20" width="4" height="120" rx="2" fill="#a3e635" />
+    </svg>
+  );
+}
+
+/** Cartão principal, sempre grafite, com a anilha cortada no canto (UX-02 §2.3). */
+function Hero({ children }: { children: React.ReactNode }) {
+  return (
+    <section className={["graphite", styles.hero].join(" ")} aria-labelledby="hero-title">
+      <WeightPlate className={styles.heroPlate} />
+      {children}
+    </section>
+  );
+}
+
 /** Estados comuns: carregando, sem programa (ou nunca baixado offline — UX-04 §4.1). */
 function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element } {
   const training = useTraining();
@@ -73,21 +116,21 @@ function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element
       return { fallback: <ErrorState title={TEXTS.error.title} description={T.neverDownloaded} /> };
     return {
       fallback: (
-        <EmptyState
-          icon={<ClipboardList size={32} />}
-          title={T.none}
-          description={T.noneHint}
-          action={
-            <Button
-              variant="primary"
-              onClick={() => {
-                navigate(automatic ? "/plano" : PROGRAM_PATH);
-              }}
-            >
-              {T.build}
-            </Button>
-          }
-        />
+        <section className={styles.noRoutine}>
+          <BarbellArt />
+          <h2 className={styles.noRoutineTitle}>{automatic ? T.noneAutomatic : T.none}</h2>
+          <p className={shared.muted}>{automatic ? T.noneAutomaticHint : T.noneHint}</p>
+          <Button
+            variant="primary"
+            size="lg"
+            className={styles.heroPrimary}
+            onClick={() => {
+              navigate(automatic ? "/plano" : PROGRAM_PATH);
+            }}
+          >
+            {automatic ? T.buildAutomatic : T.build}
+          </Button>
+        </section>
       ),
     };
   }
@@ -131,6 +174,7 @@ export function TodayScreen() {
   const [choosing, setChoosing] = useState(false);
   const { start, dialog } = useStartWorkout();
   const register = useRegisterWeight();
+  const goal = useGoalWeight();
   if ("fallback" in result) return result.fallback;
   const { training } = result;
   const today = toLocalDate(training.now, training.timeZone);
@@ -147,10 +191,8 @@ export function TodayScreen() {
           setChoosing(true);
         }}
       />
-      <section aria-label={T.week}>
-        <WeekRow training={training} />
-        <WeightRow training={training} today={today} onRegister={register.open} />
-      </section>
+      <WeekRow training={training} />
+      <WeightRow training={training} today={today} goal={goal} onRegister={register.open} />
       <OfflineStamp updatedAt={training.updatedAt} />
       <ChooseWorkoutSheet
         open={choosing}
@@ -185,7 +227,7 @@ function HeroCard({
 
   if (state.kind === "continue") {
     return (
-      <section className={styles.hero} aria-labelledby="hero-title">
+      <Hero>
         <h2 id="hero-title" className={styles.heroTitle}>
           {T.inProgressTitle(sessionName(state))}
         </h2>
@@ -205,6 +247,7 @@ function HeroCard({
         ) : null}
         <Button
           variant="primary"
+          size="lg"
           className={styles.heroPrimary}
           onClick={() => {
             navigate(SESSION_PATH);
@@ -212,13 +255,13 @@ function HeroCard({
         >
           {T.continue}
         </Button>
-      </section>
+      </Hero>
     );
   }
 
   if (state.kind === "completed_today") {
     return (
-      <section className={styles.hero} aria-labelledby="hero-title">
+      <Hero>
         <h2 id="hero-title" className={styles.heroTitle}>
           {T.completedToday(sessionName(state))}
         </h2>
@@ -236,7 +279,7 @@ function HeroCard({
             {T.chooseOther}
           </Button>
         </div>
-      </section>
+      </Hero>
     );
   }
 
@@ -250,7 +293,7 @@ function HeroCard({
               formatRelease(new Date(state.availableAt), training.now, training.timeZone),
             );
     return (
-      <section className={styles.hero} aria-labelledby="hero-title">
+      <Hero>
         <p className={styles.eyebrow}>{T.restSuggested}</p>
         <h2 id="hero-title" className={styles.heroText}>
           {reason}
@@ -258,7 +301,7 @@ function HeroCard({
         <div className={styles.heroActions}>
           <Button onClick={onChoose}>{T.trainAnyway}</Button>
         </div>
-      </section>
+      </Hero>
     );
   }
 
@@ -275,7 +318,7 @@ function HeroCard({
     .filter(Boolean)
     .join(" · ");
   return (
-    <section className={styles.hero} aria-labelledby="hero-title">
+    <Hero>
       <p className={styles.eyebrow}>{T.recommended}</p>
       <h2 id="hero-title" className={styles.heroTitle}>
         {next.name}
@@ -286,6 +329,7 @@ function HeroCard({
       {rec.notPlannedToday ? <p className={styles.heroText}>{T.notPlanned}</p> : null}
       <Button
         variant="primary"
+        size="lg"
         icon={<Play size={20} />}
         className={styles.heroPrimary}
         onClick={() => {
@@ -308,20 +352,20 @@ function HeroCard({
           {T.viewWorkout}
         </Button>
       </div>
-    </section>
+    </Hero>
   );
 }
 
 function WeekRow({ training }: { training: Ready }) {
   const { week, recommendation } = training;
   return (
-    <div className={styles.summaryRow}>
-      <span className={styles.itemText}>
+    <section className={styles.panel} aria-label={T.week}>
+      <div className={styles.weekHead}>
         <span className={styles.summaryLabel}>{T.week}</span>
         <span className={shared.muted}>
           {T.weekCount(recommendation.week.count, recommendation.week.goal)}
         </span>
-      </span>
+      </div>
       <ol className={styles.week}>
         {week.map((day: WeekDay) => (
           <li
@@ -329,37 +373,60 @@ function WeekRow({ training }: { training: Ready }) {
             className={[styles.day, day.isToday ? styles.today : ""].join(" ")}
             aria-label={`${formatDay(day.date)}: ${T.marks[day.mark]}`}
           >
+            <span className={styles.dayLetter} aria-hidden="true">
+              {T.weekdays[day.weekday - 1]?.charAt(0).toUpperCase()}
+            </span>
             <span
               className={[styles.dot, day.mark === "none" ? "" : styles[day.mark]].join(" ")}
               aria-hidden="true"
-            />
-            <span aria-hidden="true">{T.weekdays[day.weekday - 1]?.charAt(0).toUpperCase()}</span>
+            >
+              {day.mark === "presence" || day.mark === "pending" ? (
+                <Check size={18} strokeWidth={3} />
+              ) : null}
+            </span>
           </li>
         ))}
       </ol>
-    </div>
+    </section>
   );
 }
 
 function WeightRow({
   training,
   today,
+  goal,
   onRegister,
 }: {
   training: Ready;
   today: string;
+  goal: number | null;
   onRegister: () => void;
 }) {
   const latest = currentWeight(training.weights);
   return (
-    <div className={styles.summaryRow}>
-      <span className={styles.summaryLabel}>{T.weight}</span>
-      <span className={styles.weightValue}>
-        {latest
-          ? T.weightValue(formatKg(latest.weight_kg), formatDaysAgo(latest.measured_on, today))
-          : T.noWeight}
+    <div className={[styles.panel, styles.weightPanel].join(" ")}>
+      <span className={styles.itemText}>
+        <span className={styles.summaryLabel}>{T.weight}</span>
+        {latest ? (
+          <span>
+            <span className={styles.weightValue}>{formatKg(latest.weight_kg)} kg</span>
+            <span className="visually-hidden"> · </span>
+            <span className={styles.weightMeta}>
+              {[
+                formatDaysAgo(latest.measured_on, today),
+                goal === null ? null : TEXTS.evolution.goal(formatKg(goal)).toLowerCase(),
+              ]
+                .filter(Boolean)
+                .join(" · ")}
+            </span>
+          </span>
+        ) : (
+          <span className={shared.muted}>{T.noWeight}</span>
+        )}
       </span>
-      <IconButton label={TEXTS.evolution.register} icon={<Plus size={20} />} onClick={onRegister} />
+      <Button size="sm" onClick={onRegister}>
+        {TEXTS.evolution.register}
+      </Button>
     </div>
   );
 }
@@ -525,13 +592,26 @@ export function WorkoutScreen({ params }: { params: Readonly<Record<string, stri
     );
   }
   return (
-    <div className={shared.stack}>
-      <div className={shared.stack}>
-        <h2 className={shared.exerciseName}>{workout.name}</h2>
-        <p className={shared.muted}>{workoutFacts(summary)}</p>
+    <div className={styles.workoutScreen}>
+      <div className={["graphite", styles.workoutHero].join(" ")}>
+        <WeightPlate className={styles.workoutPlate} />
+        <IconButton
+          label={T.back}
+          icon={<ChevronLeft size={24} />}
+          onClick={() => {
+            if (window.history.length > 1) window.history.back();
+            else navigate("/treinos");
+          }}
+        />
+        <h2 className={styles.heroTitle}>{workout.name}</h2>
+        <p className={styles.heroText}>
+          {[workoutFacts(summary), training.updatedAt ? T.offlineBadge.toLowerCase() : null]
+            .filter(Boolean)
+            .join(" · ")}
+        </p>
         <GroupChips groups={summary.groups} />
       </div>
-      <ol className={shared.list} aria-label={T.exercises}>
+      <ol className={styles.itemList} aria-label={T.exercises}>
         {workout.items.map((item) => {
           const exercise = training.exercises.get(item.exercise_id);
           return (
@@ -539,7 +619,7 @@ export function WorkoutScreen({ params }: { params: Readonly<Record<string, stri
               <Link to={`/exercicios/${item.exercise_id}`} className={styles.itemRow}>
                 <ExerciseImage images={exercise?.images ?? []} size="thumb" />
                 <span className={styles.itemText}>
-                  <span>{exercise?.name ?? "—"}</span>
+                  <span className={styles.itemName}>{exercise?.name ?? "—"}</span>
                   <span className={shared.muted}>
                     {[
                       itemSummary(item),
@@ -560,6 +640,7 @@ export function WorkoutScreen({ params }: { params: Readonly<Record<string, stri
       <div className={styles.stickyAction}>
         <Button
           variant="primary"
+          size="lg"
           icon={<Play size={20} />}
           className={styles.heroPrimary}
           onClick={() => void start(workout.id)}

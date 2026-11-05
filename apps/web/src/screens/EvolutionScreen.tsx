@@ -19,6 +19,7 @@ import { Banner, EmptyState, Skeleton } from "../components/Feedback.tsx";
 import { FormField, TextInput } from "../components/FormField.tsx";
 import { LineChart } from "../components/LineChart.tsx";
 import { Sheet } from "../components/Sheet.tsx";
+import { WeightPlate } from "../components/WeightPlate.tsx";
 import { useSnackbar } from "../components/Snackbar.tsx";
 import { deleteWeight, saveWeight } from "../evolution/weights.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
@@ -41,7 +42,7 @@ function useTimeZone(): string {
 }
 
 /** Peso-meta do perfil guardado no aparelho (RN-017). */
-function useGoalWeight(): number | null {
+export function useGoalWeight(): number | null {
   const local = useLocalData();
   const db = local?.db ?? null;
   const [goal, setGoal] = useState<number | null>(null);
@@ -233,40 +234,46 @@ export function EvolutionScreen() {
   }
 
   return (
-    <div className={shared.stack}>
-      <section className={styles.summary} aria-label={T.current}>
-        <span className={shared.muted}>{T.current}</span>
+    <div className={styles.screen}>
+      <section className={["graphite", styles.summary].join(" ")} aria-label={T.current}>
+        <WeightPlate className={styles.plate} />
+        <span className={styles.summaryLabel}>{T.current}</span>
         <span className={styles.current}>
           {current ? `${formatKg(current.weight_kg)} kg` : T.none}
         </span>
         {current && initial ? (
-          <span className={shared.muted}>
-            {T.variation(
-              `${weightVariation(initial.weight_kg, current.weight_kg) > 0 ? "+" : ""}${formatKg(
-                weightVariation(initial.weight_kg, current.weight_kg),
-              ).replace("-", "−")}`,
-              formatShortDate(initial.measured_on),
-            )}
+          <span className={styles.summaryText}>
+            {[
+              T.variation(
+                `${weightVariation(initial.weight_kg, current.weight_kg) > 0 ? "+" : ""}${formatKg(
+                  weightVariation(initial.weight_kg, current.weight_kg),
+                ).replace("-", "−")}`,
+                formatShortDate(initial.measured_on),
+              ),
+              goalLine(initial.weight_kg, current.weight_kg, goal),
+            ]
+              .filter(Boolean)
+              .join(" · ")}
           </span>
         ) : null}
+        <Button variant="primary" icon={<Plus size={20} />} onClick={register.open}>
+          {T.register}
+        </Button>
       </section>
-      <Button variant="primary" icon={<Plus size={20} />} onClick={register.open}>
-        {T.register}
-      </Button>
 
-      <ChoiceGroup<WeightPeriod>
-        legend={T.period}
-        layout="row"
-        options={PERIODS.map((value) => ({ value, label: T.periods[value] }))}
-        value={period}
-        onChange={(next) => {
-          setPeriod(next);
-          setRemote(null);
-        }}
-      />
-      {period === "all" && !online ? <Banner tone="info">{T.allOffline}</Banner> : null}
-
-      <section aria-label={T.chartTitle} className={shared.stack}>
+      <section aria-label={T.chartTitle} className={styles.card}>
+        <ChoiceGroup<WeightPeriod>
+          legend={T.period}
+          hideLegend
+          layout="segmented"
+          options={PERIODS.map((value) => ({ value, label: T.periods[value] }))}
+          value={period}
+          onChange={(next) => {
+            setPeriod(next);
+            setRemote(null);
+          }}
+        />
+        {period === "all" && !online ? <Banner tone="info">{T.allOffline}</Banner> : null}
         {series.length < 2 ? (
           <EmptyState icon={<Scale size={32} />} title={T.fewPoints} description="" />
         ) : asList ? (
@@ -312,16 +319,18 @@ export function EvolutionScreen() {
         )}
       </section>
 
-      <section aria-labelledby="pesos" className={shared.stack}>
+      <section aria-labelledby="pesos">
         <h2 id="pesos" className={shared.sectionLabel}>
           {T.records}
         </h2>
-        <ul className={shared.list}>
+        <ul className={styles.records}>
           {records.map((entry) => (
             <li key={entry.id} className={styles.record}>
               <span className={styles.recordText}>
-                <span className="tabular">
-                  {formatShortDate(entry.measured_on)} · {formatKg(entry.weight_kg)} kg
+                <span className={styles.recordLine}>
+                  <span className={shared.muted}>{formatShortDate(entry.measured_on)}</span>
+                  <span className="visually-hidden"> · </span>
+                  <span className={styles.recordValue}>{formatKg(entry.weight_kg)} kg</span>
                 </span>
                 <span className={shared.muted}>
                   {[
@@ -373,6 +382,13 @@ export function EvolutionScreen() {
       </Dialog>
     </div>
   );
+}
+
+/** "faltam 4,4 kg para a meta", no sentido que vai do peso inicial à meta. */
+function goalLine(initial: number, current: number, goal: number | null): string | null {
+  if (goal === null) return null;
+  const left = initial < goal ? goal - current : current - goal;
+  return left > 0 ? T.toGoal(formatKg(left)) : T.goalReached;
 }
 
 /** Registros com algo ainda na fila de saída (RN-049). */

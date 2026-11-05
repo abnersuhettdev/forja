@@ -154,6 +154,14 @@ test("abre offline após o primeiro acesso, sem violar a CSP e sem dados pessoai
   await page.reload();
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   await expect(page.getByText("Treino A").first()).toBeVisible();
+  // Agenda, senha e instalar ficam fora do pacote inicial, mas abrem pelo cache (SEG-04 §2).
+  await page.goto("/agenda");
+  await expect(page.getByRole("button", { name: "Hoje", exact: true })).toBeVisible();
+  await page.goto("/conta/senha");
+  await expect(page.getByLabel("Senha atual")).toBeVisible();
+  await page.goto("/conta/instalar");
+  await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  await expect(page.getByText("Algo deu errado nesta tela")).toHaveCount(0);
   await page.goto("/gestao/perfil");
   await expect(page.getByText(/A área de gestão precisa de conexão/)).toBeVisible();
   await context.setOffline(false);

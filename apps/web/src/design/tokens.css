@@ -56,6 +56,31 @@
   --duration-sheet: 250ms;
 }
 
+/* Cartão de destaque da versão 1.2 (UX-02 §2.3): grafite nos dois temas, como o login. Mesmos
+   valores do tema escuro abaixo; manter sincronizados. */
+.graphite {
+  --color-bg: #0e1114;
+  --color-surface: #161a1f;
+  --color-surface-alt: #1f252c;
+  --color-border: #6b7684;
+  --color-divider: #2e3640;
+  --color-text: #f2f4f7;
+  --color-text-muted: #a9b3bf;
+  --color-primary: #a3e635;
+  --color-on-primary: #10160a;
+  --color-primary-container: #2a3a12;
+  --color-on-primary-container: #d9f99d;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-on-danger: #0e1114;
+  --color-info: #60a5fa;
+  --color-focus: #93c5fd;
+
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
 /* Tema escuro (UX-02 §4.2): escolhido em Conta ou seguindo o sistema (ADR-024).
    Os dois blocos abaixo têm os mesmos valores; manter sincronizados. */
 :root[data-theme="dark"] {

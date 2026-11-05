@@ -19,7 +19,6 @@
 .axis {
   fill: var(--color-text-muted);
   font: var(--type-caption);
-  font-size: 12px;
 }
 
 .line {
@@ -36,13 +35,14 @@
   stroke-width: 2;
 }
 
-.reference,
-.referenceDashed {
-  stroke: var(--color-text-muted);
-  stroke-width: 1.5;
+.reference {
+  stroke: var(--color-success);
+  stroke-width: 2;
 }
 
 .referenceDashed {
+  stroke: var(--color-text-muted);
+  stroke-width: 1.5;
   stroke-dasharray: 6 4;
 }
 
@@ -50,9 +50,8 @@
 .endLabel {
   fill: var(--color-text);
   font: var(--type-caption);
-  font-size: 12px;
   paint-order: stroke;
-  stroke: var(--color-bg);
+  stroke: var(--color-surface);
   stroke-width: 3px;
 }
 

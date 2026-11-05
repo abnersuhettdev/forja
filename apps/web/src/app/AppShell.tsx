@@ -15,13 +15,10 @@ import { HOME_PATH, ROUTES, type RouteDefinition } from "./routes.ts";
 import { AccountScreen } from "../screens/AccountScreen.tsx";
 import { CatalogScreen } from "../screens/CatalogScreen.tsx";
 import { ExerciseScreen } from "../screens/ExerciseScreen.tsx";
-import { InstallScreen } from "../screens/InstallScreen.tsx";
-import { ChangePasswordScreen } from "../screens/ChangePasswordScreen.tsx";
 import { LoginScreen } from "../screens/LoginScreen.tsx";
 import { RestScreen } from "../screens/RestScreen.tsx";
 import { SyncScreen } from "../screens/SyncScreen.tsx";
 import { EvolutionScreen } from "../screens/EvolutionScreen.tsx";
-import { AgendaScreen, DayScreen, EditSessionScreen } from "../screens/HistoryScreens.tsx";
 import { CompleteScreen } from "../screens/CompleteScreen.tsx";
 import { ExecutionScreen } from "../screens/ExecutionScreen.tsx";
 import { TodayScreen, WorkoutScreen, WorkoutsScreen } from "../screens/TrainingScreens.tsx";
@@ -34,9 +31,9 @@ const LOGIN_PATH = "/entrar";
 const ONBOARDING_PATH = "/configuracao-inicial";
 const PLAN_PATH = "/plano";
 
-// Gestão, configuração inicial e vitrine só funcionam online (RF-093) e saem do pacote inicial;
-// as telas usadas offline — inclusive o catálogo, consultável sem conexão (UX-08 §6.2) — ficam
-// no pacote principal.
+// Gestão, configuração inicial e vitrine só funcionam online (RF-093) e saem do pacote inicial.
+// As telas do dia a dia offline — inclusive o catálogo, consultável sem conexão (UX-08 §6.2) —
+// ficam no pacote principal; as demais, marcadas com `true`, abrem offline pelo service worker.
 const ProgramScreen = onlineScreen(() => import("../screens/ProgramScreen.tsx"), "ProgramScreen");
 const DraftEditorScreen = onlineScreen(
   () => import("../screens/DraftEditorScreen.tsx"),
@@ -51,6 +48,20 @@ const GenerateScreen = onlineScreen(
   "GenerateScreen",
 );
 const PlanScreen = onlineScreen(() => import("../screens/PlanScreen.tsx"), "PlanScreen", true);
+const loadHistory = () => import("../screens/HistoryScreens.tsx");
+const AgendaScreen = onlineScreen(loadHistory, "AgendaScreen", true);
+const DayScreen = onlineScreen(loadHistory, "DayScreen", true);
+const EditSessionScreen = onlineScreen(loadHistory, "EditSessionScreen", true);
+const ChangePasswordScreen = onlineScreen(
+  () => import("../screens/ChangePasswordScreen.tsx"),
+  "ChangePasswordScreen",
+  true,
+);
+const InstallScreen = onlineScreen(
+  () => import("../screens/InstallScreen.tsx"),
+  "InstallScreen",
+  true,
+);
 const ProfileScreen = onlineScreen(() => import("../screens/ProfileScreen.tsx"), "ProfileScreen");
 const AssessmentScreen = onlineScreen(
   () => import("../screens/AssessmentScreen.tsx"),
@@ -238,7 +249,10 @@ export function AppShell() {
       </main>
       {withNavigation ? (
         <>
-          <MainNav area={area} automatic={automatic} pathname={pathname} variant="bottom" />
+          {/* No detalhe do treino, o botão fixo "Iniciar treino" ocupa o lugar da barra. */}
+          {route?.screen === "TELA-013" ? null : (
+            <MainNav area={area} automatic={automatic} pathname={pathname} variant="bottom" />
+          )}
           <MainNav area={area} automatic={automatic} pathname={pathname} variant="rail" />
         </>
       ) : null}

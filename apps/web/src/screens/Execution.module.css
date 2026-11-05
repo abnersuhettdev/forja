@@ -37,30 +37,46 @@
   color: var(--color-text-muted);
 }
 
+/* Progresso dos exercícios: decorativo; o texto "Exercício 1 de 4" fica na barra superior. */
+.progress {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--space-1);
+  margin-top: calc(var(--space-2) * -1);
+}
+
+.progress > span {
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+}
+
+.progress > .progressDone {
+  background: var(--color-primary);
+}
+
 .exercise {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
 }
 
-/* Imagem com altura reduzida no modo foco. */
-.image {
-  max-height: 160px;
-  overflow: hidden;
-  border-radius: var(--radius-md);
+.exerciseHead {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
 }
 
-.image > * {
-  max-height: 160px;
+.exerciseHead > :first-child:not(:last-child) {
+  width: 120px;
+  height: 90px;
+  border-radius: var(--radius-md);
   object-fit: contain;
 }
 
 .exerciseName {
   font: var(--type-title);
-}
-
-.lastTime {
-  font: var(--type-body);
 }
 
 .sets {
@@ -70,6 +86,16 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* Durante o descanso, as séries feitas viram uma linha compacta acima da anilha. */
+.setsResting {
+  flex-flow: row wrap;
+}
+
+.setsResting .doneRow {
+  min-height: 36px;
+  border-radius: var(--radius-full);
 }
 
 .setNumber {
@@ -84,39 +110,78 @@
 .futureRow {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  min-height: 44px;
-  padding: 0 var(--space-2);
+  gap: var(--space-2);
+  min-height: var(--control-md);
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-lg);
 }
 
-.doneRow > :nth-child(2) {
+.doneRow {
+  border: 1px solid var(--color-divider);
+  background: var(--color-surface);
+  font-weight: 600;
+}
+
+.doneRow > :nth-child(2),
+.futureRow > :nth-child(2) {
   flex: 1;
 }
 
 .check {
-  color: var(--color-success);
+  box-sizing: content-box;
+  flex: none;
+  width: 16px;
+  height: 16px;
+  padding: 4px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: var(--color-on-primary);
 }
 
 .futureRow {
+  border: 1px dashed var(--color-border);
   color: var(--color-text-muted);
+}
+
+.plannedTag {
+  font: var(--type-caption);
+}
+
+.plannedTag::first-letter {
+  text-transform: uppercase;
 }
 
 .currentRow {
   display: flex;
-  align-items: flex-start;
-  gap: var(--space-3);
-  padding: var(--space-3) var(--space-2);
-  border-radius: var(--radius-md);
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border-radius: var(--radius-lg);
   background: var(--color-primary-container);
   color: var(--color-on-primary-container);
 }
 
+.currentTitle {
+  margin-left: var(--space-1);
+  font: var(--type-body);
+  font-weight: 700;
+}
+
 .steppers {
-  display: flex;
-  flex: 1;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+}
+
+.steppers > * {
+  padding: var(--space-2);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+}
+
+.hidden {
+  display: none;
 }
 
 /* Zona do polegar: fixa no rodapé, acima do conteúdo. */
@@ -139,27 +204,61 @@
   min-height: var(--control-lg);
 }
 
+/* Descanso: anilha grande no meio da tela, legível entre uma série e outra. */
 .rest {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--space-2);
+  gap: var(--space-3);
+}
+
+.plate {
+  position: relative;
+  width: min(300px, 72vw, 42dvh);
+  aspect-ratio: 1;
+}
+
+.plate svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.plateText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #f2f4f7;
+}
+
+.plateLabel {
+  font: var(--type-label);
+  color: #a9b3bf;
 }
 
 .countdown {
-  font: var(--type-display);
+  font: 700 clamp(3rem, 20vw, 5rem) / 1.05 var(--font-metric);
   font-variant-numeric: tabular-nums;
 }
 
+.upNext {
+  font: var(--type-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
 .restActions {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-2);
-  width: 100%;
 }
 
 .restActions > * {
-  flex: 1;
+  padding-inline: var(--space-2);
 }
 
 .summary {

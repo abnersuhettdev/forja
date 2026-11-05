@@ -56,6 +56,47 @@
   font: var(--type-metric);
 }
 
+/* Execução: o número fica acima dos botões, para caber "102,5" em 360 px sem perder os 48 px. */
+.metric {
+  align-items: stretch;
+  text-align: center;
+}
+
+.metric .controls {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-1) var(--space-2);
+}
+
+.metric .value {
+  grid-row: 1;
+  grid-column: 1 / -1;
+  justify-self: center;
+  border-bottom: 0;
+}
+
+.metric .unit {
+  grid-row: 1;
+  grid-column: 2;
+  align-self: center;
+  justify-self: end;
+  padding-right: var(--space-1);
+}
+
+.metric .button {
+  grid-row: 2;
+  width: 100%;
+  border-radius: var(--radius-full);
+}
+
+.metric .controls > :first-child {
+  grid-column: 1;
+}
+
+.metric .controls > :last-child {
+  grid-column: 2;
+}
+
 .error {
   font: var(--type-caption);
   color: var(--color-danger);

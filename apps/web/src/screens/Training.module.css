@@ -12,29 +12,44 @@
   color: var(--color-text-muted);
 }
 
-/* Cartão principal: único destaque da tela (UX-02, primary-container). */
+/* Cartão principal: único destaque da tela, grafite nos dois temas (UX-02 §2.3). */
 .hero {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-primary-container);
-  color: var(--color-on-primary-container);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+}
+
+.hero > :not(svg) {
+  position: relative;
+}
+
+.heroPlate {
+  position: absolute;
+  top: -56px;
+  right: -56px;
+  width: 160px;
+  height: 160px;
 }
 
 .eyebrow {
   font: var(--type-label);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  color: var(--color-primary);
 }
 
 .heroTitle {
-  font: var(--type-title-lg);
+  padding-right: var(--space-8);
+  font: 700 2.5rem/1.1 var(--font-metric);
 }
 
 .heroText {
+  padding-right: var(--space-7);
   font: var(--type-body);
+  color: var(--color-text-muted);
 }
 
 .heroActions {
@@ -47,6 +62,15 @@
 .heroLinks {
   flex-wrap: nowrap;
   justify-content: space-between;
+}
+
+.heroLinks > * {
+  padding-inline: var(--space-2);
+  white-space: nowrap;
+}
+
+.heroLinks > :first-child {
+  color: var(--color-text);
 }
 
 .heroActions > :first-child:only-child,
@@ -65,19 +89,28 @@
 
 .chip {
   padding: var(--space-1) var(--space-3);
-  border: 1px solid currentColor;
-  border-radius: 999px;
-  font: var(--type-caption);
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+  font: var(--type-label);
 }
 
-.summaryRow {
+/* Cartões secundários de Hoje: semana e peso. */
+.panel {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.weekHead {
+  display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-3);
-  min-height: var(--control-lg);
-  padding: var(--space-2) 0;
-  border-top: 1px solid var(--color-divider);
+  gap: var(--space-2);
 }
 
 .summaryLabel {
@@ -85,8 +118,9 @@
 }
 
 .week {
-  display: flex;
-  gap: var(--space-2);
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: var(--space-1);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -96,31 +130,38 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
+  gap: var(--space-1);
   font: var(--type-caption);
   color: var(--color-text-muted);
 }
 
+.dayLetter {
+  display: block;
+}
+
 .dot {
-  width: 16px;
-  height: 16px;
-  border: 2px solid var(--color-border);
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
+  background: var(--color-surface-alt);
+  color: var(--color-on-primary);
 }
 
 .presence {
-  border-color: var(--color-success);
-  background: var(--color-success);
+  background: var(--color-primary);
 }
 
 .pending {
-  border-color: var(--color-warning);
   background: var(--color-warning);
 }
 
 .planned {
-  border-style: dashed;
-  border-color: var(--color-text-muted);
+  border: 2px dashed var(--color-border);
+  background: transparent;
 }
 
 .today {
@@ -128,13 +169,135 @@
   color: var(--color-text);
 }
 
+.today .dot {
+  border: 3px solid var(--color-primary);
+}
+
+.weightPanel {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-2) var(--space-2) var(--space-4);
+}
+
+.weightValue {
+  display: block;
+  font: 600 1.5rem/1.875rem var(--font-metric);
+  font-variant-numeric: tabular-nums;
+}
+
+.weightMeta {
+  display: block;
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+}
+
+/* Telas baixas: tudo cabe sem rolar em 360 × 640 (CA-050); a semana perde as letras, que seguem
+   no rótulo de cada dia. */
+@media (max-height: 700px) {
+  .todayScreen {
+    gap: var(--space-2);
+  }
+
+  .hero {
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .heroPlate {
+    top: -48px;
+    right: -48px;
+    width: 120px;
+    height: 120px;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroText {
+    padding-right: 0;
+    font: var(--type-caption);
+  }
+
+  .hero > .heroPrimary {
+    min-height: var(--control-md);
+  }
+
+  .panel {
+    padding-block: var(--space-2);
+  }
+
+  .dayLetter {
+    display: none;
+  }
+
+  .dot {
+    width: 28px;
+    height: 28px;
+  }
+
+  .weightPanel {
+    padding: var(--space-1) var(--space-2) var(--space-1) var(--space-4);
+  }
+
+  /* "Peso 82,9 kg" numa linha e o restante na de baixo. */
+  .weightPanel .itemText {
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: 0 var(--space-2);
+  }
+
+  .weightPanel .itemText > span {
+    display: contents;
+  }
+
+  .weightPanel .itemText > .summaryLabel {
+    display: block;
+  }
+
+  .weightValue {
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+  }
+
+  .weightMeta {
+    flex-basis: 100%;
+  }
+}
+
+/* Sem rotina: barra com anilhas e a ação principal. */
+.noRoutine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  max-width: 28rem;
+  margin: var(--space-5) auto;
+  text-align: center;
+}
+
+.noRoutineTitle {
+  font: 700 2rem/2.25rem var(--font-metric);
+}
+
+.barbell {
+  width: min(300px, 100%);
+  height: auto;
+}
+
+.bar {
+  fill: var(--color-border);
+}
+
 .card {
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
   background: var(--color-surface);
   color: var(--color-text);
   text-align: left;
@@ -168,16 +331,37 @@ button.card {
   font: var(--type-caption);
 }
 
+.itemList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
 .itemRow {
   display: flex;
   align-items: center;
   gap: var(--space-3);
   min-height: var(--control-lg);
-  padding: var(--space-2) var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+  padding: var(--space-2);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
   color: var(--color-text);
   text-decoration: none;
+}
+
+.itemRow > :first-child {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-md);
+}
+
+.itemName {
+  font: var(--type-body);
+  font-weight: 600;
 }
 
 .itemText {
@@ -187,11 +371,64 @@ button.card {
   min-width: 0;
 }
 
-/* Botão fixo inferior (TELA-013), acima da barra de navegação. */
+/* TELA-013: topo grafite de ponta a ponta no celular, anulando a margem da página. */
+.workoutScreen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.workoutHero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: calc(var(--space-4) * -1) calc(var(--page-gutter) * -1) 0;
+  padding: var(--space-2) var(--page-gutter) var(--space-5);
+}
+
+.workoutHero > :not(svg) {
+  position: relative;
+}
+
+.workoutHero > button {
+  margin-left: calc(var(--space-2) * -1);
+}
+
+.workoutPlate {
+  position: absolute;
+  top: -70px;
+  right: -70px;
+  width: 200px;
+  height: 200px;
+}
+
+@media (min-width: 641px) {
+  .workoutHero {
+    margin: 0;
+    border-radius: var(--radius-lg);
+  }
+}
+
+/* Botão fixo inferior (TELA-013), no lugar da barra de navegação. */
 .stickyAction {
-  position: sticky;
-  bottom: var(--space-3);
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 1;
+  padding: var(--space-2) var(--page-gutter) calc(var(--space-3) + env(safe-area-inset-bottom));
+  background: var(--color-bg);
+}
+
+@media (min-width: 1024px) {
+  .stickyAction {
+    position: sticky;
+    bottom: var(--space-3);
+    padding: 0;
+    background: none;
+  }
 }
 
 .groupRow {
@@ -209,9 +446,4 @@ button.card {
   font: var(--type-body);
   text-align: left;
   cursor: pointer;
-}
-
-.weightValue {
-  flex: 1;
-  text-align: right;
 }

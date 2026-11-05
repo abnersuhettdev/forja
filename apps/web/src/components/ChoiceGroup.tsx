@@ -12,8 +12,8 @@ export interface ChoiceOption<T extends string | number> {
 interface BaseProps<T extends string | number> {
   readonly legend: string;
   readonly options: readonly ChoiceOption<T>[];
-  /** "row": opções lado a lado (segmentos); "list": uma por linha, com descrição. */
-  readonly layout?: "row" | "list";
+  /** "row": opções lado a lado; "segmented": em pílula, sem o rádio; "list": uma por linha. */
+  readonly layout?: "row" | "segmented" | "list";
   readonly hideLegend?: boolean;
 }
 
@@ -52,7 +52,7 @@ export function ChoiceGroup<T extends string | number>(props: SingleProps<T> | M
       <legend className={props.hideLegend ? "visually-hidden" : styles.legend}>
         {props.legend}
       </legend>
-      <div className={layout === "row" ? styles.row : styles.list}>
+      <div className={styles[layout]}>
         {props.options.map((option) => (
           <label key={option.value} className={styles.option}>
             <input

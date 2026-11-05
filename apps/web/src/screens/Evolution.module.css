@@ -1,14 +1,63 @@
 /* TELA-021 Evolução. */
 
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+/* Peso em destaque, no mesmo cartão grafite de Hoje (UX-02 §2.3). */
 .summary {
+  position: relative;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
+  padding: var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+}
+
+.summary > :not(svg) {
+  position: relative;
+}
+
+.summary > button {
+  margin-top: var(--space-2);
+}
+
+.plate {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 170px;
+  height: 170px;
+}
+
+.summaryLabel {
+  font: var(--type-label);
+  color: var(--color-text-muted);
 }
 
 .current {
-  font: var(--type-display);
+  font: 700 3.5rem/3.75rem var(--font-metric);
   font-variant-numeric: tabular-nums;
+}
+
+.summaryText {
+  padding-right: var(--space-5);
+  font: var(--type-body);
+  font-variant-numeric: tabular-nums;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
 }
 
 .table {
@@ -24,18 +73,42 @@
   text-align: left;
 }
 
+.records {
+  margin: 0;
+  padding: 0 var(--space-1) 0 var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  list-style: none;
+}
+
 .record {
   display: flex;
   align-items: center;
   gap: var(--space-2);
   min-height: var(--control-lg);
-  padding: 0 0 0 var(--space-3);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
+}
+
+.record + .record {
+  border-top: 1px solid var(--color-divider);
 }
 
 .recordText {
   display: flex;
   flex: 1;
   flex-direction: column;
+  min-width: 0;
+}
+
+.recordLine {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.recordValue {
+  font: var(--type-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }

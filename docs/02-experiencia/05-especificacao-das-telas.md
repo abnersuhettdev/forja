@@ -344,6 +344,10 @@ Durante a especificação, dois comportamentos se mostraram necessários mas nã
 - **TELA-060 — Meu plano:** rotina atual, motivos, "gerar outra", "Gerar outro" por treino (RF-119), "Descartar proposta", Meus dados e acesso ao resumo da semana, este quando a V12-09 existir. Estados: sem rotina, gerando, sem conexão (mostra a rotina guardada; gerar exige conexão).
 - **TELA-061 — Resumo da semana:** fatos calculados por regras, texto da IA e proposta de ajuste, se houver, aceita com um toque. Sem IA ou sem conexão, só os fatos.
 - **TELA-014 — Exercício:** fotos do exercício, com créditos (RF-118); sem foto adequada, placeholder.
+- **TELA-010 — Hoje (V12-02):** cartão principal grafite nos dois temas, em vez de `primary-container`, com a anilha no canto; semana e peso em cartões próprios, com a meta de peso quando houver. Sem rotina: ilustração de barra com anilhas; no Automático, "Você ainda não tem uma rotina" e **Gerar minha rotina**.
+- **TELA-013 — Treino (V12-02):** topo grafite com botão de voltar; sem a barra inferior, cujo lugar é ocupado por **Iniciar treino**.
+- **TELA-015 — Execução (V12-02):** progresso em segmentos; uma foto ao lado do nome; carga e repetições com o número acima dos botões. No descanso, a anilha grande com o tempo fica no centro da tela, com as séries feitas acima, e **−15 s**, **Pular** e **+15 s** na zona do polegar, no lugar do cronômetro só na zona do polegar.
+- **TELA-021 — Evolução (V12-02):** peso em cartão grafite, com a variação e quanto falta para a meta; período em segmentos dentro do cartão do gráfico.
 
 ## Critérios de conclusão
 
@@ -363,3 +367,4 @@ Durante a especificação, dois comportamentos se mostraram necessários mas nã
 | 2026-10-26 | Nota das listas de opções aponta para TRN-01/TRN-03. |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): fórmula de duração alinhada a TRN-04 §5 (antes omitia a transição de 60 s). |
 | 2026-11-04 | Versão 1.2: TELA-001, TELA-014, TELA-051, TELA-060 e TELA-061. |
+| 2026-11-05 | Versão 1.2: TELA-010, TELA-013, TELA-015 e TELA-021 na direção Anilha. |

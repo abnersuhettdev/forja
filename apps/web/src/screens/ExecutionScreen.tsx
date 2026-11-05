@@ -274,22 +274,35 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
         />
       </header>
 
+      <div className={styles.progress} aria-hidden="true">
+        {exercises.map((view, index) => (
+          <span
+            key={view.entry.id}
+            className={
+              index === currentIndex || view.entry.status !== "pending" ? styles.progressDone : ""
+            }
+          />
+        ))}
+      </div>
+
       {failed ? <Banner tone="danger">{T.saveFailed}</Banner> : null}
 
       <section className={styles.exercise} aria-labelledby="exercicio-atual">
-        <div className={styles.image}>
-          <ExerciseImage images={current.exercise?.images ?? []} />
+        <div className={styles.exerciseHead}>
+          {rest ? null : <ExerciseImage images={current.exercise?.images ?? []} size="thumb" />}
+          <div>
+            <h2 id="exercicio-atual" className={styles.exerciseName}>
+              {name}
+            </h2>
+            {current.entry.prescription && !rest ? (
+              <p className={shared.muted}>{itemSummary(current.entry.prescription)}</p>
+            ) : null}
+          </div>
         </div>
-        <h2 id="exercicio-atual" className={styles.exerciseName}>
-          {name}
-        </h2>
-        {current.entry.prescription ? (
-          <p className={shared.muted}>{itemSummary(current.entry.prescription)}</p>
+        {current.last && !rest ? (
+          <p className={shared.muted}>{T.lastTime(formatLast(current.last.sets))}</p>
         ) : null}
-        {current.last ? (
-          <p className={styles.lastTime}>{T.lastTime(formatLast(current.last.sets))}</p>
-        ) : null}
-        {current.exercise ? (
+        {current.exercise && !rest ? (
           <details className={shared.details}>
             <summary>{T.guidance}</summary>
             <h3>{T.instructions}</h3>
@@ -313,7 +326,7 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
         ) : null}
       </section>
 
-      <ol className={styles.sets} aria-label={T.sets}>
+      <ol className={[styles.sets, rest ? styles.setsResting : ""].join(" ")} aria-label={T.sets}>
         {sets.map((set) => (
           <li key={set.id} className={styles.doneRow}>
             <span className={styles.setNumber}>{set.set_number}</span>
@@ -321,9 +334,9 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
             <Check size={20} aria-label={T.registered} className={styles.check} />
           </li>
         ))}
-        {complete ? null : (
+        {complete || rest ? null : (
           <li className={styles.currentRow} aria-label={T.set(nextNumber)}>
-            <span className={styles.setNumber}>{nextNumber}</span>
+            <span className={styles.currentTitle}>{T.set(nextNumber)}</span>
             <div className={styles.steppers}>
               <Stepper
                 label={current.exercise?.is_bodyweight ? T.bodyweightLoad : T.load}
@@ -365,18 +378,28 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
           </li>
         )}
         {Array.from(
-          { length: Math.max(planned - nextNumber, 0) },
+          { length: rest ? 0 : Math.max(planned - nextNumber, 0) },
           (_, i) => nextNumber + 1 + i,
         ).map((n) => (
           <li key={n} className={styles.futureRow}>
             <span className={styles.setNumber}>{n}</span>
-            <span className="tabular">
-              {formatSet(initialValues(current, bundle, n))} ({T.planned})
-            </span>
+            <span className="tabular">{formatSet(initialValues(current, bundle, n))}</span>
+            <span className={styles.plannedTag}>{T.planned}</span>
           </li>
         ))}
       </ol>
-      <div className={shared.row}>
+      {rest ? (
+        <RestPlate
+          rest={rest}
+          total={current.entry.prescription?.rest_s ?? 0}
+          onDone={() => {
+            restFinishedAlert();
+            show({ text: T.restDone });
+            void finishRest();
+          }}
+        />
+      ) : null}
+      <div className={rest ? styles.hidden : shared.row}>
         <Button
           variant="ghost"
           icon={<Plus size={20} />}
@@ -409,18 +432,29 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
 
       <div ref={thumbZone} className={styles.thumbZone}>
         {rest ? (
-          <RestTimer
-            rest={rest}
-            onAdjust={(delta) =>
-              void saveUi({ rest: { ...rest, endsAt: rest.endsAt + delta } }).then(reload)
-            }
-            onSkip={() => void finishRest()}
-            onDone={() => {
-              restFinishedAlert();
-              show({ text: T.restDone });
-              void finishRest();
-            }}
-          />
+          <div className={styles.restActions}>
+            <Button
+              size="lg"
+              aria-label={T.restMinus}
+              onClick={() => {
+                void saveUi({ rest: { ...rest, endsAt: rest.endsAt - REST_STEP_MS } }).then(reload);
+              }}
+            >
+              −15 s
+            </Button>
+            <Button size="lg" variant="primary" onClick={() => void finishRest()}>
+              {T.restSkip}
+            </Button>
+            <Button
+              size="lg"
+              aria-label={T.restPlus}
+              onClick={() => {
+                void saveUi({ rest: { ...rest, endsAt: rest.endsAt + REST_STEP_MS } }).then(reload);
+              }}
+            >
+              +15 s
+            </Button>
+          </div>
         ) : complete ? (
           nextOpen ? (
             <Button
@@ -547,16 +581,16 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
   );
 }
 
-// RestTimer (UX-06): contagem pelo horário de término; −15 s, +15 s e Pular (RF-062).
-function RestTimer({
+// RestTimer (UX-06): anilha com a contagem pelo horário de término e o anel do tempo que falta;
+// −15 s, +15 s e Pular ficam na zona do polegar (RF-062).
+function RestPlate({
   rest,
-  onAdjust,
-  onSkip,
+  total,
   onDone,
 }: {
   rest: { endsAt: number; next: string | null };
-  onAdjust: (deltaMs: number) => void;
-  onSkip: () => void;
+  /** Descanso prescrito, em segundos; o anel fica cheio se o ajuste passar disso. */
+  total: number;
   onDone: () => void;
 }) {
   const now = useNow(250);
@@ -569,29 +603,34 @@ function RestTimer({
     onDone();
   }, [remaining, rest.endsAt, onDone]);
 
+  const left = total > 0 ? Math.min(remaining / total, 1) * 100 : 100;
   return (
-    <div className={styles.rest} role="timer" aria-label={T.restLabel}>
-      <span className={styles.countdown}>{formatCountdown(remaining)}</span>
-      <div className={styles.restActions}>
-        <Button
-          aria-label={T.restMinus}
-          onClick={() => {
-            onAdjust(-REST_STEP_MS);
-          }}
-        >
-          −15 s
-        </Button>
-        <Button onClick={onSkip}>{T.restSkip}</Button>
-        <Button
-          aria-label={T.restPlus}
-          onClick={() => {
-            onAdjust(REST_STEP_MS);
-          }}
-        >
-          +15 s
-        </Button>
+    <div className={styles.rest}>
+      <div className={styles.plate} role="timer" aria-label={T.restLabel}>
+        <svg viewBox="0 0 400 400" aria-hidden="true">
+          <circle cx="200" cy="200" r="196" fill="#2a3038" />
+          <circle cx="200" cy="200" r="178" fill="#1a1f25" />
+          <circle cx="200" cy="200" r="168" fill="none" stroke="#2e3640" strokeWidth="12" />
+          <circle
+            cx="200"
+            cy="200"
+            r="168"
+            fill="none"
+            stroke="#a3e635"
+            strokeWidth="12"
+            strokeLinecap="round"
+            pathLength="100"
+            strokeDasharray={`${String(left)} 100`}
+            transform="rotate(-90 200 200)"
+          />
+          <circle cx="200" cy="200" r="150" fill="#14181d" />
+        </svg>
+        <span className={styles.plateText}>
+          <span className={styles.plateLabel}>{T.restLabel}</span>
+          <span className={styles.countdown}>{formatCountdown(remaining)}</span>
+        </span>
       </div>
-      {rest.next ? <p className={shared.muted}>{T.upNext(rest.next)}</p> : null}
+      {rest.next ? <p className={styles.upNext}>{T.upNext(rest.next)}</p> : null}
     </div>
   );
 }

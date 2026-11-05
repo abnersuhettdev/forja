@@ -246,7 +246,11 @@ test("Treinos e detalhe mostram duração, grupos e prescrição; descanso offli
   await expect(items.nth(0)).toContainText("Agachamento livre com barra");
   await expect(items.nth(0)).toContainText("4 × 6–10 · descanso 120 s");
   await expect(items.nth(1)).toContainText("Supino reto com barra");
-  await page.getByRole("link", { name: "Treinos" }).first().click();
+  // Sem a barra inferior nesta tela: volta pelo botão do topo.
+  await expect(page.getByRole("link", { name: "Treinos" }).filter({ visible: true })).toHaveCount(
+    0,
+  );
+  await page.getByRole("button", { name: "Voltar" }).click();
   await page.getByRole("link", { name: /Treino A/ }).click();
   await expect(page.getByText("3 × 8–12 · descanso 90 s · carga sugerida 40 kg")).toBeVisible();
   await page.getByRole("button", { name: "Iniciar treino" }).click();

@@ -88,13 +88,21 @@
   text-decoration: none;
 }
 
-.navItem[aria-current="page"] {
-  color: var(--color-primary);
+/* Ícone em pílula: o destino ativo se destaca pela forma e pelo peso, não só pela cor. */
+.navItem svg {
+  box-sizing: content-box;
+  padding: 3px 14px;
+  border-radius: var(--radius-full);
 }
 
-.navItem[aria-current="page"] span {
-  text-decoration: underline;
-  text-underline-offset: 4px;
+.navItem[aria-current="page"] {
+  color: var(--color-text);
+  font-weight: 700;
+}
+
+.navItem[aria-current="page"] svg {
+  background: var(--color-primary-container);
+  color: var(--color-on-primary-container);
 }
 
 /* Trilho lateral (desktop) */

@@ -154,6 +154,12 @@ test("agenda com estados, navegação de meses e detalhe do dia (CA-070..072)", 
   const fixture = await setUp(user.email);
   await signIn(page, user.email, user.senha);
 
+  // A Agenda carrega sob demanda e aqui não há service worker: abre uma vez antes de sair da rede.
+  // O caso sem rede com o pacote em cache está em T-PWA-02.
+  await page.getByRole("link", { name: "Agenda" }).first().click();
+  await expect(page.getByRole("button", { name: "Hoje", exact: true })).toBeVisible();
+  await page.getByRole("link", { name: "Hoje", exact: true }).first().click();
+
   // Treino de hoje concluído sem conexão: concluído + aguardando envio (RN-049).
   await context.setOffline(true);
   // Um só treino, descansado há 3 dias: Hoje recomenda e inicia direto.
