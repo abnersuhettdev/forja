@@ -37,6 +37,16 @@ export const NAV_ITEMS: Readonly<Record<NavArea, readonly NavItem[]>> = {
   ],
 };
 
+/** ADR-095: no Automático, Meu plano ocupa o lugar de Treinos, que aparecem dentro dele. */
+export function navItemsFor(area: NavArea, automatic: boolean): readonly NavItem[] {
+  if (!automatic) return NAV_ITEMS[area];
+  return NAV_ITEMS.aluno.map((item) =>
+    item.path === "/treinos"
+      ? { path: "/plano", label: TEXTS.nav.plan, icon: ClipboardList }
+      : item,
+  );
+}
+
 /** Destino ativo: o item cujo caminho é prefixo do caminho atual. */
 export function isActive(itemPath: string, pathname: string): boolean {
   return pathname === itemPath || pathname.startsWith(`${itemPath}/`);

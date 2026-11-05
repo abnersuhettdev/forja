@@ -29,6 +29,7 @@ export const profileFieldsSchema = trainingProfileSchema.pick({
   restrictions_note: true,
   preferences_note: true,
   emphasis_groups: true,
+  app_mode: true,
 });
 
 /** Campos cadastrais que o próprio aluno informa. */

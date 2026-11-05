@@ -1,4 +1,4 @@
-import { NAV_ITEMS, isActive, type NavArea } from "../app/navigation.ts";
+import { navItemsFor, isActive, type NavArea } from "../app/navigation.ts";
 import { Link } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
 import { SyncIndicator } from "./SyncIndicator.tsx";
@@ -51,17 +51,19 @@ export function AreaSwitch({ area }: { area: NavArea }) {
 
 export function MainNav({
   area,
+  automatic,
   pathname,
   variant,
 }: {
   area: NavArea;
+  automatic: boolean;
   pathname: string;
   variant: "bottom" | "rail";
 }) {
   return (
     <nav aria-label={TEXTS.nav.mainLabel} className={styles[variant]}>
       <ul className={styles.navList}>
-        {NAV_ITEMS[area].map(({ path, label, icon: Icon }) => {
+        {navItemsFor(area, automatic).map(({ path, label, icon: Icon }) => {
           const active = isActive(path, pathname);
           return (
             <li key={path}>

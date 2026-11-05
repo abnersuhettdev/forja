@@ -38,6 +38,12 @@ async function ensureSelfStudent(sql: postgres.Sql, userId: string, email: strin
     insert into public.training_profiles (student_id, goal)
     select id, 'hypertrophy' from public.students where user_id = ${userId}
     on conflict (student_id) do nothing`;
+  // Os testes anteriores à versão 1.2 usam a Gestão; o modo Automático tem usuários próprios.
+  if (!email.startsWith("automatico.")) {
+    await sql`
+      update public.training_profiles set app_mode = 'manual'
+      where student_id = (select id from public.students where user_id = ${userId})`;
+  }
   await sql`
     insert into public.rest_settings (student_id)
     select id from public.students where user_id = ${userId}

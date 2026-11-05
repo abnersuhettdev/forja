@@ -17,6 +17,8 @@ export interface ScreenProps {
 export function onlineScreen<K extends string>(
   load: () => Promise<Record<K, ComponentType<ScreenProps>>>,
   key: K,
+  /** Fora do pacote inicial, mas guardada pelo service worker: abre também sem conexão. */
+  alsoOffline = false,
 ): ComponentType<ScreenProps> {
   let loaded: ComponentType<ScreenProps> | null = null;
 
@@ -27,7 +29,7 @@ export function onlineScreen<K extends string>(
     const [attempt, setAttempt] = useState(0);
 
     useEffect(() => {
-      if (Screen !== null || !online) return;
+      if (Screen !== null || (!online && !alsoOffline)) return;
       let active = true;
       setFailed(false);
       load().then(
@@ -45,7 +47,7 @@ export function onlineScreen<K extends string>(
     }, [Screen, online, attempt]);
 
     if (Screen !== null) return <Screen {...props} />;
-    if (!online || failed) {
+    if ((!online && !alsoOffline) || failed) {
       return (
         <ErrorState
           title={TEXTS.error.title}

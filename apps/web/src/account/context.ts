@@ -13,12 +13,18 @@ export interface StudentSummary {
   readonly onboarding_completed_at: string | null;
 }
 
+export type AppMode = "automatic" | "manual";
+
+export const appModeOf = (context: UserContext | null): AppMode => context?.mode ?? "automatic";
+
 export interface UserContext {
   readonly userId: string;
   readonly isManager: boolean;
   /** Aluno do próprio usuário (PES: is_self); null = configuração inicial pendente. */
   readonly student: StudentSummary | null;
   readonly profileRevision: number | null;
+  /** ADR-095; ausente em contexto guardado antes da 1.2. */
+  readonly mode?: AppMode;
   readonly restRevision: number | null;
   readonly terEnabled: boolean;
   /** ISO 8601 da última leitura bem-sucedida no servidor. */
@@ -44,7 +50,7 @@ export async function fetchUserContext(
   ]);
   for (const result of [manager, student, ter]) if (result.error) throw result.error;
 
-  let profile: { revision: number } | null = null;
+  let profile: { revision: number; app_mode?: AppMode } | null = null;
   let rest: { revision: number; overrides?: unknown } | null = null;
   if (student.data) {
     const studentId = student.data.id;
@@ -53,7 +59,7 @@ export async function fetchUserContext(
         .from("training_profiles")
         .select("*")
         .eq("student_id", studentId)
-        .maybeSingle<{ revision: number }>(),
+        .maybeSingle<{ revision: number; app_mode?: AppMode }>(),
       supabase
         .from("rest_settings")
         .select("student_id, default_hours, revision")
@@ -77,6 +83,7 @@ export async function fetchUserContext(
       isManager: manager.data !== null,
       student: student.data,
       profileRevision: profile?.revision ?? null,
+      mode: profile?.app_mode ?? "automatic",
       restRevision: rest?.revision ?? null,
       terEnabled: (ter.data?.value as unknown) === true,
       fetchedAt: now.toISOString(),

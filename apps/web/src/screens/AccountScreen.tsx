@@ -1,5 +1,14 @@
 import { useState, type ReactNode } from "react";
-import { ChevronRight, Download, Hourglass, KeyRound, LogOut, RefreshCw } from "lucide-react";
+import {
+  ChevronRight,
+  Download,
+  Hourglass,
+  IdCard,
+  KeyRound,
+  LogOut,
+  RefreshCw,
+} from "lucide-react";
+import { appModeOf, type AppMode } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { useSignOutFlow } from "./SignOutFlow.tsx";
@@ -11,12 +20,14 @@ import {
   THEME_PREFERENCES,
   type ThemePreference,
 } from "../design/theme.ts";
+import { sendDirect } from "../local/direct.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { useOfflineData } from "../offline/OfflineDataProvider.tsx";
 import { formatUpdatedAt } from "../training/format.ts";
 import type { NavArea } from "../app/navigation.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { useOnline } from "../app/useOnline.ts";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.account;
@@ -49,15 +60,37 @@ function ListLink({
 // aparência, atalhos, "Sobre e privacidade" (SEG-01 §6.1) e Sair (UX-04 §6.1).
 export function AccountScreen({ area }: { area: NavArea }) {
   const auth = useAuth();
-  const { state } = useUserContext();
+  const { state, refresh } = useUserContext();
+  const online = useOnline();
+  const [modeError, setModeError] = useState<string | null>(null);
   const local = useLocalData();
   const signOut = useSignOutFlow();
   const [theme, setTheme] = useState<ThemePreference>(readThemePreference);
   const context = state.status === "ready" ? state.context : null;
-  const dualRole = context !== null && context.isManager && context.student !== null;
+  const mode = appModeOf(context);
+  const dualRole =
+    mode === "manual" && context !== null && context.isManager && context.student !== null;
   const pending = local?.unsent ?? 0;
   const { state: offline } = useOfflineData();
   const offlineStamp = offline.status === "ready" ? formatUpdatedAt(offline.updatedAt) : null;
+
+  /** ADR-095: opção discreta; muda só a forma de usar, e a rotina continua a mesma. */
+  async function changeMode(next: AppMode) {
+    if (local === null || context?.student == null || context.profileRevision === null) return;
+    setModeError(null);
+    const result = await sendDirect(local, {
+      opId: crypto.randomUUID(),
+      type: "profile.update",
+      entityId: context.student.id,
+      baseRevision: context.profileRevision,
+      payload: { profile: { app_mode: next } },
+    });
+    if (!result.ok) {
+      setModeError(T.modeFailed);
+      return;
+    }
+    await refresh();
+  }
 
   return (
     <div className={styles.stack}>
@@ -93,6 +126,13 @@ export function AccountScreen({ area }: { area: NavArea }) {
       />
 
       <nav aria-label={TEXTS.nav.account} className={styles.list}>
+        {mode === "automatic" && context?.student ? (
+          <ListLink
+            to="/gestao/perfil"
+            icon={<IdCard size={20} aria-hidden="true" />}
+            label={T.myData}
+          />
+        ) : null}
         <ListLink
           to="/conta/descanso"
           icon={<Hourglass size={20} aria-hidden="true" />}
@@ -123,6 +163,23 @@ export function AccountScreen({ area }: { area: NavArea }) {
         <p>{T.privacy}</p>
         <p>{TEXTS.onboarding.healthNotice}</p>
       </details>
+
+      {context?.student && online ? (
+        <div>
+          <ChoiceGroup<AppMode>
+            legend={T.modeTitle}
+            layout="row"
+            options={(["automatic", "manual"] as const).map((value) => ({
+              value,
+              label: T.modes[value],
+            }))}
+            value={mode}
+            onChange={(next) => void changeMode(next)}
+          />
+          <p className={styles.muted}>{T.modeHelp}</p>
+          {modeError !== null ? <p className={styles.fieldError}>{modeError}</p> : null}
+        </div>
+      ) : null}
 
       <Button variant="danger" icon={<LogOut size={20} />} onClick={signOut.start}>
         {A.signOut}

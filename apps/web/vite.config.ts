@@ -147,6 +147,16 @@ export default defineConfig(({ mode }) => {
     build: {
       target: "es2022",
       sourcemap: true,
+      rolldownOptions: {
+        output: {
+          // Com o React em arquivo próprio, os auxiliares do empacotador também ganham o seu. Sem
+          // isto, eles caem no arquivo da validação (Zod), e o pacote inicial passa a carregá-lo
+          // inteiro, 29 KB acima do orçamento (SEG-04 §2).
+          codeSplitting: {
+            groups: [{ name: "react", test: /node_modules\/\.pnpm\/(react|react-dom|scheduler)@/ }],
+          },
+        },
+      },
     },
   };
 });

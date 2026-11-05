@@ -1,3 +1,5 @@
+import { appModeOf } from "../account/context.ts";
+import { useUserContext } from "../account/UserContextProvider.tsx";
 import { InstallBanner } from "../components/InstallBanner.tsx";
 import { useState } from "react";
 import { AlertTriangle, ChevronRight, ClipboardList, Play, Plus, SearchX } from "lucide-react";
@@ -62,6 +64,9 @@ const workoutFacts = (w: WorkoutSummary) =>
 function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element } {
   const training = useTraining();
   const online = useOnline();
+  const { state: userState } = useUserContext();
+  const automatic =
+    appModeOf(userState.status === "ready" ? userState.context : null) === "automatic";
   if (training.status === "loading") return { fallback: <Skeleton lines={6} /> };
   if (training.status === "no_program") {
     if (!online && training.updatedAt === undefined)
@@ -76,7 +81,7 @@ function useReadyTraining(): { training: Ready } | { fallback: React.JSX.Element
             <Button
               variant="primary"
               onClick={() => {
-                navigate(PROGRAM_PATH);
+                navigate(automatic ? "/plano" : PROGRAM_PATH);
               }}
             >
               {T.build}

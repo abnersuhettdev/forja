@@ -341,7 +341,7 @@ Durante a especificação, dois comportamentos se mostraram necessários mas nã
 **Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):**
 
 - **TELA-051 — Gerar treino:** no modo Automático, sem os atalhos de gestão; lista de pendências de RF-022; mostra a ênfase pedida; resultado com motivos e aviso; sem IA, informa de forma simples que a rotina veio só das regras.
-- **TELA-060 — Meu plano:** rotina atual, motivos, "gerar outra" e acesso ao resumo da semana. Estados: sem rotina, gerando, sem conexão (mostra a rotina guardada; gerar exige conexão).
+- **TELA-060 — Meu plano:** rotina atual, motivos, "gerar outra", "Gerar outro" por treino (RF-119), "Descartar proposta", Meus dados e acesso ao resumo da semana, este quando a V12-09 existir. Estados: sem rotina, gerando, sem conexão (mostra a rotina guardada; gerar exige conexão).
 - **TELA-061 — Resumo da semana:** fatos calculados por regras, texto da IA e proposta de ajuste, se houver, aceita com um toque. Sem IA ou sem conexão, só os fatos.
 - **TELA-014 — Exercício:** fotos do exercício, com créditos (RF-118); sem foto adequada, placeholder.
 

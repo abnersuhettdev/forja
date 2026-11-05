@@ -30,7 +30,7 @@ interface Data {
   sessionDay: string;
 }
 
-/** Programa, avaliação inicial, pesos e uma sessão concluída há 2 dias. */
+/** Programa, avaliação inicial, pesos e uma sessão concluída há 3 dias. */
 async function setUp(email: string): Promise<Data> {
   return withDb(async (sql) => {
     const [student] = await sql<{ id: string }[]>`
@@ -86,7 +86,8 @@ async function setUp(email: string): Promise<Data> {
     }
     const sessionId = crypto.randomUUID();
     const seId = crypto.randomUUID();
-    const start = new Date(Date.now() - 2 * 86_400_000);
+    // Três dias: com dois, o descanso sugerido de 48 h ainda vale de manhã e esconde "Iniciar treino".
+    const start = new Date(Date.now() - 3 * 86_400_000);
     start.setUTCHours(13, 0, 0, 0);
     const end = new Date(start.getTime() + 45 * 60_000);
     await sql`

@@ -52,4 +52,7 @@ export const qualityUser = (browserName: string) => user(`qualidade.${browserNam
 /** Aluno das verificações do app instalável no build de produção (TAR-006; só Chromium). */
 /** Aluno dos testes de geração de treino (um por navegador). */
 export const generatorUser = (browserName: string) => user(`gerador.${browserName}@exemplo.test`);
+/** Aluno dos testes do modo Automático (um por navegador). */
+export const automaticUser = (browserName: string) =>
+  user(`automatico.${browserName}@exemplo.test`);
 export const pwaUser = () => user("pwa.chromium@exemplo.test");

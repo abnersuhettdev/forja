@@ -1,23 +1,15 @@
 import { useEffect, useState } from "react";
 import { CircleCheck, CircleAlert, Sparkles } from "lucide-react";
 import { MUSCLE_GROUP_LABELS, toLocalDate } from "@forja/domain";
-import {
-  generateProgram,
-  motorPending,
-  type MotorPendingCode,
-  type MotorResult,
-} from "@forja/domain/motor";
-import { motorOnlyReport } from "@forja/domain/motor/ia";
+import { motorPending, type MotorPendingCode } from "@forja/domain/motor";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { fetchStudentProfile, type StudentProfile } from "../account/profile.ts";
 import { getSupabase } from "../auth/client.ts";
 import { useCatalog } from "../catalog/useCatalog.ts";
 import { Button } from "../components/Button.tsx";
 import { Banner, EmptyState, ErrorState, Skeleton } from "../components/Feedback.tsx";
-import { sendDirect } from "../local/direct.ts";
 import { useLocalData } from "../local/LocalDataProvider.tsx";
-import { toMotorExercise } from "../program/generator.ts";
-import { requestRoutine } from "../program/routine-client.ts";
+import { createProposal } from "../program/generator.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
@@ -36,10 +28,6 @@ const CHECKS: readonly MotorPendingCode[] = [
   "equipment",
   "restrictions",
 ];
-
-function withFallback(result: MotorResult): MotorResult {
-  return result.status === "generated" ? motorOnlyReport(result, "unavailable") : result;
-}
 
 // TELA-051 — Gerar treino (RF-021..023, RF-112; RN-006..009, RN-030). O motor roda no aparelho e
 // o resultado é só um rascunho: nada aparece em Meu treino sem publicar. Gestão exige conexão.
@@ -94,59 +82,24 @@ export function GenerateScreen() {
   const pending = motorPending(motorProfile, today);
 
   async function generate() {
-    if (local === null || studentId === null || catalogState.status !== "ready") return;
+    if (local === null || studentId === null || data === null || data === "failed") return;
+    if (catalogState.status !== "ready") return;
     setBusy(true);
     setError(null);
-    // RN-062: sem a função de IA, o motor roda aqui mesmo, e o relatório diz que foi só por regras.
-    const remote = await requestRoutine();
-    const result: MotorResult =
-      remote ??
-      withFallback(
-        generateProgram({
-          profile: motorProfile,
-          catalog: catalogState.exercises.map(toMotorExercise),
-          referenceDate: today,
-          previousExerciseIds:
-            active?.document.workouts.flatMap((w) => w.items.map((i) => i.exercise_id)) ?? [],
-          staleData: profile.review_recommended_since !== null,
-        }),
-      );
-    if (result.status !== "generated") {
-      setBusy(false);
-      setError(T.failed);
-      return;
-    }
-    const outcome = await sendDirect(local, {
-      opId: crypto.randomUUID(),
-      type: "draft.create",
-      entityId: crypto.randomUUID(),
-      baseRevision: null,
-      payload: {
-        student_id: studentId,
-        source: "generated",
-        name: result.program.name,
-        generated: {
-          split_type: result.program.split_type,
-          report: result.report,
-          workouts: result.program.workouts.map((workout, index) => ({
-            id: crypto.randomUUID(),
-            position: index + 1,
-            name: workout.name,
-            items: workout.items.map((item, itemIndex) => ({
-              ...item,
-              id: crypto.randomUUID(),
-              position: itemIndex + 1,
-            })),
-          })),
-        },
-      },
+    const outcome = await createProposal({
+      local,
+      studentId,
+      profile: data,
+      catalog: catalogState.exercises,
+      previousExerciseIds:
+        active?.document.workouts.flatMap((w) => w.items.map((i) => i.exercise_id)) ?? [],
     });
     setBusy(false);
     if (outcome.ok) {
       navigate(DRAFT_PATH);
       return;
     }
-    setError(outcome.message);
+    setError(outcome.pending ? T.failed : outcome.message);
   }
 
   return (

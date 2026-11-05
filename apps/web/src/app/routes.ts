@@ -21,6 +21,7 @@ export const ROUTES: readonly RouteDefinition[] = [
     task: "TAR-011",
   },
   { pattern: "/hoje", screen: "TELA-010", title: "Hoje", area: "aluno", task: "TAR-018" },
+  { pattern: "/plano", screen: "TELA-060", title: "Meu plano", area: "aluno", task: "V12-04" },
   { pattern: "/treinos", screen: "TELA-012", title: "Treinos", area: "aluno", task: "TAR-018" },
   { pattern: "/treinos/:id", screen: "TELA-013", title: "Treino", area: "aluno", task: "TAR-018" },
   {

@@ -29,7 +29,7 @@ Definir como o conteúdo se organiza: áreas, navegação principal, hierarquia 
 
 ### 2A. Modos
 
-**Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** modo **Automático** por padrão, com a aba **Meu plano** e sem a área de Gestão à vista; modo **Manual** como opção discreta em Conta, que mostra a Gestão como hoje (ADR-095).
+**Versão 1.2 ([PLN-06](../08-planejamento/06-plano-versao-1-2.md), implementado no local):** modo **Automático** por padrão, com a aba **Meu plano** e sem a área de Gestão à vista; modo **Manual** como opção discreta em Conta, que mostra a Gestão como hoje (ADR-095). No Automático, Meu plano ocupa o lugar de Treinos na navegação, e os treinos aparecem dentro dele; Meus dados abre o perfil. Essas escolhas de navegação são de Claude, **a confirmar pelo usuário**.
 
 ## 3. Navegação principal (ADR-025)
 

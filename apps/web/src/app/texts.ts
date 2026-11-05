@@ -3,6 +3,7 @@
 export const TEXTS = {
   appName: "Forja",
   nav: {
+    plan: "Meu plano",
     mainLabel: "Navegação principal",
     areaLabel: "Área",
     myTraining: "Meu treino",
@@ -130,6 +131,12 @@ export const TEXTS = {
   },
   account: {
     area: "Área",
+    modeTitle: "Modo de uso",
+    modes: { automatic: "Automático", manual: "Manual" },
+    modeHelp:
+      "No Automático, o app monta e ajusta sua rotina. No Manual, você monta tudo pela Gestão.",
+    modeFailed: "Não foi possível trocar o modo agora.",
+    myData: "Meus dados",
     appearance: "Aparência",
     themes: { system: "Sistema", light: "Claro", dark: "Escuro" },
     rest: "Descanso entre treinos",
@@ -169,6 +176,23 @@ export const TEXTS = {
     edited: "Texto editado na gestão; o original da fonte foi preservado.",
     custom: "Exercício personalizado criado na gestão.",
     imageCredits: "Imagens",
+  },
+  plan: {
+    none: "Você ainda não tem uma rotina",
+    noneHint: "O app monta uma rotina com os seus dados. Você revisa e decide se usa.",
+    generate: "Gerar minha rotina",
+    generating: "Montando sua rotina…",
+    proposal: "Rotina proposta",
+    current: "Sua rotina atual",
+    currentKept: "Sua rotina atual continua valendo até você usar esta.",
+    use: "Usar esta rotina",
+    another: "Gerar outra",
+    discard: "Descartar proposta",
+    myData: "Meus dados",
+    openWorkout: "Ver treino",
+    offline: "Sem conexão: esta é a rotina guardada no aparelho. Para gerar outra, conecte-se.",
+    unavailable: "Não foi possível carregar sua rotina agora.",
+    completeProfile: "Complete seus dados em Meus dados para gerar a rotina.",
   },
   generate: {
     intro: "O app monta uma rotina com os seus dados e o catálogo. Você revisa antes de usar.",

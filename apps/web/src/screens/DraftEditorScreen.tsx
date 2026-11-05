@@ -3,13 +3,10 @@ import { ArrowDown, ArrowUp, GripVertical, Pencil, Plus, Sparkles, Trash2 } from
 import {
   EQUIPMENT_LABELS,
   MUSCLE_GROUP_LABELS,
-  RESTRICTION_LABELS,
   SPLIT_TYPES,
-  toLocalDate,
   type DraftIssue,
   type SplitType,
 } from "@forja/domain";
-import { regenerateWorkout, type RegenerationReason } from "@forja/domain/motor";
 import { draftIssues } from "@forja/domain/validacao";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { fetchStudentProfile } from "../account/profile.ts";
@@ -42,11 +39,7 @@ import {
   type EditorItem,
   type IssueMessage,
 } from "../program/editor.ts";
-import {
-  applyRegeneration,
-  toMotorExercise,
-  type RegenerationSummary,
-} from "../program/generator.ts";
+import { regenerateInDocument, type RegenerationSummary } from "../program/generator.ts";
 import type { VersionView } from "../program/program.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
@@ -54,6 +47,7 @@ import { TEXTS } from "../app/texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import { formatTime } from "./ProgramScreen.tsx";
 import { GeneratorReportPanel } from "../components/GeneratorReportPanel.tsx";
+import { RegenerationNote } from "../components/RegenerationNote.tsx";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.editor;
@@ -216,29 +210,25 @@ function Editor({
     setRegenerating(workoutId);
     setError(null);
     try {
-      const { student, profile } = await fetchStudentProfile(supabase, studentId);
+      const profile = await fetchStudentProfile(supabase, studentId);
       const current = latest.current;
       const target = current.workouts.find((w) => w.id === workoutId);
       if (target === undefined) return;
       const seen = shown.current.get(workoutId) ?? new Set<string>();
-      const ids = target.items.map((i) => i.exercise_id);
-      const result = regenerateWorkout({
-        profile: { ...student, ...profile },
-        catalog: catalog.map(toMotorExercise),
-        referenceDate: toLocalDate(new Date(), student.timezone),
-        workoutExerciseIds: ids,
-        otherExerciseIds: current.workouts
-          .filter((w) => w.id !== workoutId)
-          .flatMap((w) => w.items.map((i) => i.exercise_id)),
-        avoidExerciseIds: [...seen],
+      const result = regenerateInDocument({
+        doc: current,
+        workoutId,
+        profile,
+        catalog,
+        seen,
+        nameOf,
       });
-      if (result.status === "blocked") {
+      if (result === null) {
         setError(T.regenerateProfile);
         return;
       }
-      for (const id of ids) seen.add(id);
       shown.current.set(workoutId, seen);
-      const { doc: next, summary } = applyRegeneration(current, workoutId, result.outcomes, nameOf);
+      const { doc: next, summary } = result;
       change(next);
       setSummaries((all) => ({ ...all, [workoutId]: summary }));
       show({
@@ -747,54 +737,10 @@ function WorkoutList({
               {T.regenerate(workout.name)}
             </Button>
           ) : null}
-          {summaries[workout.id] ? <RegenerationNote summary={summaries[workout.id]} /> : null}
+          <RegenerationNote summary={summaries[workout.id]} />
         </li>
       ))}
     </ol>
-  );
-}
-
-function reasonText(reason: RegenerationReason): string {
-  switch (reason.kind) {
-    case "restriction":
-      return TEXTS.generate.report.byRestriction(RESTRICTION_LABELS[reason.restriction]);
-    case "equipment":
-      return TEXTS.generate.report.byEquipment(EQUIPMENT_LABELS[reason.equipment]);
-    case "age":
-      return TEXTS.generate.report.byAge;
-    case "difficulty":
-      return T.regenerateByDifficulty;
-    case "not_available":
-      return T.regenerateUnavailable;
-  }
-}
-
-/** O fundamento da troca (RF-119): o que mudou, o que ficou e por quê. */
-function RegenerationNote({ summary }: { summary: RegenerationSummary | undefined }) {
-  if (summary === undefined) return null;
-  return (
-    <div className={styles.stack}>
-      <p className={styles.muted} role="status">
-        {summary.changed.length > 0 ? T.regenerateWhy : T.regenerateNothing}
-      </p>
-      {summary.changed.length > 0 ? (
-        <ul className={styles.steps}>
-          {summary.changed.map((c) => (
-            <li key={c.to}>{T.regenerateChange(c.from, c.to)}</li>
-          ))}
-        </ul>
-      ) : null}
-      {summary.kept.length > 0 ? (
-        <p className={styles.muted}>{T.regenerateKept(summary.kept.join(", "))}</p>
-      ) : null}
-      {summary.removed.length > 0 ? (
-        <ul className={styles.steps}>
-          {summary.removed.map((r) => (
-            <li key={r.name}>{T.regenerateRemoved(r.name, reasonText(r.reason))}</li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
   );
 }
 

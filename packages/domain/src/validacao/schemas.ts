@@ -66,6 +66,8 @@ export const trainingProfileSchema = z.object({
   restriction_codes: z.array(z.enum(RESTRICTIONS)).nullable(),
   restrictions_note: text(500).nullable(),
   preferences_note: text(500).nullable(),
+  // RF-113, ADR-095: Automático é o padrão do banco; opcional para quem já enviou.
+  app_mode: z.enum(["automatic", "manual"]).optional(),
   // RN-064: ênfase em músculo ou área (versão 1.2). Opcional para não exigir de quem já enviou.
   emphasis_groups: z
     .array(z.enum(MUSCLE_GROUPS))

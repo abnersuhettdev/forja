@@ -141,7 +141,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | V12-01 | Direções visuais do login; escolha do usuário | — | **Feito:** direção Anilha |
 | V12-02 | Novo login; design das telas principais | V12-01 | Grande. **Login feito** (2026-11-04); telas principais a fazer |
 | V12-03 | Fotos nos 110 exercícios, otimizadas e conferidas | Alteração da ADR-052 | Médio. **Feito no local** (2026-11-04) |
-| V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio |
+| V12-04 | Modos Automático e Manual; aba Meu plano | V12-08 | Médio. **Feito no local** (2026-11-04) |
 | V12-05 | Prova de qualidade da IA | Token da Cloudflare | Pequeno. **Primeira rodada feita** (2026-11-04), ver §3.4: nenhum modelo passou na leitura dos textos; falta decisão do usuário |
 | V12-06 | TAR-031: contraindicações | — | Médio. **Feito no local** (2026-11-04) |
 | V12-07 | TAR-032: motor de regras | V12-06 | Grande. **Feito no local** (2026-11-04); falta a revisão pelo usuário com o próprio perfil |

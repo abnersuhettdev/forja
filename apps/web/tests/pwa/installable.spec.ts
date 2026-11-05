@@ -226,9 +226,10 @@ test("versão nova só é oferecida sem sessão em andamento (T-PWA-08, UX-08 §
     await page.getByRole("button", { name: "Atualizar" }).click();
     await expect
       .poll(() =>
-        page.evaluate(
-          async () => (await navigator.serviceWorker.getRegistration())?.waiting == null,
-        ),
+        page
+          .evaluate(async () => (await navigator.serviceWorker.getRegistration())?.waiting == null)
+          // "Atualizar" recarrega a página: durante a recarga, a consulta falha e é repetida.
+          .catch(() => false),
       )
       .toBe(true);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

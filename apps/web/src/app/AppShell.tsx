@@ -1,4 +1,5 @@
 import { useEffect, useState, type ComponentType } from "react";
+import { appModeOf } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { useAuth } from "../auth/AuthProvider.tsx";
 import { ErrorBoundary } from "../components/ErrorBoundary.tsx";
@@ -31,6 +32,7 @@ import { TEXTS } from "./texts.ts";
 const SHOWCASE_PATH = "/_componentes";
 const LOGIN_PATH = "/entrar";
 const ONBOARDING_PATH = "/configuracao-inicial";
+const PLAN_PATH = "/plano";
 
 // Gestão, configuração inicial e vitrine só funcionam online (RF-093) e saem do pacote inicial;
 // as telas usadas offline — inclusive o catálogo, consultável sem conexão (UX-08 §6.2) — ficam
@@ -48,6 +50,7 @@ const GenerateScreen = onlineScreen(
   () => import("../screens/GenerateScreen.tsx"),
   "GenerateScreen",
 );
+const PlanScreen = onlineScreen(() => import("../screens/PlanScreen.tsx"), "PlanScreen", true);
 const ProfileScreen = onlineScreen(() => import("../screens/ProfileScreen.tsx"), "ProfileScreen");
 const AssessmentScreen = onlineScreen(
   () => import("../screens/AssessmentScreen.tsx"),
@@ -79,6 +82,7 @@ const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-030": ProgramScreen,
   "TELA-031": DraftEditorScreen,
   "TELA-051": GenerateScreen,
+  "TELA-060": PlanScreen,
   "TELA-034": CatalogScreen,
   "TELA-037": ProfileScreen,
   "TELA-038": AssessmentScreen,
@@ -100,6 +104,7 @@ export function AppShell() {
   const { state: userContext, refresh } = useUserContext();
   const context = userContext.status === "ready" ? userContext.context : null;
   const needsOnboarding = context !== null && context.student === null;
+  const automatic = appModeOf(context) === "automatic";
   // Conta e telas comuns (ex.: detalhe do exercício) mantêm a navegação da última área (UX-03 §3).
   const [lastArea, setLastArea] = useState<NavArea>("aluno");
   const routeArea = route?.area === "aluno" || route?.area === "gestao" ? route.area : null;
@@ -121,9 +126,20 @@ export function AppShell() {
     if (needsOnboarding && pathname !== ONBOARDING_PATH) {
       navigate(ONBOARDING_PATH, { replace: true });
     } else if (!needsOnboarding && pathname === ONBOARDING_PATH) {
-      navigate(HOME_PATH, { replace: true });
+      // ADR-095: no Automático, a configuração inicial termina na rotina proposta.
+      navigate(automatic ? PLAN_PATH : HOME_PATH, { replace: true });
     }
-  }, [auth.status, context, needsOnboarding, pathname]);
+  }, [auth.status, context, needsOnboarding, pathname, automatic]);
+
+  // ADR-095: cada modo tem seu caminho; Meus dados continua acessível nos dois.
+  useEffect(() => {
+    if (auth.status !== "signedIn" || context === null || needsOnboarding) return;
+    if (automatic && /^\/gestao\/(programa|catalogo)(\/|$)/.test(pathname)) {
+      navigate(PLAN_PATH, { replace: true });
+    } else if (!automatic && pathname === PLAN_PATH) {
+      navigate("/gestao/programa", { replace: true });
+    }
+  }, [auth.status, context, needsOnboarding, automatic, pathname]);
 
   const title = route?.title ?? TEXTS.notFound.title;
 
@@ -190,14 +206,14 @@ export function AppShell() {
 
   const Screen = route ? SCREENS[route.screen] : undefined;
   // Chave de área só com papel duplo (RF-005, ADR-003).
-  const dualRole = context !== null && context.isManager && context.student !== null;
+  const dualRole = !automatic && context !== null && context.isManager && context.student !== null;
   const withNavigation =
     route === null ||
     route.area === "aluno" ||
     route.area === "gestao" ||
     route.area === "conta" ||
     route.area === "comum";
-  const area = routeArea ?? lastArea;
+  const area = automatic ? "aluno" : (routeArea ?? lastArea);
 
   return (
     <div className={withNavigation ? styles.withNav : undefined}>
@@ -222,8 +238,8 @@ export function AppShell() {
       </main>
       {withNavigation ? (
         <>
-          <MainNav area={area} pathname={pathname} variant="bottom" />
-          <MainNav area={area} pathname={pathname} variant="rail" />
+          <MainNav area={area} automatic={automatic} pathname={pathname} variant="bottom" />
+          <MainNav area={area} automatic={automatic} pathname={pathname} variant="rail" />
         </>
       ) : null}
     </div>

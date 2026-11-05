@@ -19,7 +19,8 @@ select is(
 );
 select is((select count(*)::int from public.exercise_images), 220,
   'duas fotos por exercício importado, com licença e fonte (ADR-094)');
-select is((select count(*)::int from public.exercise_contraindications), 53,
+select is((select count(*)::int from public.exercise_contraindications c
+            join public.exercises e on e.id = c.exercise_id where e.origin = 'imported'), 53,
   'contraindicações explícitas do catálogo (RF-035)');
 select ok(
   (select count(*)::int from public.exercises where 'ankle_loaded' = any(load_markers)) >= 6,

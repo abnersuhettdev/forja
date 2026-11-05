@@ -100,7 +100,9 @@ test.describe("primeiro acesso", () => {
     await expect(page.getByText(/Conecte-se para concluir/).first()).toBeVisible();
     await context.setOffline(false);
     await page.getByRole("button", { name: "Entendi, concluir" }).click();
-    await expect(page).toHaveURL(/\/hoje$/, { timeout: 15_000 });
+    // ADR-095: no modo Automático, a configuração inicial termina em Meu plano.
+    await expect(page).toHaveURL(/\/plano$/, { timeout: 15_000 });
+    await expect(page.getByRole("button", { name: "Gerar minha rotina" })).toBeVisible();
 
     // No servidor: aluno próprio, perfil, avaliação inicial, peso inicial e descanso de 48 h.
     const sql = postgres(localStatus().DB_URL, { onnotice: () => undefined });
@@ -130,9 +132,9 @@ test.describe("primeiro acesso", () => {
       await sql.end();
     }
 
-    // Já configurado: a rota da configuração inicial leva a Hoje.
+    // Já configurado: a rota da configuração inicial leva a Meu plano (ADR-095).
     await page.goto("/configuracao-inicial");
-    await expect(page).toHaveURL(/\/hoje$/);
+    await expect(page).toHaveURL(/\/plano$/);
   });
 });
 
