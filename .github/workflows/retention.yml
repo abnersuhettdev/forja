@@ -26,3 +26,9 @@ jobs:
       - env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: node scripts/ops/retention.ts
+      # V12-10 (RN-063): acima de 80% da cota diária da IA, a tarefa falha e o GitHub avisa.
+      - name: Alerta de cota da IA
+        if: ${{ !cancelled() }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: node scripts/ops/ai-quota.ts

@@ -1,5 +1,5 @@
 // Testes de integração contra o Supabase local (ADR-090): exigem `pnpm db:start`.
-// Meta da TAR-010: cobertura ≥ 80% na função de sincronização.
+// Meta da TAR-010: cobertura ≥ 80% na função de sincronização; V12-10 inclui a função de IA.
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -9,9 +9,13 @@ export default defineConfig({
     fileParallelism: false,
     coverage: {
       provider: "v8",
-      include: ["supabase/functions/sync/**/*.ts"],
+      include: ["supabase/functions/sync/**/*.ts", "supabase/functions/ai/**/*.ts"],
       // index.ts é o servidor Deno, exercitado pelo teste HTTP (fora da medição em Node).
-      exclude: ["supabase/functions/sync/index.ts", "supabase/functions/**/*.d.ts"],
+      exclude: [
+        "supabase/functions/*/index.ts",
+        "supabase/functions/**/*.test.ts",
+        "supabase/functions/**/*.d.ts",
+      ],
       thresholds: { lines: 80, branches: 80, functions: 80, statements: 80 },
     },
   },

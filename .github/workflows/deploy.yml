@@ -1,10 +1,14 @@
 # Publicação (IMP-02 §1, ADR-075): backup de produção → migrações → função → app → fumaça.
-# Por enquanto só disparada à mão (Actions → Publicação): produção entra em `main` automática
-# depois de verificada (TAR-006). Desenvolvimento publica na pré-visualização da branch
-# "desenvolvimento" e nunca aponta para produção (IMP-01 §1). Actions fixadas por hash (AM-11).
+# V12-10: desenvolvimento publica sozinho depois do CI verde num envio para a `main`; produção,
+# só pelo botão (Actions → Publicação → producao). Desenvolvimento publica na pré-visualização da
+# branch "desenvolvimento" e nunca aponta para produção (IMP-01 §1). Actions fixadas por hash (AM-11).
 name: Publicação
 
 on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
   workflow_dispatch:
     inputs:
       ambiente:
@@ -20,7 +24,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: publicacao-${{ inputs.ambiente }}
+  group: publicacao-${{ inputs.ambiente || 'desenvolvimento' }}
   cancel-in-progress: false
 
 jobs:
@@ -33,15 +37,22 @@ jobs:
   publicar:
     name: Migrações, função e app
     needs: backup
-    if: ${{ !cancelled() && (needs.backup.result == 'success' || needs.backup.result == 'skipped') }}
+    # Automático só com o CI verde e num envio para a main (não em pull request).
+    if: >-
+      ${{ !cancelled() && (needs.backup.result == 'success' || needs.backup.result == 'skipped') &&
+      (github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push')) }}
     runs-on: ubuntu-24.04
-    environment: ${{ inputs.ambiente }}
+    environment: ${{ inputs.ambiente || 'desenvolvimento' }}
     env:
       SUPABASE_URL: ${{ vars.SUPABASE_URL }}
       SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
       APP_URL: ${{ vars.APP_URL }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # No automático, publica exatamente o commit que passou no CI.
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
       - uses: pnpm/action-setup@ea17c68df8912ef543352723c149a84f56e3d413 # v6.1.0
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -52,10 +63,13 @@ jobs:
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
         run: pnpm exec supabase db push --db-url "$SUPABASE_DB_URL" --yes
-      - name: Papel sync_writer e segredos da função
+      - name: Papel sync_writer e segredos das funções
         env:
           SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SYNC_DB_PASSWORD: ${{ secrets.SYNC_DB_PASSWORD }}
+          # Workers AI (ADR-093). Sem eles, a função de IA devolve só o motor (RN-062).
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_AI_TOKEN: ${{ secrets.CLOUDFLARE_AI_TOKEN }}
         run: node scripts/ops/configure-sync.ts
       - name: Função de sincronização (P3)
         run: |

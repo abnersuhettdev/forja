@@ -28,6 +28,7 @@ flowchart LR
 ```
 
 - Deploy em produção só a partir de `main`, pelo CI; nunca manual (exceto procedimentos de IMP-04).
+- **Versão 1.2 (V12-10, decisão de 2026-11-06):** desenvolvimento publica sozinho depois do CI verde num envio para `main`, com o mesmo commit testado; produção, só pelo botão "Publicação" em Actions. A publicação também grava os segredos da Workers AI (`CLOUDFLARE_ACCOUNT_ID`, `CLOUDFLARE_AI_TOKEN`) quando existem no ambiente do GitHub; sem eles, a função de IA devolve só o motor (RN-062).
 - Ordem justificada: o banco evolui primeiro em modo compatível (expandir/contrair — DAD-07); a função aceita a versão de contrato anterior e a nova; por último o app.
 - Teste de fumaça: abrir o app, consultar a saúde do backend, verificar cabeçalhos de segurança.
 
@@ -74,3 +75,4 @@ Conforme UX-08 §9: nova versão baixada em segundo plano; aplicada só sem sess
 | 2026-10-26 | Esqueleto criado. |
 | 2026-10-26 | Conteúdo completo (Etapa 6). |
 | 2026-10-26 | Aprovado pelo usuário (Etapa 6). |
+| 2026-11-06 | V12-10: desenvolvimento automático depois do CI verde; segredos da Workers AI na publicação. |

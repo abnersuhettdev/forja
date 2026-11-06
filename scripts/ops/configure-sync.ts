@@ -3,6 +3,7 @@
 //
 // Uso (no CI):
 //   SUPABASE_DB_URL=... SUPABASE_URL=... SYNC_DB_PASSWORD=... [APP_URL=...]
+//   [CLOUDFLARE_ACCOUNT_ID=... CLOUDFLARE_AI_TOKEN=...]
 //   SUPABASE_ACCESS_TOKEN=... node scripts/ops/configure-sync.ts
 import { execFileSync } from "node:child_process";
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
@@ -26,6 +27,25 @@ export function syncDbUrl(adminUrl: string, password: string): string {
   url.username = url.username.replace(/^[^.]+/, "sync_writer");
   url.password = password;
   return url.toString();
+}
+
+/**
+ * Conteúdo do arquivo de segredos das funções. Os da Workers AI (ADR-093) só entram quando os dois
+ * existem: sem eles, a função de IA devolve só o motor (RN-062).
+ */
+export function secretsFile(input: {
+  readonly syncUrl: string;
+  readonly origins: string;
+  readonly cloudflareAccount?: string | undefined;
+  readonly cloudflareToken?: string | undefined;
+}): string {
+  const lines = [`SYNC_DB_URL=${input.syncUrl}`];
+  if (input.origins !== "") lines.push(`ALLOWED_ORIGINS=${input.origins}`);
+  if (input.cloudflareAccount && input.cloudflareToken) {
+    lines.push(`CLOUDFLARE_ACCOUNT_ID=${input.cloudflareAccount}`);
+    lines.push(`CLOUDFLARE_AI_TOKEN=${input.cloudflareToken}`);
+  }
+  return `${lines.join("\n")}\n`;
 }
 
 /** Tira segredos de um texto antes de registrá-lo. */
@@ -64,15 +84,11 @@ if (import.meta.main) {
   const url = syncDbUrl(adminUrl, password);
   const dir = mkdtempSync(join(tmpdir(), "forja-segredos-"));
   const envFile = join(dir, "segredos.env");
+  const cloudflareAccount = process.env.CLOUDFLARE_ACCOUNT_ID;
+  const cloudflareToken = process.env.CLOUDFLARE_AI_TOKEN;
   writeFileSync(
     envFile,
-    `SYNC_DB_URL=${url}
-${
-  origins === ""
-    ? ""
-    : `ALLOWED_ORIGINS=${origins}
-`
-}`,
+    secretsFile({ syncUrl: url, origins, cloudflareAccount, cloudflareToken }),
     { mode: 0o600 },
   );
   try {
@@ -83,10 +99,15 @@ ${
     );
   } catch (error) {
     const stderr = (error as { stderr?: Buffer }).stderr?.toString() ?? "";
-    console.error(`supabase secrets set falhou: ${redact(stderr, [url, password, adminUrl])}`);
+    console.error(
+      `supabase secrets set falhou: ${redact(stderr, [url, password, adminUrl, cloudflareToken ?? ""])}`,
+    );
     process.exit(1);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
-  console.log(`Papel sync_writer e segredos da função configurados (origem: ${origins || "—"}).`);
+  const ai = cloudflareAccount && cloudflareToken ? "com" : "sem";
+  console.log(
+    `Papel sync_writer e segredos das funções configurados (origem: ${origins || "—"}; ${ai} Workers AI).`,
+  );
 }

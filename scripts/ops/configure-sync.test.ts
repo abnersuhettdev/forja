@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { projectRef, redact, syncDbUrl } from "./configure-sync.ts";
+import { projectRef, redact, secretsFile, syncDbUrl } from "./configure-sync.ts";
 
 describe("configuração da função no projeto real", () => {
   it("extrai a referência do endereço do projeto", () => {
@@ -25,6 +25,26 @@ describe("configuração da função no projeto real", () => {
   it("na conexão direta, sem referência no usuário", () => {
     expect(syncDbUrl("postgresql://postgres:adm@db.abcd1234.supabase.co:5432/postgres", "s")).toBe(
       "postgresql://sync_writer:s@db.abcd1234.supabase.co:5432/postgres",
+    );
+  });
+});
+
+describe("segredos das funções (V12-10)", () => {
+  it("leva os da Workers AI só quando os dois existem", () => {
+    const base = { syncUrl: "postgresql://s:x@h/p", origins: "https://app.exemplo.test" };
+    expect(secretsFile(base)).toBe(
+      "SYNC_DB_URL=postgresql://s:x@h/p\nALLOWED_ORIGINS=https://app.exemplo.test\n",
+    );
+    expect(secretsFile({ ...base, cloudflareAccount: "conta" })).not.toContain("CLOUDFLARE");
+    expect(
+      secretsFile({
+        ...base,
+        origins: "",
+        cloudflareAccount: "conta",
+        cloudflareToken: "token-ficticio",
+      }),
+    ).toBe(
+      "SYNC_DB_URL=postgresql://s:x@h/p\nCLOUDFLARE_ACCOUNT_ID=conta\nCLOUDFLARE_AI_TOKEN=token-ficticio\n",
     );
   });
 });

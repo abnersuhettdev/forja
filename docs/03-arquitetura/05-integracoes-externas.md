@@ -36,7 +36,7 @@ Listar cada serviço externo, o que ele recebe, o que acontece se falhar e como 
 |---|---|
 | Erros do app | Registro de erros técnicos sem dados pessoais enviado pela própria função de sincronização para uma tabela de diagnóstico, com retenção curta (detalhe em SEG-04) |
 | Erros do backend | Logs do provedor (painel) |
-| Disponibilidade | Verificação agendada no CI (ex.: a cada hora) que testa o endereço do app e a saúde do backend e avisa por e-mail do próprio GitHub em caso de falha |
+| Disponibilidade | Verificação agendada no CI (a cada 6 horas desde a V12-10, para caber nos minutos gratuitos — VH-09) que testa o endereço do app e a saúde do backend e avisa por e-mail do próprio GitHub em caso de falha |
 | Backup | Falha do workflow de backup gera notificação do GitHub |
 
 Ferramentas externas de monitoramento (ex.: serviços de rastreamento de erros) ficam para avaliação futura, por adicionarem mais um destinatário de dados.
@@ -65,3 +65,4 @@ Ferramentas externas de monitoramento (ex.: serviços de rastreamento de erros) 
 | 2026-10-26 | Aprovado pelo usuário (Etapa 3). |
 | 2026-10-26 | Correção da auditoria final (Etapa 8): fonte do catálogo atualizada (já definida em DAD-06). |
 | 2026-11-04 | Versão 1.2: Cloudflare Workers AI. |
+| 2026-11-06 | V12-10: verificação de disponibilidade a cada 6 horas. |
