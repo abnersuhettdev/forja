@@ -132,6 +132,16 @@ export const assessmentCreatePayloadSchema = z.strictObject({
 });
 
 export type AssessmentCreatePayload = z.infer<typeof assessmentCreatePayloadSchema>;
+
+/**
+ * API-022 `reassessment.postpone` (entity_id = id do adiamento, gerado no aparelho; RF-085,
+ * RN-015): a data precisa ser futura no fuso do aluno; não há limite de adiamentos.
+ */
+export const reassessmentPostponePayloadSchema = z.strictObject({
+  postpone_to: z.iso.date(),
+});
+
+export type ReassessmentPostponePayload = z.infer<typeof reassessmentPostponePayloadSchema>;
 export type OnboardingPayload = z.infer<typeof onboardingPayloadSchema>;
 export type ProfileUpdatePayload = z.infer<typeof profileUpdatePayloadSchema>;
 export type RestUpdatePayload = z.infer<typeof restUpdatePayloadSchema>;

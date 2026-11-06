@@ -1,0 +1,87 @@
+/* TELA-050 — Reavaliação: tela de foco, sem navegação, com as ações na zona do polegar. */
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding-bottom: calc(var(--control-lg) + var(--space-8));
+}
+
+.top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.barText {
+  display: flex;
+  flex-direction: column;
+}
+
+.barTitle {
+  font: var(--type-body);
+  font-weight: 600;
+}
+
+.progress {
+  display: grid;
+  grid-auto-columns: minmax(0, 1fr);
+  grid-auto-flow: column;
+  gap: var(--space-1);
+}
+
+.progress > span {
+  height: 6px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface-alt);
+}
+
+.progress > .progressDone {
+  background: var(--color-primary);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.title {
+  font: 700 2.25rem/2.5rem var(--font-metric);
+}
+
+.title:focus {
+  outline: none;
+}
+
+.lead {
+  margin-top: var(--space-1);
+  font: var(--type-body);
+  color: var(--color-text-muted);
+}
+
+.weight {
+  min-height: 72px;
+  border-radius: var(--radius-full);
+  font: 600 2.5rem/1 var(--font-metric);
+  text-align: center;
+}
+
+.thumb {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-3) var(--page-gutter) calc(var(--space-3) + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--color-divider);
+  background: var(--color-surface);
+}

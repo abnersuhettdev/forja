@@ -55,4 +55,7 @@ export const generatorUser = (browserName: string) => user(`gerador.${browserNam
 /** Aluno dos testes do modo Automático (um por navegador). */
 export const automaticUser = (browserName: string) =>
   user(`automatico.${browserName}@exemplo.test`);
+/** Aluno dos testes de reavaliação e resumo da semana (um por navegador). */
+export const reassessmentUser = (browserName: string) =>
+  user(`reavaliacao.${browserName}@exemplo.test`);
 export const pwaUser = () => user("pwa.chromium@exemplo.test");

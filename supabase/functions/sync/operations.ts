@@ -9,6 +9,7 @@ import {
   onboardingPayloadSchema,
   profileUpdatePayloadSchema,
   emptyPayloadSchema,
+  reassessmentPostponePayloadSchema,
   restUpdatePayloadSchema,
   weightCreatePayloadSchema,
 } from "../../../packages/domain/src/validacao/index.ts";
@@ -290,6 +291,30 @@ const assessmentCreate: OperationHandler = async (tx, ctx) => {
     insert into public.weight_entries (id, student_id, measured_on, weight_kg, source, assessment_id)
     values (${payload.weight_entry_id}, ${payload.student_id}, ${payload.assessed_on},
             ${payload.weight_kg}, 'assessment', ${ctx.entityId})`;
+  // Avaliação feita limpa o adiamento (TRN-05 §3.2): o próximo prazo conta da nova data.
+  await tx`
+    update public.training_profiles set reassessment_snooze_until = null
+    where student_id = ${payload.student_id} and reassessment_snooze_until is not null`;
+  return {};
+};
+
+// ---------- API-022 reassessment.postpone (RF-085, RN-015, ADR-020) ----------
+
+const reassessmentPostpone: OperationHandler = async (tx, ctx) => {
+  const payload = parse(reassessmentPostponePayloadSchema, ctx.payload);
+  if (ctx.baseRevision !== null) throw rejected("VALIDATION_FAILED", { field: "base_revision" });
+  const [student] = await tx<{ id: string; timezone: string }[]>`
+    select id, timezone from public.students where user_id = ${ctx.userId}`;
+  if (!student) throw rejected("NOT_FOUND");
+  const today = toLocalDate(ctx.now, student.timezone);
+  if (payload.postpone_to <= today)
+    throw rejected("VALIDATION_FAILED", { field: "postpone_to", rule: "RN-015" });
+  await tx`
+    insert into public.reassessment_postponements (id, student_id, postponed_from, postponed_to)
+    values (${ctx.entityId}, ${student.id}, ${today}, ${payload.postpone_to})`;
+  await tx`
+    update public.training_profiles set reassessment_snooze_until = ${payload.postpone_to}
+    where student_id = ${student.id}`;
   return {};
 };
 
@@ -338,6 +363,7 @@ export const HANDLERS: Readonly<Record<string, OperationHandler>> = {
   "profile.update": profileUpdate,
   "rest.update": restUpdate,
   "assessment.create": assessmentCreate,
+  "reassessment.postpone": reassessmentPostpone,
   "weight.create": weightCreate,
   "weight.delete": weightDelete,
   "exercise.create": exerciseCreate,

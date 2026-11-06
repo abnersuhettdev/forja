@@ -1005,6 +1005,57 @@ describe("avaliação (API-004, CA-016)", () => {
   });
 });
 
+describe("reavaliação (API-022, CA-084, CA-085)", () => {
+  it("adiar registra o adiamento e a data; a avaliação seguinte limpa a data", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const postponeId = randomUUID();
+    const postpone = (id: string, date: string) => ({
+      owner_user_id: me.userId,
+      type: "reassessment.postpone",
+      entity_id: id,
+      payload: { postpone_to: date },
+    });
+    const results = await send(me, [
+      postpone(postponeId, "2026-11-03"),
+      postpone(randomUUID(), "2026-11-10"),
+      postpone(randomUUID(), "2026-10-27"),
+    ]);
+    expect(results.map((r) => (r.status === "rejected" ? r.error.code : r.status))).toEqual([
+      "accepted",
+      "accepted",
+      "VALIDATION_FAILED",
+    ]);
+    const rows = await admin<{ postponed_from: string; postponed_to: string }[]>`
+      select postponed_from::text, postponed_to::text from public.reassessment_postponements
+      where student_id = ${studentId} order by postponed_to`;
+    expect(rows).toEqual([
+      { postponed_from: "2026-10-27", postponed_to: "2026-11-03" },
+      { postponed_from: "2026-10-27", postponed_to: "2026-11-10" },
+    ]);
+    const snooze = () => admin<{ snooze: string | null }[]>`
+      select reassessment_snooze_until::text as snooze from public.training_profiles
+      where student_id = ${studentId}`;
+    expect(await snooze()).toEqual([{ snooze: "2026-11-10" }]);
+
+    await send(me, [
+      {
+        owner_user_id: me.userId,
+        type: "assessment.create",
+        entity_id: randomUUID(),
+        payload: {
+          student_id: studentId,
+          assessed_on: "2026-10-27",
+          weight_kg: 80,
+          notes: null,
+          weight_entry_id: randomUUID(),
+        },
+      },
+    ]);
+    expect(await snooze()).toEqual([{ snooze: null }]);
+  });
+});
+
 describe("execução (API-008..014; CA-060, CA-063, CA-065, CA-067)", () => {
   /** Programa publicado direto no banco: treino com supino e agachamento. */
   async function publishedWorkout(studentId: string) {
@@ -1707,7 +1758,12 @@ describe("acesso cruzado em 100% das operações (CA-214, RNF-014; RN-001)", () 
       ["session.delete", sessionId, 1, {}],
     ];
     // Operações que só criam o próprio registro (sem alvo alheio) ficam fora da lista.
-    const creationOnly = ["onboarding.complete", "exercise.create", "weight.create"];
+    const creationOnly = [
+      "onboarding.complete",
+      "exercise.create",
+      "weight.create",
+      "reassessment.postpone",
+    ];
     expect(new Set([...attempts.map((a) => a[0]), ...creationOnly])).toEqual(
       new Set(Object.keys(HANDLERS)),
     );

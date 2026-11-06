@@ -62,6 +62,28 @@ export function weightSeries(points: readonly WeightPoint[], from: string | null
   return [...byDay.values()].sort((a, b) => a.measured_on.localeCompare(b.measured_on));
 }
 
+/** O que decide o lembrete de reavaliação (TRN-05 §3.1). */
+export interface ReassessmentInfo {
+  /** Data da avaliação mais recente, inicial ou periódica. */
+  readonly lastAssessedOn: string;
+  readonly intervalDays: number;
+  /** Data escolhida no último adiamento (RN-015). */
+  readonly snoozeUntil: string | null;
+}
+
+/**
+ * Data a partir da qual o lembrete aparece (TRN-05 §3.1): vence em base + intervalo; com
+ * adiamento, a maior das duas datas. Nunca bloqueia o uso (RN-014).
+ */
+export function reassessmentRemindOn(info: ReassessmentInfo): string {
+  const due = addDays(info.lastAssessedOn, info.intervalDays);
+  return info.snoozeUntil !== null && info.snoozeUntil > due ? info.snoozeUntil : due;
+}
+
+export function isReassessmentDue(info: ReassessmentInfo, today: string): boolean {
+  return today >= reassessmentRemindOn(info);
+}
+
 /** Peso atual (RN-017): o registro mais recente pela data e, no mesmo dia, o último gravado. */
 export function currentWeight(points: readonly WeightPoint[]): WeightPoint | null {
   return weightSeries(points, null).at(-1) ?? null;

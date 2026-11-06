@@ -1,12 +1,17 @@
 import { describe, expect, it } from "vitest";
 import {
   currentWeight,
+  isReassessmentDue,
+  reassessmentRemindOn,
   periodStart,
   weightProgress,
   weightSeries,
   weightVariation,
 } from "../src/index.ts";
-import { weightCreatePayloadSchema } from "../src/validacao/index.ts";
+import {
+  reassessmentPostponePayloadSchema,
+  weightCreatePayloadSchema,
+} from "../src/validacao/index.ts";
 
 describe("progresso em direção à meta (TRN-05 §2, RN-017)", () => {
   it("CT-EVO-01: inicial 90, meta 80, atual 85 → 50%", () => {
@@ -77,5 +82,45 @@ describe("série do gráfico e peso atual", () => {
     expect(
       weightCreatePayloadSchema.safeParse({ measured_on: "27/10/2026", weight_kg: 82 }).success,
     ).toBe(false);
+  });
+});
+
+describe("lembrete de reavaliação (TRN-05 §3.1, RN-014, RN-015)", () => {
+  const base = { lastAssessedOn: "2026-10-01", intervalDays: 30, snoozeUntil: null };
+
+  it("CT-REA-01: avaliação em 01/10, hoje 31/10 → lembrete visível", () => {
+    expect(isReassessmentDue(base, "2026-10-31")).toBe(true);
+    expect(isReassessmentDue(base, "2026-10-30")).toBe(false);
+  });
+
+  it("CT-REA-02: adiado para 07/11, hoje 05/11 → oculto; volta em 07/11", () => {
+    const snoozed = { ...base, snoozeUntil: "2026-11-07" };
+    expect(isReassessmentDue(snoozed, "2026-11-05")).toBe(false);
+    expect(isReassessmentDue(snoozed, "2026-11-07")).toBe(true);
+  });
+
+  it("CT-REA-03: adiamentos seguidos valem sempre pela última data, sem limite", () => {
+    for (const date of ["2026-11-07", "2026-11-14", "2026-11-21"]) {
+      expect(reassessmentRemindOn({ ...base, snoozeUntil: date })).toBe(date);
+    }
+  });
+
+  it("adiamento antigo não esconde uma reavaliação nova: vale a data mais tardia", () => {
+    expect(
+      reassessmentRemindOn({
+        lastAssessedOn: "2026-11-01",
+        intervalDays: 30,
+        snoozeUntil: "2026-10-20",
+      }),
+    ).toBe("2026-12-01");
+  });
+
+  it("a data do adiamento precisa ser uma data válida", () => {
+    expect(reassessmentPostponePayloadSchema.safeParse({ postpone_to: "2026-11-16" }).success).toBe(
+      true,
+    );
+    expect(reassessmentPostponePayloadSchema.safeParse({ postpone_to: "16/11/2026" }).success).toBe(
+      false,
+    );
   });
 });

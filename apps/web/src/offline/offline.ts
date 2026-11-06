@@ -2,7 +2,7 @@
 // completo, exercícios do catálogo e pesos dos últimos 12 meses, guardados no banco local do
 // usuário; sessões dos últimos 90 dias e última execução (API-R06/R07 — TAR-019).
 import type { DataClient } from "../auth/data-client.ts";
-import { addDays, toLocalDate } from "@forja/domain";
+import { addDays, toLocalDate, type ReassessmentInfo } from "@forja/domain";
 import { cacheCatalog, fetchCatalog, type CatalogExercise } from "../catalog/catalog.ts";
 import { fetchSessionData, mergeSessionData } from "../execution/download.ts";
 import { readMeta, writeMeta, type LocalDatabase } from "../local/db.ts";
@@ -35,6 +35,8 @@ export interface OfflineSnapshot {
   readonly program: VersionView | null;
   readonly weights: readonly WeightRecord[];
   readonly initialWeight: InitialWeight | null;
+  /** Base do lembrete de reavaliação (TRN-05 §3.1); null = sem avaliação registrada. */
+  readonly reassessment: ReassessmentInfo | null;
   /** Último download bem-sucedido (ISO); base do "Disponível offline · atualizado às". */
   readonly updatedAt: string | undefined;
 }
@@ -42,6 +44,7 @@ export interface OfflineSnapshot {
 const UPDATED_KEY = "dados_offline_atualizados_em";
 const PROGRAM_KEY = "ativo";
 const INITIAL_KEY = "peso_inicial";
+export const REASSESSMENT_KEY = "reavaliacao";
 /** UX-08 §6.2 — janela de pesos mantidos no aparelho. */
 export const WEIGHT_WINDOW_DAYS = 365;
 
@@ -54,7 +57,7 @@ export async function refreshOfflineData(
   now: Date = new Date(),
 ): Promise<OfflineSnapshot> {
   const since = addDays(toLocalDate(now, timeZone), -WEIGHT_WINDOW_DAYS);
-  const [version, weights, initial, catalog, sessionData] = await Promise.all([
+  const [version, weights, initial, latest, schedule, catalog, sessionData] = await Promise.all([
     supabase
       .from("program_versions")
       .select(VERSION_SELECT)
@@ -75,12 +78,29 @@ export async function refreshOfflineData(
       .eq("student_id", studentId)
       .eq("kind", "initial")
       .maybeSingle<{ assessed_on: string; weight_kg: number }>(),
+    supabase
+      .from("assessments")
+      .select("assessed_on")
+      .eq("student_id", studentId)
+      .order("assessed_on", { ascending: false })
+      .limit(1)
+      .maybeSingle<{ assessed_on: string }>(),
+    supabase
+      .from("training_profiles")
+      .select("reassessment_interval_days, reassessment_snooze_until")
+      .eq("student_id", studentId)
+      .maybeSingle<{
+        reassessment_interval_days: number;
+        reassessment_snooze_until: string | null;
+      }>(),
     fetchCatalog(supabase),
     fetchSessionData(supabase, studentId, now),
   ]);
   if (version.error) throw version.error;
   if (weights.error) throw weights.error;
   if (initial.error) throw initial.error;
+  if (latest.error) throw latest.error;
+  if (schedule.error) throw schedule.error;
 
   const program = version.data ? toVersionView(version.data) : null;
   const updatedAt = now.toISOString();
@@ -111,6 +131,25 @@ export async function refreshOfflineData(
         ? { measured_on: initial.data.assessed_on, weight_kg: initial.data.weight_kg }
         : null,
     );
+    // Adiamento ainda na fila prevalece sobre a data do servidor, como os pesos acima.
+    const queued = ops
+      .filter((o) => o.type === "reassessment.postpone")
+      .map((o) => String(o.payload.postpone_to))
+      .sort()
+      .at(-1);
+    const serverSnooze = schedule.data?.reassessment_snooze_until ?? null;
+    const reassessment: ReassessmentInfo | null =
+      latest.data && schedule.data
+        ? {
+            lastAssessedOn: latest.data.assessed_on,
+            intervalDays: schedule.data.reassessment_interval_days,
+            snoozeUntil:
+              queued !== undefined && (serverSnooze === null || queued > serverSnooze)
+                ? queued
+                : serverSnooze,
+          }
+        : null;
+    await writeMeta(db, REASSESSMENT_KEY, reassessment);
     await writeMeta(db, UPDATED_KEY, updatedAt);
   });
   await mergeSessionData(db, sessionData);
@@ -130,6 +169,7 @@ export async function readOfflineData(db: LocalDatabase): Promise<OfflineSnapsho
     program,
     weights,
     initialWeight: (await readMeta<InitialWeight | null>(db, INITIAL_KEY)) ?? null,
+    reassessment: (await readMeta<ReassessmentInfo | null>(db, REASSESSMENT_KEY)) ?? null,
     updatedAt: await readMeta<string>(db, UPDATED_KEY),
   };
 }

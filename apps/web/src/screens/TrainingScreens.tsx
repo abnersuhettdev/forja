@@ -1,6 +1,7 @@
 import { appModeOf } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { InstallBanner } from "../components/InstallBanner.tsx";
+import { ReassessmentNotice } from "../components/ReassessmentNotice.tsx";
 import { useState } from "react";
 import { AlertTriangle, Check, ChevronLeft, ChevronRight, Play, SearchX } from "lucide-react";
 import {
@@ -184,6 +185,7 @@ export function TodayScreen() {
       <p className={styles.date}>{formatDay(today)}</p>
       <OldPendingBanner now={training.now} timeZone={training.timeZone} />
       <InstallBanner />
+      <ReassessmentNotice today={today} />
       <HeroCard
         training={training}
         onStart={(workoutId) => void start(workoutId)}

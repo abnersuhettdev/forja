@@ -38,5 +38,10 @@ export function describeGroup(group: QueueGroup): { title: string; detail: strin
       detail: kg === null ? "" : T.weightDetail(formatKg(kg)),
     };
   }
+  const postponed = group.ops.find((op) => op.type === "reassessment.postpone")?.payload;
+  if (postponed && typeof postponed.postpone_to === "string") {
+    const R = TEXTS.reassessment.postpone;
+    return { title: R.queued, detail: R.queuedDetail(formatShortDate(postponed.postpone_to)) };
+  }
   return { title: T.otherLabel, detail: "" };
 }

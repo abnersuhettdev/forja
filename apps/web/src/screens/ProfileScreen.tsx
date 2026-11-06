@@ -43,9 +43,15 @@ import { formatDate } from "./ProgramScreen.tsx";
 import styles from "./Screens.module.css";
 
 const T = TEXTS.profile;
+
+/** Conteúdo de API-003 por seção (validado antes de enviar). */
+export interface ProfilePayload {
+  readonly student?: Readonly<Record<string, unknown>>;
+  readonly profile?: Readonly<Record<string, unknown>>;
+}
 const O = TEXTS.onboarding;
 
-type SectionKey =
+export type SectionKey =
   | "personal"
   | "goal"
   | "experience"
@@ -257,17 +263,8 @@ function sectionTitle(key: SectionKey): string {
   }[key];
 }
 
-function SectionForm({
-  section,
-  data,
-  onSaved,
-}: {
-  section: SectionKey;
-  data: StudentProfile;
-  onSaved: () => void;
-}) {
-  const local = useLocalData();
-  const show = useSnackbar();
+/** Campos editáveis do perfil, usados nas seções de TELA-037 e nas etapas da reavaliação. */
+export function useProfileForm(data: StudentProfile) {
   const { student, profile } = data;
   const [form, setForm] = useState({
     full_name: student.full_name,
@@ -289,14 +286,12 @@ function SectionForm({
     preferences: profile.preferences_note ?? "",
     emphasis: profile.emphasis_groups ?? [],
   });
-  const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
   const set = (changes: Partial<typeof form>) => {
     setForm((current) => ({ ...current, ...changes }));
   };
   const emptyToNull = (text: string) => (text.trim() === "" ? null : text.trim());
 
-  function payload(): unknown {
+  function payload(section: SectionKey): ProfilePayload {
     switch (section) {
       case "personal":
         return {
@@ -341,30 +336,6 @@ function SectionForm({
       case "emphasis":
         return { profile: { emphasis_groups: form.emphasis.length > 0 ? form.emphasis : null } };
     }
-  }
-
-  async function save() {
-    const body = payload();
-    if (!profileUpdatePayloadSchema.safeParse(body).success) {
-      setError(T.invalid);
-      return;
-    }
-    if (local === null) return;
-    setSaving(true);
-    const result = await sendDirect(local, {
-      opId: crypto.randomUUID(),
-      type: "profile.update",
-      entityId: student.id,
-      baseRevision: profile.revision,
-      payload: body,
-    });
-    setSaving(false);
-    if (!result.ok) {
-      setError(result.kind === "conflict" ? TEXTS.editor.conflict : result.message);
-      return;
-    }
-    show({ text: T.saved });
-    onSaved();
   }
 
   const numberField = (
@@ -557,6 +528,48 @@ function SectionForm({
       </FormField>
     ),
   };
+
+  return { payload, fields };
+}
+
+function SectionForm({
+  section,
+  data,
+  onSaved,
+}: {
+  section: SectionKey;
+  data: StudentProfile;
+  onSaved: () => void;
+}) {
+  const local = useLocalData();
+  const show = useSnackbar();
+  const { payload, fields } = useProfileForm(data);
+  const [error, setError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    const body = payload(section);
+    if (!profileUpdatePayloadSchema.safeParse(body).success) {
+      setError(T.invalid);
+      return;
+    }
+    if (local === null) return;
+    setSaving(true);
+    const result = await sendDirect(local, {
+      opId: crypto.randomUUID(),
+      type: "profile.update",
+      entityId: data.student.id,
+      baseRevision: data.profile.revision,
+      payload: body,
+    });
+    setSaving(false);
+    if (!result.ok) {
+      setError(result.kind === "conflict" ? TEXTS.editor.conflict : result.message);
+      return;
+    }
+    show({ text: T.saved });
+    onSaved();
+  }
 
   return (
     <form

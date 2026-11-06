@@ -72,6 +72,15 @@ Nenhum sinal bloqueia funcionalidades (RF-086).
 
 **Versão 1.2 (planejada, ainda não implementada — [PLN-06](../08-planejamento/06-plano-versao-1-2.md)):** as regras calculam os fatos (indicadores de §2, frequência, tempo até a meta, reavaliação). A IA só escreve o resumo semanal e propõe ajustes (RF-115..117), sem inventar números. O resumo é gerado ao abrir o app, no máximo uma vez por semana; sem conexão, aparecem só os fatos. Ajuste proposto vira rascunho (RN-009). Dor ou condição de saúde leva ao texto de procurar um profissional (RN-030).
 
+Decisões do usuário (2026-11-05, GOV-02):
+
+| Tema | Regra |
+|---|---|
+| Semana do resumo | A semana anterior, de segunda a domingo, no fuso do aluno; gerado na primeira abertura a partir de segunda |
+| Ajuste (RF-116) | Depois de 2 semanas seguidas com presenças abaixo da meta de dias (RN-038), propõe uma rotina com menos dias: a média de presenças dessas 2 semanas, arredondada para cima, no mínimo 1. Nunca propõe aumentar |
+| Incentivo (RF-117) | Sequência de semanas seguidas cumprindo a meta de dias, no resumo e em Hoje, com uma frase curta |
+| Onde aparece | Cartão em Hoje enquanto o resumo da semana não foi aberto; depois, em Meu plano (Automático) ou Evolução (Manual) |
+
 ## 6. Casos de teste de referência
 
 | Caso | Situação | Esperado |

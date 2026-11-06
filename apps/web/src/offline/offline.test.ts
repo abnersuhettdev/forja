@@ -78,6 +78,7 @@ describe("dados offline (UX-08 §6.2)", () => {
       program: null,
       weights: [],
       initialWeight: null,
+      reassessment: null,
       updatedAt: undefined,
     });
     await db.table("program").put({ key: "ativo", view: version });
