@@ -106,7 +106,7 @@ Cada exercício tem **um** padrão principal.
 
 Além do mapa, a contraindicação explícita por exercício (RF-035, `exercise_contraindications`) **também** exclui. As duas fontes se somam; nunca se compensam.
 
-**Curadoria (V12-06, 2026-11-04, feita por Claude, a confirmar pelo usuário):** `catalog/exercicios.json` traz os campos `load_markers_v12` (15 exercícios com marcadores acrescentados, como `ankle_loaded`, que nenhum exercício tinha, e `axial_spine_load` em máquinas com apoio nos ombros) e `contraindications` (53 associações em 37 exercícios, por exemplo barra fixa para ombro, cadeira extensora para joelho e abdominais em flexão para lombar). O critério é conservador: na dúvida, o exercício sai para quem declarou a restrição. Em exercícios personalizados, a pessoa marca as contraindicações em TELA-036.
+**Curadoria (V12-06, 2026-11-04, feita por Claude, aceita pelo usuário em 2026-11-06; a rever por profissional antes de terceiros):** `catalog/exercicios.json` traz os campos `load_markers_v12` (15 exercícios com marcadores acrescentados, como `ankle_loaded`, que nenhum exercício tinha, e `axial_spine_load` em máquinas com apoio nos ombros) e `contraindications` (53 associações em 37 exercícios, por exemplo barra fixa para ombro, cadeira extensora para joelho e abdominais em flexão para lombar). O critério é conservador: na dúvida, o exercício sai para quem declarou a restrição. Em exercícios personalizados, a pessoa marca as contraindicações em TELA-036.
 
 > **Natureza deste mapa:** é uma heurística conservadora de organização de treino, não orientação clínica (RN-030). Será revisado na curadoria e precisa de revisão por profissional habilitado antes de qualquer uso com terceiros (GATE-TER, REG-01/REG-11).
 
