@@ -2,8 +2,18 @@ import { appModeOf } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { InstallBanner } from "../components/InstallBanner.tsx";
 import { ReassessmentNotice } from "../components/ReassessmentNotice.tsx";
+import { SUMMARY_PATH, WeeklySummaryCard } from "../components/WeeklySummaryCard.tsx";
+import { useWeeklyFacts } from "../summary/useWeeklyFacts.ts";
 import { useState } from "react";
-import { AlertTriangle, Check, ChevronLeft, ChevronRight, Play, SearchX } from "lucide-react";
+import {
+  AlertTriangle,
+  Check,
+  ChevronLeft,
+  ChevronRight,
+  Play,
+  SearchX,
+  TrendingUp,
+} from "lucide-react";
 import {
   currentWeight,
   MUSCLE_GROUP_LABELS,
@@ -176,6 +186,9 @@ export function TodayScreen() {
   const { start, dialog } = useStartWorkout();
   const register = useRegisterWeight();
   const goal = useGoalWeight();
+  const weekly = useWeeklyFacts(
+    "fallback" in result ? null : result.training.recommendation.week.goal,
+  );
   if ("fallback" in result) return result.fallback;
   const { training } = result;
   const today = toLocalDate(training.now, training.timeZone);
@@ -193,7 +206,10 @@ export function TodayScreen() {
           setChoosing(true);
         }}
       />
-      <WeekRow training={training} />
+      {weekly.facts && weekly.seenWeek !== weekly.facts.week_start ? (
+        <WeeklySummaryCard facts={weekly.facts} />
+      ) : null}
+      <WeekRow training={training} streak={weekly.facts?.streak ?? 0} />
       <WeightRow training={training} today={today} goal={goal} onRegister={register.open} />
       <OfflineStamp updatedAt={training.updatedAt} />
       <ChooseWorkoutSheet
@@ -358,7 +374,7 @@ function HeroCard({
   );
 }
 
-function WeekRow({ training }: { training: Ready }) {
+function WeekRow({ training, streak }: { training: Ready; streak: number }) {
   const { week, recommendation } = training;
   return (
     <section className={styles.panel} aria-label={T.week}>
@@ -389,6 +405,12 @@ function WeekRow({ training }: { training: Ready }) {
           </li>
         ))}
       </ol>
+      {streak > 0 ? (
+        <Link to={SUMMARY_PATH} className={styles.streak}>
+          <TrendingUp size={18} aria-hidden="true" />
+          {TEXTS.summary.streakLine(streak)}
+        </Link>
+      ) : null}
     </section>
   );
 }

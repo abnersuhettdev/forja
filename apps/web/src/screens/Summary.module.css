@@ -1,0 +1,102 @@
+/* TELA-061 — Resumo da semana: um destaque grafite (UX-02 §2.3) e cartões de apoio. */
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4) var(--space-5) var(--space-5);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+}
+
+.hero > :not(svg) {
+  position: relative;
+}
+
+.plate {
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 170px;
+  height: 170px;
+}
+
+.eyebrow {
+  font: var(--type-label);
+  color: var(--color-primary);
+}
+
+.big {
+  font: 700 3.5rem/3.75rem var(--font-metric);
+  font-variant-numeric: tabular-nums;
+}
+
+.heroTitle {
+  padding-right: var(--space-8);
+  font: 700 2.25rem/2.5rem var(--font-metric);
+}
+
+.heroText {
+  padding-right: var(--space-5);
+  font: var(--type-body);
+  color: var(--color-text-muted);
+}
+
+.hero > .keep {
+  color: var(--color-text);
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+}
+
+.cardTitle {
+  font: var(--type-label);
+  color: var(--color-text-muted);
+}
+
+.text {
+  font: var(--type-body);
+}
+
+.facts {
+  margin: 0;
+}
+
+.fact {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) 0;
+}
+
+.fact + .fact {
+  border-top: 1px solid var(--color-divider);
+}
+
+.fact > dt {
+  font: var(--type-caption);
+  color: var(--color-text-muted);
+}
+
+.fact > dd {
+  margin: 0;
+  font: var(--type-body);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}

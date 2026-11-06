@@ -198,6 +198,18 @@
       "senha": "Ficticia-gestao-forja-01",
       "gestor": true,
       "aluno": true
+    },
+    {
+      "email": "resumo.chromium@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
+    },
+    {
+      "email": "resumo.webkit@exemplo.test",
+      "senha": "Ficticia-gestao-forja-01",
+      "gestor": true,
+      "aluno": true
     }
   ]
 }

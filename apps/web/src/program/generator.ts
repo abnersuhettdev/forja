@@ -130,17 +130,23 @@ export async function createProposal(input: {
   readonly profile: StudentProfile;
   readonly catalog: readonly CatalogExercise[];
   readonly previousExerciseIds: readonly string[];
+  /** RF-116: rotina com menos dias, proposta pelo resumo da semana; o perfil só muda ao publicar. */
+  readonly daysPerWeek?: number;
 }): Promise<
   | { readonly ok: true }
   | { readonly ok: false; readonly pending: true }
   | { readonly ok: false; readonly pending: false; readonly message: string }
 > {
   const { local, studentId, profile, catalog } = input;
-  const remote = await requestRoutine();
+  const remote = await requestRoutine(input.daysPerWeek);
   const result: MotorResult =
     remote ??
     generateProgram({
-      profile: { ...profile.student, ...profile.profile },
+      profile: {
+        ...profile.student,
+        ...profile.profile,
+        ...(input.daysPerWeek === undefined ? {} : { days_per_week: input.daysPerWeek }),
+      },
       catalog: catalog.map(toMotorExercise),
       referenceDate: toLocalDate(new Date(), profile.student.timezone),
       previousExerciseIds: input.previousExerciseIds,

@@ -170,13 +170,19 @@ async function load(
 export async function generateRoutine(
   identity: Identity,
   deps: RoutineDeps,
+  /** RF-116: dias da proposta de ajuste, no lugar dos do perfil. */
+  options: { readonly daysPerWeek?: number } = {},
 ): Promise<{ status: number; body: unknown }> {
   const now = deps.now ?? new Date();
   const subject = await deps.hash(identity.userId);
-  const data = await deps.db.inActorTransaction(identity.userId, (tx) =>
+  const loaded = await deps.db.inActorTransaction(identity.userId, (tx) =>
     load(tx, identity.userId, subject, now),
   );
-  if (data === null) return { status: 404, body: { code: "NOT_FOUND" } };
+  if (loaded === null) return { status: 404, body: { code: "NOT_FOUND" } };
+  const data =
+    options.daysPerWeek === undefined
+      ? loaded
+      : { ...loaded, profile: { ...loaded.profile, days_per_week: options.daysPerWeek } };
 
   const referenceDate = toLocalDate(now, data.timezone);
   const motor: MotorResult = generateProgram({

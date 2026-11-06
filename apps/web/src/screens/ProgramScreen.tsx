@@ -10,6 +10,7 @@ import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import styles from "./Screens.module.css";
 
@@ -50,7 +51,7 @@ export function ProgramScreen() {
     return (
       <ErrorState
         title={TEXTS.error.title}
-        description={online ? TEXTS.editor.saveFailed : T.offline}
+        description={online ? EDITOR_TEXTS.saveFailed : T.offline}
         onRetry={() => {
           void reload();
         }}
@@ -150,7 +151,7 @@ export function ProgramScreen() {
           <h2 className={styles.exerciseName}>{active.document.name}</h2>
           <p className={styles.muted}>
             {[
-              active.document.split_type ? TEXTS.editor.splits[active.document.split_type] : null,
+              active.document.split_type ? EDITOR_TEXTS.splits[active.document.split_type] : null,
               active.published_at && active.version_number
                 ? T.published(formatDate(active.published_at), active.version_number)
                 : null,

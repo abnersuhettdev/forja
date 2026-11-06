@@ -58,4 +58,6 @@ export const automaticUser = (browserName: string) =>
 /** Aluno dos testes de reavaliação e resumo da semana (um por navegador). */
 export const reassessmentUser = (browserName: string) =>
   user(`reavaliacao.${browserName}@exemplo.test`);
+/** Aluno dos testes do resumo da semana (um por navegador). */
+export const summaryUser = (browserName: string) => user(`resumo.${browserName}@exemplo.test`);
 export const pwaUser = () => user("pwa.chromium@exemplo.test");

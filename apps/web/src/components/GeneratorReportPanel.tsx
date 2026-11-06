@@ -7,11 +7,11 @@ import {
   RESTRICTION_LABELS,
 } from "@forja/domain";
 import type { ExclusionReason, GeneratorReport } from "@forja/domain/motor";
-import { TEXTS } from "../app/texts.ts";
+import { GENERATE_TEXTS } from "../program/generate-texts.ts";
 import { Banner } from "./Feedback.tsx";
 import styles from "../screens/Screens.module.css";
 
-const T = TEXTS.generate.report;
+const T = GENERATE_TEXTS.report;
 
 function reasonText(reason: ExclusionReason): string {
   switch (reason.kind) {
@@ -49,7 +49,7 @@ export function GeneratorReportPanel({ report }: { report: GeneratorReport }) {
 
   return (
     <section className={styles.stack} aria-label={T.title}>
-      <Banner tone="info">{TEXTS.generate.notice}</Banner>
+      <Banner tone="info">{GENERATE_TEXTS.notice}</Banner>
       {ai?.source === "motor" ? (
         <p className={styles.muted}>{T.aiFallback[ai.fallback ?? "unavailable"]}</p>
       ) : null}

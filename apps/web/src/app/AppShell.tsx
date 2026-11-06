@@ -52,6 +52,11 @@ const ReassessmentScreen = onlineScreen(
   () => import("../screens/ReassessmentScreen.tsx"),
   "ReassessmentScreen",
 );
+const SummaryScreen = onlineScreen(
+  () => import("../screens/SummaryScreen.tsx"),
+  "SummaryScreen",
+  true,
+);
 const loadHistory = () => import("../screens/HistoryScreens.tsx");
 const AgendaScreen = onlineScreen(loadHistory, "AgendaScreen", true);
 const DayScreen = onlineScreen(loadHistory, "DayScreen", true);
@@ -99,6 +104,7 @@ const SCREENS: Readonly<Record<string, ComponentType<ScreenProps>>> = {
   "TELA-051": GenerateScreen,
   "TELA-060": PlanScreen,
   "TELA-050": ReassessmentScreen,
+  "TELA-061": SummaryScreen,
   "TELA-034": CatalogScreen,
   "TELA-037": ProfileScreen,
   "TELA-038": AssessmentScreen,

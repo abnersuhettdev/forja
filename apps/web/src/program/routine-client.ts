@@ -5,7 +5,8 @@ import { getSupabase } from "../auth/client.ts";
 
 const TIMEOUT_MS = 35_000;
 
-export async function requestRoutine(): Promise<MotorResult | null> {
+/** `daysPerWeek`: dias da proposta de ajuste (RF-116), no lugar dos do perfil. */
+export async function requestRoutine(daysPerWeek?: number): Promise<MotorResult | null> {
   const supabase = getSupabase();
   const baseUrl = import.meta.env.VITE_SUPABASE_URL;
   const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
@@ -20,7 +21,7 @@ export async function requestRoutine(): Promise<MotorResult | null> {
         apikey: key,
         "Content-Type": "application/json",
       },
-      body: "{}",
+      body: JSON.stringify(daysPerWeek === undefined ? {} : { days_per_week: daysPerWeek }),
       cache: "no-store",
       signal: AbortSignal.timeout(TIMEOUT_MS),
     });

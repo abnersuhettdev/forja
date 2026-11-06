@@ -13,11 +13,12 @@ import { createProposal } from "../program/generator.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { GENERATE_TEXTS } from "../program/generate-texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import { DRAFT_PATH } from "./ProgramScreen.tsx";
 import styles from "./Screens.module.css";
 
-const T = TEXTS.generate;
+const T = GENERATE_TEXTS;
 const PROFILE_PATH = "/gestao/perfil";
 const CHECKS: readonly MotorPendingCode[] = [
   "birth_date",

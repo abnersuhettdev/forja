@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { CloudUpload, Plus, Scale, Trash2 } from "lucide-react";
+import { BarChart3, CloudUpload, Plus, Scale, Trash2 } from "lucide-react";
 import {
   currentWeight,
   periodStart,
@@ -10,6 +10,7 @@ import {
   weightVariation,
   type WeightPeriod,
 } from "@forja/domain";
+import { appModeOf } from "../account/context.ts";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { getSupabase } from "../auth/client.ts";
 import { Button, IconButton } from "../components/Button.tsx";
@@ -26,6 +27,7 @@ import { useLocalData } from "../local/LocalDataProvider.tsx";
 import type { WeightRecord } from "../offline/offline.ts";
 import { useOfflineData } from "../offline/OfflineDataProvider.tsx";
 import { formatKg, formatShortDate } from "../training/format.ts";
+import { Link } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import shared from "./Screens.module.css";
@@ -235,6 +237,12 @@ export function EvolutionScreen() {
 
   return (
     <div className={styles.screen}>
+      {/* No Manual, o resumo da semana fica aqui; no Automático, em Meu plano (decisão de 2026-11-05). */}
+      {appModeOf(user.status === "ready" ? user.context : null) === "manual" ? (
+        <Link to="/resumo" className={shared.linkButton}>
+          <BarChart3 size={20} aria-hidden="true" /> {TEXTS.summary.link}
+        </Link>
+      ) : null}
       <section className={["graphite", styles.summary].join(" ")} aria-label={T.current}>
         <WeightPlate className={styles.plate} />
         <span className={styles.summaryLabel}>{T.current}</span>

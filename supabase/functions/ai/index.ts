@@ -3,6 +3,7 @@
 import { createSyncDb } from "../sync/db.ts";
 import { publishableKey } from "../sync/public-key.ts";
 import { generateRoutine } from "./routine.ts";
+import { generateSummary } from "./summary.ts";
 import { createWorkersAi } from "./workers-ai.ts";
 
 const env = (name: string): string => {
@@ -71,13 +72,32 @@ Deno.serve(async (request) => {
   if (request.method === "OPTIONS") {
     return new Response(null, { status: 204, headers: corsHeaders(request) });
   }
-  if (request.method !== "POST" || !new URL(request.url).pathname.endsWith("/routine")) {
+  const path = new URL(request.url).pathname;
+  const route = path.endsWith("/routine")
+    ? "routine"
+    : path.endsWith("/summary")
+      ? "summary"
+      : null;
+  if (request.method !== "POST" || route === null) {
     return json(request, 404, { code: "NOT_FOUND" });
   }
   try {
     const identity = await verify(request);
     if (identity === null) return json(request, 401, { code: "AUTH_REQUIRED" });
-    const result = await generateRoutine(identity, { db, provider, hash: sha256Hex });
+    const deps = { db, provider, hash: sha256Hex };
+    if (route === "summary") {
+      const summary = await generateSummary(identity, deps);
+      return json(request, summary.status, summary.body);
+    }
+    // RF-116: a proposta de ajuste pede a rotina com menos dias (1 a 7), sem mudar o perfil.
+    const body = (await request.json().catch(() => ({}))) as { days_per_week?: unknown };
+    const days = body.days_per_week;
+    if (days !== undefined && !(Number.isInteger(days) && Number(days) >= 1 && Number(days) <= 7)) {
+      return json(request, 400, { code: "VALIDATION_FAILED" });
+    }
+    const result = await generateRoutine(identity, deps, {
+      ...(typeof days === "number" ? { daysPerWeek: days } : {}),
+    });
     return json(request, result.status, result.body);
   } catch (error) {
     console.error("ai: falha interna", error instanceof Error ? error.name : "desconhecido");

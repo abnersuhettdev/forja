@@ -38,6 +38,7 @@ import { useLocalData } from "../local/LocalDataProvider.tsx";
 import { parseNumber } from "../onboarding/draft.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import { formatDate } from "./ProgramScreen.tsx";
 import styles from "./Screens.module.css";
@@ -564,7 +565,7 @@ function SectionForm({
     });
     setSaving(false);
     if (!result.ok) {
-      setError(result.kind === "conflict" ? TEXTS.editor.conflict : result.message);
+      setError(result.kind === "conflict" ? EDITOR_TEXTS.conflict : result.message);
       return;
     }
     show({ text: T.saved });

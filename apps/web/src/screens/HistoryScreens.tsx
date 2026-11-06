@@ -49,10 +49,11 @@ import {
 import { formatSet } from "./ExecutionScreen.tsx";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { HISTORY_TEXTS } from "./history-texts.ts";
 import shared from "./Screens.module.css";
 import styles from "./History.module.css";
 
-const T = TEXTS.history;
+const T = HISTORY_TEXTS;
 const MONTH_KEY = "forja.u.agenda.mes";
 const MONTH_NAMES = [
   "janeiro",

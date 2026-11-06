@@ -8,6 +8,7 @@
     ".": "./src/index.ts",
     "./motor": "./src/motor/index.ts",
     "./motor/ia": "./src/motor/ia.ts",
+    "./resumo": "./src/weekly.ts",
     "./validacao": "./src/validacao/index.ts"
   },
   "dependencies": {

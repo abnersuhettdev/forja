@@ -146,7 +146,7 @@ Desenvolvimento automático com produção em um clique (já combinado), testes 
 | V12-06 | TAR-031: contraindicações | — | Médio. **Feito no local** (2026-11-04) |
 | V12-07 | TAR-032: motor de regras | V12-06 | Grande. **Feito no local** (2026-11-04); falta a revisão pelo usuário com o próprio perfil |
 | V12-08 | IA sobre o motor: função, validação, cota, tela de geração | V12-05, V12-07 | Grande. **Feito no local** (2026-11-04), sem uso real pelo usuário |
-| V12-09 | Reavaliação (TAR-030) e acompanhamento por IA | V12-08 | Grande. **Reavaliação feita no local** (2026-11-05); resumo da semana a fazer |
+| V12-09 | Reavaliação (TAR-030) e acompanhamento por IA | V12-08 | Grande. **Feito no local** (2026-11-06): reavaliação e resumo da semana |
 | V12-10 | Robustez e automação | — | Pequeno |
 
 **Em paralelo:** V12-01/02 e V12-05..08 não dependem um do outro. A sequência sugerida entrega valor visível cedo (login) enquanto o motor é construído.

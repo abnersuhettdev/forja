@@ -1,6 +1,7 @@
 // Contrato com a IA sobre o motor (ADR-093; RN-060, RN-061, RN-062; TRN-02 §7): monta o pedido só
 // com dados permitidos e valida a resposta. A IA escolhe entre opções elegíveis calculadas aqui;
 // qualquer falha descarta a resposta inteira, e vale o rascunho do motor. Sem Zod: fica leve.
+import { HEALTH_WORDS } from "../weekly.ts";
 import {
   EQUIPMENT_LABELS,
   EXPERIENCE_LABELS,
@@ -198,8 +199,10 @@ export type AiReply =
  * Carga em número, diagnóstico, indicação médica ou promessa sobre saúde: nada disso vai para a
  * tela (RN-026, RN-030). Barreira simples por palavras: não prova que o texto está certo.
  */
-const FORBIDDEN =
-  /\d\s*(kg|quilos?)(?![\p{L}])|(?<![\p{L}])(diagn[oó]stic|tendinite|h[eé]rnia|artrose|lombalgia|prescrevo|medicamento|rem[eé]dio|anti-?inflamat|proteg|prote[cç][aã]o|segur[oaç]|les[aã]o|les[oõ]es|dor(?![\p{L}])|dores|desconforto|articula|preserva[cç][aã]o|sobrecarg|estresse|lombar|coluna|cervical|tor[aá]cic|joelho|tornozelo|cotovelo|punho|pulso)/iu;
+export const FORBIDDEN = new RegExp(
+  String.raw`\d\s*(kg|quilos?)(?![\p{L}])|` + HEALTH_WORDS.source,
+  "iu",
+);
 /** Termo técnico ou código em inglês que a pessoa não precisa ler. */
 const JARGON = /(?<![\p{L}])(biomec|hypertrophy|beginner|intermediate|advanced|weight_loss)/iu;
 

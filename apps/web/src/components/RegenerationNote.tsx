@@ -1,19 +1,20 @@
 import { EQUIPMENT_LABELS, RESTRICTION_LABELS } from "@forja/domain";
 import type { RegenerationReason } from "@forja/domain/motor";
 import type { RegenerationSummary } from "../program/generator.ts";
-import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
+import { GENERATE_TEXTS } from "../program/generate-texts.ts";
 import styles from "../screens/Screens.module.css";
 
-const T = TEXTS.editor;
+const T = EDITOR_TEXTS;
 
 function reasonText(reason: RegenerationReason): string {
   switch (reason.kind) {
     case "restriction":
-      return TEXTS.generate.report.byRestriction(RESTRICTION_LABELS[reason.restriction]);
+      return GENERATE_TEXTS.report.byRestriction(RESTRICTION_LABELS[reason.restriction]);
     case "equipment":
-      return TEXTS.generate.report.byEquipment(EQUIPMENT_LABELS[reason.equipment]);
+      return GENERATE_TEXTS.report.byEquipment(EQUIPMENT_LABELS[reason.equipment]);
     case "age":
-      return TEXTS.generate.report.byAge;
+      return GENERATE_TEXTS.report.byAge;
     case "difficulty":
       return T.regenerateByDifficulty;
     case "not_available":

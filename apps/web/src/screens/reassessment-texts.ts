@@ -1,0 +1,22 @@
+// Textos do assistente de reavaliação (TELA-050), fora do pacote inicial: só as telas carregadas sob demanda os usam (SEG-04 §2).
+export const REASSESSMENT_TEXTS = {
+  title: "Reavaliação",
+  step: (n: number) => `Etapa ${String(n)} de 4`,
+  close: "Sair da reavaliação",
+  back: "Etapa anterior",
+  weightTitle: "Seu peso hoje",
+  lastAssessment: (date: string, kg: string) => `Na última avaliação, em ${date}, era ${kg} kg.`,
+  lastWeight: (kg: string, ago: string) => `O último registro é de ${kg} kg, ${ago}.`,
+  weight: "Peso (kg)",
+  measuresLater: "Medidas do corpo, como cintura e quadril, entram numa versão futura.",
+  goalTitle: "Objetivo e meta de peso",
+  availabilityTitle: "Seus dias e seu tempo",
+  availabilityNote: "Mudar aqui marca a rotina para revisão.",
+  placeTitle: "Onde treina e restrições",
+  same: "Continua igual",
+  next: "Próximo",
+  finish: "Concluir",
+  saved: "Reavaliação registrada. A próxima fica para daqui a 30 dias.",
+  invalidWeight: "Informe um valor entre 30 e 300 kg.",
+  invalid: "Confira os dados desta etapa.",
+} as const;

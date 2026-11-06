@@ -44,13 +44,14 @@ import type { VersionView } from "../program/program.ts";
 import { useProgram } from "../program/useProgram.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import { formatTime } from "./ProgramScreen.tsx";
 import { GeneratorReportPanel } from "../components/GeneratorReportPanel.tsx";
 import { RegenerationNote } from "../components/RegenerationNote.tsx";
 import styles from "./Screens.module.css";
 
-const T = TEXTS.editor;
+const T = EDITOR_TEXTS;
 const PROGRAM_PATH = "/gestao/programa";
 const SAVE_DELAY_MS = 1000;
 

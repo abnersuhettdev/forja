@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Check, ClipboardList, IdCard, RefreshCw, Sparkles, Trash2 } from "lucide-react";
+import { BarChart3, Check, ClipboardList, IdCard, RefreshCw, Sparkles, Trash2 } from "lucide-react";
 import { useUserContext } from "../account/UserContextProvider.tsx";
 import { fetchStudentProfile, type StudentProfile } from "../account/profile.ts";
 import { getSupabase } from "../auth/client.ts";
@@ -20,6 +20,7 @@ import {
 import { useProgram } from "../program/useProgram.ts";
 import { Link, navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
 import { useOnline } from "../app/useOnline.ts";
 import styles from "./Screens.module.css";
 
@@ -67,7 +68,7 @@ function PlanWorkouts({
                   proposal.onRegenerate(workout.id);
                 }}
               >
-                {TEXTS.editor.regenerate(workout.name)}
+                {EDITOR_TEXTS.regenerate(workout.name)}
               </Button>
               <RegenerationNote summary={proposal.summaries[workout.id]} />
             </>
@@ -257,6 +258,11 @@ export function PlanScreen() {
       <IdCard size={20} aria-hidden="true" /> {T.myData}
     </Link>
   );
+  const summaryLink = (
+    <Link to="/resumo" className={styles.linkButton}>
+      <BarChart3 size={20} aria-hidden="true" /> {TEXTS.summary.link}
+    </Link>
+  );
   const anotherButton = (label: string, primary: boolean) => (
     <Button
       variant={primary ? "primary" : "secondary"}
@@ -335,6 +341,7 @@ export function PlanScreen() {
           action={anotherButton(T.generate, true)}
         />
       ) : null}
+      {summaryLink}
       {dataLink}
     </div>
   );

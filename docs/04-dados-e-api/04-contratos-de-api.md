@@ -159,7 +159,7 @@ Operações de gestão (API-016..021, 023) exigem conexão no app (RF-093), mas 
 |---|---|---|
 | API-030 | `POST /diagnostics` | Relato de erro técnico sem dados pessoais (`app_version`, `error_code`, `context`, `platform`); limitado a 20 por hora por usuário (ADR-038) |
 | API-032 (versão 1.2) | `POST /ai/routine` | Gera rascunho pelo motor com IA (ADR-093), com o usuário do token. Resposta: rascunho, motivos, `source` (`motor+ia` ou `motor`). Limite de RN-063; nunca publica |
-| API-033 (versão 1.2) | `POST /ai/summary` | Gera o resumo semanal (RF-115), no máximo um por semana. Sem IA, devolve só os fatos |
+| API-033 (versão 1.2) | `POST /ai/summary` | Gera o resumo semanal (RF-115), no máximo um por semana. Sem IA, devolve só os fatos. A rota da rotina (API-032) aceita `days_per_week` (1 a 7) para a proposta de ajuste (RF-116), sem mudar o perfil |
 | API-031 | `POST /export` | Gera o JSON com todos os dados do aluno (RF-095, D5); entrega direta ao aparelho, sem armazenamento intermediário |
 | API-A01..A04 | Autenticação | Login, renovação de sessão, saída, troca de senha — serviço de autenticação (DAD-05); atende RF-001, RF-002, RF-007 |
 

@@ -15,11 +15,13 @@ import { parseNumber } from "../onboarding/draft.ts";
 import { formatDaysAgo, formatKg, formatShortDate } from "../training/format.ts";
 import { navigate } from "../app/router.tsx";
 import { TEXTS } from "../app/texts.ts";
+import { EDITOR_TEXTS } from "../program/editor-texts.ts";
+import { REASSESSMENT_TEXTS } from "./reassessment-texts.ts";
 import { useStudentProfile, useProfileForm, type SectionKey } from "./ProfileScreen.tsx";
 import shared from "./Screens.module.css";
 import styles from "./Reassessment.module.css";
 
-const T = TEXTS.reassessment;
+const T = { ...TEXTS.reassessment, ...REASSESSMENT_TEXTS };
 const STEPS = 4;
 /** Seções do perfil em cada etapa, depois do peso (TELA-050, TRN-05 §3.3). */
 const SECTIONS: readonly (readonly SectionKey[])[] = [
@@ -111,7 +113,7 @@ function Wizard({ data }: { data: StudentProfile }) {
       });
       if (!updated.ok) {
         setSaving(false);
-        setError(updated.kind === "conflict" ? TEXTS.editor.conflict : updated.message);
+        setError(updated.kind === "conflict" ? EDITOR_TEXTS.conflict : updated.message);
         return;
       }
     }
