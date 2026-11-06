@@ -118,7 +118,7 @@ Coluna **Modal.**: `PES` vale no uso pessoal (e também em TER); `TER` só se ap
 | RN-060 | A IA só escolhe entre exercícios elegíveis, por identificador; toda resposta passa pelas validações do motor (RN-007, RN-008, RN-035) e o que falhar é descartado. | PES | RF-110, RF-111, RF-115 |
 | RN-061 | À IA vão só os dados de ADR-093; nunca nome, e-mail ou identificador. A chamada é feita pelo servidor. Na TER, a lista é revista (REG-15). | PES | RF-110, RF-115 |
 | RN-062 | Sem IA, sem cota ou com resposta inválida, o app entrega o resultado só com regras, avisando de forma simples. | PES | RF-110, RF-115 |
-| RN-063 | Limite de gerações por usuário (10 por dia) e controle da cota diária do provedor (8.000 de 10.000 neurônios). Valores definidos depois da prova de qualidade, a confirmar pelo usuário. | PES | RF-110 |
+| RN-063 | Limite de gerações por usuário (10 por dia) e controle da cota diária do provedor (8.000 de 10.000 neurônios). Valores definidos depois da prova de qualidade e confirmados pelo usuário em 2026-11-06. | PES | RF-110 |
 | RN-064 | A ênfase em músculo ou área, em até 3 grupos, nunca ultrapassa os limites de TRN-02 nem sobrepõe restrições. | PES | RF-112 |
 
 ## 10. Regras reservadas

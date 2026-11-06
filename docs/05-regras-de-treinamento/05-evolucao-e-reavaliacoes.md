@@ -77,7 +77,7 @@ Decisões do usuário (2026-11-05, GOV-02):
 | Tema | Regra |
 |---|---|
 | Semana do resumo | A semana anterior, de segunda a domingo, no fuso do aluno; gerado na primeira abertura a partir de segunda |
-| Ajuste (RF-116) | Depois de 2 semanas seguidas com presenças abaixo da meta de dias (RN-038), propõe uma rotina com menos dias: a média de presenças dessas 2 semanas, arredondada para cima, no mínimo 1. Nunca propõe aumentar |
+| Ajuste (RF-116) | Depois de 2 semanas seguidas com presenças abaixo da meta de dias (RN-038), propõe uma rotina com menos dias: a média de presenças dessas 2 semanas, arredondada para cima, no mínimo 1 (confirmado em 2026-11-06). Nunca propõe aumentar. Publicar essa rotina muda a meta de dias do perfil |
 | Incentivo (RF-117) | Sequência de semanas seguidas cumprindo a meta de dias, no resumo e em Hoje, com uma frase curta |
 | Onde aparece | Cartão em Hoje enquanto o resumo da semana não foi aberto; depois, em Meu plano (Automático) ou Evolução (Manual) |
 

@@ -402,6 +402,7 @@ export const TEXTS = {
     lastTime: "Última vez",
   },
   execution: {
+    showPhotos: (name: string) => `Ver as posições de ${name}`,
     screenTitle: "Execução",
     minimize: "Minimizar",
     menu: "Mais opções",

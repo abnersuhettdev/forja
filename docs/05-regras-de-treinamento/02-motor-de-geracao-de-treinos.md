@@ -115,7 +115,7 @@ Criar o rascunho (`draft.create`, origem `generated`) e abrir o editor (TELA-031
 
 ## 3A. Implementação (V12-07, 2026-11-04)
 
-Em `packages/domain/src/motor/`, ponto de entrada `@forja/domain/motor`, fora do JS inicial. Pontos que TRN-02 não fixava, decididos por Claude e **a confirmar pelo usuário**:
+Em `packages/domain/src/motor/`, ponto de entrada `@forja/domain/motor`, fora do JS inicial. Pontos que TRN-02 não fixava, decididos por Claude e confirmados pelo usuário em 2026-11-06:
 
 - **Vagas e tempo:** vaga que não cabe no tempo é pulada e as seguintes ainda podem entrar; se a vaga era obrigatória, vai ao relatório com o motivo "tempo".
 - **Ênfase (RN-064):** até 3 grupos. Em cada treino do tipo certo, entra um exercício a mais do grupo, tirando se preciso o último opcional de outro grupo, o que o relatório avisa; depois, uma série a mais nos itens do grupo. Tudo limitado pelo teto semanal de §5.2, pelo tempo e por 9 itens.
@@ -135,7 +135,7 @@ Vale para qualquer treino com exercícios, gerado ou montado à mão, porque par
 3. Sem alternativa, o exercício continua, se ainda for elegível. Se não for, por restrição, equipamento, nível ou idade, ou se não estiver mais ativo, **sai** e o motivo aparece (RN-008).
 4. Os demais treinos não mudam. Nada é publicado (RN-009).
 
-Interpretações de Claude, **a confirmar pelo usuário**: séries, repetições e descanso continuam os do item, porque são a prescrição da pessoa e mantêm volume e tempo do treino, salvo quando a medida muda entre repetições e duração; carga sugerida e observação são limpas, por serem do exercício anterior; o relatório do rascunho continua sendo o da geração inicial, e o motivo da troca aparece junto do treino, até sair do editor.
+Interpretações de Claude, confirmadas pelo usuário em 2026-11-06: séries, repetições e descanso continuam os do item, porque são a prescrição da pessoa e mantêm volume e tempo do treino, salvo quando a medida muda entre repetições e duração; carga sugerida e observação são limpas, por serem do exercício anterior; o relatório do rascunho continua sendo o da geração inicial, e o motivo da troca aparece junto do treino, até sair do editor.
 
 ## 4. Relatório do gerador (`generator_report`)
 

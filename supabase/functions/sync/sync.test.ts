@@ -904,6 +904,30 @@ describe("programas (API-016..019; CA-020, CA-025, CA-027, CA-028)", () => {
     ]);
   });
 
+  it("perfil alterado marca revisão; publicar a rotina nova tira a marca (RN-025)", async () => {
+    const me = await fictitiousUser();
+    const studentId = await onboard(me);
+    const squat = await exerciseId("Barbell_Squat");
+    const v1 = randomUUID();
+    await op(me, "draft.create", v1, null, { student_id: studentId, source: "empty" });
+    await op(me, "draft.save", v1, 1, documentWith(squat, ["Treino A"]));
+    await op(me, "draft.publish", v1, 2, {});
+    await admin`update public.training_profiles set days_per_week = 2 where student_id = ${studentId}`;
+    const mark = async () =>
+      (
+        await admin<{ marked: boolean }[]>`
+          select review_recommended_since is not null as marked from public.training_profiles
+          where student_id = ${studentId}`
+      )[0]?.marked;
+    expect(await mark()).toBe(true);
+
+    const v2 = randomUUID();
+    await op(me, "draft.create", v2, null, { student_id: studentId, source: "empty" });
+    await op(me, "draft.save", v2, 1, documentWith(squat, ["Novo A"]));
+    expect((await op(me, "draft.publish", v2, 2, {}))[0]).toMatchObject({ status: "accepted" });
+    expect(await mark()).toBe(false);
+  });
+
   it("exercício desativado, aluno de outro gestor e conteúdo inválido são recusados", async () => {
     const me = await fictitiousUser();
     const other = await fictitiousUser();

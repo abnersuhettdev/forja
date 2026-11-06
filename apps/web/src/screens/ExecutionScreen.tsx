@@ -110,6 +110,7 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
   const now = useNow(1000);
   const [menu, setMenu] = useState(false);
   const [overview, setOverview] = useState(false);
+  const [photos, setPhotos] = useState(false);
   const [confirmDiscard, setConfirmDiscard] = useState(false);
   const [draft, setDraft] = useState<{ key: string; values: SetValues } | null>(null);
   const [loadError, setLoadError] = useState(false);
@@ -289,7 +290,19 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
 
       <section className={styles.exercise} aria-labelledby="exercicio-atual">
         <div className={styles.exerciseHead}>
-          {rest ? null : <ExerciseImage images={current.exercise?.images ?? []} size="thumb" />}
+          {rest ? null : (
+            // Decisão de 2026-11-06: uma foto pequena; tocar mostra as duas posições, grandes.
+            <button
+              type="button"
+              className={styles.photoButton}
+              aria-label={T.showPhotos(name)}
+              onClick={() => {
+                setPhotos(true);
+              }}
+            >
+              <ExerciseImage images={current.exercise?.images ?? []} size="thumb" />
+            </button>
+          )}
           <div>
             <h2 id="exercicio-atual" className={styles.exerciseName}>
               {name}
@@ -489,6 +502,16 @@ function Focus({ state, execution }: { state: Ready; execution: Execution }) {
           </Button>
         )}
       </div>
+
+      <Sheet
+        open={photos}
+        title={name}
+        onClose={() => {
+          setPhotos(false);
+        }}
+      >
+        <ExerciseImage images={current.exercise?.images ?? []} />
+      </Sheet>
 
       <Sheet
         open={menu}

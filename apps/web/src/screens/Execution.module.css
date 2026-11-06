@@ -68,7 +68,18 @@
   gap: var(--space-3);
 }
 
-.exerciseHead > :first-child:not(:last-child) {
+/* A foto é um botão que abre as duas posições (decisão de 2026-11-06). */
+.photoButton {
+  flex: none;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-md);
+  background: none;
+  cursor: zoom-in;
+}
+
+.photoButton > * {
+  display: block;
   width: 120px;
   height: 90px;
   border-radius: var(--radius-md);

@@ -1,5 +1,6 @@
 // Gerar treino (TAR-032; CA-021, CA-022, CA-023, CA-035, CA-405; RN-009): pendências, rascunho com
 // premissas e exclusões, e nada publicado sem a ação da pessoa. Usa um usuário fictício exclusivo.
+import { createHash } from "node:crypto";
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 import postgres from "postgres";
@@ -9,6 +10,37 @@ import { generatorUser } from "./fixtures.ts";
 test.use({ storageState: { cookies: [], origins: [] } });
 // Os três testes usam o mesmo usuário fictício e apagam o programa dele.
 test.describe.configure({ mode: "serial" });
+
+/**
+ * Cota do dia cheia para o usuário destes testes: a função devolve o motor sem chamar o provedor de
+ * IA, e nenhuma rodada gasta cota real (decisão de 2026-11-06). O trecho da IA é simulado onde o
+ * teste precisa dele.
+ */
+async function withFullQuota(email: string, fill: boolean): Promise<void> {
+  const sql = postgres(localStatus().DB_URL, { onnotice: () => undefined });
+  try {
+    const [owner] = await sql<{ id: string }[]>`select id from auth.users where email = ${email}`;
+    const subject = createHash("sha256")
+      .update(owner?.id ?? "")
+      .digest("hex");
+    await sql`delete from public.ai_usage where subject_hash = ${subject}`;
+    if (fill) {
+      await sql`
+        insert into public.ai_usage (subject_hash, kind, model, outcome, neurons)
+        select ${subject}, 'routine', 'teste', 'ok', 0 from generate_series(1, 10)`;
+    }
+  } finally {
+    await sql.end();
+  }
+}
+
+test.beforeEach(async ({ browserName }) => {
+  await withFullQuota(generatorUser(browserName).email, true);
+});
+
+test.afterEach(async ({ browserName }) => {
+  await withFullQuota(generatorUser(browserName).email, false);
+});
 
 test("pendências, geração com restrição e ênfase, e nada publicado sozinho", async ({
   page,
@@ -159,7 +191,7 @@ test("rotina com IA mostra resumo, motivos, trocas e o aviso (CA-401, RF-111)", 
     where user_id = (select id from auth.users where email = ${user.email})`;
   try {
     await sql`delete from public.programs where student_id = (${student})`;
-    // Resposta real da função, com o trecho da IA simulado: nenhuma chamada ao provedor conta.
+    // Resposta da função com o trecho da IA simulado (a cota cheia evita o provedor).
     await page.route("**/functions/v1/ai/routine", async (route) => {
       const response = await route.fetch();
       const body = (await response.json()) as { report: Record<string, unknown> };

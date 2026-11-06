@@ -215,27 +215,24 @@ export const draftPublish: OperationHandler = async (tx, ctx) => {
   const issues = draftIssues({ workouts }, (id) => !inactive.has(id));
   if (issues.length > 0) throw rejected("DRAFT_INVALID", { issues });
   // RF-116: rotina gerada com outros dias (proposta de ajuste) passa a ser a meta de dias do perfil.
-  // A marca de revisão (TG-08) fica como estava: a mudança vem da própria rotina publicada.
-  const [generated] = await tx<{ student_id: string; days: number | null }[]>`
+  const [version] = await tx<{ student_id: string; days: number | null }[]>`
     select student_id, (generator_report -> 'inputs' ->> 'days_per_week')::int as days
     from public.program_versions where id = ${ctx.entityId}`;
-  if (generated && generated.days !== null) {
-    const [before] = await tx<{ days: number | null; review: Date | null }[]>`
-      select days_per_week as days, review_recommended_since as review
-      from public.training_profiles where student_id = ${generated.student_id} for update`;
-    if (before && before.days !== generated.days) {
-      await tx`
-        update public.training_profiles set days_per_week = ${generated.days}
-        where student_id = ${generated.student_id}`;
-      await tx`
-        update public.training_profiles set review_recommended_since = ${before.review}
-        where student_id = ${generated.student_id}`;
-    }
+  if (version && version.days !== null) {
+    await tx`
+      update public.training_profiles set days_per_week = ${version.days}
+      where student_id = ${version.student_id} and days_per_week is distinct from ${version.days}`;
   }
   // TG-02 arquiva a versão ativa anterior e numera esta, na mesma transação.
   const [published] = await tx<{ revision: number }[]>`
     update public.program_versions set status = 'active' where id = ${ctx.entityId}
     returning revision`;
+  // RN-025: a rotina nova responde aos dados atuais, então a marca de revisão sai.
+  if (version) {
+    await tx`
+      update public.training_profiles set review_recommended_since = null
+      where student_id = ${version.student_id} and review_recommended_since is not null`;
+  }
   return published ? { revision: published.revision } : {};
 };
 

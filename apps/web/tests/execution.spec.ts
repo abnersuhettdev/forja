@@ -88,6 +88,12 @@ test("sessão completa: séries, desfazer, descanso, pular, retomar e concluir s
   await expect(loadField(page)).toHaveValue("40");
   await expect(page.getByRole("textbox", { name: "Repetições" })).toHaveValue("8");
 
+  // Decisão de 2026-11-06: a foto pequena abre as duas posições do exercício.
+  await page.getByRole("button", { name: /^Ver as posições de / }).click();
+  await expect(page.getByRole("dialog")).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(page.getByRole("dialog")).toHaveCount(0);
+
   // CA-061: confirmação com "Desfazer"; desfazer remove a série.
   await page.getByRole("button", { name: "Concluir série 1" }).click();
   await expect(page.getByText("Série registrada.")).toBeVisible();
